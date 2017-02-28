@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PulpeAppComponent } from './app.component';
-import { PulpeMenuBarComponent } from './components/MenuBar/PulpeMenuBarComponent';
+import { HomeComponent } from './components/Home/HomeComponent';
+import { MenuBarComponent } from './components/MenuBar/MenuBarComponent';
 @NgModule({
     imports: [BrowserModule],
     declarations: [
         PulpeAppComponent,
-        PulpeMenuBarComponent
+        MenuBarComponent,
+        HomeComponent
     ],
     bootstrap: [PulpeAppComponent]
 })

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'pulpe-menu-bar-cmp',
-    templateUrl: './app/components/MenuBar/PulpeMenuBarView.html'
+    templateUrl: './app/components/MenuBar/MenuBarView.html'
 })
-export class PulpeMenuBarComponent {
+export class MenuBarComponent {
 }
