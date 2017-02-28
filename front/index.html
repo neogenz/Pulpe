@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function(err) {
+            console.error(err);
+        });
+    </script>
+
+    <link rel="stylesheet" href="node_modules/mdbootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/mdbootstrap/css/mdb.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="assets/style/css/custom.css">-->
+</head>
+<body style="padding-top:5rem">
+<pulpe-cmp>
+    You will see me while Angular starts the app!
+</pulpe-cmp>
+
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/mdbootstrap/js/tether.min.js"></script>
+<script src="node_modules/mdbootstrap/js/bootstrap.min.js"></script>
+<script src="node_modules/mdbootstrap/js/mdb.min.js"></script>
+</body>
+</html>
