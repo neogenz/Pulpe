@@ -7,9 +7,10 @@ import { SigninComponent } from './components/Signin/SigninComponent';
 import { RouterModule } from '@angular/router'
 import { ROUTES } from './app.routes'; // ROUTING HERE!
 import { APP_BASE_HREF } from '@angular/common';
+import { MaterialModule } from '@angular/material';
 
 @NgModule({
-    imports: [BrowserModule, RouterModule.forRoot(ROUTES)],
+    imports: [BrowserModule, RouterModule.forRoot(ROUTES), MaterialModule],
     declarations: [
         PulpeAppComponent,
         MenuBarComponent,

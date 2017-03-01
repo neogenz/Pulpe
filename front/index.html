@@ -8,16 +8,21 @@
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.js"></script>
     <script src="systemjs.config.js"></script>
+
     <script>
         System.import('app').catch(function(err) {
             console.error(err);
         });
     </script>
 
-    <link rel="stylesheet" href="node_modules/mdbootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="node_modules/mdbootstrap/css/mdb.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css" rel="stylesheet">
+
+    <!--<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="node_modules/daemonite-material/css/material.min.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-    <!--<link rel="stylesheet" href="assets/style/css/custom.css">-->
+    <link rel="stylesheet" href="assets/style/css/custom.css">
 </head>
 
 <body style="padding-top:5rem">
@@ -26,9 +31,11 @@
     </pulpe-cmp>
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/mdbootstrap/js/tether.min.js"></script>
-    <script src="node_modules/mdbootstrap/js/bootstrap.min.js"></script>
-    <script src="node_modules/mdbootstrap/js/mdb.min.js"></script>
+    <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--<script src="node_modules/mdbootstrap/js/tether.min.js"></script>
+    <script src="node_modules/mdbootstrap/js/bootstrap.min.js"></script>-->
+    <!--<script src="node_modules/mdbootstrap/js/mdb.min.js"></script>-->
 </body>
 
 </html>
