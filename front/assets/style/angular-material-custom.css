@@ -3,7 +3,6 @@
  * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`
  * attribute, however Chrome handles high contrast differently.
  */
-/* Theme for the ripple elements.*/
 /** The mixins below are shared between md-menu and md-select */
 /**
  * This mixin adds the correct panel transform styles based
@@ -103,6 +102,7 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.1);
   transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
   transform: scale(0); }
 
@@ -116,15 +116,13 @@
   padding: 0 16px;
   font-size: 16px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  text-align: left;
+  text-align: start;
   text-decoration: none;
   position: relative;
   cursor: pointer;
   outline: none; }
   .mat-option[disabled] {
     cursor: default; }
-  [dir='rtl'] .mat-option {
-    text-align: right; }
   .mat-option .mat-icon {
     margin-right: 16px; }
     [dir='rtl'] .mat-option .mat-icon {
@@ -195,9 +193,6 @@
 .cdk-overlay-transparent-backdrop {
   background: none; }
 
-.mat-ripple-element {
-  background-color: rgba(0, 0, 0, 0.1); }
-
 .mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
   background: rgba(0, 0, 0, 0.04); }
 
@@ -212,10 +207,8 @@
 .mat-option.mat-option-disabled {
   color: rgba(0, 0, 0, 0.38); }
 
-.mat-pseudo-checkbox {
-  color: rgba(0, 0, 0, 0.54); }
-  .mat-pseudo-checkbox::after {
-    color: #fafafa; }
+.mat-pseudo-checkbox::after {
+  color: #fafafa; }
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
   border: none; }
@@ -290,8 +283,6 @@
 
 .mat-button-toggle {
   color: rgba(0, 0, 0, 0.38); }
-  .mat-button-toggle.cdk-focused .mat-button-toggle-focus-overlay {
-    background-color: rgba(0, 0, 0, 0.06); }
 
 .mat-button-toggle-checked {
   background-color: #e0e0e0;
@@ -377,18 +368,18 @@
 
 .mat-input-placeholder {
   color: rgba(0, 0, 0, 0.38); }
-  .mat-focused .mat-input-placeholder {
+  .mat-input-placeholder.mat-focused {
     color: #ff5722; }
-    .mat-focused .mat-input-placeholder.mat-accent {
+    .mat-input-placeholder.mat-focused.mat-accent {
       color: #03a9f4; }
-    .mat-focused .mat-input-placeholder.mat-warn {
+    .mat-input-placeholder.mat-focused.mat-warn {
       color: #9c27b0; }
 
 .mat-input-element:disabled {
   color: rgba(0, 0, 0, 0.38); }
 
 input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placeholder-required,
-.mat-focused .mat-input-placeholder.mat-float .mat-placeholder-required {
+.mat-input-placeholder.mat-float.mat-focused .mat-placeholder-required {
   color: #03a9f4; }
 
 .mat-input-underline {
@@ -399,13 +390,6 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
       background-color: #03a9f4; }
     .mat-input-underline .mat-input-ripple.mat-warn {
       background-color: #9c27b0; }
-
-.mat-input-container.ng-invalid.ng-touched:not(.mat-focused) .mat-input-placeholder,
-.mat-input-container.ng-invalid.ng-touched:not(.mat-focused) .mat-placeholder-required {
-  color: #9c27b0; }
-
-.mat-input-container.ng-invalid.ng-touched:not(.mat-focused) .mat-input-underline {
-  border-color: #9c27b0; }
 
 .mat-list .mat-list-item, .mat-nav-list .mat-list-item {
   color: black; }
@@ -534,11 +518,11 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: rgba(3, 169, 244, 0.5); }
 
-.mat-slide-toggle:not(.mat-checked) .mat-ripple-element {
-  background-color: rgba(0, 0, 0, 0.06); }
+.mat-slide-toggle.mat-slide-toggle-focused:not(.mat-checked) .mat-ink-ripple {
+  background-color: rgba(0, 0, 0, 0.12); }
 
-.mat-slide-toggle .mat-ripple-element {
-  background-color: rgba(3, 169, 244, 0.12); }
+.mat-slide-toggle.mat-slide-toggle-focused .mat-ink-ripple {
+  background-color: rgba(3, 169, 244, 0.26); }
 
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
   background-color: #ff5722; }
@@ -546,11 +530,11 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: rgba(255, 87, 34, 0.5); }
 
-.mat-slide-toggle.mat-primary:not(.mat-checked) .mat-ripple-element {
-  background-color: rgba(0, 0, 0, 0.06); }
+.mat-slide-toggle.mat-primary.mat-slide-toggle-focused:not(.mat-checked) .mat-ink-ripple {
+  background-color: rgba(0, 0, 0, 0.12); }
 
-.mat-slide-toggle.mat-primary .mat-ripple-element {
-  background-color: rgba(255, 87, 34, 0.12); }
+.mat-slide-toggle.mat-primary.mat-slide-toggle-focused .mat-ink-ripple {
+  background-color: rgba(255, 87, 34, 0.26); }
 
 .mat-slide-toggle.mat-warn.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
   background-color: #9c27b0; }
@@ -558,11 +542,11 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
 .mat-slide-toggle.mat-warn.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: rgba(156, 39, 176, 0.5); }
 
-.mat-slide-toggle.mat-warn:not(.mat-checked) .mat-ripple-element {
-  background-color: rgba(0, 0, 0, 0.06); }
+.mat-slide-toggle.mat-warn.mat-slide-toggle-focused:not(.mat-checked) .mat-ink-ripple {
+  background-color: rgba(0, 0, 0, 0.12); }
 
-.mat-slide-toggle.mat-warn .mat-ripple-element {
-  background-color: rgba(156, 39, 176, 0.12); }
+.mat-slide-toggle.mat-warn.mat-slide-toggle-focused .mat-ink-ripple {
+  background-color: rgba(156, 39, 176, 0.26); }
 
 .mat-disabled .mat-slide-toggle-thumb {
   background-color: #bdbdbd; }
