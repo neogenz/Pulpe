@@ -1,0 +1,112 @@
+@import "../../../node_modules/daemonite-material/assets/sass/mixins";
+
+//variable.scss
+@mixin _assert-ascending($map, $map-name) {
+  $prev-key: null;
+  $prev-num: null;
+
+  @each $key, $num in $map {
+    @if $prev-num == null {
+      // do nothing
+    } @else if not comparable($num, $prev-num) {
+      @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}'!";
+    } @else if $num <= $prev-num {
+      @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}'!";
+    }
+
+    $prev-key: $key;
+    $prev-num: $num;
+  }
+}
+
+@mixin _assert-starts-at-zero($map) {
+  $first-value: nth(map-values($map), 1);
+
+  @if $first-value != 0 {
+    @warn "First breakpoint in `$grid-breakpoints` must start at 0, but starts at #{$first-value}.";
+  }
+}
+
+// sass option
+$enable-grid-classes:      true !default;
+$enable-hover-media-query: false !default;
+$enable-print-styles:      true !default;
+
+// the following bootstrap options are not supported in material
+// this is because these features are required by material design guidelines
+
+// $enable-gradients:         true !default;
+// $enable-rounded:           true !default;
+// $enable-shadows:           true !default;
+// $enable-transitions:       true !default;
+
+@import "../../../node_modules/daemonite-material/assets/sass/variables/animation";
+@import "material-bootstrap-colours-custom";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/elevation-shadow";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/grid";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/spacer";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/typography";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/variable-bootstrap";
+@import "../../../node_modules/daemonite-material/assets/sass/variables/variable-material";
+
+
+
+//
+// base css
+//
+@import "../../../node_modules/daemonite-material/assets/sass/base/base";
+@import "../../../node_modules/daemonite-material/assets/sass/base/grid";
+@import "../../../node_modules/daemonite-material/assets/sass/base/typography";
+
+//
+// bootstrap components
+// components covered in bootstrap's (v4.0.0-alpha.6) css but not in material design guidelines
+//
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/alert";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/breadcrumb";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/button-group";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/carousel";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/close";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/code";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/custom-form";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/form";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/image";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/jumbotron";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/media";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/nav";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/pagination";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/popover";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/responsive-embed";
+@import "../../../node_modules/daemonite-material/assets/sass/bootstrap/transition";
+
+//
+// material components
+// components covered in material design guidelines https://material.google.com/components
+//
+@import "../../../node_modules/daemonite-material/assets/sass/material/button";
+@import "../../../node_modules/daemonite-material/assets/sass/material/button-flat";
+@import "../../../node_modules/daemonite-material/assets/sass/material/button-float";
+@import "../../../node_modules/daemonite-material/assets/sass/material/card";
+@import "../../../node_modules/daemonite-material/assets/sass/material/chip";
+@import "../../../node_modules/daemonite-material/assets/sass/material/data-table";
+@import "../../../node_modules/daemonite-material/assets/sass/material/dialog";
+@import "../../../node_modules/daemonite-material/assets/sass/material/expansion-panel";
+@import "../../../node_modules/daemonite-material/assets/sass/material/menu";
+@import "../../../node_modules/daemonite-material/assets/sass/material/navdrawer";
+@import "../../../node_modules/daemonite-material/assets/sass/material/picker";
+@import "../../../node_modules/daemonite-material/assets/sass/material/progress";
+@import "../../../node_modules/daemonite-material/assets/sass/material/progress-circular";
+@import "../../../node_modules/daemonite-material/assets/sass/material/selection-control";
+@import "../../../node_modules/daemonite-material/assets/sass/material/stepper";
+@import "../../../node_modules/daemonite-material/assets/sass/material/tab";
+@import "../../../node_modules/daemonite-material/assets/sass/material/text-field";
+@import "../../../node_modules/daemonite-material/assets/sass/material/text-field-floating-label";
+@import "../../../node_modules/daemonite-material/assets/sass/material/text-field-input-group";
+@import "../../../node_modules/daemonite-material/assets/sass/material/text-field-textarea";
+@import "../../../node_modules/daemonite-material/assets/sass/material/toolbar";
+@import "../../../node_modules/daemonite-material/assets/sass/material/tooltip";
+
+//
+// utilities
+//
+@import "../../../node_modules/daemonite-material/assets/sass/utilities";
