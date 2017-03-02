@@ -28,9 +28,9 @@
 }
 
 // sass option
-$enable-grid-classes:      true !default;
+$enable-grid-classes: true !default;
 $enable-hover-media-query: false !default;
-$enable-print-styles:      true !default;
+$enable-print-styles: true !default;
 
 // the following bootstrap options are not supported in material
 // this is because these features are required by material design guidelines
@@ -48,8 +48,6 @@ $enable-print-styles:      true !default;
 @import "../../../node_modules/daemonite-material/assets/sass/variables/typography";
 @import "../../../node_modules/daemonite-material/assets/sass/variables/variable-bootstrap";
 @import "../../../node_modules/daemonite-material/assets/sass/variables/variable-material";
-
-
 
 //
 // base css
@@ -110,3 +108,13 @@ $enable-print-styles:      true !default;
 // utilities
 //
 @import "../../../node_modules/daemonite-material/assets/sass/utilities";
+
+.navbar-nav {
+  .nav-link {
+    &:hover {
+      color: $brand-color;
+      opacity: 1;
+    }
+    @include transition-standard(color, opacity);
+  }
+}
