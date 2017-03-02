@@ -1,8 +1,8 @@
 import { Component, VERSION } from '@angular/core';
-import { MdProgressSpinner } from '../../../node_modules/@angular/material/progress-spinner/progress-spinner'
+
 @Component({
     selector: 'pulpe-home-cmp',
-    templateUrl: './app/components/Home/HomeView.html'
+    templateUrl: './HomeView.html'
 })
 export class HomeComponent {
     folders = [
