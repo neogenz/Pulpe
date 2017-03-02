@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row mb-6">
     <div class="col text-center">
-        <h1 class="display-4">Prochaine séance Samedi à 14H00</h1>
+        <h1 class="display-4 text-primary">Prochaine séance Samedi à 14H00</h1>
     </div>
 </div>
 
@@ -9,31 +9,37 @@
         <md-card class="pt-0 white">
             <div class="row">
                 <div class="col-md-5">
-                    <md-card class="primary-color card-cascade">
-                        <h4 class="text-light-weight white-text">Mon activité</h4>
+                    <md-card class="bg-primary-color card-cascade">
+                        <h4 class="text-light-weight">Mon activité</h4>
                     </md-card>
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <md-list-item *ngFor="let folder of folders">
+                            <md-list-item *ngFor="let folder of folders; let last = last">
                                 <div class="row">
-                                    <div class="col-md-6 d-flex align-items-center">
-                                        <h4 md-line class="list-header">{{folder.name}}</h4>
+                                    <div class="col-md-6 align-items-center text-center my-auto">
+                                        <h4 md-line><small class="text-muted">{{folder.name}}</small></h4>
+                                        <h6 md-line><small class="text-muted">{{folder.value}}%</small></h6>
                                     </div>
-                                    <div class="col-md-6 vcenter">
+                                    <div class="col-md-6 vcenter text-center">
                                         <md-progress-spinner [color]="color"
-                                                             [mode]="mode" [value]="folder.value" ></md-progress-spinner>
+                                                             [mode]="mode"
+                                                             [value]="folder.value"
+                                                             class="d-inline-block">
+
+                                        </md-progress-spinner>
                                     </div>
                                 </div>
+                                <hr *ngIf="!last">
                             </md-list-item>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <md-card class="primary-color card-cascade">
+                    <md-card class="bg-primary-color card-cascade">
                         <md-card-content>
-                            <h4 class="white-text m-0 text-light-weight">Mes mensurations</h4>
-                            <img src="../../../assets/img/man-silouhette-2.png" class="no-shadow d-inline text-center"
-                                 width="30%">
+                            <h4 class="text-light-weight">Mes mensurations</h4>
+                            <img src="../../../assets/img/man-silouhette-2-infos.png" class="no-shadow d-inline text-center"
+                                 width="70%">
                         </md-card-content>
 
                     </md-card>

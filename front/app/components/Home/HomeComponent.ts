@@ -25,7 +25,5 @@ export class HomeComponent {
 
     color = 'accent';
     mode = 'determinate';
-    value = 45;
-    showText: boolean = true;
 
 }
