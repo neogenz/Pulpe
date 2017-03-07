@@ -24,7 +24,7 @@ import { ChartsModule } from 'ng2-charts';
         HomeComponent,
         MenuBarComponent,
         SigninComponent,
-        ProgramComponent
+        ProgramComponent,
         SignupComponent
     ],
     imports: [
