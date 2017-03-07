@@ -112,7 +112,7 @@ $enable-print-styles: true !default;
 .navbar-nav {
   .nav-link {
     &:hover {
-      color: $brand-color;
+      color: $brand-color !important;
       opacity: 1;
     }
     @include transition-standard(color, opacity);

@@ -12,20 +12,25 @@ import { MenuBarComponent } from './MenuBar/MenuBarComponent';
 import { SigninComponent } from './Signin/SigninComponent';
 
 import { MaterialModule } from '@angular/material';
+import { ProgramComponent } from './program/program.component';
+
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         MenuBarComponent,
-        SigninComponent
+        SigninComponent,
+        ProgramComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         MaterialModule,
-        RouterModule.forRoot(ROUTES)
+        RouterModule.forRoot(ROUTES),
+        ChartsModule
     ],
     providers: [
         {provide: APP_BASE_HREF, useValue: '/'}
