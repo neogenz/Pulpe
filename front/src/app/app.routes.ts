@@ -7,6 +7,7 @@ import { HomeComponent } from './Home/HomeComponent';
 import { SigninComponent } from './Signin/signin.component';
 import { ProgramComponent } from './program/program.component';
 import { SignupComponent} from './Signup/signup.component';
+import { ProfileCompletationComponent } from './profile-completation/profile-completation.component';
 
 // Route Configuration
 export const ROUTES: Routes = [
@@ -14,6 +15,7 @@ export const ROUTES: Routes = [
     { path: 'signup', component: SignupComponent },
     { path: 'signin', component: SigninComponent },
     { path: 'programme', component: ProgramComponent },
+    { path: 'profil/complete', component: ProfileCompletationComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

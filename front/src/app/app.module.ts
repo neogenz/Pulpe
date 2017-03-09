@@ -6,26 +6,27 @@ import { RouterModule } from '@angular/router'
 import { ROUTES } from './app.routes'; // ROUTING HERE!
 import { APP_BASE_HREF } from '@angular/common';
 
+import { MaterialModule } from '@angular/material';
+import { ChartsModule } from 'ng2-charts';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Home/HomeComponent';
 import { MenuBarComponent } from './MenuBar/MenuBarComponent';
 import { SignupComponent } from './Signup/signup.component';
 import { SigninComponent } from './Signin/signin.component';
-
-import { MaterialModule } from '@angular/material';
+import { ProfileCompletationComponent } from './profile-completation/profile-completation.component';
 import { ProgramComponent } from './program/program.component';
-
-import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
     declarations: [
         AppComponent,
+        SigninComponent,
+        SignupComponent,
+        ProfileCompletationComponent,
         HomeComponent,
         MenuBarComponent,
-        SigninComponent,
-        ProgramComponent,
-        SignupComponent
+        ProgramComponent
     ],
     imports: [
         BrowserModule,

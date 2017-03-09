@@ -1,0 +1,116 @@
+<div class="row">
+    <div style="background: orange">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <md-card>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h2 class=" title pt-1">Complèter votre profil</h2>
+                        <h4 class="subtitle text-center pt-2">Ces informations nous permettront d'en savoir
+                            plus sur vous.</h4>
+                    </div>
+                </div>
+            </div>
+        </md-card>
+
+        <div class="row card-cascade-parent pt-1">
+            <div class="col-md-12">
+                <md-card class="pt-0 white">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <md-card class="bg-primary-color card-cascade">
+                                <h4 class="text-light-weight">Commençons par les détails de
+                                    base.</h4>
+                            </md-card>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <md-input-container class="col-md-8 offset-md-2">
+                            <input id="inputDateOfBirth" type="date" class="form-control" mdInput
+                                   placeholder="Saisissez votre date de naissance">
+                        </md-input-container>
+                        <md-input-container class="col-md-8 offset-md-2">
+                            <input id="inputFrequency" type="number" class="form-control" mdInput
+                                   placeholder="Saisissez votre fréquence à votre salle de sport">
+                        </md-input-container>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="row">
+                                <md-input-container class="col-md-5">
+                                    <input id="inputSize" type="number" class="form-control" mdInput
+                                           placeholder="Saisissez votre taille">
+                                </md-input-container>
+                                <md-input-container class="col-md-5 offset-md-2">
+                                    <input id="inputWeight" type="number" class="form-control" mdInput
+                                           placeholder="Saisissez votre poids">
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </div>
+                </md-card>
+            </div>
+        </div>
+
+        <div class="row card-cascade-parent pt-1">
+            <div class="col-md-12">
+                <md-card class="pt-0 white">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <md-card class="bg-primary-color card-cascade">
+                                <h4 class="text-light-weight">Quel type de formule
+                                    souhaitez-vous ?</h4>
+                            </md-card>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col-md-4">
+                            <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                 title="Select this room if you're traveling with your family.">
+                                <input type="radio" name="job" value="Code">
+                                <div class="icon center-icon">
+                                    <img src="../../assets/img/exercise-types/stationary-bike-64.png"
+                                         alt="Type">
+                                </div>
+                                <h6 class="text-uppercase formule-type-title">Forme
+                                    générale</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                 title="This is good if you travel alone.">
+                                <input type="radio" name="job" value="Design">
+                                <div class="icon center-icon">
+                                    <img src="../../assets/img/exercise-types/strength-64.png"
+                                         alt="Type">
+                                </div>
+                                <h6 class="text-uppercase formule-type-title">Développement
+                                    musculaire</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                 title="Select this option if you are coming with your team.">
+                                <input type="radio" name="job" value="Code">
+                                <div class="icon center-icon">
+                                    <img src="../../assets/img/exercise-types/weight-64.png"
+                                         alt="Type">
+                                </div>
+                                <h6 class="text-uppercase formule-type-title">Perte de
+                                    poids</h6>
+                            </div>
+                        </div>
+                    </div>
+                </md-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-4">
+    <div class="col-md-4 offset-md-6">
+        <a class="btn btn-lg w-100 disabled" md-raised-button routerLink=".">Go!</a>
+    </div>
+</div>
