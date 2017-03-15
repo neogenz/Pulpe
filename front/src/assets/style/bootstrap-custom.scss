@@ -1,0 +1,15 @@
+@import "material-bootstrap-colours-custom";
+
+// Navbar themes
+//
+// Styles for switching between navbars with light or dark background.
+
+// Dark links against a light background
+.navbar-light {
+  .open > .nav-link,
+  .active > .nav-link,
+  .nav-link.open,
+  .nav-link.active {
+    color: $brand-color !important;
+  }
+}

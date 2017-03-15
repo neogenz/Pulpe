@@ -1,0 +1,64 @@
+@import "../../assets/style/colors";
+
+.exerciseTitle {
+  font-size: 1.15rem;
+  font-weight: 400;
+  //background-color: @accent-color;
+  color: $accent-color;
+}
+
+.exerciseDetails {
+  color: rgba(0, 0, 0, .54);
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  .icon {
+  //font-size: 27px;
+}
+}
+
+.goals{
+  background-color: $accent-color;
+  color: white !important;
+  //margin-bottom: 0;
+  hr{
+    color: white;
+    background-color: white;
+}
+}
+
+.text-dark-primary{
+  color:$primary-text;
+}
+
+.jumbotron{
+  background-color: $dark-primary-color;
+}
+
+.repartition-label{
+  font-size: 16px;
+}
+
+.progress{
+  background-color: $light-primary-color;
+  border-radius: 5px;
+}
+
+.program-title{
+  font-weight: 300;
+}
+
+.icon-recap{
+  font-size:45px;
+  color:$primary-color
+}
+
+.recap-title{
+  font-size:10px;
+  font-weight: normal;
+}
+
+.recap-value {
+  color: $accent-color;
+  font-style: italic;
+}

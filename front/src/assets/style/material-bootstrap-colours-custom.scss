@@ -1,3 +1,4 @@
+@import "colors";
 //
 // basic colour
 // based on https://material.google.com/style/color.html#color-color-palette
@@ -308,16 +309,16 @@ $offwhite-light:                $palette-grey-050 !default;
 // based on https://material.google.com/style/color.html#color-color-schemes
 // change these values to customise colour palettes
 //
-$brand-color:                   $palette-deep-orange-500 !default;
-$brand-color-dark:              $palette-deep-orange-700 !default;
+$brand-color:                   $primary-color !default;
+$brand-color-dark:              $dark-primary-color !default;
 $brand-color-light:             $palette-deep-orange-100 !default;
-$brand-text-color:              $palette-grey-900 !default; //white-primary
-$brand-text-color-dark:         $palette-grey-600 !default; //white-primary
+$brand-text-color:              $primary-text !default; //white-primary
+$brand-text-color-dark:         $secondary-text !default; //white-primary
 $brand-text-color-light:        $palette-grey-400 !default; //black-primary
 
-$brand-color-accent:            $palette-light-blue-500 !default;
-$brand-color-accent-dark:       $palette-light-blue-700 !default;
-$brand-color-accent-light:      $palette-light-blue-100 !default;
+$brand-color-accent:            $accent-color !default;
+$brand-color-accent-dark:       $palette-blue-700 !default;
+$brand-color-accent-light:      $palette-blue-100 !default;
 $brand-text-color-accent:       $palette-grey-900 !default; //white-primary
 $brand-text-color-accent-dark:  $palette-grey-600 !default; //white-primary
 $brand-text-color-accent-light: $palette-grey-400 !default; //black-primary

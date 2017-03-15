@@ -1,0 +1,26 @@
+@import "colors";
+
+.text-w-300{
+  font-weight: 300;
+}
+
+.text-w-400{
+  font-weight: 400;
+}
+
+.text-accent{
+  color: $accent-color !important;
+}
+
+.text-secondary{
+  color: $secondary-text !important;
+}
+
+.text-light-weight {
+  font-weight: 100 !important;
+}
+
+.typography-display-1, h2,
+.h2, .display-4 {
+  font-weight: 200;
+}

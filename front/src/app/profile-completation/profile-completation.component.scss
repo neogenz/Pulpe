@@ -1,11 +1,11 @@
 @import "../../assets/style/colors";
 
 .title {
-  color: @primary-color;
+  color: $primary-color;
 }
 
 .card-primary-color {
-  background-color: @primary-color;
+  background-color: $primary-color;
 }
 
 .subtitle {
@@ -37,7 +37,7 @@
 }
 
 .choice:hover .icon, .choice.active .icon {
-  border-color: @accent-color;
+  border-color: $accent-color;
 }
 
 .choice input[type="radio"],
