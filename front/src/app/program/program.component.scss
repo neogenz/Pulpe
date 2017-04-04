@@ -12,49 +12,46 @@
   font-size: 1rem;
   font-weight: 400;
   font-style: italic;
-  .icon {
-  //font-size: 27px;
-}
 }
 
-.goals{
+.goals {
   background-color: $accent-color;
   color: white !important;
   //margin-bottom: 0;
-  hr{
+  hr {
     color: white;
     background-color: white;
-}
-}
-
-.text-dark-primary{
-  color:$primary-text;
+  }
 }
 
-.jumbotron{
+.text-dark-primary {
+  color: $primary-text;
+}
+
+.jumbotron {
   background-color: $dark-primary-color;
 }
 
-.repartition-label{
+.repartition-label {
   font-size: 16px;
 }
 
-.progress{
+.progress {
   background-color: $light-primary-color;
   border-radius: 5px;
 }
 
-.program-title{
+.program-title {
   font-weight: 300;
 }
 
-.icon-recap{
-  font-size:45px;
-  color:$primary-color
+.icon-recap {
+  font-size: 45px;
+  color: $primary-color
 }
 
-.recap-title{
-  font-size:10px;
+.recap-title {
+  font-size: 10px;
   font-weight: normal;
 }
 

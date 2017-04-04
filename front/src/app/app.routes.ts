@@ -11,12 +11,12 @@ import { ProfileCompletationComponent } from './profile-completation/profile-com
 
 // Route Configuration
 export const ROUTES: Routes = [
-    { path: 'home', component: HomeComponent },
-    { path: 'signup', component: SignupComponent },
-    { path: 'signin', component: SigninComponent },
+    { path: 'accueil', component: HomeComponent },
+    { path: 'inscription', component: SignupComponent },
+    { path: 'connexion', component: SigninComponent },
     { path: 'programme', component: ProgramComponent },
     { path: 'profil/complete', component: ProfileCompletationComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' }
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' }
 ];
 
 // Deprecated provide

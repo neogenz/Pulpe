@@ -4,5 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  subdomain: '',
+  domain: 'localhost',
+  port: '4200',
+  protocol: 'http',
+  baseUrl(){
+    return this.protocol + '://' + (this.subdomain ? (this.subdomain + '.') : '') + this.domain + ':' + this.port
+  }
 };
