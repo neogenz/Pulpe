@@ -5,8 +5,8 @@ export class OrganizedExercise extends AbstractExercise {
   difficulty:any; //EnumDifficulty
   musclesWorked:any[];
 
-  constructor(id:number, name:string) {
-    super(id, name);
+  constructor(id:number, name:string, machines:any[]) {
+    super(id, name, machines);
   }
 
 

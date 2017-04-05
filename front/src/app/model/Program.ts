@@ -3,10 +3,7 @@ import {ExerciseFactory} from "./exercise/ExerciseFactory";
 
 export class Program {
   level:number = null;
-  goal: string;
-  //training:AbstractExercise[] = [];
-  //goal:AbstractExercise[] = [];
-  //stretching:AbstractExercise[] = [];
+  goal:string;
   exercises:Map<string, AbstractExercise[]>;
 
 
@@ -14,35 +11,33 @@ export class Program {
     this.exercises = new Map<string, AbstractExercise[]>();
   }
 
+
   public initFromRawObject(rawInitObject:any) {
     if (rawInitObject.level === undefined || rawInitObject.level === null) {
       throw new Error('Level is not defined in raw json.');
     }
-    if (!rawInitObject.exercises) {
+    if (!rawInitObject.exercisesGroup) {
       throw new Error('exercises is not defined in raw json.');
     }
-
     this.level = rawInitObject.level;
-    let rawExercises = [];
-    let exercises = [];
-    for (let exercisesGroupRawCode in rawInitObject.exercises) {
-      rawExercises = rawInitObject.exercises[exercisesGroupRawCode];
-      exercises = [];
-      for (let i = 0, exercisesSize = rawExercises.length; i < exercisesSize; i++) {
-        exercises.push(ExerciseFactory.create(rawExercises[i].type, rawExercises[i]));
-      }
-      this.exercises.set(exercisesGroupRawCode, exercises);
-      debugger;
-    }
+    let rawExercisesByCurrentGroup = [];
 
-    //let rawExercises = [];
-    //for (let exercisesType in rawInitObject.exercises) {
-    //  rawExercises = rawInitObject.exercises[exercisesType];
-    //  for (let i = 0, exercisesSize = rawExercises.length; i < exercisesSize; i++) {
-    //    this[exercisesType].push(ExerciseFactory.create(rawExercises[i].type, rawExercises[i]));
-    //  }
-    //
-    //}
+    for (let groupKey in rawInitObject.exercisesGroup) {
+      this.exercises.set(groupKey, []);
+      rawExercisesByCurrentGroup = rawInitObject.exercisesGroup[groupKey];
+
+      rawExercisesByCurrentGroup.forEach((rawExercise) => {
+        this.exercises.get(groupKey).push(ExerciseFactory.create(rawExercise.type, rawExercise));
+      });
+    }
     return this;
+  }
+
+  public getNbExercises():number {
+    let totalLength = 0;
+    this.exercises.forEach((exercisesForCurrentGroup:AbstractExercise[])=> {
+      totalLength += exercisesForCurrentGroup.length;
+    });
+    return totalLength;
   }
 }

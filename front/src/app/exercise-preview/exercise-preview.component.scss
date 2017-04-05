@@ -7,6 +7,13 @@
   color: $accent-color;
 }
 
+.exerciseMachineName{
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: italic;
+  color: $secondary-text;
+}
+
 .exerciseDetails {
   color: rgba(0, 0, 0, .54);
   font-size: 1rem;

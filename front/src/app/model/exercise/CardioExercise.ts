@@ -10,8 +10,8 @@ export class CardioExercise extends AbstractExercise {
   difficulty:number;
 
 
-  constructor(id:number, name:string) {
-    super(id, name);
+  constructor(id:number, name:string, machines:any[]) {
+    super(id, name, machines);
   }
 
   initFromRawObject(rawObject:any):CardioExercise {

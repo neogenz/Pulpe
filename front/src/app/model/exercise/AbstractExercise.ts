@@ -2,12 +2,12 @@ export abstract class AbstractExercise {
 
   id:number;
   name:string;
-  mahcines:any[];
+  machines:any[];
 
-  constructor(id:number, name:string) {
+  constructor(id:number, name:string, machines:any[]) {
     this.id = id;
     this.name = name;
-    this.mahcines = null;
+    this.machines = machines;
   }
 
   abstract initFromRawObject(rawObject:any):AbstractExercise;

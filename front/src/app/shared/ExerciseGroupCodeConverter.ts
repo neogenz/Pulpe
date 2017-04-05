@@ -15,7 +15,7 @@ export class ExerciseGroupCodeConverter {
     this.exerciseGroupLabelConverter.set('RC', 'Récupération');
     this.exerciseGroupLabelConverter.set('MU', 'Musculation');
     this.exerciseGroupLabelConverter.set('AB', 'Abdominaux');
-    this.exerciseGroupLabelConverter.set('OG', 'Organisé');
+    this.exerciseGroupLabelConverter.set('OG', 'Cours organisés');
   }
 
   public convertThis(exercisesGroup:Map<string, AbstractExercise[]>):ExerciseGroupCode[] {

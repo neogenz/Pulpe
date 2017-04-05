@@ -2,20 +2,25 @@
   "massGainers": [
     {
       "level": 0,
-      "exercises": {
+      "exercisesGroup": {
         "TR": [
           {
             "id": 0,
             "name": "Running",
-            "machines": {
-              "id": 0,
-              "name": "Tapis de course",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 0,
+                "name": "Tapis de course",
+                "available": true
+              }
+            ],
             "type": "CD",
-            "times": [7, 7],
-            "km": null,
-            "calories": null,
+            "times": [
+              7,
+              7
+            ],
+            "km": 5,
+            "calories": 450,
             "speed": 6.5,
             "musclesWorked": null,
             "recovery": null
@@ -23,13 +28,17 @@
           {
             "id": 1,
             "name": "Rameur",
-            "machines": {
-              "id": 0,
-              "name": "Rameur",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 0,
+                "name": "Rameur",
+                "available": true
+              }
+            ],
             "type": "CD",
-            "times": [5],
+            "times": [
+              5
+            ],
             "km": null,
             "calories": null,
             "speed": 6.5,
@@ -41,18 +50,20 @@
           {
             "id": 1,
             "name": "Développé assis",
-            "machines": {
-              "id": 0,
-              "name": "Développé assis",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 0,
+                "name": "Développé assis",
+                "available": true
+              }
+            ],
             "type": "MG",
             "repetitions": 12,
             "series": 4,
             "weight": 28.5,
             "musclesWorked": [
               {
-                "name":"Biceps",
+                "name": "Biceps",
                 "level": "High"
               }
             ],
@@ -62,22 +73,24 @@
           {
             "id": 2,
             "name": "Butterfly fermé",
-            "machines": {
-              "id": 1,
-              "name": "Butterfly",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 1,
+                "name": "Butterfly",
+                "available": true
+              }
+            ],
             "type": "MG",
             "repetitions": 12,
             "series": 4,
             "weight": 22.5,
             "musclesWorked": [
               {
-                "name":"Pectoraux interne",
+                "name": "Pectoraux interne",
                 "level": "High"
               },
               {
-                "name":"Biceps",
+                "name": "Biceps",
                 "level": "low"
               }
             ],
@@ -87,22 +100,24 @@
           {
             "id": 3,
             "name": "Butterfly ouvert",
-            "machines": {
-              "id": 1,
-              "name": "Butterfly",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 1,
+                "name": "Butterfly",
+                "available": true
+              }
+            ],
             "type": "MG",
             "repetitions": 12,
             "series": 4,
             "weight": 21.5,
             "musclesWorked": [
               {
-                "name":"Pectoraux externe",
+                "name": "Pectoraux externe",
                 "level": "high"
               },
               {
-                "name":"Biceps",
+                "name": "Biceps",
                 "level": "low"
               }
             ],
@@ -112,63 +127,67 @@
           {
             "id": 4,
             "name": "Pouli tranversale",
-            "machines": {
-              "id": 2,
-              "name": "Poulis",
-              "available": true
-            },
+            "machines": [
+              {
+                "id": 2,
+                "name": "Poulis",
+                "available": true
+              }
+            ],
             "type": "MG",
             "repetitions": 12,
             "series": 4,
             "weight": 15,
             "musclesWorked": [
               {
-                "name":"Pectoraux",
+                "name": "Pectoraux",
                 "level": "high"
               },
               {
-                "name":"Biceps",
+                "name": "Biceps",
                 "level": "low"
               }
             ],
             "recoveryTimesBetweenEachSeries": 1,
             "finalRecoveryTimes": 2.30
+          },
+          {
+            "id": 5,
+            "name": "Abdos générale",
+            "machines": [
+              {
+                "id": 3,
+                "name": "Cours organisés abdo",
+                "available": true
+              }
+            ],
+            "type": "OG",
+            "musclesWorked": [
+              {
+                "name": "Abdominaux haut",
+                "level": "hight"
+              },
+              {
+                "name": "Abdominaux bas",
+                "level": "medium"
+              }
+            ],
+            "difficulty": "low"
           }
         ],
         "ST": [
           {
             "id": 6,
             "name": "Étirements",
-            "machines": {
-              "id": 2,
-              "name": "Baton",
-              "available": true
-            },
-            "type": "ST",
-            "time": 5
-          }
-        ],
-        "AB": [
-          {
-            "id": 5,
-            "name": "Abdos générale",
-            "machines": {
-              "id": 3,
-              "name": "Cours virtuels abdo",
-              "available": true
-            },
-            "type": "OG",
-            "musclesWorked": [
+            "machines": [
               {
-                "name":"Abdominaux haut",
-                "level": "hight"
-              },
-              {
-                "name":"Abdominaux bas",
-                "level": "medium"
+                "id": 2,
+                "name": "Baton",
+                "available": true
               }
             ],
-            "difficulty": "low"
+            "type": "ST",
+            "time": 5
           }
         ]
       }

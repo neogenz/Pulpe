@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {Color} from "ng2-charts/index";
 import { ColorConfiguration } from "./ColorConfiguration";
 import {ProgramService} from "./program.service";
@@ -8,6 +8,7 @@ import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
 import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
 import {ChartConfiguration} from "../shared/ChartConfiguration";
 import {AbstractExercise} from "../model/exercise/AbstractExercise";
+import {BaseChartDirective} from "ng2-charts/index";
 
 @Component({
   selector: 'pulpe-program',
@@ -15,6 +16,7 @@ import {AbstractExercise} from "../model/exercise/AbstractExercise";
   styleUrls: ['./program.component.css']
 })
 export class ProgramComponent implements OnInit {
+  @ViewChild(BaseChartDirective) chartDirective = null;
 
   public program:Program;
   public exerciseGroupLabelsDictionary:ExerciseGroupCode[] = [];
@@ -22,13 +24,11 @@ export class ProgramComponent implements OnInit {
   public chartLabels:string[] = [];
   public chartType:string = 'bar';
   public chartLegends:boolean = true;
-  public chartData:any[] = [
-    {
-      label: '% du programme',
-      data: [15, 60, 10, 5, 10, 5],
-      borderWidth: 1
-    }
-  ];
+  public chartData:any[] = [{
+    label: '% du programme',
+    data: [34, 43],
+    borderWidth: 1
+  }];
   public chartOptions:any = {
     responsive: true,
     maintainAspectRatio: false,
@@ -76,6 +76,7 @@ export class ProgramComponent implements OnInit {
         },
         ticks: {
           max: 100,
+          min: 0,
           fontColor: "#fff", // this here
         },
       }],
@@ -85,6 +86,7 @@ export class ProgramComponent implements OnInit {
 
   constructor(private programService:ProgramService, private exerciseGroupCodeConverter:ExerciseGroupCodeConverter) {
   }
+
 
   ngOnInit() {
     this.program = new Program();
@@ -96,9 +98,11 @@ export class ProgramComponent implements OnInit {
         this.exerciseGroupLabelsDictionary = this.exerciseGroupCodeConverter.convertThis(this.program.exercises);
         this.chartColors = this.buildChartColorsFromThis(this.program);
         this.chartLabels = this.buildChartLabelsFromThis(this.program);
+        this.chartData[0].data = this.buildChartDataFromThis(this.program);
+        this.chartDirective.updateChartData(this.chartData);
+        this.chartDirective.chart.update();
       });
   }
-
   //public radarChartOptions:any = {
   //    responsive: true,
   //    legend: {
@@ -120,9 +124,11 @@ export class ProgramComponent implements OnInit {
     console.log(e);
   }
 
+
   public chartHovered(e:any):void {
     console.log(e);
   }
+
 
   public randomize():void {
     // Only Change 3 values
@@ -145,6 +151,7 @@ export class ProgramComponent implements OnInit {
      */
   }
 
+
   private buildChartColorsFromThis(program:Program):any[] {
     let chartColor:any = {
       backgroundColor: [],
@@ -164,6 +171,7 @@ export class ProgramComponent implements OnInit {
     return chartColors;
   }
 
+
   private buildChartLabelsFromThis(program:Program):string[] {
     let chartLabels:string[] = [];
     let currentChartConf = null;
@@ -174,5 +182,17 @@ export class ProgramComponent implements OnInit {
     });
 
     return chartLabels;
+  }
+
+
+  private buildChartDataFromThis(program:Program):any[] {
+    let nbExercises = program.getNbExercises();
+    let newData:number[] = [];
+
+    program.exercises.forEach((exercisesForCurrentGroup:AbstractExercise[]) => {
+      newData.push(exercisesForCurrentGroup.length * 100 / nbExercises);
+    });
+
+    return newData;
   }
 }
