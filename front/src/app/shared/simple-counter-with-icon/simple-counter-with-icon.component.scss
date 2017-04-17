@@ -1,0 +1,16 @@
+@import "../../../assets/style/colors";
+
+.recap-title {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.recap-value {
+  color: $accent-color;
+  font-style: italic;
+}
+
+.icon-recap {
+  font-size: 45px;
+  color: $primary-color
+}

@@ -3,6 +3,7 @@ export abstract class AbstractExercise {
   id:number;
   name:string;
   machines:any[];
+  approximateTime:number;
 
   constructor(id:number, name:string, machines:any[]) {
     this.id = id;
@@ -11,4 +12,6 @@ export abstract class AbstractExercise {
   }
 
   abstract initFromRawObject(rawObject:any):AbstractExercise;
+
+  abstract calculApproximateTime():number;
 }

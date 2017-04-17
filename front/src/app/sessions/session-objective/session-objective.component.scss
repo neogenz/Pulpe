@@ -1,0 +1,11 @@
+@import "../../../assets/style/colors";
+
+.blockTitlePrimaryBackground {
+  background-color: $primary-color;
+  color: white !important;
+  //margin-bottom: 0;
+  hr {
+    color: white;
+    background-color: white;
+  }
+}

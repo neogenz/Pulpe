@@ -5,12 +5,33 @@ import { Member } from "../model/Member";
 import { LocalStorageService } from 'angular-2-local-storage';
 import { environment } from '../../environments/environment'
 import {Program} from "../model/Program";
+import {AbstractExercise} from "../model/exercise/AbstractExercise";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
 export class ProgramService {
 
   constructor(private _http:Http, private localStorageService:LocalStorageService) {
+  }
+
+
+  /**
+   * Calcul and return the total time of the program.
+   * @param {Program} program
+   * @returns {number}
+   */
+  getTotalTimeOf(program:Program):number {
+    let totalTime:number = 0;
+
+    program.exercises.forEach((exercises:AbstractExercise[], exerciseGroupCode:string) => {
+      exercises.forEach((exercise:AbstractExercise)=> {
+        totalTime += exercise.approximateTime;
+      });
+    });
+
+    totalTime = Math.ceil(totalTime);
+
+    return totalTime;
   }
 
 

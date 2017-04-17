@@ -17,8 +17,12 @@
                             <md-list-item *ngFor="let folder of folders; let last = last">
                                 <div class="row">
                                     <div class="col-md-6 align-items-center text-center my-auto">
-                                        <h4 md-line><small class="text-muted">{{folder.name}}</small></h4>
-                                        <h6 md-line><small class="text-muted">{{folder.value}}%</small></h6>
+                                        <h4 md-line>
+                                            <small class="text-muted">{{folder.name}}</small>
+                                        </h4>
+                                        <h6 md-line>
+                                            <small class="text-muted">{{folder.value}}%</small>
+                                        </h6>
                                     </div>
                                     <div class="col-md-6 vcenter text-center">
                                         <md-progress-spinner [color]="color"
@@ -37,11 +41,18 @@
                 <div class="col-md-7">
                     <md-card class="bg-primary-color card-cascade">
                         <md-card-content>
-                            <h4 class="text-light-weight">Mes mensurations</h4>
-                            <img src="../../../assets/img/man-silouhette-2-infos.png" class="no-shadow d-inline text-center"
-                                 width="70%">
+                            <div class="measurement">
+                                <h4 class="text-light-weight">Mes mensurations</h4>
+                                <img src="../../../assets/img/man-silouhette-2-infos.png"
+                                     class="no-shadow d-inline text-center"
+                                     width="70%">
+                                <div (mouseover)="displayPec()" (mouseleave)="hidePec()" class="pecEventLayer">
+                                    <div class="pecEventElement" [class.invisible]="!pecDisplayed">
+                                        <span class="spacer">Pectoraux</span>
+                                    </div>
+                                </div>
+                            </div>
                         </md-card-content>
-
                     </md-card>
                 </div>
             </div>

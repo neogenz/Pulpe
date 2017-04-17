@@ -5,7 +5,7 @@ export class Program {
   level:number = null;
   goal:string;
   exercises:Map<string, AbstractExercise[]>;
-
+  createdAt:Date;
 
   constructor() {
     this.exercises = new Map<string, AbstractExercise[]>();
@@ -21,6 +21,8 @@ export class Program {
     }
     this.level = rawInitObject.level;
     let rawExercisesByCurrentGroup = [];
+    this.goal = rawInitObject.goal;
+    this.createdAt = new Date(rawInitObject.createdAt);
 
     for (let groupKey in rawInitObject.exercisesGroup) {
       this.exercises.set(groupKey, []);

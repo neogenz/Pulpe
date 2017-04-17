@@ -5,10 +5,13 @@
     </button>
     <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav align-left">
-            <a class="nav-item nav-link active" routerLinkActive="active" routerLink="/programme">Mon programme <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Mon évolution</a>
-            <a class="nav-item nav-link" href="#">Mes séances</a>
-        </div>
+        <ul class="nav navbar-nav mx-auto w-100">
+            <a class="nav-item nav-link" [routerLinkActive]="['active']" routerLink="/programme">Mon programme <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" [routerLinkActive]="['active']" href="#">Mon évolution</a>
+            <a class="nav-item nav-link" [routerLinkActive]="['active']" routerLink="/seances">Mes séances</a>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <a class="nav-item nav-link myAccount" [routerLinkActive]="['active']" href="#"><i class="ion-ios-contact-outline"></i></a>
+        </ul>
     </div>
 </nav>

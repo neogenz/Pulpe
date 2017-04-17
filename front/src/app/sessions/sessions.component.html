@@ -1,0 +1,23 @@
+<pulpe-page-title [title]="'Vos séances'"></pulpe-page-title>
+<div class="row mb-4">
+    <div class="offset-md-4 col-md-4">
+        <button class="btn btn-lg btn-primary w-100">Démarrer ma séance</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-2">
+        <md-card class="blockTitlePrimaryBackground h-100">
+            <p class="lead text-light-weight text-center mb-0">Prochaine séance</p>
+            <hr class="w-100">
+            <div class="row">
+                <div class="col-md-12 text-center mt-0">
+                    <h1 class="p-0"><i class="ion-ios-calendar-outline"></i></h1>
+                    <p class="lead text-center mb-0 text-light-primary text-w-400">Ce jeudi</p>
+                </div>
+            </div>
+        </md-card>
+    </div>
+    <div class="col-md-8 mb-2">
+        <pulpe-session-objective [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
+    </div>
+</div>

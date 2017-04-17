@@ -12,4 +12,9 @@ export class StretchingExercise extends AbstractExercise {
 
     return this;
   }
+
+
+  calculApproximateTime():number {
+    return this.time;
+  }
 }

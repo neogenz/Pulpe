@@ -118,3 +118,11 @@ $enable-print-styles: true !default;
     @include transition-standard(color, opacity);
   }
 }
+
+.btn-primary {
+  color: white !important;
+  background-color: $accent-color;
+  &:hover {
+    background-color: lighten($accent-color, 10%);
+  }
+}

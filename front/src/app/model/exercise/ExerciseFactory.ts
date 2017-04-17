@@ -7,15 +7,24 @@ import {OrganizedExercise} from "./OrganizedExercise";
 export class ExerciseFactory {
 
   public static create(type:string, initObject:any):AbstractExercise {
+    let exercise:AbstractExercise;
     switch (type) {
       case 'CD':
-        return new CardioExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise = new CardioExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise.approximateTime = exercise.calculApproximateTime();
+        return exercise;
       case 'MG':
-        return new MassGainerExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise = new MassGainerExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise.approximateTime = exercise.calculApproximateTime();
+        return exercise;
       case 'ST':
-        return new StretchingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise = new StretchingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise.approximateTime = exercise.calculApproximateTime();
+        return exercise;
       case 'OG':
-        return new OrganizedExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise = new OrganizedExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
+        exercise.approximateTime = exercise.calculApproximateTime();
+        return exercise;
     }
 
     return null;

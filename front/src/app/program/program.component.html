@@ -1,48 +1,20 @@
-<div class="row">
-    <div class="col-md-12">
-        <h3 class="text-left text-black-primary text-w-300">
-            Votre programme
-        </h3>
-    </div>
-</div>
-<hr>
+<pulpe-page-title title="Votre programme"></pulpe-page-title>
 <section>
     <div class="row mb-3">
         <div class="col-md-4">
-            <md-card class="mb-2 mb-md-0 p-2">
-                <p class="text-right text-black-secondary mb-0 text-uppercase recap-title">Généré le</p>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <span class="icon-recap"><i class="ion ion-ios-calendar-outline"></i></span>
-                        <p class="text-center mb-0 recap-value">17 janvier 2017</p>
-                        <!--<img src="../../assets/img/exercise-types/strength-64.png" alt="Type">-->
-                    </div>
-                </div>
-            </md-card>
+            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-calendar-outline" label="Généré le"
+                                            value="{{createdAt}}">
+            </pulpe-simple-counter-with-icon>
         </div>
         <div class="col-md-4">
-            <md-card class="mb-2 mb-md-0 p-2">
-                <p class="text-right text-black-secondary mb-0 text-uppercase recap-title">Nombre de fois terminé</p>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <i class="icon-recap ion-ios-refresh-empty"></i>
-                        <p class="text-center mb-0 recap-value">33x</p>
-                        <!--<img src="../../assets/img/exercise-types/strength-64.png" alt="Type">-->
-                    </div>
-                </div>
-            </md-card>
+            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-refresh-empty" label="Nombre de fois terminé"
+                                            value="33x">
+            </pulpe-simple-counter-with-icon>
         </div>
         <div class="col-md-4">
-            <md-card class="mb-2 mb-md-0 p-2">
-                <p class="text-right text-black-secondary mb-0 text-uppercase recap-title">Durée</p>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <i class="icon-recap ion-ios-timer-outline"></i>
-                        <p class="text-center mb-0 recap-value">1H25</p>
-                        <!--<img src="../../assets/img/exercise-types/strength-64.png" alt="Type">-->
-                    </div>
-                </div>
-            </md-card>
+            <pulpe-simple-counter-with-icon icoClass="ion-ios-timer-outline" label="Durée"
+                                            value="{{totalTimeOfProgram}}">
+            </pulpe-simple-counter-with-icon>
         </div>
     </div>
 
@@ -53,35 +25,36 @@
                 <hr class="w-100">
                 <div class="row">
                     <div class="col-md-12 text-center mt-md-4">
-                        <p class="lead text-center mb-0 text-white text-w-400">Prise de masse</p>
+                        <p class="lead text-center mb-0 text-white text-w-400">{{program.goal}}</p>
                         <img src="../../assets/img/exercise-types/strength-64.png" alt="Type">
                     </div>
                 </div>
             </md-card>
         </div>
         <div class="col-md-8 mb-2">
-            <md-card class="goals h-100">
+            <pulpe-exercises-repartition-graph [program]="program" (programLoaded)="programLoadedCallback"></pulpe-exercises-repartition-graph>
+            <!--<md-card class="goals h-100">-->
 
-                <div class="row mb-2">
-                    <div class="col-md-12">
-                        <p class="lead text-light-weight text-center mb-0">Répartition des exercices</p>
-                    </div>
-                    <hr class="w-100">
-                </div>
-                <div class="row">
-                    <div class="w-100" style="max-height: 20vh;">
-                        <canvas baseChart
-                                [datasets]="chartData"
-                                [labels]="chartLabels"
-                                [options]="chartOptions"
-                                [legend]="chartLegends"
-                                [colors]="chartColors"
-                                [chartType]="chartType"
-                                (chartHover)="chartHovered($event)"
-                                (chartClick)="chartClicked($event)"></canvas>
-                    </div>
-                </div>
-            </md-card>
+                <!--<div class="row mb-2">-->
+                    <!--<div class="col-md-12">-->
+                        <!--<p class="lead text-light-weight text-center mb-0">Répartition des exercices</p>-->
+                    <!--</div>-->
+                    <!--<hr class="w-100">-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                    <!--<div class="w-100" style="max-height: 20vh;">-->
+                        <!--<canvas baseChart-->
+                                <!--[datasets]="chartData"-->
+                                <!--[labels]="chartLabels"-->
+                                <!--[options]="chartOptions"-->
+                                <!--[legend]="chartLegends"-->
+                                <!--[colors]="chartColors"-->
+                                <!--[chartType]="chartType"-->
+                                <!--(chartHover)="chartHovered($event)"-->
+                                <!--(chartClick)="chartClicked($event)"></canvas>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</md-card>-->
         </div>
     </div>
 
@@ -100,7 +73,8 @@
                                     <div class="col-md-12">
                                         <md-list-item
                                                 *ngFor="let exercise of program.exercises.get(exerciseGroupLabelDictionary.rawCode); let last = last">
-                                            <pulpe-exercise-preview [exercise]="exercise" [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode"></pulpe-exercise-preview>
+                                            <pulpe-exercise-preview [exercise]="exercise"
+                                                                    [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode"></pulpe-exercise-preview>
                                             <hr *ngIf="!last" class="white">
                                         </md-list-item>
                                     </div>

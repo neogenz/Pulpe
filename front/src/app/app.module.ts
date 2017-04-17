@@ -20,9 +20,15 @@ import { ProgramComponent } from './program/program.component';
 import { environment } from '../environments/environment';
 import { ProgramMockService  } from './program/program-mock.service';
 import { ProgramService } from './program/program.service';
-import { ExercisePreviewComponent } from './exercise-preview/exercise-preview.component'
-import {ExerciseGroupCodeConverter} from "./shared/ExerciseGroupCodeConverter";
-import {DifficultyConverter} from "./shared/DifficultyConverter";
+import { ExercisePreviewComponent } from './program/exercise-preview/exercise-preview.component'
+import { ExerciseGroupCodeConverter } from "./shared/ExerciseGroupCodeConverter";
+import { DifficultyConverter } from "./shared/DifficultyConverter";
+import { SessionsComponent } from './sessions/sessions.component';
+import { PageTitleComponent } from './shared/page-title/page-title.component';
+import { SimpleCounterWithIconComponent } from './shared/simple-counter-with-icon/simple-counter-with-icon.component';
+import { ExercisesRepartitionGraphComponent } from './exercises-repartition-graph/exercises-repartition-graph.component';
+import {ProgramResolver} from "./program/program.resolver";
+import { SessionObjectiveComponent } from './sessions/session-objective/session-objective.component';
 
 
 @NgModule({
@@ -34,7 +40,12 @@ import {DifficultyConverter} from "./shared/DifficultyConverter";
     HomeComponent,
     MenuBarComponent,
     ProgramComponent,
-    ExercisePreviewComponent
+    ExercisePreviewComponent,
+    SessionsComponent,
+    PageTitleComponent,
+    SimpleCounterWithIconComponent,
+    ExercisesRepartitionGraphComponent,
+    SessionObjectiveComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +69,8 @@ import {DifficultyConverter} from "./shared/DifficultyConverter";
       deps: ['IS_PROD', Http, LocalStorageService]
     },
     ExerciseGroupCodeConverter,
-    DifficultyConverter
+    DifficultyConverter,
+    ProgramResolver
   ],
   bootstrap: [AppComponent]
 })

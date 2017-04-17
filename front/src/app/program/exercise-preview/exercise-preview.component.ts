@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {AbstractExercise} from "../model/exercise/AbstractExercise";
-import {MassGainerExercise} from '../model/exercise/MassGainerExercise';
-import {CardioExercise} from "../model/exercise/CardioExercise";
-import {OrganizedExercise} from "../model/exercise/OrganizedExercise";
-import {StretchingExercise} from "../model/exercise/StretchingExercise";
-import {DifficultyConverter} from "../shared/DifficultyConverter";
+import {AbstractExercise} from "../../model/exercise/AbstractExercise";
+import {MassGainerExercise} from '../../model/exercise/MassGainerExercise';
+import {CardioExercise} from "../../model/exercise/CardioExercise";
+import {OrganizedExercise} from "../../model/exercise/OrganizedExercise";
+import {StretchingExercise} from "../../model/exercise/StretchingExercise";
+import {DifficultyConverter} from "../../shared/DifficultyConverter";
 
 @Component({
   selector: 'pulpe-exercise-preview',

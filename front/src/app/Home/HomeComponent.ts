@@ -2,7 +2,8 @@ import { Component, VERSION } from '@angular/core';
 
 @Component({
     selector: 'pulpe-home-cmp',
-    templateUrl: './HomeView.html'
+    templateUrl: './HomeView.html',
+    styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
     folders = [
@@ -26,4 +27,13 @@ export class HomeComponent {
     color = 'accent';
     mode = 'determinate';
 
+    pecDisplayed = false;
+
+    public displayPec():void{
+        this.pecDisplayed = true;
+    }
+
+    public hidePec():void{
+        this.pecDisplayed = false;
+    }
 }

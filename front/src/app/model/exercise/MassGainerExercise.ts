@@ -7,6 +7,7 @@ export class MassGainerExercise extends AbstractExercise {
   musclesWorked:any[];
   recoveryTimesBetweenEachSeries:number;
   finalRecoveryTimes:number;
+  approximateTimeBySeries:number;
 
 
   constructor(id:number, name:string, machines:any[]) {
@@ -20,7 +21,18 @@ export class MassGainerExercise extends AbstractExercise {
     this.musclesWorked = rawObject.musclesWorked;
     this.recoveryTimesBetweenEachSeries = rawObject.recoveryTimesBetweenEachSeries;
     this.finalRecoveryTimes = rawObject.finalRecoveryTimes;
-
+    this.approximateTimeBySeries = rawObject.approximateTimeBySeries;
     return this;
+  }
+
+
+  calculApproximateTime():number {
+    let approximateTime:number = 0;
+
+    approximateTime += this.series
+      * (this.approximateTimeBySeries + this.recoveryTimesBetweenEachSeries)
+      + this.finalRecoveryTimes;
+
+    return approximateTime;
   }
 }
