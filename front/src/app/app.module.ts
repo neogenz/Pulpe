@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './Home/HomeComponent';
 import { MenuBarComponent } from './MenuBar/MenuBarComponent';
 import { SignupComponent } from './Signup/signup.component';
-import { SigninComponent } from './Signin/signin.component';
+import { SigninComponent } from './signin/signin.component';
 import { ProfileCompletationComponent } from './profile-completation/profile-completation.component';
 import { ProgramComponent } from './program/program.component';
 import { environment } from '../environments/environment';
@@ -29,6 +29,7 @@ import { SimpleCounterWithIconComponent } from './shared/simple-counter-with-ico
 import { ExercisesRepartitionGraphComponent } from './exercises-repartition-graph/exercises-repartition-graph.component';
 import {ProgramResolver} from "./program/program.resolver";
 import { SessionObjectiveComponent } from './sessions/session-objective/session-objective.component';
+import {AuthenticationService} from "./authentication.service";
 
 
 @NgModule({
@@ -70,14 +71,15 @@ import { SessionObjectiveComponent } from './sessions/session-objective/session-
     },
     ExerciseGroupCodeConverter,
     DifficultyConverter,
-    ProgramResolver
+    ProgramResolver,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
 
-export function httpFactory(IS_PROD: boolean, http: Http, localStorage:LocalStorageService) {
+export function httpFactory(IS_PROD:boolean, http:Http, localStorage:LocalStorageService) {
   if (IS_PROD) {
     return new ProgramService(http, localStorage)
   }

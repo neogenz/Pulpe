@@ -43,9 +43,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 offset-7 bottom-right">
-                                        <button type="button" class="btn btn-lg btn-primary text-white w-100">Se
+                                        <button type="button" class="btn btn-lg btn-primary text-white w-100" (click)="signin()">Se
                                             connecter
                                         </button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="authenticate">
+                                    <div class="col-md-12">
+                                        {{authenticate.token}}
                                     </div>
                                 </div>
                             </div>

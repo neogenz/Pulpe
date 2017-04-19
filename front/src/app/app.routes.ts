@@ -4,7 +4,7 @@
 // import { ModuleWithProviders }  from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './Home/HomeComponent';
-import { SigninComponent } from './Signin/signin.component';
+import { SigninComponent } from './signin/signin.component';
 import { ProgramComponent } from './program/program.component';
 import { SignupComponent} from './Signup/signup.component';
 import { ProfileCompletationComponent } from './profile-completation/profile-completation.component';

@@ -3,6 +3,10 @@
 Pulpe est un assistant intelligent de fitness qui consiste à percevoir le champ du possible concernant les capacités de notre corps.
 Il est donc conçu afin de faciliter, anticiper et visualiser les résultats de notre évolution physique. En plus d’avoir une vision détaillée de notre évolution, Pulpe permet de nous guider efficacement afin d’atteindre nos objectifs sportifs. Il permet également de faciliter la vie des coachs de la salle de sport dans le but d’accompagné au mieux chaque adhérent.
 
+## Development environment
+- Run npm install
+- Compile all scss file : sass --watch .
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.0.
 
 ## Development server
