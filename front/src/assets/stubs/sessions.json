@@ -1,0 +1,202 @@
+{
+  "massGainers": [
+    {
+      "goal": "Prise de masse",
+      "createdAt": "2017-04-08T08:22:21.671Z",
+      "exercisesGroup": {
+        "TR": [
+          {
+            "id": 0,
+            "name": "Running",
+            "machines": [
+              {
+                "id": 0,
+                "name": "Tapis de course",
+                "available": true
+              }
+            ],
+            "type": "CD",
+            "times": [
+              7,
+              7
+            ],
+            "km": 5,
+            "calories": 450,
+            "speed": 6.5,
+            "musclesWorked": null,
+            "recovery": 1
+          },
+          {
+            "id": 1,
+            "name": "Rameur",
+            "machines": [
+              {
+                "id": 0,
+                "name": "Rameur",
+                "available": true
+              }
+            ],
+            "type": "CD",
+            "times": [
+              5
+            ],
+            "km": null,
+            "calories": null,
+            "speed": 6.5,
+            "musclesWorked": null,
+            "recovery": 2
+          }
+        ],
+        "MU": [
+          {
+            "id": 1,
+            "name": "Développé assis",
+            "machines": [
+              {
+                "id": 0,
+                "name": "Développé assis",
+                "available": true
+              }
+            ],
+            "type": "MG",
+            "repetitions": 12,
+            "series": 4,
+            "weight": 28.5,
+            "musclesWorked": [
+              {
+                "name": "Biceps",
+                "level": "High"
+              }
+            ],
+            "recoveryTimesBetweenEachSeries": 1.30,
+            "finalRecoveryTimes": 2.30,
+            "approximateTimeBySeries":1.20
+          },
+          {
+            "id": 2,
+            "name": "Butterfly fermé",
+            "machines": [
+              {
+                "id": 1,
+                "name": "Butterfly",
+                "available": true
+              }
+            ],
+            "type": "MG",
+            "repetitions": 12,
+            "series": 4,
+            "weight": 22.5,
+            "musclesWorked": [
+              {
+                "name": "Pectoraux interne",
+                "level": "High"
+              },
+              {
+                "name": "Biceps",
+                "level": "low"
+              }
+            ],
+            "recoveryTimesBetweenEachSeries": 1.30,
+            "finalRecoveryTimes": 2.30,
+            "approximateTimeBySeries":1.20
+          },
+          {
+            "id": 3,
+            "name": "Butterfly ouvert",
+            "machines": [
+              {
+                "id": 1,
+                "name": "Butterfly",
+                "available": true
+              }
+            ],
+            "type": "MG",
+            "repetitions": 12,
+            "series": 4,
+            "weight": 21.5,
+            "musclesWorked": [
+              {
+                "name": "Pectoraux externe",
+                "level": "high"
+              },
+              {
+                "name": "Biceps",
+                "level": "low"
+              }
+            ],
+            "recoveryTimesBetweenEachSeries": 1.30,
+            "finalRecoveryTimes": 2.30,
+            "approximateTimeBySeries":1.20
+          },
+          {
+            "id": 4,
+            "name": "Pouli tranversale",
+            "machines": [
+              {
+                "id": 2,
+                "name": "Poulis",
+                "available": true
+              }
+            ],
+            "type": "MG",
+            "repetitions": 12,
+            "series": 4,
+            "weight": 15,
+            "musclesWorked": [
+              {
+                "name": "Pectoraux",
+                "level": "high"
+              },
+              {
+                "name": "Biceps",
+                "level": "low"
+              }
+            ],
+            "recoveryTimesBetweenEachSeries": 1,
+            "finalRecoveryTimes": 2.30,
+            "approximateTimeBySeries":1.40
+          },
+          {
+            "id": 5,
+            "name": "Abdos générale",
+            "machines": [
+              {
+                "id": 3,
+                "name": "Cours organisés abdo",
+                "available": true
+              }
+            ],
+            "type": "OG",
+            "musclesWorked": [
+              {
+                "name": "Abdominaux haut",
+                "level": "hight"
+              },
+              {
+                "name": "Abdominaux bas",
+                "level": "medium"
+              }
+            ],
+            "difficulty": "low",
+            "approximateTime":15
+          }
+        ],
+        "ST": [
+          {
+            "id": 6,
+            "name": "Étirements",
+            "machines": [
+              {
+                "id": 2,
+                "name": "Baton",
+                "available": true
+              }
+            ],
+            "type": "ST",
+            "time": 5
+          }
+        ]
+      }
+    }
+  ]
+}

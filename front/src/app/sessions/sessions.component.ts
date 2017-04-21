@@ -1,15 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
+import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
+import {Session} from "../model/Session";
+import {SessionsService} from "./sessions.service";
 
 @Component({
-  selector: 'pulpe-sessions',
-  templateUrl: './sessions.component.html',
-  styleUrls: ['./sessions.component.css']
+    selector: 'pulpe-sessions',
+    templateUrl: './sessions.component.html',
+    styleUrls: ['./sessions.component.css']
 })
 export class SessionsComponent implements OnInit {
 
-  constructor() { }
+    public session: Session;
+    public createdAt: string;
+    public exerciseGroupLabelsDictionary: ExerciseGroupCode[] = [];
+    public filterSeances: string;
+    public filters: string[];
 
-  ngOnInit() {
-  }
+    constructor(private sessionsService: SessionsService, private exerciseGroupCodeConverter: ExerciseGroupCodeConverter, private route: ActivatedRoute) {
+    }
 
+
+    ngOnInit() {
+        this.session = this.route.snapshot.data['sessions'];
+        this.exerciseGroupLabelsDictionary = this.exerciseGroupCodeConverter.convertThis(this.session.exercises);
+        this.createdAt = this.session.createdAt.toLocaleDateString();
+        this.filters = ['Ma prochaine séance', 'Toutes les séances'];
+    }
 }

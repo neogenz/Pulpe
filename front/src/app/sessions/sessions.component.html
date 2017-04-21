@@ -21,3 +21,50 @@
         <pulpe-session-objective [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
     </div>
 </div>
+
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            <md-card class="blockTitlePrimaryBackground h-100">
+                <div class="text-center">
+                    <h1><i class="ion-ios-search"></i></h1>
+                    <md-radio-group class="example-radio-group" [(ngModel)]="filterSeances">
+                        <md-radio-button class="example-radio-button pl-3" *ngFor="let filter of filters" [value]="filter">
+                            {{filter}}
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+            </md-card>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            <md-tab-group>
+                <md-tab *ngFor="let exerciseGroupLabelDictionary of exerciseGroupLabelsDictionary"
+                        label="{{exerciseGroupLabelDictionary.label}}">
+                    <md-card>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <md-list-item
+                                                *ngFor="let exercise of session.exercises.get(exerciseGroupLabelDictionary.rawCode); let last = last">
+                                            <pulpe-session-list
+                                                    [exercise]="exercise"
+                                                    [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode">
+                                            </pulpe-session-list>
+                                            <hr *ngIf="!last" class="white">
+                                        </md-list-item>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </md-card>
+                </md-tab>
+            </md-tab-group>
+        </div>
+    </div>
+</section>

@@ -36,6 +36,8 @@ import {SlimLoadingBarModule} from "ng2-slim-loading-bar/index";
 import {AuthenticationMockService} from './_services/authentication/authentication-mock.service'
 import {IAuthenticationService} from "./_services/authentication/IAuthenticationService";
 import {AuthConfig} from "angular2-jwt/angular2-jwt";
+import {SessionListComponent} from "./sessions/session-list/session-list.component";
+import {SessionsResolver} from "./sessions/sessions.resolver";
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import {AuthConfig} from "angular2-jwt/angular2-jwt";
     PageTitleComponent,
     SimpleCounterWithIconComponent,
     ExercisesRepartitionGraphComponent,
-    SessionObjectiveComponent
+    SessionObjectiveComponent,
+    SessionListComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +92,7 @@ import {AuthConfig} from "angular2-jwt/angular2-jwt";
     ExerciseGroupCodeConverter,
     DifficultyConverter,
     ProgramResolver,
+    SessionsResolver,
     AuthenticationGuard
   ],
   bootstrap: [AppComponent]
