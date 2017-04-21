@@ -38,6 +38,7 @@ import {IAuthenticationService} from "./_services/authentication/IAuthentication
 import {AuthConfig} from "angular2-jwt/angular2-jwt";
 import {SessionListComponent} from "./sessions/session-list/session-list.component";
 import {SessionsResolver} from "./sessions/sessions.resolver";
+import {SessionsService} from "./sessions/sessions.service";
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
       useFactory: authenticationServiceFactory,
       deps: ['IS_PROD', LocalStorageService, AuthHttp]
     },
+    SessionsService,
     ExerciseGroupCodeConverter,
     DifficultyConverter,
     ProgramResolver,

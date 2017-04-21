@@ -1,0 +1,77 @@
+<div class="row" md-line>
+  <div class="col-md-1 col-12 text-center mr-md-1">
+    <img *ngIf="isMassGainer(exercise)"
+         src="../../assets/img/exercise-types/strength-64.png"
+         class="rounded" alt="Type">
+    <img *ngIf="isCardio(exercise)"
+         src="../../assets/img/exercise-types/cardiogram-64.png"
+         class="rounded" alt="Type">
+    <img *ngIf="isOrganized(exercise)"
+         src="../../assets/img/exercise-types/music-player-64.png"
+         class="rounded" alt="Type">
+    <img *ngIf="isStretching(exercise)"
+         src="../../assets/img/exercise-types/dressing-room-64.png"
+         class="rounded" alt="Type">
+  </div>
+
+  <div class="col-md-10">
+    <h4 class="exerciseTitle">{{exercise.name}}
+      <small class="exerciseMachineName">- {{exercise.machines[0].name}}</small>
+    </h4>
+  </div>
+</div>
+
+<div *ngIf="isMassGainer(exercise)" class="row exerciseDetails" md-line>
+  <div class="col-6 offset-md-2 offset-sm-0 col-md-2 text-center">
+
+    <i class="ion ion-refresh"></i>
+    <span>{{exercise.series}}</span>
+  </div>
+  <div class="col-6 col-md-2 text-center">
+    <span class="icon-althere"></span>
+    <span>{{exercise.repetitions}} </span>
+  </div>
+  <div class="col-6 col-md-2 text-center">
+    <i class="icon-weight"></i>
+    <span> {{exercise.weight | number:'1.1'}} kg </span>
+  </div>
+  <div class="col-6 col-md-2 text-center">
+    <i class="ion-ios-timer-outline"></i>
+
+    <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
+  </div>
+</div>
+
+<div *ngIf="isCardio(exercise)" class="row exerciseDetails justify-content-center" md-line>
+  <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
+    <i class="fa fa-repeat"></i>
+    <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
+  </div>
+  <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
+    <span class="fa fa-road"></span>
+    <span>{{exercise.km  | number}} km</span>
+  </div>
+  <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
+    <i class="icon-balance"></i>
+    <span> {{exercise.calories | number}} kcal</span>
+  </div>
+  <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
+    <i class="ion-speedometer"></i>
+
+    <span>{{exercise.speed | number}} km/h </span>
+  </div>
+</div>
+
+<div *ngIf="isOrganized(exercise)" class="row exerciseDetails" md-line>
+  <div class="col-12 text-center">
+    <i class="ion ion-ios-bolt"></i>
+    <span class="text-capitalize">{{exercise.difficulty}}</span>
+  </div>
+</div>
+
+<div *ngIf="isStretching(exercise)" class="row exerciseDetails" md-line>
+  <div class="col-12 text-center">
+    <i class="fa fa-hourglass-half"></i>
+    <span>{{exercise.time | number:'1.2-2'}} min</span>
+  </div>
+</div>
