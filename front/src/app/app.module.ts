@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http'; //Http class used to can be imported manually in useFactory
+import { HttpModule, Http, RequestOptions } from '@angular/http'; //Http class used to can be imported manually in useFactory
 import { RouterModule } from '@angular/router'
 import { ROUTES } from './app.routes'; // ROUTING HERE!
 import { APP_BASE_HREF } from '@angular/common';
@@ -29,7 +29,13 @@ import { SimpleCounterWithIconComponent } from './shared/simple-counter-with-ico
 import { ExercisesRepartitionGraphComponent } from './exercises-repartition-graph/exercises-repartition-graph.component';
 import {ProgramResolver} from "./program/program.resolver";
 import { SessionObjectiveComponent } from './sessions/session-objective/session-objective.component';
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from "./_services/authentication/authentication.service";
+import {AuthenticationGuard} from './_guards/authentication-guard.service';
+import {AuthHttp} from "angular2-jwt/angular2-jwt";
+import {SlimLoadingBarModule} from "ng2-slim-loading-bar/index";
+import {AuthenticationMockService} from './_services/authentication/authentication-mock.service'
+import {IAuthenticationService} from "./_services/authentication/IAuthenticationService";
+import {AuthConfig} from "angular2-jwt/angular2-jwt";
 
 
 @NgModule({
@@ -54,34 +60,57 @@ import {AuthenticationService} from "./authentication.service";
     HttpModule,
     MaterialModule,
     RouterModule.forRoot(ROUTES),
+    SlimLoadingBarModule.forRoot(),
     ChartsModule,
     LocalStorageModule.withConfig({
-      prefix: 'pulpe',
+      prefix: '',
       storageType: 'localStorage'
     })
   ],
   //Merry, look 'Become ninja Angular 2' to understand this :p
   providers: [
     {provide: APP_BASE_HREF, useValue: '/'},
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
     {provide: 'IS_PROD', useValue: true},
     {
       provide: ProgramService,
-      useFactory: httpFactory,
-      deps: ['IS_PROD', Http, LocalStorageService]
+      useFactory: programServiceFactory,
+      deps: ['IS_PROD', LocalStorageService, AuthHttp]
+    },
+    {
+      provide: AuthenticationService,
+      useFactory: authenticationServiceFactory,
+      deps: ['IS_PROD', LocalStorageService, AuthHttp]
     },
     ExerciseGroupCodeConverter,
     DifficultyConverter,
     ProgramResolver,
-    AuthenticationService
+    AuthenticationGuard
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }
 
-export function httpFactory(IS_PROD:boolean, http:Http, localStorage:LocalStorageService) {
+export function programServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, authHttp:AuthHttp) {
   if (IS_PROD) {
-    return new ProgramService(http, localStorage)
+    return new ProgramService(authHttp, localStorage)
   }
   return new ProgramMockService();
+}
+
+export function authenticationServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, authHttp:AuthHttp){
+  //if (IS_PROD) {
+  //  return new AuthenticationService(authHttp, localStorage)
+  //}
+  return new AuthenticationMockService(localStorage);
+}
+
+function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
 }

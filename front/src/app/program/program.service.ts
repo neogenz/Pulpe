@@ -6,12 +6,13 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { environment } from '../../environments/environment'
 import {Program} from "../model/Program";
 import {AbstractExercise} from "../model/exercise/AbstractExercise";
+import {AuthHttp} from "angular2-jwt/angular2-jwt";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
 export class ProgramService {
 
-  constructor(private _http:Http, private localStorageService:LocalStorageService) {
+  constructor(private _http:AuthHttp, private localStorageService:LocalStorageService) {
   }
 
 
@@ -41,26 +42,28 @@ export class ProgramService {
    * @returns {Observable<Program>}
    */
   findBy(member:Member):Observable<Program> {
-    //let programLocallyStored:string = this.localStorageService.get<string>('program');
+    let programLocallyStored:string = this.localStorageService.get<string>('program');
 
-    //if (programLocallyStored.length) {
-    //  let rawProgram = JSON.parse(programLocallyStored);
-    //  return Observable.of(new Program().initFromRawObject(rawProgram));
-    //} else {
-    return this._http.get(environment.baseUrl() + '/assets/stubs/programs.json')
-      .map(res => {
-        let data:any = this.extractData(res);
-        //this.localStorageService.set('program', JSON.stringify(data.massGainers[0]));
-        return new Program().initFromRawObject(data.massGainers[0]);
-      })
-      .catch(this.handleError);
-    //}
+    if (programLocallyStored) {
+      let rawProgram = JSON.parse(programLocallyStored);
+      return Observable.of(new Program().initFromRawObject(rawProgram));
+    } else {
+      return this._http.get(environment.baseUrl() + '/assets/stubs/programs.json')
+        .map(res => {
+          let data:any = this.extractData(res);
+          this.localStorageService.set('program', JSON.stringify(data.massGainers[0]));
+          return new Program().initFromRawObject(data.massGainers[0]);
+        })
+        .catch(this.handleError);
+    }
   }
+
 
   private extractData(res:Response) {
     let body = res.json();
     return body || {};
   }
+
 
   private handleError(error:any) {
     // In a real world app, we might use a remote logging infrastructure

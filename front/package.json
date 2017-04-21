@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
     "angular-2-local-storage": "^1.0.1",
+    "angular2-jwt": "^0.2.2",
     "bootstrap": "^4.0.0-alpha.6",
     "chart.js": "^2.5.0",
     "core-js": "^2.4.1",
@@ -29,6 +30,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
     "ng2-charts": "^1.5.0",
+    "ng2-slim-loading-bar": "^4.0.0",
     "rxjs": "^5.1.0",
     "tether": "^1.4.0",
     "zone.js": "^0.7.6"
