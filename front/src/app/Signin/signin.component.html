@@ -30,20 +30,20 @@
                                     <div class="col-md-10">
                                         <md-input-container class="col-md-10">
                                             <input id="inputEmail" type="email" class="form-control" mdInput
-                                                   placeholder="Saisissez votre email">
+                                                   placeholder="Saisissez votre email" [(ngModel)]="login">
                                         </md-input-container>
                                     </div>
                                     <i class="col-md-2 fa fa-2x fa-lock prefix my-auto text-right"></i>
                                     <div class="col-md-10">
                                         <md-input-container class="col-md-10">
                                             <input id="inputPassword" type="password" class="form-control" mdInput
-                                                   placeholder="Saisissez votre mot de passe">
+                                                   placeholder="Saisissez votre mot de passe" [(ngModel)]="password">
                                         </md-input-container>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 offset-7 bottom-right">
-                                        <button type="button" class="btn btn-lg btn-primary text-white w-100" (click)="signin()">Se
+                                        <button [class.disabled]="signing" type="button" class="btn btn-lg btn-primary text-white w-100" (click)="signin()">Se
                                             connecter
                                         </button>
                                     </div>

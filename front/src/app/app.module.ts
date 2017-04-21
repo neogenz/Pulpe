@@ -111,6 +111,6 @@ export function authenticationServiceFactory(IS_PROD:boolean, localStorage:Local
   return new AuthenticationMockService(localStorage);
 }
 
-function authHttpServiceFactory(http: Http, options: RequestOptions) {
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
