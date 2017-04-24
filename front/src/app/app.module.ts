@@ -41,7 +41,7 @@ import {SessionListComponent} from "./sessions/session-list/session-list.compone
 import {SessionsResolver} from "./sessions/sessions.resolver";
 import {SessionsService} from "./sessions/sessions.service";
 import { EvolutionComponent } from './evolution/evolution.component';
-import { EfficientLineGraphComponent } from './efficient-line-graph/efficient-line-graph.component';
+import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/efficient-line-graph.component';
 
 
 @NgModule({
