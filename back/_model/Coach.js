@@ -2,15 +2,15 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Coach = new Schema({
+const CoachSchema = new Schema({
     firstName: String,
     lastName: String,
     dateOfBirth: Date,
     updatedAt: Date,
-    createdAt: Date,
+    createdAt: Date
 });
 
-AdherentSchema.pre('save', function (next) {
+CoachSchema.pre('save', function (next) {
     const currentDate = new Date();
     this.updatedAt = currentDate;
     if (!this.createdAt)
@@ -18,6 +18,6 @@ AdherentSchema.pre('save', function (next) {
     next();
 });
 
-const Adherent = mongoose.model('Adherent', AdherentSchema, 'Adherents');
+const Coach = mongoose.model('Coach', CoachSchema, 'Coachs');
 
-module.exports = Adherent;
+module.exports = Coach;

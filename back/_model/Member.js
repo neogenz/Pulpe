@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Measurement = require('./Measurement');
-const AdherentSchema = new Schema({
+const MemberSchema = new Schema({
     firstName: String,
     lastName: String,
     dateOfBirth: Date,
@@ -12,7 +12,7 @@ const AdherentSchema = new Schema({
     createdAt: Date,
 });
 
-AdherentSchema.pre('save', function (next) {
+MemberSchema.pre('save', function (next) {
     const currentDate = new Date();
     this.updatedAt = currentDate;
     if (!this.createdAt)
@@ -20,6 +20,6 @@ AdherentSchema.pre('save', function (next) {
     next();
 });
 
-const Adherent = mongoose.model('Adherent', AdherentSchema, 'Adherents');
+const Member = mongoose.model('Member', MemberSchema, 'Members');
 
-module.exports = Adherent;
+module.exports = Member;

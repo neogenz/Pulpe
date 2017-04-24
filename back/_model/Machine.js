@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ExerciseSchema = new Schema({
+const MachineSchema = new Schema({
     name: String,
     difficultyDegree: {
         type: String,
@@ -10,10 +10,10 @@ const ExerciseSchema = new Schema({
         default: 'MEDIUM'
     },
     updatedAt: Date,
-    createdAt: Date,
+    createdAt: Date
 });
 
-ExerciseSchema.pre('save', function (next) {
+MachineSchema.pre('save', function (next) {
     const currentDate = new Date();
     this.updatedAt = currentDate;
     if (!this.createdAt)
@@ -21,6 +21,6 @@ ExerciseSchema.pre('save', function (next) {
     next();
 });
 
-const Exercise = mongoose.model('Exercise', ExerciseSchema, 'Exercises');
+const Machine = mongoose.model('Machine', MachineSchema, 'Machines');
 
-module.exports = Exercise;
+module.exports = Machine;

@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Program = require('./Program')
 const ProgramSchema = new Schema({
     // TODO : Merry, suce ma teub.
     updatedAt: Date,

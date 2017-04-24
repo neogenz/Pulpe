@@ -2,11 +2,10 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Member = require('./Adherent');
+const Member = require('./Member');
 const Coach = require('./Coach');
 const Machine = require('./Machine');
-// todo : List of accessories
-const AdherentSchema = new Schema({
+const GymSchema = new Schema({
     name: String,
     address: String,
     openingHours : Date,
@@ -14,11 +13,12 @@ const AdherentSchema = new Schema({
     member: {type: mongoose.Schema.Types.ObjectId, ref: 'Member'},
     coach: {type: mongoose.Schema.Types.ObjectId, ref: 'Coach'},
     machines: {type: [Machine.schema], default: []},
+    // todo : List of accessories
     updatedAt: Date,
     createdAt: Date,
 });
 
-AdherentSchema.pre('save', function (next) {
+GymSchema.pre('save', function (next) {
     const currentDate = new Date();
     this.updatedAt = currentDate;
     if (!this.createdAt)
@@ -26,6 +26,6 @@ AdherentSchema.pre('save', function (next) {
     next();
 });
 
-const Adherent = mongoose.model('Adherent', AdherentSchema, 'Adherents');
+const Gym = mongoose.model('Gym', GymSchema, 'Gyms');
 
-module.exports = Adherent;
+module.exports = Gym;
