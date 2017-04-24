@@ -40,6 +40,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import {SessionListComponent} from "./sessions/session-list/session-list.component";
 import {SessionsResolver} from "./sessions/sessions.resolver";
 import {SessionsService} from "./sessions/sessions.service";
+import { EvolutionComponent } from './evolution/evolution.component';
+import { EfficientLineGraphComponent } from './efficient-line-graph/efficient-line-graph.component';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import {SessionsService} from "./sessions/sessions.service";
     ExercisesRepartitionGraphComponent,
     SessionObjectiveComponent,
     WelcomeComponent,
-    SessionListComponent
+    SessionListComponent,
+    EvolutionComponent,
+    EfficientLineGraphComponent
   ],
   imports: [
     BrowserModule,
