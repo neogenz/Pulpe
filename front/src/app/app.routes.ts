@@ -38,7 +38,10 @@ export const ROUTES:Routes = [
   },
   {
     path: 'seances', component: SessionsComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard],
+    resolve: {
+      sessions: SessionsResolver
+    }
   },
   {
     path: 'profil/complete', component: ProfileCompletationComponent
