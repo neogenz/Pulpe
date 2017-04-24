@@ -1,0 +1,10 @@
+{
+  "development": {
+    "portNumber": "5000",
+    "domain": "localhost"
+  },
+  "production": {
+    "portNumber": "5001",
+    "domain": "pulpe"
+  }
+}

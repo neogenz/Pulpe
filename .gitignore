@@ -48,3 +48,9 @@ front/dist/
 front/node_modules/
 
 front/src/landing/
+
+back/node_modules/
+
+back/\.idea/
+
+front/src/app/\.sass-cache/

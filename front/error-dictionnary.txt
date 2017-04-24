@@ -1,0 +1,3 @@
+Erreur dans l'objet récupérer du local storage depuis authentication-mock.service.ts :
+  error_handler.js:54 EXCEPTION: Uncaught (in promise): Error: Error in :0:0 caused by: Unexpected token o in JSON at position 1
+  Error: Error in :0:0 caused by: Unexpected token o in JSON at position 1
