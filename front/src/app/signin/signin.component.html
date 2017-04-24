@@ -30,23 +30,33 @@
                                         {{errorMessage}}
                                     </div>
                                 </div>
-                                <form>
-                                    <div class="form-group">
+                                <form (ngSubmit)="signin()" #authForm="ngForm">
+                                    <div class="form-group"
+                                         [class.has-danger]="login.dirty && login.hasError('required')">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-envelope prefix my-auto pr-0"></i>
-                                        <md-input-container class="col-7 col-md-8">
-                                            <input id="inputEmail" type="email" class="form-control" mdInput
+                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                            <input id="inputEmail" mdInput type="email"
                                                    placeholder="Saisissez votre email"
                                                    [(ngModel)]="authenticationProfile.login"
-                                                   name="authenticationProfile.login">
+                                                   name="authenticationProfile.login" required #login="ngModel">
+                                            <md-hint *ngIf="login.dirty && login.hasError('required')"
+                                                     class="form-control-feedback">Votre login est
+                                                obligatoire.
+                                            </md-hint>
                                         </md-input-container>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group"
+                                         [class.has-danger]="password.dirty && password.hasError('required')">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-lock prefix my-auto pr-0"></i>
                                         <md-input-container class="col-7 col-md-8">
-                                            <input id="inputPassword" type="password" class="form-control" mdInput
+                                            <input id="inputPassword" type="password" mdInput
                                                    placeholder="Saisissez votre mot de passe"
                                                    [(ngModel)]="authenticationProfile.password"
-                                                   name="authenticationProfile.password">
+                                                   name="authenticationProfile.password" required #password="ngModel">
+                                            <md-hint *ngIf="password.dirty && password.hasError('required')"
+                                                     class="form-control-feedback">Votre mot de passe est
+                                                obligatoire.
+                                            </md-hint>
                                         </md-input-container>
                                     </div>
                                     <div class="form-group">
@@ -58,7 +68,8 @@
                                     <div class="form-group mb-3">
                                         <div class="offset-md-7 col-md-5 col-12 bottom-md-right">
                                             <button [class.disabled]="signing" type="button"
-                                                    class="btn btn-lg btn-primary text-white w-100" (click)="signin()">
+                                                    class="btn btn-lg btn-primary text-white w-100" type="submit"
+                                                    [disabled]="!authForm.valid">
                                                 Se
                                                 connecter
                                             </button>

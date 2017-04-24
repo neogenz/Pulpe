@@ -14,7 +14,7 @@ export class AuthenticationMockService implements IAuthenticationService {
   public signin(login:string, password:string):Observable<AuthenticationProfile> {
     let authenticationRequest:Observable < AuthenticationProfile > = null;
 
-    if (login === 'admin' && password === 'pulpe') {
+    if (login === 'admin@pulpe.fit' && password === 'pulpe') {
       authenticationRequest = Observable
         .of(AuthenticationProfile.of().token('eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibG9naW4iOiJKb2huIERvZSIsImFkbWluIjp0cnVlfQ.ljY2uMt2vs78QM2A9mURVh2NDhsoOi9GMCoSEnAe0cE').build())
         .delay(new Date(Date.now() + 2000));
