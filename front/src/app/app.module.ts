@@ -57,7 +57,7 @@ import {SessionsService} from "./sessions/sessions.service";
     SimpleCounterWithIconComponent,
     ExercisesRepartitionGraphComponent,
     SessionObjectiveComponent,
-    WelcomeComponent
+    WelcomeComponent,
     SessionListComponent
   ],
   imports: [
