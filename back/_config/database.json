@@ -1,14 +1,14 @@
 {
   "development": {
     "mongo": {
-      "name": "CarManager",
+      "name": "Pulpe",
       "host": "localhost",
       "protocol": "mongodb"
     }
   },
   "production": {
     "mongo": {
-      "name": "CarManager",
+      "name": "Pulpe",
       "host": "carmanager.com",
       "protocol": "mongodb"
     }
