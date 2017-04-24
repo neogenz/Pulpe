@@ -1,3 +1,5 @@
+@import "../../../node_modules/bootstrap/scss/variables";
+
 .mb-5 {
   margin-bottom: 2rem !important
 }
@@ -24,6 +26,12 @@
 
 .mt-9 {
   margin-top: 4rem !important
+}
+
+@media screen and (min-device-width: #{map-get($grid-breakpoints, "md")}) {
+  .mt-md-9 {
+    margin-top: #{(0.5 * 9)}rem;
+  }
 }
 
 .mt-10 {

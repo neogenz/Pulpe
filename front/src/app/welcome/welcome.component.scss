@@ -1,0 +1,17 @@
+@import "../../assets/style/colors";
+
+.jumbotron {
+  background-color: $dark-primary-color;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.pulpe-brand {
+  font-weight: 100;
+  font-size: 6rem;
+  color: $primary-color;
+}
+
+hr {
+  border-top: 1px solid rgba(255, 255, 255, 0.30);
+}

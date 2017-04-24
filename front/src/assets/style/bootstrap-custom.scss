@@ -13,3 +13,9 @@
     color: $brand-color !important;
   }
 }
+
+.navbar-nav {
+  .show > .nav-link {
+    background-color: transparent;
+  }
+}

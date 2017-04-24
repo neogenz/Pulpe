@@ -36,6 +36,7 @@ import {SlimLoadingBarModule} from "ng2-slim-loading-bar/index";
 import {AuthenticationMockService} from './_services/authentication/authentication-mock.service'
 import {IAuthenticationService} from "./_services/authentication/IAuthenticationService";
 import {AuthConfig} from "angular2-jwt/angular2-jwt";
+import { WelcomeComponent } from './welcome/welcome.component';
 import {SessionListComponent} from "./sessions/session-list/session-list.component";
 import {SessionsResolver} from "./sessions/sessions.resolver";
 import {SessionsService} from "./sessions/sessions.service";
@@ -56,6 +57,7 @@ import {SessionsService} from "./sessions/sessions.service";
     SimpleCounterWithIconComponent,
     ExercisesRepartitionGraphComponent,
     SessionObjectiveComponent,
+    WelcomeComponent
     SessionListComponent
   ],
   imports: [

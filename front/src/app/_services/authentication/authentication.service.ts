@@ -6,6 +6,7 @@ import {tokenNotExpired} from "angular2-jwt/angular2-jwt";
 import {JwtHelper} from "angular2-jwt/angular2-jwt";
 import {IAuthenticationService} from "./IAuthenticationService";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
+import {AuthenticationProfile} from "../../model/AuthenticationProfile";
 
 @Injectable()
 export class AuthenticationService implements IAuthenticationService {
@@ -13,7 +14,7 @@ export class AuthenticationService implements IAuthenticationService {
   constructor(private http:AuthHttp, private localStorageService:LocalStorageService) {
   }
 
-  public signin(login:string, password:string):Observable<AuthenticateDTO> {
+  public signin(login:string, password:string):Observable<AuthenticationProfile> {
     return null;
   }
 
@@ -23,12 +24,4 @@ export class AuthenticationService implements IAuthenticationService {
   public authenticated():Boolean {
     return null;
   }
-}
-
-export class AuthenticateDTO {
-  constructor(token:string) {
-    this.token = token;
-  }
-
-  public token:string;
 }
