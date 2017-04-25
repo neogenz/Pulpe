@@ -1,7 +1,3 @@
-// Imports
-// Deprecated import
-// import { provideRouter, RouterConfig } from '@angular/router';
-// import { ModuleWithProviders }  from '@angular/core';
 import {Routes} from '@angular/router';
 import {HomeComponent} from './Home/HomeComponent';
 import {SigninComponent} from './signin/signin.component';
@@ -13,6 +9,7 @@ import {SessionsComponent} from "./sessions/sessions.component";
 import {ProgramResolver} from "./program/program.resolver";
 import {AuthenticationGuard} from "./_guards/authentication-guard.service";
 import {WelcomeComponent} from "./welcome/welcome.component";
+import {ProfileComponent} from "./profile/profile.component";
 import {SessionsResolver} from "./sessions/sessions.resolver";
 
 // Route Configuration
@@ -57,8 +54,14 @@ export const ROUTES: Routes = [
         }
     },
     {
+        path: 'profil',
+        component: ProfileComponent,
+        canActivate: [AuthenticationGuard]
+    },
+    {
         path: 'profil/complete',
-        component: ProfileCompletationComponent
+        component: ProfileCompletationComponent,
+        canActivate: [AuthenticationGuard]
     }
     //{path: '', redirectTo: '/', pathMatch: 'full'}
 ];

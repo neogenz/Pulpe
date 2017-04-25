@@ -42,6 +42,9 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
 import {SessionsService} from "./sessions/sessions.service";
 import { EvolutionComponent } from './evolution/evolution.component';
 import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/efficient-line-graph.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfilePhotoComponent } from './profile/profile-photo/profile-photo.component';
+import { ProfileInfosComponent } from './profile/profile-infos/profile-infos.component';
 
 
 @NgModule({
@@ -62,7 +65,10 @@ import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/ef
     WelcomeComponent,
     SessionListComponent,
     EvolutionComponent,
-    EfficientLineGraphComponent
+    EfficientLineGraphComponent,
+    ProfileComponent,
+    ProfilePhotoComponent,
+    ProfileInfosComponent
   ],
   imports: [
     BrowserModule,
