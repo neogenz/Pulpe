@@ -1,0 +1,110 @@
+<div class="row mt-md-9">
+    <div class="col-md-12">
+        <md-card class="p-0">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <div class="pt-0 bg-primary-color h-100">
+                        <div class="row h-100">
+                            <div class="col-sm-12 my-auto text-center">
+                                <img src="../../assets/logo.png" class="w-25">
+                                <div class="pt-2">
+                                    <h1>Pulpe</h1>
+                                    <h2>Inscrivez-vous!</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pt-0 white">
+                                <!--We can't put this two col in row because padding canceling of row break the design -->
+                                <!--of card, that apply shadow -->
+                                <div class="col-md-12 col-12 pt-2">
+                                    <h2 class="pt-1 text-center text-md-left text-primary">Inscription</h2>
+                                </div>
+                                <div *ngIf="displaySignupError" class="col-md-12 col-12 pr-md-4">
+                                    <div class="alert alert-danger">
+                                        {{errorMessage}}
+                                    </div>
+                                </div>
+                                <form (ngSubmit)="signup()" #authForm="ngForm">
+                                    <div class="form-group"
+                                         [class.has-danger]="lastName.dirty && lastName.hasError('required')">
+                                        <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-user prefix my-auto pr-0"></i>
+                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                            <input id="inputFirstname" mdInput
+                                                   type="text"
+                                                   placeholder="Saisissez votre nom"
+                                                   [(ngModel)]="authenticationProfile.firstName"
+                                                   name="authenticationProfile.firstName" required #lastName="ngModel">
+                                            <md-hint *ngIf="lastName.dirty && lastName.hasError('required')"
+                                                     class="form-control-feedback">Votre nom est obligatoire.
+                                            </md-hint>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="form-group"
+                                         [class.has-danger]="firstName.dirty && firstName.hasError('required')">
+                                        <md-input-container class="col-7 col-md-8 offset-md-2 offset-3" color="primary">
+                                            <input id="inputLastname" mdInput
+                                                   type="text"
+                                                   placeholder="Saisissez votre prénom"
+                                                   [(ngModel)]="authenticationProfile.lastName"
+                                                   name="authenticationProfile.lastName" required #firstName="ngModel">
+                                            <md-hint *ngIf="firstName.dirty && firstName.hasError('required')"
+                                                     class="form-control-feedback">Votre prénom est obligatoire.
+                                            </md-hint>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="form-group"
+                                         [class.has-danger]="login.dirty && login.hasError('required')">
+                                        <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-envelope prefix my-auto pr-0"></i>
+                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                            <input id="inputEmail" mdInput
+                                                   type="email"
+                                                   placeholder="Saisissez votre email"
+                                                   [(ngModel)]="authenticationProfile.login"
+                                                   name="authenticationProfile.login" required #login="ngModel">
+                                            <md-hint *ngIf="login.dirty && login.hasError('required')"
+                                                     class="form-control-feedback">Votre login est obligatoire.
+                                            </md-hint>
+                                        </md-input-container>
+                                    </div>
+                                    <div class="form-group"
+                                         [class.has-danger]="password.dirty && password.hasError('required')">
+                                        <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-lock prefix my-auto pr-0"></i>
+                                        <md-input-container class="col-7 col-md-8">
+                                            <input id="inputPassword" type="password" mdInput
+                                                   placeholder="Saisissez votre mot de passe"
+                                                   [(ngModel)]="authenticationProfile.password"
+                                                   name="authenticationProfile.password" required
+                                                   #password="ngModel">
+                                            <md-hint *ngIf="password.dirty && password.hasError('required')"
+                                                     class="form-control-feedback">Votre mot de passe est
+                                                obligatoire.
+                                            </md-hint>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <div class="offset-md-7 col-md-5 col-12 bottom-md-right">
+                                            <button [class.disabled]="subscribing" type="button"
+                                                    class="btn btn-lg btn-primary text-white w-100" type="submit"
+                                                    [disabled]="!authForm.valid">
+                                                S'inscrire
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-card>
+    </div>
+</div>

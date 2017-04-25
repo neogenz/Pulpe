@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import {Program} from "../model/Program";
-import {AbstractExercise} from "../model/exercise/AbstractExercise";
-import {ChartConfiguration} from "../shared/ChartConfiguration";
+import {Program} from "../../model/Program";
+import {AbstractExercise} from "../../model/exercise/AbstractExercise";
+import {ChartConfiguration} from "../../shared/ChartConfiguration";
 import {BaseChartDirective} from "ng2-charts/index";
 
 @Component({

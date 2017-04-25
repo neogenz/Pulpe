@@ -26,7 +26,7 @@ import { DifficultyConverter } from "./shared/DifficultyConverter";
 import { SessionsComponent } from './sessions/sessions.component';
 import { PageTitleComponent } from './shared/page-title/page-title.component';
 import { SimpleCounterWithIconComponent } from './shared/simple-counter-with-icon/simple-counter-with-icon.component';
-import { ExercisesRepartitionGraphComponent } from './exercises-repartition-graph/exercises-repartition-graph.component';
+import { ExercisesRepartitionGraphComponent } from './program/exercises-repartition-graph/exercises-repartition-graph.component';
 import {ProgramResolver} from "./program/program.resolver";
 import { SessionObjectiveComponent } from './sessions/session-objective/session-objective.component';
 import {AuthenticationService} from "./_services/authentication/authentication.service";

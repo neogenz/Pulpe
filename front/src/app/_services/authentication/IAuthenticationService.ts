@@ -4,6 +4,8 @@ export interface IAuthenticationService {
 
   signin(login:string, password:string):Observable<AuthenticationProfile>;
 
+  signup(firstName:string, lastName:string, login:string, password:string):Observable<AuthenticationProfile>;
+
   signout():void;
 
   authenticated():Boolean;

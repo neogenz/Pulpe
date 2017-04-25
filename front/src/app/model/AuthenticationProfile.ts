@@ -7,6 +7,8 @@ export class AuthenticationProfile {
   public login:string;
   public password:string;
   public rememberMe:boolean;
+  public lastName:string;
+  public firstName:string;
 
   public static of():AuthenticationProfileBuilder {
     return new AuthenticationProfileBuilder();
@@ -33,6 +35,16 @@ class AuthenticationProfileBuilder {
 
   public rememberMe(rememberMe:boolean):AuthenticationProfileBuilder {
     this.me.rememberMe = rememberMe;
+    return this;
+  }
+
+  public lastName(lastName:string):AuthenticationProfileBuilder {
+    this.me.lastName = lastName;
+    return this;
+  }
+
+  public firstName(firstName:string):AuthenticationProfileBuilder {
+    this.me.firstName = firstName;
     return this;
   }
 

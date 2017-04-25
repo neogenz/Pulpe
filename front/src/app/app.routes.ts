@@ -17,7 +17,11 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
 
 // Route Configuration
 export const ROUTES: Routes = [
-    {path: '', component: WelcomeComponent, pathMatch: 'full'},
+    {
+        path: '',
+        component: WelcomeComponent,
+        pathMatch: 'full'
+    },
     {
         path: 'accueil',
         component: HomeComponent,
