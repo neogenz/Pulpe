@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IAuthenticationService} from "./IAuthenticationService";
 import {tokenNotExpired} from "angular2-jwt/angular2-jwt";
 import {Observable} from "rxjs/Observable";
@@ -8,36 +8,59 @@ import {AuthenticationProfile} from "../../model/AuthenticationProfile";
 @Injectable()
 export class AuthenticationMockService implements IAuthenticationService {
 
-  constructor(private localStorageService:LocalStorageService) {
-  }
-
-  public signin(login:string, password:string):Observable<AuthenticationProfile> {
-    let authenticationRequest:Observable < AuthenticationProfile > = null;
-
-    if (login === 'admin@pulpe.fit' && password === 'pulpe') {
-      authenticationRequest = Observable
-        .of(AuthenticationProfile.of().token('eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibG9naW4iOiJKb2huIERvZSIsImFkbWluIjp0cnVlfQ.ljY2uMt2vs78QM2A9mURVh2NDhsoOi9GMCoSEnAe0cE').build())
-        .delay(new Date(Date.now() + 2000));
-    } else {
-      authenticationRequest = Observable.throw(new Error('Identifiants incorrect.'));
+    constructor(private localStorageService: LocalStorageService) {
     }
 
-    authenticationRequest.subscribe((authDTO)=> {
-        this.localStorageService.set('token', authDTO.token);
-        this.localStorageService.set('profile', {login: login});
-      },
-      error=> {
-        console.log(error);
-      });
+    public signin(login: string, password: string): Observable<AuthenticationProfile> {
+        let authenticationRequest: Observable < AuthenticationProfile > = null;
 
-    return authenticationRequest;
-  }
+        if (login === 'admin@pulpe.fit' && password === 'pulpe') {
+            authenticationRequest = Observable
+                .of(AuthenticationProfile.of().token('eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibG9naW4iOiJKb2huIERvZSIsImFkbWluIjp0cnVlfQ.ljY2uMt2vs78QM2A9mURVh2NDhsoOi9GMCoSEnAe0cE').build())
+                .delay(new Date(Date.now() + 2000));
+        } else {
+            authenticationRequest = Observable.throw(new Error('Identifiants incorrect.'));
+        }
 
-  public signout():void {
-    this.localStorageService.remove('token');
-  }
+        authenticationRequest.subscribe((authDTO) => {
+                this.localStorageService.set('token', authDTO.token);
+                this.localStorageService.set('profile', {login: login});
+            },
+            error => {
+                console.log(error);
+            });
 
-  public authenticated():boolean {
-    return tokenNotExpired();
-  }
+        return authenticationRequest;
+    }
+
+    public signup(firstname: string, lastname: string, login: string, password: string): Observable<AuthenticationProfile> {
+        let authenticationRequest: Observable < AuthenticationProfile > = null;
+
+        authenticationRequest = Observable
+            .of(AuthenticationProfile.of()
+                .token('eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibG9naW4iOiJKb2huIERvZSIsImFkbWluIjp0cnVlfQ.ljY2uMt2vs78QM2A9mURVh2NDhsoOi9GMCoSEnAe0cE').build())
+            .delay(new Date(Date.now() + 2000));
+
+        authenticationRequest.subscribe((authDTO) => {
+                this.localStorageService.set('token', authDTO.token);
+                this.localStorageService.set('profile', {
+                    firstname: firstname,
+                    lastname: lastname,
+                    login: login
+                });
+            },
+            error => {
+                console.log(error);
+            });
+
+        return authenticationRequest;
+    }
+
+    public signout(): void {
+        this.localStorageService.remove('token');
+    }
+
+    public authenticated(): boolean {
+        return tokenNotExpired();
+    }
 }

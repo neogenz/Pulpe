@@ -18,6 +18,10 @@ export class AuthenticationService implements IAuthenticationService {
     return null;
   }
 
+  public signup(firstName:string, lastName:string, login:string, password:string):Observable<AuthenticationProfile> {
+    return null;
+  }
+
   public signout():void {
   }
 
