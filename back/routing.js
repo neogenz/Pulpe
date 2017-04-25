@@ -5,4 +5,5 @@
 
 module.exports = (provider) => {
   require('./_routes/program.routes')(provider);
+  require('./_routes/authentication.routes')(provider);
 };

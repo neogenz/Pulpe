@@ -6,24 +6,24 @@ const Member = require('./Member');
 const Coach = require('./Coach');
 const Machine = require('./Machine');
 const GymSchema = new Schema({
-    name: String,
-    address: String,
-    openingHours : Date,
-    closingHours: Date,
-    member: {type: mongoose.Schema.Types.ObjectId, ref: 'Member'},
-    coach: {type: mongoose.Schema.Types.ObjectId, ref: 'Coach'},
-    machines: {type: [Machine.schema], default: []},
-    // todo : List of accessories
-    updatedAt: Date,
-    createdAt: Date,
+  name: String,
+  address: String,
+  openingHour: Date,
+  closingHour: Date,
+  //members_id: [{type: mongoose.Schema.Types.ObjectId}],
+  //coachs: [{type: Coach.schema}],
+  //machines_id: {type: [Machine.schema], default: []},
+  // todo : List of accessories
+  updatedAt: Date,
+  createdAt: Date
 });
 
 GymSchema.pre('save', function (next) {
-    const currentDate = new Date();
-    this.updatedAt = currentDate;
-    if (!this.createdAt)
-        this.createdAt = currentDate;
-    next();
+  const currentDate = new Date();
+  this.updatedAt = currentDate;
+  if (!this.createdAt)
+    this.createdAt = currentDate;
+  next();
 });
 
 const Gym = mongoose.model('Gym', GymSchema, 'Gyms');

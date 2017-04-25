@@ -1,19 +1,22 @@
 'use strict';
 
+const Exercise = require('./Exercise');
+const Session = require('./Session');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ProgramSchema = new Schema({
-    // TODO : Merry, suce ma teub.
-    updatedAt: Date,
-    createdAt: Date,
+  exercises: [{type: Exercise.schema}],
+  sessions: [{type: Session.schema}],
+  updatedAt: Date,
+  createdAt: Date
 });
 
 ProgramSchema.pre('save', function (next) {
-    const currentDate = new Date();
-    this.updatedAt = currentDate;
-    if (!this.createdAt)
-        this.createdAt = currentDate;
-    next();
+  const currentDate = new Date();
+  this.updatedAt = currentDate;
+  if (!this.createdAt)
+    this.createdAt = currentDate;
+  next();
 });
 
 const Program = mongoose.model('Program', ProgramSchema, 'Programs');

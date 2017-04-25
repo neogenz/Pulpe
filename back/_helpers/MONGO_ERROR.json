@@ -1,0 +1,6 @@
+{
+  "DUPPLICATE_KEY": {
+    "code": 11000,
+    "message": "Contrainte d'unicité non respectée."
+  }
+}

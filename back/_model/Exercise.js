@@ -2,20 +2,19 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Machine = require('./Machine')
 const ExerciseSchema = new Schema({
-    name: String,
-    machines: {type: [Machine.schema], default: []},
-    updatedAt: Date,
-    createdAt: Date,
+  name: String,
+  machines_id: {type: [mongoose.Types.ObjectId], default: []},
+  updatedAt: Date,
+  createdAt: Date
 });
 
 ExerciseSchema.pre('save', function (next) {
-    const currentDate = new Date();
-    this.updatedAt = currentDate;
-    if (!this.createdAt)
-        this.createdAt = currentDate;
-    next();
+  const currentDate = new Date();
+  this.updatedAt = currentDate;
+  if (!this.createdAt)
+    this.createdAt = currentDate;
+  next();
 });
 
 const Exercise = mongoose.model('Exercise', ExerciseSchema, 'Exercises');

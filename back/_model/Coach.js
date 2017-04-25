@@ -7,7 +7,8 @@ const CoachSchema = new Schema({
     lastName: String,
     dateOfBirth: Date,
     updatedAt: Date,
-    createdAt: Date
+    createdAt: Date,
+    gym_id: {type: mongoose.Schema.Types.ObjectId}
 });
 
 CoachSchema.pre('save', function (next) {
