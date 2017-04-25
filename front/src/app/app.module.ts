@@ -94,7 +94,7 @@ import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/ef
     {
       provide: AuthenticationService,
       useFactory: authenticationServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, AuthHttp]
+      deps: ['IS_PROD', LocalStorageService, Http]
     },
     SessionsService,
     ExerciseGroupCodeConverter,
@@ -116,11 +116,11 @@ export function programServiceFactory(IS_PROD:boolean, localStorage:LocalStorage
   return new ProgramMockService();
 }
 
-export function authenticationServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, authHttp:AuthHttp){
+export function authenticationServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, http:Http){
   //if (IS_PROD) {
-  //  return new AuthenticationService(authHttp, localStorage)
+    return new AuthenticationService(http, localStorage);
   //}
-  return new AuthenticationMockService(localStorage);
+  //return new AuthenticationMockService(localStorage);
 }
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {

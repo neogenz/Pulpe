@@ -19,7 +19,7 @@ class AuthenticationController {
       res.send({token: token});
     }).catch((err)=> {
       var httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.NOT_FOUND, err);
-      res.status(httpError.code);
+      //res.status(httpError.code);
       return res.status(httpError.code).send(httpError);
     });
   }
@@ -40,7 +40,7 @@ class AuthenticationController {
       res.send({token: token});
     }).catch((error)=> {
       const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-      res.status(httpError.code);
+      //res.status(httpError.code);
       return res.status(httpError.code).send(httpError);
     });
   }

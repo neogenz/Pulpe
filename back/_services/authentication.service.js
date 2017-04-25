@@ -1,6 +1,7 @@
 const MemberService = require('./member.service');
 const Member = require('../_model/Member');
 const jwt = require('jsonwebtoken');
+const NotFoundError = require('../_model/Errors').NotFoundError;
 
 class AuthenticationService {
   constructor() {
@@ -15,13 +16,15 @@ class AuthenticationService {
     return MemberService.findByEmailAndPassword(email, password).then(
       (member)=> {
         var token = jwt.sign(member.toObject(), process.env.JWT_SECRET, {
-          expiresIn: "86400000" // expires in 24 hours
+          expiresIn: 60 * 60 * 24 // expires in 24 hours
         });
         return token;
       }, (error)=> {
+        if(error instanceof NotFoundError){
+          throw new Error('Email ou mot de passe introuvable.');
+        }
         throw error;
       }).catch(err=> {
-        err.statusHttp = 500;
         throw err;
       }
     );

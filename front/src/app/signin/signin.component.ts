@@ -41,12 +41,11 @@ export class SigninComponent implements OnInit {
         this.signing = false;
         this.slimLoadingBarService.complete();
       })
-      .subscribe((userDTO)=> {
+      .subscribe((authProfile)=> {
           this.router.navigateByUrl('/programme');
           this.localStorage.set('profile', JSON.stringify(this.authenticationProfile));
         },
         (error)=> {
-          debugger;
           this.displaySigninError = true;
           this.errorMessage = error.message;
         }

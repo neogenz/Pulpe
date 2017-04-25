@@ -8,5 +8,5 @@ export interface IAuthenticationService {
 
   signout():void;
 
-  authenticated():Boolean;
+  authenticated():boolean;
 }

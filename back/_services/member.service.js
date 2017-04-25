@@ -1,5 +1,6 @@
 const MongoError = require('../_helpers/MONGO_ERROR.json');
 const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
+const NotFoundError = require('../_model/Errors').NotFoundError;
 const Member = require('../_model/Member');
 
 class AlreadyExistMemberError extends AlreadyExistError {
@@ -19,10 +20,10 @@ class MemberService {
   static findByEmailAndPassword(email, password) {
     return Member.findOne({'email': email}).then((member)=> {
       if (!member) {
-        throw new Error('Adhérent introuvable.');
+        throw new NotFoundError('Adhérent introuvable.');
       }
       if (!member.validPassword(password)) {
-        throw new Error('Email ou mot de passe invalide.');
+        throw new NotFoundError('Email ou mot de passe invalide.');
       }
       return member;
     }).catch(function (err) {
@@ -44,7 +45,7 @@ class MemberService {
       },
       (error) => {
         if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
-          throw new AlreadyExistMemberError('Cette email existe déja.');
+          throw new AlreadyExistMemberError('Cet email existe déja.');
         }
       }
     ).catch((error)=> {

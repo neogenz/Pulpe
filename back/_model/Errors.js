@@ -13,4 +13,8 @@ class ExtendableError extends Error {
 class AlreadyExistError extends ExtendableError {
 }
 
+class NotFoundError extends ExtendableError{
+}
+
 module.exports.AlreadyExistError = AlreadyExistError;
+module.exports.NotFoundError = NotFoundError;

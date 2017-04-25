@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {tokenNotExpired} from "angular2-jwt/angular2-jwt";
@@ -7,25 +7,56 @@ import {JwtHelper} from "angular2-jwt/angular2-jwt";
 import {IAuthenticationService} from "./IAuthenticationService";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {AuthenticationProfile} from "../../model/AuthenticationProfile";
+import {ObservableHelper} from "../../_helpers/ObservableHelper";
 
 @Injectable()
-export class AuthenticationService implements IAuthenticationService {
+export class AuthenticationService extends ObservableHelper implements IAuthenticationService {
 
-  constructor(private http:AuthHttp, private localStorageService:LocalStorageService) {
+  constructor(private http:Http, private localStorageService:LocalStorageService) {
+    super();
   }
 
-  public signin(login:string, password:string):Observable<AuthenticationProfile> {
-    return null;
+  public signin(login:string, password:string):Observable<AuthenticationProfile|string> {
+    return this.http.post('http://localhost:5000/signin', {
+      email: login,
+      password: password
+    }).map(response => {
+        const data:any = this.extractDataOf(response);
+        const rawProfile = this.jwtHelper.decodeToken(data.token);
+        this.localStorageService.set('token', data.token);
+        return AuthenticationProfile.of().token(data.token)
+          .login(rawProfile.email)
+          .firstName(rawProfile.firstName)
+          .lastName(rawProfile.lastName)
+          .password(password).build();
+      })
+      .catch(this.handleError);
   }
 
-  public signup(firstName:string, lastName:string, login:string, password:string):Observable<AuthenticationProfile> {
-    return null;
+  public signup(firstName:string, lastName:string, login:string, password:string):Observable<AuthenticationProfile|string> {
+    return this.http.post('http://localhost:5000/signup', {
+      email: login,
+      password: password,
+      lastname: lastName,
+      firstname: firstName
+    }).map(response => {
+        const data:any = this.extractDataOf(response);
+        const rawProfile = this.jwtHelper.decodeToken(data.token);
+        this.localStorageService.set('token', data.token);
+        return AuthenticationProfile.of().token(data.token)
+          .login(rawProfile.email)
+          .firstName(rawProfile.firstName)
+          .lastName(rawProfile.lastName)
+          .password(password).build();
+      })
+      .catch(this.handleError);
   }
 
   public signout():void {
+    this.localStorageService.remove('token');
   }
 
-  public authenticated():Boolean {
-    return null;
+  public authenticated():boolean {
+    return tokenNotExpired();
   }
 }
