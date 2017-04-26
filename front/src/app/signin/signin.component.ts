@@ -43,6 +43,8 @@ export class SigninComponent implements OnInit {
       })
       .subscribe((authProfile)=> {
           this.router.navigateByUrl('/programme');
+          this.authenticationProfile.profileCompleted = authProfile.profileCompleted;
+          this.authenticationProfile.id = authProfile.id;
           this.localStorage.set('profile', JSON.stringify(this.authenticationProfile));
         },
         (error)=> {

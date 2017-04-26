@@ -54,3 +54,5 @@ back/node_modules/
 back/\.idea/
 
 front/src/app/\.sass-cache/
+
+front/src/assets/fonts/ionicons-2\.0\.1/

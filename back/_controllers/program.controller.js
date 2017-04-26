@@ -20,4 +20,4 @@ class ProgramController {
     }
 }
 
-module.exports = new ProgramController();
+module.exports = ProgramController;

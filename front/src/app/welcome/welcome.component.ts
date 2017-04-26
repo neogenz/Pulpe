@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthenticationService} from "../_services/authentication/authentication.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pulpe-welcome',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService:AuthenticationService, private router:Router) {
+  }
 
   ngOnInit() {
+    if (this.authService.authenticated()) {
+      this.router.navigateByUrl('/accueil');
+    }
   }
 
 }

@@ -44,8 +44,10 @@ import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/ef
 import { ProfileComponent } from './profile/profile.component';
 import { ProfilePhotoComponent } from './profile/profile-photo/profile-photo.component';
 import { ProfileInfosComponent } from './profile/profile-infos/profile-infos.component';
+import { ProfileService } from './profile/profile.service';
+import { ProfileCompletedGuardService } from './_guards/profile-completed-guard.service';
+import { MeasurementEnumService } from './_services/measurement-enum.service';
 import { NavbarComponent } from './navbar/navbar.component';
-
 
 @NgModule({
   declarations: [
@@ -108,7 +110,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     DifficultyConverter,
     ProgramResolver,
     SessionsResolver,
-    AuthenticationGuard
+    ProfileService,
+    AuthenticationGuard,
+    ProfileCompletedGuardService,
+    MeasurementEnumService
   ],
   bootstrap: [AppComponent]
 })
@@ -123,13 +128,13 @@ export function programServiceFactory(IS_PROD:boolean, localStorage:LocalStorage
   return new ProgramMockService();
 }
 
-export function authenticationServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, http:Http){
+export function authenticationServiceFactory(IS_PROD:boolean, localStorage:LocalStorageService, http:Http) {
   //if (IS_PROD) {
-    return new AuthenticationService(http, localStorage);
+  return new AuthenticationService(http, localStorage);
   //}
   //return new AuthenticationMockService(localStorage);
 }
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+export function authHttpServiceFactory(http:Http, options:RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }

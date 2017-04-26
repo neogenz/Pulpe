@@ -16,6 +16,7 @@ export class ObservableHelper {
   }
 
   public handleError(error:any):Observable<string> {
+    debugger;
     return Observable.throw(error.json() || {message: 'Server error'});
   }
 }

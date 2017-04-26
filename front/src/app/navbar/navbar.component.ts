@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterLinkActive} from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLinkActive } from '@angular/router';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import {ProfileService} from "../profile/profile.service";
 
 @Component({
     selector: 'pulpe-navbar',
@@ -9,17 +10,14 @@ import {Router} from '@angular/router';
     styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+    public profileIsCompleted:boolean = false;
 
-    constructor(public auth: AuthenticationService, private router: Router) {
+    constructor(public auth:AuthenticationService, private router:Router, private profileService:ProfileService) {
+        this.profileIsCompleted = this.profileService.profileIsCompleted();
     }
 
-    ngOnInit() {
-
-    }
-
-    public signout(): void {
+    public signout():void{
         this.auth.signout();
         this.router.navigateByUrl('');
     }
-
 }

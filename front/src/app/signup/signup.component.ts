@@ -40,8 +40,9 @@ export class SignupComponent implements OnInit {
         this.slimLoadingBarService.complete();
       })
       .subscribe((authProfile) => {
-          this.router.navigateByUrl('/programme');
+          this.authenticationProfile = authProfile;
           this.localStorage.set('profile', JSON.stringify(this.authenticationProfile));
+          this.router.navigateByUrl('/profil/complete');
         },
         (error) => {
           this.displaySignupError = true;

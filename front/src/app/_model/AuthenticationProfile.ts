@@ -3,20 +3,30 @@ export class AuthenticationProfile {
 
   }
 
+  public id:string;
   public token:string;
   public login:string;
   public password:string;
   public rememberMe:boolean;
   public lastName:string;
   public firstName:string;
+  public profileCompleted:boolean;
 
   public static of():AuthenticationProfileBuilder {
     return new AuthenticationProfileBuilder();
   }
 }
 
+/**
+ * Class used to implement Builder pattern.
+ */
 class AuthenticationProfileBuilder {
   private me:AuthenticationProfile = new AuthenticationProfile();
+
+  public id(id:string):AuthenticationProfileBuilder{
+    this.me.id = id;
+    return this;
+  }
 
   public token(token:string):AuthenticationProfileBuilder {
     this.me.token = token;
@@ -45,6 +55,11 @@ class AuthenticationProfileBuilder {
 
   public firstName(firstName:string):AuthenticationProfileBuilder {
     this.me.firstName = firstName;
+    return this;
+  }
+
+  public profileCompleted(profileCompleted:boolean):AuthenticationProfileBuilder{
+    this.me.profileCompleted = profileCompleted;
     return this;
   }
 

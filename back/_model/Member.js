@@ -4,15 +4,26 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const Measurement = require('./Measurement');
+const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const MemberSchema = new Schema({
   firstName: String,
   lastName: String,
-  dateOfBirth: Date,
+  birthDate: Date,
+  sessionFrequency: Number,
+  objective: {
+    type: String,
+    enum: [
+      ObjectiveEnum.MG.name,
+      ObjectiveEnum.GF.name,
+      ObjectiveEnum.WL.name
+    ]
+  },
   measurements: {type: [Measurement.schema], default: []},
-  gym_id: {type: Schema.ObjectId, ref: 'Gym'},
+  gym_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date,
   password: String,
+  profileCompleted: {type: Boolean, default: false},
   email: {
     type: String,
     unique: true,

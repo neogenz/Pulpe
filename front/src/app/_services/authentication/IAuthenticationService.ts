@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {AuthenticationProfile} from "../../model/AuthenticationProfile";
+import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 export interface IAuthenticationService {
 
   signin(login:string, password:string):Observable<AuthenticationProfile>;
@@ -9,4 +9,6 @@ export interface IAuthenticationService {
   signout():void;
 
   authenticated():boolean;
+
+  getAuthenticationProfileInLocalStorage():AuthenticationProfile;
 }

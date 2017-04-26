@@ -10,7 +10,7 @@ const SessionSchema = new Schema({
     enum: ['UNSTARTED', 'STARTED', 'IN_PROGRESS', 'FINISHED', 'TO_SYNCHRONIZE'],
     default: 'UNSTARTED'
   },
-  exercises: {type: [mongoose.Types.ObjectId], ref:'Exercise', default: []},
+  exercises: {type: [mongoose.Schema.Types.ObjectId], ref: 'Exercise', default: []},
   updatedAt: Date,
   createdAt: Date
 });

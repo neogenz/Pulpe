@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms'
 import {CustomValidators} from "../_formValidators/CustomValidators";
 import * as moment from 'moment/moment';
+import {ProfileService} from "../profile/profile.service";
+import {Measurement} from "../_model/Measurement";
+import {MeasurementEnum} from '../_enums/MeasurementEnum';
+import {Member} from "../_model/Member";
+import {Observable} from "rxjs/Observable";
+import {AuthenticationProfile} from "../_model/AuthenticationProfile";
+import {LocalStorageService} from "angular-2-local-storage/dist/index";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pulpe-profile-completation',
@@ -18,19 +26,19 @@ export class ProfileCompletationComponent implements OnInit {
   public objectiveChoices = [
     {
       checked: false,
-      value: 'general',
+      value: 'GF',
       picture: '../../assets/img/exercise-types/stationary-bike-64.png',
       display: 'Forme générale'
     },
     {
       checked: false,
-      value: 'massGainer',
+      value: 'MG',
       picture: '../../assets/img/exercise-types/strength-64.png',
       display: 'Prise de masse'
     },
     {
       checked: false,
-      value: 'weightLoss',
+      value: 'WL',
       picture: '../../assets/img/exercise-types/weight-64.png',
       display: 'Perte de poids'
     }
@@ -42,7 +50,7 @@ export class ProfileCompletationComponent implements OnInit {
   private weightRange:any;
   public debug:boolean;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder, private profileService:ProfileService, private localStorageService:LocalStorageService, private router:Router) {
     this.sizesRange = {
       min: 50,
       max: 250
@@ -118,7 +126,27 @@ export class ProfileCompletationComponent implements OnInit {
   }
 
   public complete() {
-    console.log(this.profilCompleteForm.value);
+    const size = Measurement.of()
+      .name(MeasurementEnum.Name.Size)
+      .unit(MeasurementEnum.Unit.Centimeter)
+      .value(this.sizeCtrl.value)
+      .build();
+
+    const weight = Measurement.of()
+      .name(MeasurementEnum.Name.Weight)
+      .unit(MeasurementEnum.Unit.Kilogram)
+      .value(this.weightCtrl.value)
+      .build();
+
+
+    const httpRequest:Observable<AuthenticationProfile|string> = this.profileService.completeProfile(size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
+    httpRequest.subscribe(
+      authProfile=> {
+        this.localStorageService.set('profile', JSON.stringify(authProfile));
+        this.router.navigateByUrl('/accueil');
+      },
+      error=>console.error(error)
+    );
   }
 
   private buildToBeOldEnoughDate():string {

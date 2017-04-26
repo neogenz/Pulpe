@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable}     from 'rxjs/Observable';
-import {Member} from "../model/Member";
+import {Member} from "../_model/Member";
 import {environment} from '../../environments/environment'
-import {Session} from "../model/Session";
+import {Session} from "../_model/Session";
 
 @Injectable()
 export class SessionsService {

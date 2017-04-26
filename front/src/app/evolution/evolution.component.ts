@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Program} from "../model/Program";
+import {Program} from "../_model/Program";
 
 @Component({
     selector: 'pulpe-evolution',

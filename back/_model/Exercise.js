@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ExerciseSchema = new Schema({
   name: String,
-  machines_id: {type: [mongoose.Types.ObjectId], default: []},
+  machines_id: {type: [mongoose.Schema.Types.ObjectId], default: []},
   updatedAt: Date,
   createdAt: Date
 });
