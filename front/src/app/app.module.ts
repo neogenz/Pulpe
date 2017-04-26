@@ -11,8 +11,7 @@ import { ChartsModule } from 'ng2-charts';
 import { LocalStorageModule, LocalStorageService } from 'angular-2-local-storage';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './Home/HomeComponent';
-import { MenuBarComponent } from './MenuBar/MenuBarComponent';
+import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './Signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { ProfileCompletationComponent } from './profile-completation/profile-completation.component';
@@ -45,6 +44,7 @@ import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/ef
 import { ProfileComponent } from './profile/profile.component';
 import { ProfilePhotoComponent } from './profile/profile-photo/profile-photo.component';
 import { ProfileInfosComponent } from './profile/profile-infos/profile-infos.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @NgModule({
@@ -54,7 +54,6 @@ import { ProfileInfosComponent } from './profile/profile-infos/profile-infos.com
     SignupComponent,
     ProfileCompletationComponent,
     HomeComponent,
-    MenuBarComponent,
     ProgramComponent,
     ExercisePreviewComponent,
     SessionsComponent,
@@ -68,7 +67,8 @@ import { ProfileInfosComponent } from './profile/profile-infos/profile-infos.com
     EfficientLineGraphComponent,
     ProfileComponent,
     ProfilePhotoComponent,
-    ProfileInfosComponent
+    ProfileInfosComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

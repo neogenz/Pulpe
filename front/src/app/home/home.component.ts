@@ -1,11 +1,18 @@
-import { Component, VERSION } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'pulpe-home-cmp',
-    templateUrl: './HomeView.html',
+    selector: 'pulpe-home',
+    templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
     folders = [
         {
             name: 'Séance du Mercredi',
@@ -29,11 +36,11 @@ export class HomeComponent {
 
     pecDisplayed = false;
 
-    public displayPec():void{
+    public displayPec(): void {
         this.pecDisplayed = true;
     }
 
-    public hidePec():void{
+    public hidePec(): void {
         this.pecDisplayed = false;
     }
 }

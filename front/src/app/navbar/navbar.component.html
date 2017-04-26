@@ -1,0 +1,35 @@
+<ng2-slim-loading-bar [height]="'4px'"></ng2-slim-loading-bar>
+<nav class="navbar navbar-toggleable-md navbar-light fixed-top shadow white">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <ul class="nav navbar-nav mx-auto w-100">
+      <a class="nav-item nav-link" [routerLinkActive]="['active']" *ngIf="auth.authenticated()"
+         routerLink="/programme">Mon programme <span
+              class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" [routerLinkActive]="['active']" *ngIf="auth.authenticated()"
+         routerLink="/evolution">Mon
+        évolution</a>
+      <a class="nav-item nav-link" [routerLinkActive]="['active']" *ngIf="auth.authenticated()"
+         routerLink="/seances">Mes séances</a>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="auth.authenticated()">
+
+      <li class="nav-item dropdown">
+        <a class="nav-item nav-link myAccount" [routerLinkActive]="['active']"
+           data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i
+                class="ion-ios-contact-outline"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item nav-link nav-item" routerLink="/profil">Mon profil</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item nav-link nav-item" (click)="signout()">Déconnexion</a>
+          <!--<a class="dropdown-item" href="#">Separated link</a>-->
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
