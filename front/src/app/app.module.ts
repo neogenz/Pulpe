@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http'; //Http class used to can be imported manually in useFactory
 import { RouterModule } from '@angular/router'
 import { ROUTES } from './app.routes'; // ROUTING HERE!
@@ -27,19 +27,19 @@ import { SessionsComponent } from './sessions/sessions.component';
 import { PageTitleComponent } from './shared/page-title/page-title.component';
 import { SimpleCounterWithIconComponent } from './shared/simple-counter-with-icon/simple-counter-with-icon.component';
 import { ExercisesRepartitionGraphComponent } from './program/exercises-repartition-graph/exercises-repartition-graph.component';
-import {ProgramResolver} from "./program/program.resolver";
+import { ProgramResolver } from "./program/program.resolver";
 import { SessionObjectiveComponent } from './sessions/session-objective/session-objective.component';
-import {AuthenticationService} from "./_services/authentication/authentication.service";
-import {AuthenticationGuard} from './_guards/authentication-guard.service';
-import {AuthHttp} from "angular2-jwt/angular2-jwt";
-import {SlimLoadingBarModule} from "ng2-slim-loading-bar/index";
-import {AuthenticationMockService} from './_services/authentication/authentication-mock.service'
-import {IAuthenticationService} from "./_services/authentication/IAuthenticationService";
-import {AuthConfig} from "angular2-jwt/angular2-jwt";
+import { AuthenticationService } from "./_services/authentication/authentication.service";
+import { AuthenticationGuard } from './_guards/authentication-guard.service';
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import { SlimLoadingBarModule } from "ng2-slim-loading-bar/index";
+import { AuthenticationMockService } from './_services/authentication/authentication-mock.service'
+import { IAuthenticationService } from "./_services/authentication/IAuthenticationService";
+import { AuthConfig } from "angular2-jwt/angular2-jwt";
 import { WelcomeComponent } from './welcome/welcome.component';
-import {SessionListComponent} from "./sessions/session-list/session-list.component";
-import {SessionsResolver} from "./sessions/sessions.resolver";
-import {SessionsService} from "./sessions/sessions.service";
+import { SessionListComponent } from "./sessions/session-list/session-list.component";
+import { SessionsResolver } from "./sessions/sessions.resolver";
+import { SessionsService } from "./sessions/sessions.service";
 import { EvolutionComponent } from './evolution/evolution.component';
 import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/efficient-line-graph.component';
 
@@ -72,6 +72,7 @@ import { EfficientLineGraphComponent } from './evolution/efficient-line-graph/ef
     RouterModule.forRoot(ROUTES),
     SlimLoadingBarModule.forRoot(),
     ChartsModule,
+    ReactiveFormsModule,
     LocalStorageModule.withConfig({
       prefix: '',
       storageType: 'localStorage'
