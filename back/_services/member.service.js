@@ -1,8 +1,9 @@
 const MongoError = require('../_helpers/MONGO_ERROR.json');
-const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
-const NotFoundError = require('../_model/Errors').NotFoundError;
 const Member = require('../_model/Member');
 const Measurement = require('../_model/Measurement');
+const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
+const NotFoundError = require('../_model/Errors').NotFoundError;
+const TechnicalError = require('../_model/Errors').TechnicalError;
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -100,7 +101,7 @@ class MemberService {
                     return member;
                 },
                 (error) => {
-                    throw error;
+                    throw new TechnicalError(error.message);
                 }
             ).catch((error) => {
                 throw error;

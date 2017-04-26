@@ -10,11 +10,16 @@ class ExtendableError extends Error {
   }
 }
 
+class TechnicalError extends ExtendableError {
+}
+
 class AlreadyExistError extends ExtendableError {
 }
 
 class NotFoundError extends ExtendableError{
 }
 
+module.exports.TechnicalError = TechnicalError;
 module.exports.AlreadyExistError = AlreadyExistError;
 module.exports.NotFoundError = NotFoundError;
+
