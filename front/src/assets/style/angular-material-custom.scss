@@ -31,19 +31,19 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   border-top-style: solid;
 }
 
-md-input-container.ng-touched.ng-invalid .mat-input-placeholder {
+md-input-container.ng-dirty.ng-invalid .mat-input-placeholder {
   color: red;
 }
 
-md-input-container.ng-touched.ng-invalid .mat-input-underline {
+md-input-container.ng-dirty.ng-invalid .mat-input-underline {
   border-color: red;
 }
 
-md-input-container.ng-touched.ng-invalid .mat-input-ripple {
+md-input-container.ng-dirty.ng-invalid .mat-input-ripple {
   background-color: red;
 }
 
-md-input-container.ng-touched.ng-invalid md-hint {
+md-input-container.ng-dirty.ng-invalid md-hint {
   color: red;
 }
 

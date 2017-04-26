@@ -20,30 +20,57 @@
                     </div>
                 </div>
                 <div class="row pt-4">
-                    <div class="col-md-8 offset-md-2">
+                    <div class="col-md-8 offset-md-2 form-group">
                         <div class="row">
                             <md-input-container class="col-md-5">
                                 <input id="inputSize" type="number" mdInput
-                                       placeholder="Saisissez votre taille" formControlName="size">
+                                       placeholder="Saisissez votre taille (cm)" formControlName="size" required>
                                 <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('required')"
-                                         class="form-control-feedback">Votre login est
-                                    obligatoire.
+                                         class="form-control-feedback">{{errorTranslations.size.required}}
+                                </md-hint>
+                                <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('maxValue')"
+                                         class="form-control-feedback">{{errorTranslations.size.maxValue}}
+                                </md-hint>
+                                <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('minValue')"
+                                         class="form-control-feedback">{{errorTranslations.size.minValue}}
                                 </md-hint>
                             </md-input-container>
+                            <pre class="col-md-12" *ngIf="debug">{{sizeCtrl.errors | json}}</pre>
                             <md-input-container class="col-md-5 offset-md-2">
                                 <input id="inputWeight" type="number" mdInput
-                                       placeholder="Saisissez votre poids">
+                                       placeholder="Saisissez votre poids" formControlName="weight" required>
+                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('required')"
+                                         class="form-control-feedback">{{errorTranslations.weight.required}}
+                                </md-hint>
+                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('maxValue')"
+                                         class="form-control-feedback">{{errorTranslations.weight.maxValue}}
+                                </md-hint>
+                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('minValue')"
+                                         class="form-control-feedback">{{errorTranslations.weight.minValue}}
+                                </md-hint>
                             </md-input-container>
+                            <pre class="col-md-12" *ngIf="debug">{{weightCtrl.errors | json}}</pre>
                         </div>
                     </div>
-                    <md-input-container class="col-md-8 offset-md-2">
-                        <input id="inputDateOfBirth" type="date" mdInput
-                               placeholder="Saisissez votre date de naissance">
+                    <md-input-container class="col-md-8 offset-md-2 form-group">
+                        <input id="inputDateOfBirth" type="date" mdInput formControlName="birthdate"
+                               placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
                     </md-input-container>
-                    <md-input-container class="col-md-8 offset-md-2">
-                        <input id="inputFrequency" type="number" mdInput
-                               placeholder="Saisissez la fréquence à votre salle de sport">
+                    <pre class="col-md-8 offset-md-2" *ngIf="debug">{{birthdateCtrl.errors | json}}</pre>
+                    <md-input-container class="col-md-8 offset-md-2 form-group" required>
+                        <input id="inputFrequency" type="number" mdInput formControlName="frequency"
+                               placeholder="Saisissez la fréquence à votre salle de sport" required>
+                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('required')"
+                                 class="form-control-feedback">{{errorTranslations.frequency.required}}
+                        </md-hint>
+                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('maxValue')"
+                                 class="form-control-feedback">{{errorTranslations.frequency.maxValue}}
+                        </md-hint>
+                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('minValue')"
+                                 class="form-control-feedback">{{errorTranslations.frequency.minValue}}
+                        </md-hint>
                     </md-input-container>
+                    <pre class="col-md-8 offset-md-2" *ngIf="debug">{{frequencyCtrl.errors | json}}</pre>
                 </div>
             </md-card>
         </div>
@@ -76,20 +103,20 @@
             </md-card>
         </div>
     </div>
-    <div class="row pt-4">
+    <div class="row mt-4">
 
-        <div class="form-group mb-3">
-            <div class="col-md-4 offset-md-4">
-                <!--[class.disabled]="completion"-->
-                <button type="button" class="btn btn-lg btn-primary text-white w-100" type="submit"
-                        [disabled]="profilCompleteForm.invalid">
-                    Go !
-                </button>
-            </div>
+        <!--<div class="form-group mb-3">-->
+        <div class="col-md-4 offset-md-4">
+            <!--[class.disabled]="completion"-->
+            <button type="button" class="btn btn-lg btn-primary text-white w-100" type="submit"
+                    [disabled]="profilCompleteForm.invalid">
+                Go !
+            </button>
+            <!--</div>-->
         </div>
 
     </div>
 </form>
 
-<pre>{{profilCompleteForm.value | json }}</pre>
+<pre *ngIf="debug">{{profilCompleteForm.value | json }}</pre>
 
