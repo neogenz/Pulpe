@@ -4,11 +4,11 @@ import { ColorConfiguration } from "./ColorConfiguration";
 import {ProgramService} from "./program.service";
 import { ActivatedRoute } from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
-import {Program} from "../model/Program";
+import {Program} from "../_model/Program";
 import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
 import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
 import {ChartConfiguration} from "../shared/ChartConfiguration";
-import {AbstractExercise} from "../model/exercise/AbstractExercise";
+import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {BaseChartDirective} from "ng2-charts/index";
 
 @Component({

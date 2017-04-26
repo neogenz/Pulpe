@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
-import { Member } from "../model/Member";
+import { Member } from "../_model/Member";
 import { LocalStorageService } from 'angular-2-local-storage';
 import { environment } from '../../environments/environment'
-import {Program} from "../model/Program";
-import {AbstractExercise} from "../model/exercise/AbstractExercise";
+import {Program} from "../_model/Program";
+import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p

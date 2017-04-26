@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar/index";
 import {Router} from '@angular/router';
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
-import {AuthenticationProfile} from "../model/AuthenticationProfile";
+import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 
 
 @Component({

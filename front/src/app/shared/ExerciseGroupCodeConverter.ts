@@ -1,4 +1,4 @@
-import {AbstractExercise} from "../model/exercise/AbstractExercise";
+import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 
 /**
  * Class used to convert raw exercises group code to label

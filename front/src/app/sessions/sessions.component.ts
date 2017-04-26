@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
 import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
-import {Session} from "../model/Session";
+import {Session} from "../_model/Session";
 import {SessionsService} from "./sessions.service";
 
 @Component({
