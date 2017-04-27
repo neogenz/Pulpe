@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {RouterLinkActive} from '@angular/router';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import {ProfileService} from "../profile/profile.service";
 
 @Component({
@@ -10,18 +10,21 @@ import {ProfileService} from "../profile/profile.service";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  public profileIsCompleted:boolean = false;
+  public profileIsCompleted: boolean = false;
+  public authenticated: boolean = false;
 
-  constructor(public auth:AuthenticationService, private router:Router, private profileService:ProfileService) {
+  constructor(public auth: AuthenticationService, private router: Router, public profileService: ProfileService) {
     this.profileIsCompleted = this.profileService.profileIsCompleted();
+    this.authenticated = this.auth.authenticated();
   }
 
-  public signout():void {
+  public signout(): void {
     this.auth.signout();
     this.router.navigateByUrl('');
+    this.authenticated = false;
+    this.profileIsCompleted = false;
   }
 
-
-  ngOnInit():void {
+  ngOnInit(): void {
   }
 }

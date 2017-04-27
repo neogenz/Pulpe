@@ -19,4 +19,8 @@ export class ObservableHelper {
     debugger;
     return Observable.throw(error.json() || {message: 'Server error'});
   }
+
+  static test(){
+
+  }
 }

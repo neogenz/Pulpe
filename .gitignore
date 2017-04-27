@@ -70,3 +70,5 @@ front/src/assets/style/**/*.css.map
 front/src/assets/fonts/fitness-font\.zip
 
 front/src/assets/fonts/ionicons-2\.0\.1\.zip
+
+front/src/assets/\.sass-cache/

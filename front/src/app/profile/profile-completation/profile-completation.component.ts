@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms'
-import {CustomValidators} from "../_formValidators/CustomValidators";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms'
+import {CustomValidators} from "../../_formValidators/CustomValidators";
 import * as moment from 'moment/moment';
-import {ProfileService} from "../profile/profile.service";
-import {Measurement} from "../_model/Measurement";
-import {MeasurementEnum} from '../_enums/MeasurementEnum';
-import {Member} from "../_model/Member";
+import {ProfileService} from "../../profile/profile.service";
+import {Measurement} from "../../_model/Measurement";
+import {MeasurementEnum} from '../../_enums/MeasurementEnum';
 import {Observable} from "rxjs/Observable";
-import {AuthenticationProfile} from "../_model/AuthenticationProfile";
+import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pulpe-profile-completation',
@@ -17,12 +16,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile-completation.component.css']
 })
 export class ProfileCompletationComponent implements OnInit {
-  public profilCompleteForm:FormGroup;
-  public sizeCtrl:FormControl;
-  public objectiveCtrl:FormControl;
-  public weightCtrl:FormControl;
-  public birthdateCtrl:FormControl;
-  public frequencyCtrl:FormControl;
+  public profileCompleteForm: FormGroup;
+  public sizeCtrl: FormControl;
+  public objectiveCtrl: FormControl;
+  public weightCtrl: FormControl;
+  public birthdateCtrl: FormControl;
+  public frequencyCtrl: FormControl;
   public objectiveChoices = [
     {
       checked: false,
@@ -43,14 +42,14 @@ export class ProfileCompletationComponent implements OnInit {
       display: 'Perte de poids'
     }
   ];
-  public errorTranslations:any;
-  private sizesRange:any;
-  private frequencyRange:any;
-  private maximumBirthdate:string;
-  private weightRange:any;
-  public debug:boolean;
+  public errorTranslations: any;
+  private sizesRange: any;
+  private frequencyRange: any;
+  private maximumBirthdate: string;
+  private weightRange: any;
+  public debug: boolean;
 
-  constructor(fb:FormBuilder, private profileService:ProfileService, private localStorageService:LocalStorageService, private router:Router) {
+  constructor(fb: FormBuilder, private profileService: ProfileService, private localStorageService: LocalStorageService, private router: Router) {
     this.sizesRange = {
       min: 50,
       max: 250
@@ -85,7 +84,7 @@ export class ProfileCompletationComponent implements OnInit {
     this.buildForm(fb);
   }
 
-  private buildForm(fb:FormBuilder) {
+  private buildForm(fb: FormBuilder) {
     this.sizeCtrl = fb.control('', [
       Validators.required,
       CustomValidators.minValue(this.sizesRange.min),
@@ -102,7 +101,7 @@ export class ProfileCompletationComponent implements OnInit {
       CustomValidators.minValue(this.frequencyRange.min),
       CustomValidators.maxValue(this.frequencyRange.max)
     ]);
-    this.profilCompleteForm = fb.group({
+    this.profileCompleteForm = fb.group({
       size: this.sizeCtrl,
       objective: this.objectiveCtrl,
       weight: this.weightCtrl,
@@ -120,7 +119,7 @@ export class ProfileCompletationComponent implements OnInit {
     choice.checked = true;
   }
 
-  private resetChoices():void {
+  private resetChoices(): void {
     this.objectiveChoices.forEach(objective => objective.checked = false);
     this.objectiveCtrl.setValue('');
   }
@@ -139,17 +138,17 @@ export class ProfileCompletationComponent implements OnInit {
       .build();
 
 
-    const httpRequest:Observable<AuthenticationProfile|string> = this.profileService.completeProfile(size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
+    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeProfile(size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
     httpRequest.subscribe(
-      authProfile=> {
+      authProfile => {
         this.localStorageService.set('profile', JSON.stringify(authProfile));
         this.router.navigateByUrl('/accueil');
       },
-      error=>console.error(error)
+      error => console.error(error)
     );
   }
 
-  private buildToBeOldEnoughDate():string {
+  private buildToBeOldEnoughDate(): string {
     const maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() - 14);
     maxDate.setMonth(0);

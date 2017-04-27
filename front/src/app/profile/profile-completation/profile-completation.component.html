@@ -2,20 +2,18 @@
     <div class="col-md-12">
         <md-card class="text-center">
             <h2 class=" title pt-1">Complèter votre profil</h2>
-            <h4 class="subtitle text-center pt-2">Ces informations nous permettront d'en savoir
-                plus sur vous.</h4>
+            <h4 class="subtitle text-center pt-2">Ces informations nous permettront d'en savoir plus sur vous.</h4>
         </md-card>
     </div>
 </div>
-<form (ngSubmit)="complete()" [formGroup]="profilCompleteForm">
+<form (ngSubmit)="complete()" [formGroup]="profileCompleteForm">
     <div class="row card-cascade-parent pt-1">
         <div class="col-md-12">
             <md-card class="pt-0 white">
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
                         <md-card class="bg-primary-color card-cascade">
-                            <h4 class="text-light-weight">Commençons par les détails de
-                                base.</h4>
+                            <h4 class="text-light-weight">Commençons par les détails de base.</h4>
                         </md-card>
                     </div>
                 </div>
@@ -109,7 +107,7 @@
         <div class="col-md-4 offset-md-4">
             <!--[class.disabled]="completion"-->
             <button type="button" class="btn btn-lg btn-primary text-white w-100" type="submit"
-                    [disabled]="profilCompleteForm.invalid">
+                    [disabled]="profileCompleteForm.invalid">
                 Go !
             </button>
             <!--</div>-->
@@ -118,5 +116,5 @@
     </div>
 </form>
 
-<pre *ngIf="debug">{{profilCompleteForm.value | json }}</pre>
+<pre *ngIf="debug">{{profileCompleteForm.value | json }}</pre>
 

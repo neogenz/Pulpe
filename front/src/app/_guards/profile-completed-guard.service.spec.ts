@@ -1,15 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
-import { ProfilCompletedGuardService } from './profil-completed-guard.service';
+import {ProfileCompletedGuardService} from './profile-completed-guard.service';
 
 describe('ProfileCompletedGuardService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProfilCompletedGuardService]
+      providers: [ProfileCompletedGuardService]
     });
   });
 
-  it('should ...', inject([ProfilCompletedGuardService], (service: ProfilCompletedGuardService) => {
+  it('should ...', inject([ProfileCompletedGuardService], (service: ProfileCompletedGuardService) => {
     expect(service).toBeTruthy();
   }));
 });

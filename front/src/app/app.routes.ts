@@ -4,7 +4,7 @@ import {SigninComponent} from './signin/signin.component';
 import {EvolutionComponent} from './evolution/evolution.component';
 import {ProgramComponent} from './program/program.component';
 import {SignupComponent} from './Signup/signup.component';
-import {ProfileCompletationComponent} from './profile-completation/profile-completation.component';
+import {ProfileCompletationComponent} from './profile/profile-completation/profile-completation.component';
 import {SessionsComponent} from "./sessions/sessions.component";
 import {ProgramResolver} from "./program/program.resolver";
 import {AuthenticationGuard} from "./_guards/authentication-guard.service";
@@ -14,7 +14,7 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
 
 // Route Configuration
-export const ROUTES:Routes = [
+export const ROUTES: Routes = [
   {
     path: '',
     component: WelcomeComponent,
@@ -23,7 +23,7 @@ export const ROUTES:Routes = [
   {
     path: 'accueil',
     component: HomeComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
   },
   {
     path: 'inscription',
