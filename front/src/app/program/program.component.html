@@ -17,7 +17,6 @@
             </pulpe-simple-counter-with-icon>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-4 mb-2">
             <md-card class="goals h-100">
@@ -32,28 +31,29 @@
             </md-card>
         </div>
         <div class="col-md-8 mb-2">
-            <pulpe-exercises-repartition-graph [program]="program" (programLoaded)="programLoadedCallback"></pulpe-exercises-repartition-graph>
+            <pulpe-exercises-repartition-graph [program]="program"
+                                               (programLoaded)="programLoadedCallback"></pulpe-exercises-repartition-graph>
             <!--<md-card class="goals h-100">-->
 
-                <!--<div class="row mb-2">-->
-                    <!--<div class="col-md-12">-->
-                        <!--<p class="lead text-light-weight text-center mb-0">Répartition des exercices</p>-->
-                    <!--</div>-->
-                    <!--<hr class="w-100">-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                    <!--<div class="w-100" style="max-height: 20vh;">-->
-                        <!--<canvas baseChart-->
-                                <!--[datasets]="chartData"-->
-                                <!--[labels]="chartLabels"-->
-                                <!--[options]="chartOptions"-->
-                                <!--[legend]="chartLegends"-->
-                                <!--[colors]="chartColors"-->
-                                <!--[chartType]="chartType"-->
-                                <!--(chartHover)="chartHovered($event)"-->
-                                <!--(chartClick)="chartClicked($event)"></canvas>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div class="row mb-2">-->
+            <!--<div class="col-md-12">-->
+            <!--<p class="lead text-light-weight text-center mb-0">Répartition des exercices</p>-->
+            <!--</div>-->
+            <!--<hr class="w-100">-->
+            <!--</div>-->
+            <!--<div class="row">-->
+            <!--<div class="w-100" style="max-height: 20vh;">-->
+            <!--<canvas baseChart-->
+            <!--[datasets]="chartData"-->
+            <!--[labels]="chartLabels"-->
+            <!--[options]="chartOptions"-->
+            <!--[legend]="chartLegends"-->
+            <!--[colors]="chartColors"-->
+            <!--[chartType]="chartType"-->
+            <!--(chartHover)="chartHovered($event)"-->
+            <!--(chartClick)="chartClicked($event)"></canvas>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</md-card>-->
         </div>
     </div>

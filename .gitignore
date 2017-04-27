@@ -58,3 +58,15 @@ front/src/app/\.sass-cache/
 front/src/assets/fonts/ionicons-2\.0\.1/
 
 back/_db/
+
+#css/js generated
+front/src/app/**/*.css
+front/src/app/**/*.css.map
+front/src/app/**/*.js.map
+front/src/app/**/*.js
+front/src/assets/style/**/*.css
+front/src/assets/style/**/*.css.map
+
+front/src/assets/fonts/fitness-font\.zip
+
+front/src/assets/fonts/ionicons-2\.0\.1\.zip

@@ -16,7 +16,7 @@ export class ProgramMockService {
    * @returns {Observable<Program>}
    */
   findBy(member:Member):Observable<Program> {
-    console.debug('Call on FakeStepsService');
+    // console.debug('Call on FakeStepsService');
     return Observable.of(new Program());
   }
 }
