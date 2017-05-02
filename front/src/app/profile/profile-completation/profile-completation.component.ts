@@ -9,20 +9,29 @@ import {Observable} from "rxjs/Observable";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {Router} from '@angular/router';
+import {OnError} from "../../_helpers/IUIErrorHandlerHelper";
 
 @Component({
   selector: 'pulpe-profile-completation',
   templateUrl: './profile-completation.component.html',
   styleUrls: ['./profile-completation.component.css']
 })
-export class ProfileCompletationComponent implements OnInit {
-  public profileCompleteForm: FormGroup;
-  public sizeCtrl: FormControl;
-  public objectiveCtrl: FormControl;
-  public weightCtrl: FormControl;
-  public birthdateCtrl: FormControl;
-  public frequencyCtrl: FormControl;
-  public objectiveChoices = [
+export class ProfileCompletationComponent implements OnInit, OnError {
+  isInError: boolean;
+  errorMsg: string;
+  profileCompleteForm: FormGroup;
+  sizeCtrl: FormControl;
+  objectiveCtrl: FormControl;
+  weightCtrl: FormControl;
+  birthdateCtrl: FormControl;
+  frequencyCtrl: FormControl;
+  errorTranslations: any;
+  private sizesRange: any;
+  private frequencyRange: any;
+  private maximumBirthdate: string;
+  private weightRange: any;
+  debug: boolean;
+  objectiveChoices = [
     {
       checked: false,
       value: 'GF',
@@ -42,12 +51,6 @@ export class ProfileCompletationComponent implements OnInit {
       display: 'Perte de poids'
     }
   ];
-  public errorTranslations: any;
-  private sizesRange: any;
-  private frequencyRange: any;
-  private maximumBirthdate: string;
-  private weightRange: any;
-  public debug: boolean;
 
   constructor(fb: FormBuilder, private profileService: ProfileService, private localStorageService: LocalStorageService, private router: Router) {
     this.sizesRange = {
@@ -113,7 +116,7 @@ export class ProfileCompletationComponent implements OnInit {
   ngOnInit() {
   }
 
-  public check(choice) {
+  check(choice) {
     this.resetChoices();
     this.objectiveCtrl.setValue(choice.value);
     choice.checked = true;
@@ -124,7 +127,7 @@ export class ProfileCompletationComponent implements OnInit {
     this.objectiveCtrl.setValue('');
   }
 
-  public complete() {
+  complete() {
     const size = Measurement.of()
       .name(MeasurementEnum.Name.Size)
       .unit(MeasurementEnum.Unit.Centimeter)
@@ -144,8 +147,20 @@ export class ProfileCompletationComponent implements OnInit {
         this.localStorageService.set('profile', JSON.stringify(authProfile));
         this.router.navigateByUrl('/accueil');
       },
-      error => console.error(error)
+      errorMsg => {
+        this.displayErrorMsg(errorMsg);
+      }
     );
+  }
+
+  displayErrorMsg(errorMsg: string) {
+    this.isInError = true;
+    this.errorMsg = errorMsg;
+  }
+
+  hideErrorMsg() {
+    this.isInError = false;
+    this.errorMsg = '';
   }
 
   private buildToBeOldEnoughDate(): string {

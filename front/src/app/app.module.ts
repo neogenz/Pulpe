@@ -45,6 +45,8 @@ import {ProfileService} from './profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
 import {NavbarComponent} from './navbar/navbar.component';
+import {NgxErrorsModule} from '@ultimate/ngxerrors';
+
 
 @NgModule({
   declarations: [
@@ -78,6 +80,7 @@ import {NavbarComponent} from './navbar/navbar.component';
     SlimLoadingBarModule.forRoot(),
     ChartsModule,
     ReactiveFormsModule,
+    NgxErrorsModule,
     LocalStorageModule.withConfig({
       prefix: '',
       storageType: 'localStorage'

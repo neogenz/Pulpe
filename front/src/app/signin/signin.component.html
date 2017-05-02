@@ -25,51 +25,52 @@
                                 <div class="col-md-12 col-12 pt-2">
                                     <h2 class="pt-1 text-center text-md-left text-primary">Connexion</h2>
                                 </div>
-                                <div *ngIf="displaySigninError" class="col-md-12 col-12 pr-md-4">
+                                <div *ngIf="isInError" class="col-md-12 col-12 pr-md-4">
                                     <div class="alert alert-danger">
-                                        {{errorMessage}}
+                                        {{errorMsg}}
                                     </div>
                                 </div>
-                                <form (ngSubmit)="signin()" #authForm="ngForm">
-                                    <div class="form-group"
-                                         [class.has-danger]="login.dirty && login.hasError('required')">
+                                <form (ngSubmit)="signin()" #authForm="ngForm" [formGroup]="signinForm">
+                                    <div class="form-group">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-envelope prefix my-auto pr-0"></i>
-                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                        <md-input-container class="col-7 col-md-8" color="primary" ngxErrors="email">
                                             <input id="inputEmail" mdInput type="email"
                                                    placeholder="Saisissez votre email"
-                                                   [(ngModel)]="authenticationProfile.login"
-                                                   name="authenticationProfile.login" required #login="ngModel">
-                                            <md-hint *ngIf="login.dirty && login.hasError('required')"
-                                                     class="form-control-feedback">Votre login est
-                                                obligatoire.
+                                                   formControlName="email"
+                                                   required>
+                                            <md-hint ngxError="required" [when]="['dirty']"
+                                                     class="form-control-feedback">
+                                                Votre email est obligatoire.
                                             </md-hint>
                                         </md-input-container>
                                     </div>
-                                    <div class="form-group"
-                                         [class.has-danger]="password.dirty && password.hasError('required')">
+                                    <div class="form-group">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-lock prefix my-auto pr-0"></i>
-                                        <md-input-container class="col-7 col-md-8">
+                                        <md-input-container class="col-7 col-md-8" ngxErrors="password">
                                             <input id="inputPassword" type="password" mdInput
                                                    placeholder="Saisissez votre mot de passe"
-                                                   [(ngModel)]="authenticationProfile.password"
-                                                   name="authenticationProfile.password" required #password="ngModel">
-                                            <md-hint *ngIf="password.dirty && password.hasError('required')"
-                                                     class="form-control-feedback">Votre mot de passe est
-                                                obligatoire.
+                                                   formControlName="password"
+                                                   required>
+                                            <md-hint ngxError="required" [when]="['dirty']"
+                                                     class="form-control-feedback">
+                                                Votre mot de passe est obligatoire.
+                                            </md-hint>
+                                            <md-hint ngxError="minlength" [when]="['dirty', 'touched']" align="bottom"
+                                                     class="form-control-feedback">
+                                                Le mot de passe doit faire au minimum 6 caractères.
                                             </md-hint>
                                         </md-input-container>
                                     </div>
                                     <div class="form-group">
                                         <md-checkbox class="offset-md-2 col-md-10 offset-3 col-9"
-                                                     [(ngModel)]="authenticationProfile.rememberMe"
-                                                     name="authenticationProfile.rememberMe">Se souvenir de moi
+                                                     formControlName="rememberMe">Se souvenir de moi
                                         </md-checkbox>
                                     </div>
                                     <div class="form-group mb-3">
                                         <div class="offset-md-7 col-md-5 col-12 bottom-md-right">
-                                            <button [class.disabled]="signing" type="button"
+                                            <button [class.disabled]="signinForm.invalid" type="button"
                                                     class="btn btn-lg btn-primary text-white w-100" type="submit"
-                                                    [disabled]="!authForm.valid">
+                                                    [disabled]="signinForm.invalid">
                                                 Se
                                                 connecter
                                             </button>

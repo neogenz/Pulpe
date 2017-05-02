@@ -102,6 +102,13 @@
         </div>
     </div>
     <div class="row mt-4">
+        <div *ngIf="isInError" class="col-md-12 col-12">
+            <div class="alert alert-danger">
+                {{errorMsg}}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
 
         <!--<div class="form-group mb-3">-->
         <div class="col-md-4 offset-md-4">
