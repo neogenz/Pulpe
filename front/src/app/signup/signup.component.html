@@ -31,45 +31,42 @@
                                     </div>
                                 </div>
                                 <form (ngSubmit)="signup()" [formGroup]="signupForm">
-                                    <div class="form-group"
-                                         [class.has-danger]="lastNameCtrl.dirty && lastNameCtrl.hasError('required')">
+                                    <div class="form-group">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-user prefix my-auto pr-0"></i>
-                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                        <md-input-container class="col-7 col-md-8" ngxErrors="lastName">
                                             <input id="inputLastname" mdInput
                                                    type="text"
                                                    placeholder="Saisissez votre nom"
                                                    formControlName="lastName"
                                                    required>
-                                            <md-hint *ngIf="lastNameCtrl.dirty && lastNameCtrl.hasError('required')"
+                                            <md-hint ngxError="required" [when]="['dirty']"
                                                      class="form-control-feedback">Votre nom est obligatoire.
                                             </md-hint>
                                         </md-input-container>
                                     </div>
 
-                                    <div class="form-group"
-                                         [class.has-danger]="firstNameCtrl.dirty && firstNameCtrl.hasError('required')">
-                                        <md-input-container class="col-7 col-md-8 offset-md-2 offset-3" color="primary">
+                                    <div class="form-group">
+                                        <md-input-container class="col-7 col-md-8 offset-md-2 offset-3" ngxErrors="firstName">
                                             <input id="inputFirstName" mdInput
                                                    type="text"
                                                    placeholder="Saisissez votre prénom"
                                                    formControlName="firstName"
                                                    required>
-                                            <md-hint *ngIf="firstNameCtrl.dirty && firstNameCtrl.hasError('required')"
+                                            <md-hint ngxError="required" [when]="['dirty']"
                                                      class="form-control-feedback">Votre prénom est obligatoire.
                                             </md-hint>
                                         </md-input-container>
                                     </div>
 
-                                    <div class="form-group"
-                                         [class.has-danger]="emailCtrl.dirty && emailCtrl.hasError('required')">
+                                    <div class="form-group">
                                         <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-envelope prefix my-auto pr-0"></i>
-                                        <md-input-container class="col-7 col-md-8" color="primary">
+                                        <md-input-container class="col-7 col-md-8" ngxErrors="firstName">
                                             <input id="inputEmail" mdInput
                                                    type="email"
                                                    placeholder="Saisissez votre email"
                                                    formControlName="email"
                                                    required>
-                                            <md-hint *ngIf="emailCtrl.dirty && emailCtrl.hasError('required')"
+                                            <md-hint ngxError="required" [when]="['dirty']"
                                                      class="form-control-feedback">Votre email est obligatoire.
                                             </md-hint>
                                         </md-input-container>
@@ -97,8 +94,7 @@
                                         </div>
                                         <div class="form-group">
                                             <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-lock prefix my-auto pr-0"></i>
-                                            <md-input-container class="col-7 col-md-8"
-                                                                [class.ng-invalid]="passwordForm.dirty && passwordForm.hasError('matchingError')">
+                                            <md-input-container class="col-7 col-md-8">
                                                 <input id="inputConfirmPassword" type="password" mdInput
                                                        placeholder="Veuillez confirmer votre mot de passe"
                                                        formControlName="confirmPassword" required>
