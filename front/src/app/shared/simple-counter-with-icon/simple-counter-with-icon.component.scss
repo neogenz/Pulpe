@@ -1,16 +1,97 @@
 @import "../../../assets/style/colors";
 
-.recap-title {
-  font-size: 10px;
-  font-weight: normal;
+.mycard {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin: 25px 0;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
 }
 
-.recap-value {
-  color: $accent-color;
+.mycard-stats .mycard-header {
+  float: left;
+  text-align: center;
+}
+
+.mycard .mycard-header {
+  padding: 21px 32px 15px;
+  z-index: 3;
+}
+
+.mycard-stats .mycard-content {
+  text-align: right;
+  padding-top: 10px;
+}
+
+.mycard .mycard-content {
+  padding: 15px 20px;
+  position: relative;
+}
+
+.mycard .mycard-footer {
+  margin: 0 20px 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eeeeee;
+}
+
+.mycard-stats .mycard-header i {
+  font-size: 46px;
+  line-height: 56px;
+  width: 56px;
+  height: 56px;
+}
+
+.mycard .category:not([class*="text-"]) {
+  color: #999999;
+  font-size: 14px;
+  font-weight: 300;
   font-style: italic;
 }
 
-.icon-recap {
-  font-size: 45px;
-  color: $primary-color
+.mycard .mycard-title {
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+
+.mycard .value {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 300;
+  line-height: 1.5em;
+  color: #3C4858;
+}
+
+.mycard .orange {
+  color: #fff;
+  background: linear-gradient(60deg, #ffa726, #fb8c00);
+  background-color: #999999;
+  margin: -20px 15px 0;
+  border-radius: 3px;
+  padding: 20px 32px 20px;
+  position: relative;
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+}
+
+.mycard .blue {
+  color: #fff;
+  background-color: #999999;
+  margin: -20px 15px 0;
+  border-radius: 3px;
+  padding: 20px 42px 20px;
+  position: relative;
+  background: linear-gradient(60deg, #26c6da, #00acc1);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+}
+
+.mycard .green {
+  color: #fff;
+  background-color: #999999;
+  margin: -20px 15px 0;
+  border-radius: 3px;
+  padding: 20px 32px 20px;
+  position: relative;
+  background: linear-gradient(60deg, #66bb6a, #43a047);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
 }
