@@ -1,4 +1,82 @@
-<pulpe-navbar></pulpe-navbar>
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
+<ng-sidebar-container>
+    <ng-sidebar [(opened)]="_opened" [mode]="'push'">
+        <div class="sidebar-background">
+            <div class="sidebar-container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="../assets/logo-full.png" width="65%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <hr class="w-100 separator">
+                    </div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-md-10 offset-md-1">
+                        <ul class="mynav">
+
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/profil"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">person</i>
+                                    <span class="pl-4">Mon profil</span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/accueil"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">store</i>
+                                    <span class="pl-4">Accueil</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/programme"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">assignment</i>
+                                    <span class="pl-4">Programme</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/evolution"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">trending_up</i>
+                                    <span class="pl-4">Evolution</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/seances"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">fitness_center</i>
+                                    <span class="pl-4">Séances</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-link">
+                                <a [routerLinkActive]="['active']" routerLink="/accueil"
+                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                                    <i class="material-icons">photo_library</i>
+                                    <span class="pl-4">Timeline</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-link">
+                                <a (click)="signout()" *ngIf="auth.authenticated()">
+                                    <i class="material-icons">power_settings_new</i>
+                                    <span class="pl-4">Déconnexion</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </ng-sidebar>
+    <div class="container">
+        <pulpe-navbar></pulpe-navbar>
+        <router-outlet></router-outlet>
+        <button (click)="_toggleSidebar()">Open sidebar</button>
+        <pulpe-footer></pulpe-footer>
+    </div>
+</ng-sidebar-container>
+
