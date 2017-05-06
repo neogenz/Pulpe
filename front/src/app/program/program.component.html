@@ -2,17 +2,23 @@
 <section>
     <div class="row mb-3">
         <div class="col-md-4">
-            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-calendar-outline" label="Généré le" icoBackgroundColor="orange"
+            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-calendar-outline"
+                                            label="Généré le"
+                                            icoBackgroundColor="orange"
                                             value="{{createdAt}}">
             </pulpe-simple-counter-with-icon>
         </div>
         <div class="col-md-4">
-            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-refresh-empty" label="Nombre de fois terminé" icoBackgroundColor="green"
+            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-refresh-empty"
+                                            label="Nombre de fois terminé"
+                                            icoBackgroundColor="green"
                                             value="33x">
             </pulpe-simple-counter-with-icon>
         </div>
         <div class="col-md-4">
-            <pulpe-simple-counter-with-icon icoClass="ion-ios-timer-outline" label="Durée" icoBackgroundColor="blue"
+            <pulpe-simple-counter-with-icon icoClass="ion-ios-timer-outline"
+                                            label="Durée"
+                                            icoBackgroundColor="blue"
                                             value="{{totalTimeOfProgram}}">
             </pulpe-simple-counter-with-icon>
         </div>
@@ -31,8 +37,7 @@
             </md-card>
         </div>
         <div class="col-md-8 mb-2">
-            <pulpe-exercises-repartition-graph [program]="program"
-                                               (programLoaded)="programLoadedCallback"></pulpe-exercises-repartition-graph>
+            <pulpe-exercises-repartition-graph [program]="program"></pulpe-exercises-repartition-graph>
             <!--<md-card class="goals h-100">-->
 
             <!--<div class="row mb-2">-->

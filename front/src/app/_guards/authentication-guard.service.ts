@@ -10,7 +10,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   canActivate() {
-    debugger;
+    // debugger;
     // If user is not logged in we'll send them to the homepage
     if (!this.auth.authenticated()) {
       this.router.navigate(['/connexion']);

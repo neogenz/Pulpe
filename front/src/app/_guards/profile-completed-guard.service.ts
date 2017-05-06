@@ -12,7 +12,7 @@ export class ProfileCompletedGuardService implements CanActivate {
   }
 
   canActivate() {
-    debugger;
+    // debugger;
     const profileIsCompleted:boolean = this.profileService.profileIsCompleted();
     if (!profileIsCompleted) {
       this.router.navigate(['/profil/complete']);

@@ -1,5 +1,5 @@
 <ng-sidebar-container>
-    <ng-sidebar [(opened)]="_opened" [mode]="'push'">
+    <ng-sidebar [(opened)]="_opened" [mode]="'push'" [autoCollapseWidth]="'500'">
         <div class="sidebar-background">
             <div class="sidebar-container">
                 <div class="row">
@@ -15,15 +15,13 @@
                 <div class="row pt-1">
                     <div class="col-md-10 offset-md-1">
                         <ul class="mynav">
-
                             <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/profil"
+                                <a [routerLinkActive]="['active']" [routerLink]="['profile', authenticationProfile.id]"
                                    *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
                                     <i class="material-icons">person</i>
                                     <span class="pl-4">Mon profil</span>
                                 </a>
                             </li>
-
                             <li class="sidebar-link">
                                 <a [routerLinkActive]="['active']" routerLink="/accueil"
                                    *ngIf="auth.authenticated() && profileService.profileIsCompleted()">

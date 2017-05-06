@@ -48,6 +48,8 @@ import {NavbarComponent} from './shared/navbar/navbar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
 import {SidebarModule} from 'ng-sidebar';
 import {FooterComponent} from './shared/footer/footer.component';
+import {MemberService} from "./_services/member/member.service";
+import {ProfileResolver} from "./profile/profile.resolver";
 
 @NgModule({
     declarations: [
@@ -91,13 +93,22 @@ import {FooterComponent} from './shared/footer/footer.component';
     ],
     //Merry, look 'Become ninja Angular 2' to understand this :p
     providers: [
-        {provide: APP_BASE_HREF, useValue: '/'},
+        {
+            provide: APP_BASE_HREF, useValue: '/'
+        },
         {
             provide: AuthHttp,
             useFactory: authHttpServiceFactory,
             deps: [Http, RequestOptions]
         },
-        {provide: 'IS_PROD', useValue: true},
+        {
+            provide: 'IS_PROD', useValue: true
+        },
+        {
+            provide: MemberService,
+            useFactory: memberServiceFactory,
+            deps: ['IS_PROD', LocalStorageService, AuthHttp]
+        },
         {
             provide: ProgramService,
             useFactory: programServiceFactory,
@@ -113,6 +124,7 @@ import {FooterComponent} from './shared/footer/footer.component';
         DifficultyConverter,
         ProgramResolver,
         SessionsResolver,
+        ProfileResolver,
         ProfileService,
         AuthenticationGuard,
         ProfileCompletedGuardService,
@@ -129,6 +141,13 @@ export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStora
         return new ProgramService(authHttp, localStorage)
     }
     return new ProgramMockService();
+}
+
+export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
+    //if (IS_PROD) {
+    return new MemberService(http, localStorage);
+    //}
+    //return new MemberMockService(localStorage);
 }
 
 export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
