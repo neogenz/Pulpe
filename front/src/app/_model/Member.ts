@@ -1,4 +1,5 @@
 import {Program} from "./Program";
+import {Measurement} from "./Measurement";
 export class Member {
 
     constructor() {
@@ -14,12 +15,12 @@ export class Member {
     country: string;
     phone: string;
     age: string;
-    mensuration: any; //TODO: create class Mensuration (with english traduction)
-    availability: any; //TODO: create class Planning
-    goal: any; //TODO: create enum Goal ?
+    availability: any; //// TODO: create class Planning
+    objective: string;
     program: Program;
+    measurements: Measurement[];
 
-    public static of():MemberBuilder {
+    public static of(): MemberBuilder {
         return new MemberBuilder();
     }
 }
@@ -43,6 +44,41 @@ class MemberBuilder {
 
     public firstName(firstName: string): MemberBuilder {
         this.me.firstName = firstName;
+        return this;
+    }
+
+    public mail(mail: string): MemberBuilder {
+        this.me.mail = mail;
+        return this;
+    }
+
+    public password(password: string): MemberBuilder {
+        this.me.password = password;
+        return this;
+    }
+
+    public address(address: string): MemberBuilder {
+        this.me.address = address;
+        return this;
+    }
+
+    public city(city: string): MemberBuilder {
+        this.me.city = city;
+        return this;
+    }
+
+    public country(country: string): MemberBuilder {
+        this.me.country = country;
+        return this;
+    }
+
+    public objective(objective: string): MemberBuilder {
+        this.me.objective = objective;
+        return this;
+    }
+
+    public measurements(measurements: Measurement[]): MemberBuilder {
+        this.me.measurements = measurements;
         return this;
     }
 

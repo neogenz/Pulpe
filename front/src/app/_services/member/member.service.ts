@@ -20,6 +20,8 @@ export class MemberService extends ObservableHelper {
                     .id(data.member._id)
                     .lastName(data.member.lastName)
                     .firstName(data.member.firstName)
+                    .measurements(data.member.measurements)
+                    .objective(data.member.objective)
                     .build();
             }).catch(this.handleError);
     }
