@@ -20,19 +20,23 @@
             <hr class="w-100 mt-0">
             <div class="col-md-3">
                 <label class="text-uppercase text-primary">Nom</label><br>
-                <label>Manivet</label>
+                <label>{{member.lastName}}</label>
             </div>
             <div class="col-md-3">
                 <label class="text-uppercase text-primary">Prénom</label><br>
-                <label>Barbara</label>
+                <label>{{member.firstName}}</label>
             </div>
-            <div class="col-md-3">
-                <label class="text-uppercase text-primary">Taille</label><br>
-                <label>176 cm</label>
-            </div>
-            <div class="col-md-3">
-                <label class="text-uppercase text-primary">Poids</label><br>
-                <label>65 kg</label>
+            <div class="col-md-3" *ngFor="let measurement of member.measurements">
+                <div [ngSwitch]="measurement.name">
+                    <div *ngSwitchCase="'SIZE'">
+                        <label class="text-uppercase text-primary">Taille</label><br>
+                        <label>{{measurement.value}} {{measurement.unit}}</label>
+                    </div>
+                    <div *ngSwitchCase="'WEIGHT'">
+                        <label class="text-uppercase text-primary">Poids</label><br>
+                        <label>{{measurement.value}} {{measurement.unit}}</label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row text-center pt-4">
@@ -44,7 +48,11 @@
             <hr class="w-100 mt-0">
             <div class="col-md-12">
                 <img src="../../../assets/img/exercise-types/strength-64.png" class="rounded" alt="Type">
-                <div class="text-primary pt-2">Prise de masse</div>
+                <div [ngSwitch]="member.objective">
+                    <div *ngSwitchCase="'MassGainer'" class="text-primary pt-2">Prise de masse</div>
+                    <div *ngSwitchCase="'WeightLoss'" class="text-primary pt-2">Perte de poids</div>
+                    <div *ngSwitchCase="'GeneralForm'" class="text-primary pt-2">Forme générale</div>
+                </div>
             </div>
         </div>
     </md-card-content>

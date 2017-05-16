@@ -1,9 +1,19 @@
-<md-card class="mb-2 mb-md-0 p-2">
-  <p class="text-right text-black-secondary mb-0 text-uppercase recap-title">{{label}}</p>
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <span class="icon-recap"><i class={{icoClass}}></i></span>
-      <p class="text-center mb-0 recap-value">{{value}}</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mycard mycard-stats">
+            <div class="mycard-header {{icoBackgroundColor}}">
+                <i class="{{icoClass}}"></i>
+            </div>
+            <div class="mycard-content">
+                <p class="category">{{label}}</p>
+                <h3 class="value">{{value}}</h3>
+            </div>
+            <!--<div class="mycard-footer">-->
+            <!--<div class="stats">-->
+            <!--<i class="material-icons text-danger">warning</i>-->
+            <!--<i class="material-icons">date_range</i> Last 24 Hours-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
     </div>
-  </div>
-</md-card>
+</div>

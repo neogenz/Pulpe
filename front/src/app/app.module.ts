@@ -44,97 +44,119 @@ import {ProfileInfosComponent} from './profile/profile-infos/profile-infos.compo
 import {ProfileService} from './profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
-import {NavbarComponent} from './navbar/navbar.component';
+import {NavbarComponent} from './shared/navbar/navbar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
-
+import {SidebarModule} from 'ng-sidebar';
+import {FooterComponent} from './shared/footer/footer.component';
+import {MemberService} from "./_services/member/member.service";
+import {ProfileResolver} from "./profile/profile.resolver";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SigninComponent,
-    SignupComponent,
-    ProfileCompletationComponent,
-    HomeComponent,
-    ProgramComponent,
-    ExercisePreviewComponent,
-    SessionsComponent,
-    PageTitleComponent,
-    SimpleCounterWithIconComponent,
-    ExercisesRepartitionGraphComponent,
-    SessionObjectiveComponent,
-    WelcomeComponent,
-    SessionListComponent,
-    EvolutionComponent,
-    EfficientLineGraphComponent,
-    ProfileComponent,
-    ProfilePhotoComponent,
-    ProfileInfosComponent,
-    NavbarComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    MaterialModule,
-    RouterModule.forRoot(ROUTES),
-    SlimLoadingBarModule.forRoot(),
-    ChartsModule,
-    ReactiveFormsModule,
-    NgxErrorsModule,
-    LocalStorageModule.withConfig({
-      prefix: '',
-      storageType: 'localStorage'
-    })
-  ],
-  //Merry, look 'Become ninja Angular 2' to understand this :p
-  providers: [
-    {provide: APP_BASE_HREF, useValue: '/'},
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    },
-    {provide: 'IS_PROD', useValue: true},
-    {
-      provide: ProgramService,
-      useFactory: programServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, AuthHttp]
-    },
-    {
-      provide: AuthenticationService,
-      useFactory: authenticationServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, Http]
-    },
-    SessionsService,
-    ExerciseGroupCodeConverter,
-    DifficultyConverter,
-    ProgramResolver,
-    SessionsResolver,
-    ProfileService,
-    AuthenticationGuard,
-    ProfileCompletedGuardService,
-    MeasurementEnumService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        SigninComponent,
+        SignupComponent,
+        ProfileCompletationComponent,
+        HomeComponent,
+        ProgramComponent,
+        ExercisePreviewComponent,
+        SessionsComponent,
+        PageTitleComponent,
+        SimpleCounterWithIconComponent,
+        ExercisesRepartitionGraphComponent,
+        SessionObjectiveComponent,
+        WelcomeComponent,
+        SessionListComponent,
+        EvolutionComponent,
+        EfficientLineGraphComponent,
+        ProfileComponent,
+        ProfilePhotoComponent,
+        ProfileInfosComponent,
+        NavbarComponent,
+        FooterComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        MaterialModule,
+        ChartsModule,
+        ReactiveFormsModule,
+        NgxErrorsModule,
+        RouterModule.forRoot(ROUTES),
+        SlimLoadingBarModule.forRoot(),
+        SidebarModule.forRoot(),
+        LocalStorageModule.withConfig({
+            prefix: '',
+            storageType: 'localStorage'
+        })
+    ],
+    //Merry, look 'Become ninja Angular 2' to understand this :p
+    providers: [
+        {
+            provide: APP_BASE_HREF, useValue: '/'
+        },
+        {
+            provide: AuthHttp,
+            useFactory: authHttpServiceFactory,
+            deps: [Http, RequestOptions]
+        },
+        {
+            provide: 'IS_PROD', useValue: true
+        },
+        {
+            provide: MemberService,
+            useFactory: memberServiceFactory,
+            deps: ['IS_PROD', LocalStorageService, AuthHttp]
+        },
+        {
+            provide: ProgramService,
+            useFactory: programServiceFactory,
+            deps: ['IS_PROD', LocalStorageService, AuthHttp]
+        },
+        {
+            provide: AuthenticationService,
+            useFactory: authenticationServiceFactory,
+            deps: ['IS_PROD', LocalStorageService, Http]
+        },
+        SessionsService,
+        ExerciseGroupCodeConverter,
+        DifficultyConverter,
+        ProgramResolver,
+        SessionsResolver,
+        ProfileResolver,
+        ProfileService,
+        AuthenticationGuard,
+        ProfileCompletedGuardService,
+        MeasurementEnumService
+    ],
+    bootstrap: [AppComponent]
 })
 
 export class AppModule {
 }
 
 export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, authHttp: AuthHttp) {
-  if (IS_PROD) {
-    return new ProgramService(authHttp, localStorage)
-  }
-  return new ProgramMockService();
+    if (IS_PROD) {
+        return new ProgramService(authHttp, localStorage)
+    }
+    return new ProgramMockService();
+}
+
+export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
+    //if (IS_PROD) {
+    return new MemberService(http, localStorage);
+    //}
+    //return new MemberMockService(localStorage);
 }
 
 export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
-  //if (IS_PROD) {
-  return new AuthenticationService(http, localStorage);
-  //}
-  //return new AuthenticationMockService(localStorage);
+    //if (IS_PROD) {
+    return new AuthenticationService(http, localStorage);
+    //}
+    //return new AuthenticationMockService(localStorage);
 }
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig(), http, options);
+    return new AuthHttp(new AuthConfig(), http, options);
 }

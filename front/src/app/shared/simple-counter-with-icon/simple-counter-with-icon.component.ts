@@ -10,6 +10,7 @@ export class SimpleCounterWithIconComponent implements OnInit {
   @Input() label:string;
   @Input() value:string;
   @Input() icoClass:string;
+  @Input() icoBackgroundColor:string;
 
   constructor() { }
 
