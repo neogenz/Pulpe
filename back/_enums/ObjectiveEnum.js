@@ -12,8 +12,8 @@ class ObjectiveEnum{
   }
 }
 
-ObjectiveEnum.MG = new ObjectiveEnum('MassGainer');
-ObjectiveEnum.WL = new ObjectiveEnum('WeightLoss');
-ObjectiveEnum.GF = new ObjectiveEnum('GeneralForm');
+ObjectiveEnum.MassGainer = new ObjectiveEnum('MassGainer', 'MG');
+ObjectiveEnum.WeightLoss = new ObjectiveEnum('WeightLoss', 'WL');
+ObjectiveEnum.GeneralForm = new ObjectiveEnum('GeneralForm', 'GF');
 
 module.exports = ObjectiveEnum;

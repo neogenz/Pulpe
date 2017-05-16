@@ -8,8 +8,36 @@ const Machine = require('./Machine');
 const GymSchema = new Schema({
   name: String,
   address: String,
-  openingHour: Date,
-  closingHour: Date,
+  openingDates: {
+    monday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    tuesday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    wednesday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    thursday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    friday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    saturday: {
+      openingHour:Date,
+      closingHour:Date
+    },
+    sunday: {
+      openingHour:Date,
+      closingHour:Date
+    }
+  },
   //members_id: [{type: mongoose.Schema.Types.ObjectId}],
   //coachs: [{type: Coach.schema}],
   //machines_id: {type: [Machine.schema], default: []},

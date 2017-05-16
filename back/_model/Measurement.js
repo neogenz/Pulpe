@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+//todo Enum to measurement
 const MeasurementSchema = new Schema({
   name: {
     type: String,

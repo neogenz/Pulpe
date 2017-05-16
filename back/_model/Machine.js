@@ -1,15 +1,19 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const DifficultyEnum = require('../_enums/DifficultyEnum');
 const Schema = mongoose.Schema;
 const MachineSchema = new Schema({
   name: String,
-  difficultyDegree: {
-    type: String,
-    enum: ['LOWER', 'MEDIUM', 'HIGH'],
-    default: 'MEDIUM'
-  },
-  gym_id: {type: mongoose.Schema.Types.ObjectId, ref:'Gym'},
+  workedMuscles: [{
+    intensity: {
+      type: String,
+      enum: [DifficultyEnum.EASY.name, DifficultyEnum.MEDIUM.name, DifficultyEnum.HARD.name],
+      default: DifficultyEnum.MEDIUM.name
+    },
+    name: String
+  }],
+  gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date
 });

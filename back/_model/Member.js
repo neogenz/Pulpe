@@ -13,9 +13,9 @@ const MemberSchema = new Schema({
   objective: {
     type: String,
     enum: [
-      ObjectiveEnum.MG.name,
-      ObjectiveEnum.GF.name,
-      ObjectiveEnum.WL.name
+      ObjectiveEnum.MassGainer.name,
+      ObjectiveEnum.GeneralForm.name,
+      ObjectiveEnum.WeightLoss.name
     ]
   },
   measurements: {type: [Measurement.schema], default: []},

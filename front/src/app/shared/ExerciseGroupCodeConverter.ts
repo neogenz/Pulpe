@@ -10,7 +10,6 @@ export class ExerciseGroupCodeConverter {
   constructor() {
     this.exerciseGroupLabelConverter.set('TR', 'Échauffement');
     this.exerciseGroupLabelConverter.set('ST', 'Étirements');
-    this.exerciseGroupLabelConverter.set('MU', 'Musculation');
     this.exerciseGroupLabelConverter.set('CD', 'Cardio');
     this.exerciseGroupLabelConverter.set('RC', 'Récupération');
     this.exerciseGroupLabelConverter.set('MU', 'Musculation');
