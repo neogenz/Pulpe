@@ -1,17 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {MemberService} from "../_services/member/member.service";
-import {Observable} from "rxjs";
-import {LocalStorageService} from "angular-2-local-storage";
 import {Router, ActivatedRoute} from "@angular/router";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {Member} from "../_model/Member";
-import {ProfileResolver} from "./profile.resolver";
+import {Animations} from "../shared/Animations";
 
 @Component({
     selector: 'pulpe-profile',
     templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css']
+    styleUrls: ['./profile.component.css'],
+    animations: [Animations.fadeIn()]
 })
 export class ProfileComponent implements OnInit {
     private member: Member;

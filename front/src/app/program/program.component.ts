@@ -10,11 +10,13 @@ import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
 import {ChartConfiguration} from "../shared/ChartConfiguration";
 import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {BaseChartDirective} from "ng2-charts/index";
+import {Animations} from "../shared/Animations";
 
 @Component({
     selector: 'pulpe-program',
     templateUrl: './program.component.html',
     styleUrls: ['./program.component.css'],
+    animations: [Animations.fadeIn()]
 })
 export class ProgramComponent implements OnInit {
     @ViewChild(BaseChartDirective) chartDirective = null;
