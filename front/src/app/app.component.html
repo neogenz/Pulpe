@@ -22,13 +22,13 @@
                                     <span class="pl-4">Mon profil</span>
                                 </a>
                             </li>
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/accueil"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">store</i>
-                                    <span class="pl-4">Accueil</span>
-                                </a>
-                            </li>
+                            <!--<li class="sidebar-link">-->
+                            <!--<a [routerLinkActive]="['active']" routerLink="/accueil"-->
+                            <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()">-->
+                            <!--<i class="material-icons">store</i>-->
+                            <!--<span class="pl-4">Accueil</span>-->
+                            <!--</a>-->
+                            <!--</li>-->
                             <li class="sidebar-link">
                                 <a [routerLinkActive]="['active']" routerLink="/programme"
                                    *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
@@ -37,7 +37,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/evolution"
+                                <a [routerLinkActive]="['active']" [routerLink]="['evolution', authenticationProfile.id]"
                                    *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
                                     <i class="material-icons">trending_up</i>
                                     <span class="pl-4">Evolution</span>
@@ -50,13 +50,13 @@
                                     <span class="pl-4">Séances</span>
                                 </a>
                             </li>
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/accueil"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">photo_library</i>
-                                    <span class="pl-4">Timeline</span>
-                                </a>
-                            </li>
+                            <!--<li class="sidebar-link">-->
+                            <!--<a [routerLinkActive]="['active']" routerLink="/accueil"-->
+                            <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()">-->
+                            <!--<i class="material-icons">photo_library</i>-->
+                            <!--<span class="pl-4">Timeline</span>-->
+                            <!--</a>-->
+                            <!--</li>-->
                             <li class="sidebar-link">
                                 <a (click)="signout()" *ngIf="auth.authenticated()">
                                     <i class="material-icons">power_settings_new</i>

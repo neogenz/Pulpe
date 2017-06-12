@@ -12,63 +12,67 @@ import {WelcomeComponent} from "./welcome/welcome.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {SessionsResolver} from "./sessions/sessions.resolver";
 import {ProfileResolver} from "./profile/profile.resolver";
+import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
 
 // Route Configuration
 export const ROUTES: Routes = [
-    {
-        path: '',
-        component: WelcomeComponent,
-        pathMatch: 'full'
+  {
+    path: '',
+    component: WelcomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'accueil',
+    component: HomeComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
+  },
+  {
+    path: 'inscription',
+    component: SignupComponent
+  },
+  {
+    path: 'connexion',
+    component: SigninComponent
+  },
+  {
+    path: 'programme',
+    component: ProgramComponent,
+    resolve: {
+      program: ProgramResolver,
     },
-    {
-        path: 'accueil',
-        component: HomeComponent,
-        canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
-    },
-    {
-        path: 'inscription',
-        component: SignupComponent
-    },
-    {
-        path: 'connexion',
-        component: SigninComponent
-    },
-    {
-        path: 'programme',
-        component: ProgramComponent,
-        resolve: {
-            program: ProgramResolver,
-        },
-        canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
-    },
-    {
-        path: 'evolution',
-        component: EvolutionComponent,
-        canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
-    },
-    {
-        path: 'seances',
-        component: SessionsComponent,
-        canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
-        resolve: {
-            sessions: SessionsResolver
-        }
-    },
-    {
-        path: 'profile/:id',
-        component: ProfileComponent,
-        canActivate: [AuthenticationGuard],
-        resolve: {
-            profile: ProfileResolver
-        }
-    },
-    {
-        path: 'profil/complete',
-        component: ProfileCompletationComponent,
-        canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
+  },
+  {
+    path: 'evolution/:id',
+    component: EvolutionComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
+    resolve: {
+      evolution: EvolutionResolver
     }
-    //{path: '', redirectTo: '/', pathMatch: 'full'}
+  },
+  {
+    path: 'seances',
+    component: SessionsComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
+    resolve: {
+      sessions: SessionsResolver
+    }
+  },
+  {
+    path: 'profile/:id',
+    component: ProfileComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
+    resolve: {
+      profile: ProfileResolver
+    }
+  },
+  {
+    path: 'profil/complete',
+    component: ProfileCompletationComponent,
+    canActivate: [AuthenticationGuard]
+  }
+  //{path: '', redirectTo: '/', pathMatch: 'full'}
 ];
 
 // Deprecated provide

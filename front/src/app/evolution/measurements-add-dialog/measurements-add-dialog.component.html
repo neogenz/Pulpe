@@ -1,0 +1,39 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" (click)="close()">&times;</button>
+            <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="pt-2">
+                <div class="form-group">
+                    <md-select class="col-md-8 offset-md-2" placeholder="Selectionnez une mensuration"
+                               [(ngModel)]="selectedValue" name="measurement">
+                        <md-option *ngFor="let measurement of measurementsList" [value]="measurement.value">
+                            {{measurement.name}}
+                        </md-option>
+                    </md-select>
+                </div>
+
+                <div class="form-group">
+                    <md-slider class="col-md-8 offset-md-2"
+                               [disabled]="false"
+                               [max]="100"
+                               [min]="10"
+                               [thumb-label]="true"
+                               [value]="value">
+                    </md-slider>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
+            <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ import {MemberService} from "../_services/member/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @Injectable()
-export class ProfileResolver implements Resolve<any> {
+export class EvolutionResolver implements Resolve<any> {
     constructor(private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService) {
     }
 

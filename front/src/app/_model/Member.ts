@@ -5,6 +5,10 @@ export class Member {
     constructor() {
     }
 
+    public initFromRawObject(rawInitObject:any) {
+        return this;
+    }
+
     id: string;
     firstName: string;
     lastName: string;
