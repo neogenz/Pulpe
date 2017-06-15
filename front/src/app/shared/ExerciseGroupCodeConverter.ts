@@ -1,4 +1,5 @@
 import {AbstractExercise} from "../_model/exercise/AbstractExercise";
+import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 
 /**
  * Class used to convert raw exercises group code to label
@@ -8,13 +9,13 @@ export class ExerciseGroupCodeConverter {
   private exerciseGroupLabelConverter = new Map<string,string>();
 
   constructor() {
-    this.exerciseGroupLabelConverter.set('TR', 'Échauffement');
-    this.exerciseGroupLabelConverter.set('ST', 'Étirements');
-    this.exerciseGroupLabelConverter.set('CD', 'Cardio');
-    this.exerciseGroupLabelConverter.set('RC', 'Récupération');
-    this.exerciseGroupLabelConverter.set('MU', 'Musculation');
-    this.exerciseGroupLabelConverter.set('AB', 'Abdominaux');
-    this.exerciseGroupLabelConverter.set('OG', 'Cours organisés');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise], 'Échauffement');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise], 'Étirements');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise], 'Cardio');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise], 'Récupération');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise], 'Musculation');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], 'Abdominaux');
+    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], 'Cours organisés');
   }
 
   public convertThis(exercisesGroup:Map<string, AbstractExercise[]>):ExerciseGroupCode[] {

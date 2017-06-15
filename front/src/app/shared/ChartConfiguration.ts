@@ -1,81 +1,58 @@
 import {ColorConfiguration} from "../program/ColorConfiguration";
 import {ExerciseGroupCodeConverter} from "./ExerciseGroupCodeConverter";
+import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 
 export class ChartConfigurationData {
-  public label:string;
-  public colors:ColorConfiguration;
+  public label: string;
+  public colors: ColorConfiguration;
 
-  constructor(label:string, colors:ColorConfiguration) {
+  constructor(label: string, colors: ColorConfiguration) {
     this.label = label;
     this.colors = colors;
   }
 }
 
 export class ChartConfiguration {
-  public configurations:Map<string, ChartConfigurationData>;
+  public configurations: Map<string, ChartConfigurationData>;
   public static instance = new ChartConfiguration();
   private exerciseGroupCodeConverter = new ExerciseGroupCodeConverter();
 
   private constructor() {
     this.configurations = new Map<string, any>();
-    this.configurations.set('TR', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('TR'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise]),
       new ColorConfiguration('rgba(255,99,132,0.4)', 'rgba(255,99,132,1)')));
 
-    this.configurations.set('MU', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('MU'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise]),
       new ColorConfiguration('rgba(255,87,34,0.4)', 'rgba(255,87,34,1)')));
 
-    this.configurations.set('ST', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('ST'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise]),
       new ColorConfiguration('rgba(118,255,3,0.4)', 'rgba(118,255,3,1)')));
 
-    this.configurations.set('RC', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('RC'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise]),
       new ColorConfiguration('rgba(29,233,182,0.4)', 'rgba(29,233,182,1)')));
 
-    this.configurations.set('CD', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('CD'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise]),
       new ColorConfiguration('rgba(213,0,249,0.4)', 'rgba(213,0,249,1)')));
 
-    this.configurations.set('AB', new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis('AB'),
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise]),
+      new ColorConfiguration('rgba(213,0,249,0.4)', 'rgba(213,0,249,1)')));
+
+    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], new ChartConfigurationData(
+      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise]),
       new ColorConfiguration('rgba(255,234,0,0.4)', 'rgba(255,234,0,1)')));
   }
 
 
-  public static getInstance():ChartConfiguration {
+  public static getInstance(): ChartConfiguration {
     if (!this.instance) {
       this.instance = new ChartConfiguration();
     }
     return this.instance;
   }
 }
-
-//export const ChartConfiguration = {
-//  echauffement: {
-//    label: 'Échauffement',
-//    colors: new ColorConfiguration('rgba(255,99,132,0.4)', 'rgba(255,99,132,1)'),
-//    backgroundColor: this.colors.background,
-//  },
-//  musculation: {
-//    label: 'Musculation',
-//    colors: new ColorConfiguration('rgba(255,87,34,0.4)', 'rgba(255,87,34,1)')
-//  },
-//  abdominaux: {
-//    label: 'Abdominaux',
-//    colors: new ColorConfiguration('rgba(255,234,0,0.4)', 'rgba(255,234,0,1)')
-//  },
-//  etirements: {
-//    label: 'Étirements',
-//    colors: new ColorConfiguration('rgba(118,255,3,0.4)', 'rgba(118,255,3,1)')
-//  },
-//  cardio: {
-//    label: 'Cardio',
-//    colors: new ColorConfiguration('rgba(213,0,249,0.4)', 'rgba(213,0,249,1)')
-//  },
-//  recuperation: {
-//    label: 'Récupération',
-//    colors: new ColorConfiguration('rgba(29,233,182,0.4)', 'rgba(29,233,182,1)')
-//  }
-//};

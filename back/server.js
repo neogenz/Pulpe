@@ -255,26 +255,7 @@ mongoose.connection.on('connected', function () {
             type: ExerciseGroupTypeEnum.CardioExercise, reference: true
           });
         });
-    }).then(() => {
-    //return SessionService.generateSessionsBy(3, ObjectiveEnum.MassGainer);
-    //}).then(sessions => {
-    //console.log(sessions);
-    //}).then(() => {
-    return ProgramService.generateProgramBy(3, ObjectiveEnum.MassGainer, null);
-  }).then(program => {
-    program.sessions.forEach(s => s.exercises.forEach(e => {
-      e.program = program;
-      e.save()
-    }));
-    program.save();
-    /*program.sessions.forEach(session => {
-     session.exercises.forEach(exercise => {
-     exercise.save();
-     });
-     session.save();
-     });*/
-    //program.save();
-  }).catch(error => {
+    }).catch(error => {
     console.error(error);
   });
 });

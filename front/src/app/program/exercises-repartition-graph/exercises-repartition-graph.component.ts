@@ -94,7 +94,6 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
 
 
   ngOnChanges(changes:SimpleChanges):void {
-    debugger;
   }
 
   private buildChartColorsFromThis(program:Program):any[] {

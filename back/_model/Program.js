@@ -3,10 +3,19 @@
 const Exercise = require('./Exercise');
 const Session = require('./Session');
 const mongoose = require('mongoose');
+const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const Schema = mongoose.Schema;
 const ProgramSchema = new Schema({
-  member: {type: [mongoose.Schema.Types.ObjectId], ref: 'Member'},
-  sessions: {type: [Session.schema]},
+  member: {type: mongoose.Schema.Types.ObjectId, ref: 'Member'},
+  sessions: [Session.schema],
+  objective: {
+    type: String,
+    enum: [
+      ObjectiveEnum.MassGainer.name,
+      ObjectiveEnum.GeneralForm.name,
+      ObjectiveEnum.WeightLoss.name
+    ]
+  },
   updatedAt: Date,
   createdAt: Date
 });

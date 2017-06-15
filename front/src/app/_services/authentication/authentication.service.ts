@@ -8,6 +8,7 @@ import {IAuthenticationService} from "./IAuthenticationService";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 import {ObservableHelper} from "../../_helpers/ObservableHelper";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class AuthenticationService extends ObservableHelper implements IAuthenticationService {
@@ -17,7 +18,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
   }
 
   public signin(login: string, password: string): Observable<AuthenticationProfile | string> {
-    return this.http.post('http://localhost:5000/signin', {
+    return this.http.post(`${environment.baseUrl()}/signin`, {
       email: login,
       password: password
     }).map(response => {
@@ -35,7 +36,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
   }
 
   public signup(firstName: string, lastName: string, login: string, password: string): Observable<AuthenticationProfile | string> {
-    return this.http.post('http://localhost:5000/signup', {
+    return this.http.post(`${environment.baseUrl()}/signup`, {
       email: login,
       password: password,
       lastname: lastName,

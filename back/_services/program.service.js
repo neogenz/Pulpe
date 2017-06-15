@@ -23,7 +23,15 @@ class ProgramService {
    * @returns {Promise|Promise.<Program>}
    */
   static findByMemberId(memberId) {
-    return Program.findOne({'member': memberId})
+    const populationGraph = {
+      path: 'sessions.exercises',
+      model: 'Exercise',
+      populate: {
+        path: 'machines',
+        model: 'Machine'
+      }
+    };
+    return Program.findOne({'member': memberId}).populate(populationGraph)
       .then((program) => {
         if (!program) {
           throw new NotFoundError("Programme introuvable pour l'adhérent : " + memberId);
@@ -47,9 +55,10 @@ class ProgramService {
     let program = new Program();
     program.member = member;
     program.sessions = sessions;
-    let exercisesPromises = [];
+    program.objective = objective.name;
+    let promises = [];
     program.sessions.forEach(session => {
-      exercisesPromises.push(
+      promises.push(
         ExerciseService.generateExercisesBy({
           muscles: session.mainMusclesGroup,
           training: session.training
@@ -59,8 +68,8 @@ class ProgramService {
           })
       );
     });
-    return Promise.all(exercisesPromises)
-      .then(exercises => {
+    return Promise.all(promises)
+      .then(() => {
         return program;
       })
       .catch(error => {
@@ -75,6 +84,19 @@ class ProgramService {
    */
   static populateSessions(sessions) {
     return Session.populate(sessions, 'exercises');
+  }
+
+
+  static saveProgram(program) {
+    let promises = [];
+    program.sessions.forEach(session => {
+      promises.push(ExerciseService.saveExercises(session.exercises))
+    });
+    promises.push(program.save());
+    return Promise.all(promises).catch(error => {
+      console.error(error.message);
+      throw new TechnicalError(error.message);
+    })
   }
 }
 

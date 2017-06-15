@@ -33,7 +33,7 @@ export class MemberService extends ObservableHelper {
     }
   }
 
-  public addMeasurements(memberId: string, measurements: any) {
+  public addMeasurements(memberId: string, measurements: any) : Observable<Member | string> {
     return this.http.put(`http://localhost:5000/members/${memberId}/measurements`, {
       measurements: measurements
     }).map(response => {

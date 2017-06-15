@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {Observable} from "rxjs/Observable";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar/index";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Router} from '@angular/router';
-import {LocalStorageService} from "angular-2-local-storage/dist/index";
+import {LocalStorageService} from "angular-2-local-storage";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OnError} from "../_helpers/IUIErrorHandlerHelper";

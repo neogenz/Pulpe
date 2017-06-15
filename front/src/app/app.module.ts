@@ -147,7 +147,7 @@ import {EvolutionResolver} from "./evolution/evolution.resolver";
 export class AppModule {
 }
 
-export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, authHttp: AuthHttp) {
+export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, authHttp: AuthHttp): any {
   if (IS_PROD) {
     return new ProgramService(authHttp, localStorage)
   }

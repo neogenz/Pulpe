@@ -9,6 +9,7 @@ import {MeasurementEnumService} from "../_services/measurement-enum.service";
 import {ObservableHelper} from "../_helpers/ObservableHelper";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import * as moment from "moment/moment";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ProfileService extends ObservableHelper {
@@ -27,7 +28,7 @@ export class ProfileService extends ObservableHelper {
 
   public completeProfile(size:Measurement, weight:Measurement, frequency:number, birthdate:Date, objective:string):Observable<AuthenticationProfile|string> {
     const profile:AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-    const url = `http://localhost:5000/members/${profile.id}/profile/completed`;
+    const url = `${environment.baseUrl()}/members/${profile.id}/profile/completed`;
     const body = {
       measurements: [
         {

@@ -7,9 +7,9 @@ export const environment = {
   production: false,
   subdomain: '',
   domain: 'localhost',
-  port: '4200',
+  port: '5000',
   protocol: 'http',
   baseUrl(){
-    return this.protocol + '://' + (this.subdomain ? (this.subdomain + '.') : '') + this.domain + ':' + this.port
+    return `${this.protocol}://${(this.subdomain ? (this.subdomain + '.') : '')}${this.domain}:${this.port}`
   }
 };

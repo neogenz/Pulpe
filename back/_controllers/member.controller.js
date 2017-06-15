@@ -7,24 +7,24 @@ class MemberController {
   constructor() {
   }
 
-    /**
-     * Find a member by an id.
-     * @param req
-     * @param res
-     */
-    static findById(req, res) {
-        const id = req.params.id;
+  /**
+   * Find a member by an id.
+   * @param req
+   * @param res
+   */
+  static findById(req, res) {
+    const id = req.params.id;
 
-        MemberService.findById(id)
-            .then(member => {
-                res.send({member: member});
-            })
-            .catch((error) => {
-                console.log(error);
-                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-                return res.status(httpError.code).send(httpError);
-            });
-    }
+    MemberService.findById(id)
+      .then(member => {
+        res.send({member: member});
+      })
+      .catch((error) => {
+        console.log(error);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      });
+  }
 
   /**
    * Add measurements for a member.
@@ -56,7 +56,7 @@ class MemberController {
       sessionFrequency = req.body.sessionFrequency,
       birthDate = new Date(req.body.birthDate);
     let objective = req.body.objective;
-    objective = ObjectiveEnum[objective];
+    objective = ObjectiveEnum.fromCode(objective);
 
     MemberService.completeProfile(memberId, measurements, sessionFrequency, birthDate, objective)
       .then(member => {

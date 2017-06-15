@@ -52,7 +52,7 @@ class ExerciseService {
    * @returns {Promise<Array<Exercise>>}
    */
   static findExercisesByWorkedMuscleGroupAndIntensity(muscleGroup, difficulty) {
-    return Exercise.find().populate('machines').and([
+    return Exercise.find({'reference': true}).populate('machines').and([
       {
         'workedMuscles.name': {
           $in: muscleGroup.muscles.map(muscle => {
@@ -222,6 +222,16 @@ class ExerciseService {
     }).catch(error => {
       throw error;
     })
+  }
+
+
+  static saveExercises(exercises) {
+    let promises = [];
+    exercises.forEach(exercise => promises.push(exercise.save()));
+    return Promise.all(promises).catch(error => {
+      console.error(error.message);
+      throw new TechnicalError(error.message);
+    });
   }
 }
 

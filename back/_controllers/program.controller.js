@@ -3,6 +3,7 @@ const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const MemberService = require('../_services/member.service');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
+const TechnicalError = require('../_model/Errors').TechnicalError;
 
 class ProgramController {
   constructor() {
@@ -21,7 +22,7 @@ class ProgramController {
       });
   }
 
-  static generate(req, res) {
+  static createProgram(req, res) {
     const memberId = req.body.memberId,
       nbSessions = req.body.nbSessions,
       objective = ObjectiveEnum.fromName(req.body.objective);
@@ -30,12 +31,13 @@ class ProgramController {
         return ProgramService.generateProgramBy(nbSessions, objective, member);
       })
       .then(program => {
-        return program.save();
+        return ProgramService.saveProgram(program);
       })
       .then(programSaved => {
-        res.send({program: programSaved});
+        res.send(programSaved);
       }, error => {
-        throw new Error(error.message);
+        console.error(error.message);
+        throw new TechnicalError(error.message);
       })
       .catch(error => {
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
