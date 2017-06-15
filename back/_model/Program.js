@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ProgramSchema = new Schema({
   member: {type: [mongoose.Schema.Types.ObjectId], ref: 'Member'},
-  exercises: {type: [Exercise.schema]},
   sessions: {type: [Session.schema]},
   updatedAt: Date,
   createdAt: Date

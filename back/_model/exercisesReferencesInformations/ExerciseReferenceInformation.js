@@ -2,11 +2,13 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ExerciseReferenceInformationEnum = require('../../_enums/ExerciseReferenceInformationEnum');
 const ExerciseReferenceInformationSchema = new Schema({
   phase: Number,
   objective: String,
   updatedAt: Date,
-  createdAt: Date
+  createdAt: Date,
+  machines: [{type: mongoose.Schema.Types.ObjectId, ref: 'Machine', default: []}]
 });
 
 ExerciseReferenceInformationSchema.pre('save', function (next) {
@@ -22,7 +24,7 @@ ExerciseReferenceInformationSchema.pre('save', function (next) {
  * @returns {boolean}
  */
 ExerciseReferenceInformationSchema.methods.isBodyBuildingTypeOfPhase = function (phase = 1) {
-  return (this.__t === 'BodybuildingExerciseReferenceInformation' && this.phase === phase);
+  return (this.__t === ExerciseReferenceInformationEnum.Bodybuilding.name && this.phase === phase);
 };
 
 /**
@@ -30,7 +32,7 @@ ExerciseReferenceInformationSchema.methods.isBodyBuildingTypeOfPhase = function 
  * @returns {boolean}
  */
 ExerciseReferenceInformationSchema.methods.isCardioTypeOfPhase = function (phase = 1) {
-  return (this.__t === 'CardioExerciseReferenceInformation' && this.phase === phase);
+  return (this.__t === ExerciseReferenceInformationEnum.Cardio.name && this.phase === phase);
 };
 
 const ExerciseReferenceInformation = mongoose.model('ExerciseReferenceInformation', ExerciseReferenceInformationSchema, 'ExercisesReferencesInformations');

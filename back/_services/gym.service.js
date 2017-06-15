@@ -41,8 +41,8 @@ class GymService {
 
   static findByName(name) {
     return Gym.findOne({name: name}).then(
-      finded => {
-        return finded;
+      founded => {
+        return founded;
       }).catch(
       error => {
         throw error;

@@ -7,6 +7,8 @@ const StretchingExerciseReferenceInformation = require('../_model/exercisesRefer
 const ExerciseReferenceInformation = require('../_model/exercisesReferencesInformations/ExerciseReferenceInformation');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const DifficultyEnum = require('../_enums/DifficultyEnum');
+const NotFoundError = require('../_model/Errors').NotFoundError;
+const ExerciseReferenceInformationEnum = require('../_enums/ExerciseReferenceInformationEnum');
 
 class ExerciseReferenceInformationService {
   constructor() {
@@ -18,13 +20,14 @@ class ExerciseReferenceInformationService {
   }
 
   static initExercisesReferencesInformations() {
-    return ExerciseReferenceInformationService.initMassGainerExercisesReferencesInformations().then(() => {
-      return ExerciseReferenceInformationService.initWeightLossExercisesReferencesInformations();
-    }).then(() => {
-      return ExerciseReferenceInformationService.initGeneralFormExercisesReferencesInformations();
-    }).catch(error => {
-      throw error;
-    });
+    return ExerciseReferenceInformationService.initMassGainerExercisesReferencesInformations()
+      .then(() => {
+        return ExerciseReferenceInformationService.initWeightLossExercisesReferencesInformations();
+      }).then(() => {
+        return ExerciseReferenceInformationService.initGeneralFormExercisesReferencesInformations();
+      }).catch(error => {
+        throw error;
+      });
   }
 
   static initMassGainerExercisesReferencesInformations() {
@@ -207,7 +210,6 @@ class ExerciseReferenceInformationService {
       })
   }
 
-
   static initGeneralFormExercisesReferencesInformations() {
     let bodybuildingPhaseOne = new BodybuildingExerciseReferenceInformation({
       phase: 1,
@@ -308,8 +310,8 @@ class ExerciseReferenceInformationService {
       __t: 'CardioExerciseReferenceInformation',
       objective: ObjectiveEnum.MassGainer,
       phase: phase
-    }).then(finded => {
-      return finded;
+    }).then(founded => {
+      return founded;
     }).catch(error => {
       throw error;
     })
@@ -324,8 +326,8 @@ class ExerciseReferenceInformationService {
    * @returns {Promise|Promise.<ExerciseReferenceInformation>}
    */
   static findBy(criterias) {
-    return ExerciseReferenceInformation.find(criterias).sort('phase').then(finded => {
-      return finded;
+    return ExerciseReferenceInformation.find(criterias).sort('phase').then(founded => {
+      return founded;
     }).catch(error => {
       throw error;
     })
@@ -338,14 +340,30 @@ class ExerciseReferenceInformationService {
    */
   static findBodybuildingToMassGainerObjectiveInPhase(phase = 1) {
     return ExerciseReferenceInformation.find({
-      __t: 'BodybuildingExerciseReferenceInformation',
+      __t: ExerciseReferenceInformationEnum.Bodybuilding.name,
       objective: ObjectiveEnum.MassGainer,
       phase: phase
-    }).then(finded => {
-      return finded;
+    }).then(founded => {
+      return founded;
     }).catch(error => {
       throw error;
     })
+  }
+
+  static findByOjective(objective) {
+    return ExerciseReferenceInformation.find({
+      objective: ObjectiveEnum.MassGainer
+    }).then(founded => {
+      if (!founded) {
+        throw new NotFoundError(`No exercises references information to this objective ${objective.toString()}`);
+      }
+      return founded;
+    }, error => {
+      throw new Error(error.message);
+    })
+      .catch(error => {
+        throw error;
+      })
   }
 }
 

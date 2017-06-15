@@ -26,7 +26,7 @@ class MemberService {
         }
         return member;
       })
-      .catch(function (err) {
+      .catch(err => {
         throw err;
       });
   }
@@ -47,7 +47,7 @@ class MemberService {
         throw new NotFoundError('Email ou mot de passe invalide.');
       }
       return member;
-    }).catch(function (err) {
+    }).catch(err => {
       throw err;
     });
   }

@@ -7,8 +7,9 @@ class ObjectiveEnum{
   toString(){
     return `${this.name}`;
   }
-  static getName(code){
-    return ObjectiveEnum[code].name;
+
+  static fromName(name){
+    return ObjectiveEnum[name];
   }
 }
 

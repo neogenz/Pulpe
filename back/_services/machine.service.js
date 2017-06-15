@@ -2,6 +2,8 @@
 
 const Machine = require('../_model/Machine');
 const MuscleEnum = require('../_enums/MuscleEnum');
+const Gym = require('../_model/Gym');
+const InstanceError = require('../_model/Errors').InstanceError;
 
 class MachineService {
   constructor() {
@@ -35,6 +37,20 @@ class MachineService {
         throw error;
       })
   }
+
+
+  static findAllByGym(gym) {
+    if (!_instanceOfGym(gym)) {
+      throw new InstanceError('The parameter isn\'t an instance of Gym class.');
+    }
+    return Machine.find({'gym': gym._id});
+  }
+
+
+}
+
+function _instanceOfGym(gym) {
+  return gym instanceof Gym;
 }
 
 module.exports = MachineService;

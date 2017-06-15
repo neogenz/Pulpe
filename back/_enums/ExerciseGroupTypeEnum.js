@@ -14,11 +14,15 @@ class ExerciseGroupTypeEnum {
   static getName(code) {
     return ExerciseGroupTypeEnum[code].name;
   }
+
+  static fromName(name) {
+    return ExerciseGroupTypeEnum[name];
+  }
 }
 
-ExerciseGroupTypeEnum.OG = new ExerciseGroupTypeEnum('Organized exercise', 'OG');
-ExerciseGroupTypeEnum.BB = new ExerciseGroupTypeEnum('Bodybuilding exercise', 'BB');
-ExerciseGroupTypeEnum.ST = new ExerciseGroupTypeEnum('Stretching exercise', 'ST');
-ExerciseGroupTypeEnum.CD = new ExerciseGroupTypeEnum('Cardio exercise', 'CD');
+ExerciseGroupTypeEnum.OrganizedExercise = new ExerciseGroupTypeEnum('OrganizedExercise', 'OrganizedExercise');
+ExerciseGroupTypeEnum.BodybuildingExercise = new ExerciseGroupTypeEnum('BodybuildingExercise', 'BodybuildingExercise');
+ExerciseGroupTypeEnum.StretchingExercise = new ExerciseGroupTypeEnum('StretchingExercise', 'StretchingExercise');
+ExerciseGroupTypeEnum.CardioExercise = new ExerciseGroupTypeEnum('CardioExercise', 'CardioExercise');
 
 module.exports = ExerciseGroupTypeEnum;

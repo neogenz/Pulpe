@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ExerciseSchema = new Schema({
   name: {type: String, required: true},
-  machines: {type: [mongoose.Schema.Types.ObjectId], ref: 'Machine', default: []},
+  machines: [{type: mongoose.Schema.Types.ObjectId, ref: 'Machine', default: []}],
+  program: {type: mongoose.Schema.Types.ObjectId, ref: 'Program'},
+  session: {type: mongoose.Schema.Types.ObjectId, ref: 'Session'},
   workedMuscles: [{
     intensity: {
       type: String,
@@ -14,6 +16,7 @@ const ExerciseSchema = new Schema({
     },
     name: String
   }],
+  reference: {type: Boolean, default: false},
   updatedAt: Date,
   createdAt: Date
 });

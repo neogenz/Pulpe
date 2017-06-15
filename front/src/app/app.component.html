@@ -1,79 +1,47 @@
-<ng-sidebar-container>
-    <ng-sidebar [(opened)]="_opened" [mode]="'push'" [autoCollapseWidth]="'500'">
-        <div class="sidebar-background">
-            <div class="sidebar-container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <img src="../assets/logo-full.png" width="65%">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10 offset-md-1">
-                        <hr class="w-100 separator">
-                    </div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-md-10 offset-md-1">
-                        <ul class="mynav">
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" [routerLink]="['profile', authenticationProfile.id]"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">person</i>
-                                    <span class="pl-4">Mon profil</span>
-                                </a>
-                            </li>
-                            <!--<li class="sidebar-link">-->
-                            <!--<a [routerLinkActive]="['active']" routerLink="/accueil"-->
-                            <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()">-->
-                            <!--<i class="material-icons">store</i>-->
-                            <!--<span class="pl-4">Accueil</span>-->
-                            <!--</a>-->
-                            <!--</li>-->
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/programme"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">assignment</i>
-                                    <span class="pl-4">Programme</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" [routerLink]="['evolution', authenticationProfile.id]"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">trending_up</i>
-                                    <span class="pl-4">Evolution</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-link">
-                                <a [routerLinkActive]="['active']" routerLink="/seances"
-                                   *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
-                                    <i class="material-icons">fitness_center</i>
-                                    <span class="pl-4">Séances</span>
-                                </a>
-                            </li>
-                            <!--<li class="sidebar-link">-->
-                            <!--<a [routerLinkActive]="['active']" routerLink="/accueil"-->
-                            <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()">-->
-                            <!--<i class="material-icons">photo_library</i>-->
-                            <!--<span class="pl-4">Timeline</span>-->
-                            <!--</a>-->
-                            <!--</li>-->
-                            <li class="sidebar-link">
-                                <a (click)="signout()" *ngIf="auth.authenticated()">
-                                    <i class="material-icons">power_settings_new</i>
-                                    <span class="pl-4">Déconnexion</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+<nav class="navbar navbar-light fixed-top shadow white">
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="toggleSidebar()"
+            *ngIf="auth.authenticated()">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
+    <!--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
+    <!--<ul class="nav navbar-nav mx-auto w-100">-->
+    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
+    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
+    <!--routerLink="/programme">Mon programme <span-->
+    <!--class="sr-only">(current)</span></a>-->
+    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
+    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
+    <!--routerLink="/evolution">Mon-->
+    <!--évolution</a>-->
+    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
+    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
+    <!--routerLink="/seances">Mes séances</a>-->
+    <!--</ul>-->
+    <!--<ul class="nav navbar-nav navbar-right" *ngIf="auth.authenticated()">-->
+    <!--<li class="nav-item dropdown">-->
+    <!--<a class="nav-item nav-link myAccount" [routerLinkActive]="['active']"-->
+    <!--data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i-->
+    <!--class="ion-ios-contact-outline"></i></a>-->
+    <!--<div class="dropdown-menu dropdown-menu-right">-->
+    <!--<a class="dropdown-item nav-link nav-item" routerLink="/profil">Mon profil</a>-->
+    <!--<div class="dropdown-divider"></div>-->
+    <!--<a class="dropdown-item nav-link nav-item" (click)="signout()">Déconnexion</a>-->
+    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Separated link</a>&ndash;&gt;-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+</nav>
 
-                </div>
-            </div>
-        </div>
+<ng-sidebar-container>
+    <ng-sidebar [(opened)]="_opened" [mode]="'over'" [closeOnClickOutside]="true"
+                [closeOnClickBackdrop]="true" [showBackdrop]="true">
+        <pulpe-sidebar></pulpe-sidebar>
     </ng-sidebar>
     <div class="container">
-        <pulpe-navbar></pulpe-navbar>
+        <ng2-slim-loading-bar [height]="'4px'"></ng2-slim-loading-bar>
         <router-outlet></router-outlet>
-        <button (click)="_toggleSidebar()">Open sidebar</button>
         <!--<pulpe-footer></pulpe-footer>-->
     </div>
 </ng-sidebar-container>

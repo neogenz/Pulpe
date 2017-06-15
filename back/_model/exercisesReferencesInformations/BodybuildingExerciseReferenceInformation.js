@@ -2,9 +2,10 @@
 
 const options = {discriminatorKey: 'kind'};
 const ExerciseReferenceInformation = require('./ExerciseReferenceInformation');
+const ExerciseReferenceInformationEnum = require('../../_enums/ExerciseReferenceInformationEnum');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const BodybuildingExerciseReferenceInformation = ExerciseReferenceInformation.discriminator('BodybuildingExerciseReferenceInformation',
+const BodybuildingExerciseReferenceInformation = ExerciseReferenceInformation.discriminator(ExerciseReferenceInformationEnum.Bodybuilding.name,
   new Schema({
     repetitions: Number,
     series: Number,
@@ -15,5 +16,5 @@ const BodybuildingExerciseReferenceInformation = ExerciseReferenceInformation.di
 );
 
 module.exports.model = BodybuildingExerciseReferenceInformation;
-module.exports.discriminator = 'BodybuildingExerciseReferenceInformation';
+module.exports.discriminator = ExerciseReferenceInformationEnum.Bodybuilding.name;
 

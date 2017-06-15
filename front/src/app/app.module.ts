@@ -44,16 +44,16 @@ import {ProfileInfosComponent} from './profile/profile-infos/profile-infos.compo
 import {ProfileService} from './profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
-import {NavbarComponent} from './shared/navbar/navbar.component';
+import {SidebarComponent} from './shared/navbar/sidebar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
 import {SidebarModule} from 'ng-sidebar';
 import {FooterComponent} from './shared/footer/footer.component';
 import {MemberService} from "./_services/member/member.service";
 import {ProfileResolver} from "./profile/profile.resolver";
 import {MeasurementsListComponent} from './evolution/measurements-list/measurements-list.component';
-import {EvolutionResolver} from "./evolution/evolution.resolver";
-import {BootstrapModalModule} from 'ng2-bootstrap-modal';
 import {MeasurementsAddDialogComponent} from './evolution/measurements-add-dialog/measurements-add-dialog.component';
+import {BootstrapModalModule} from "ng2-bootstrap-modal";
+import {EvolutionResolver} from "./evolution/evolution.resolver";
 
 @NgModule({
   declarations: [
@@ -76,7 +76,7 @@ import {MeasurementsAddDialogComponent} from './evolution/measurements-add-dialo
     ProfileComponent,
     ProfilePhotoComponent,
     ProfileInfosComponent,
-    NavbarComponent,
+    SidebarComponent,
     FooterComponent,
     MeasurementsListComponent,
     MeasurementsAddDialogComponent

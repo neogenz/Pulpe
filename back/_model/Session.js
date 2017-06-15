@@ -1,4 +1,5 @@
 'use strict';
+//todo : create enum to session state
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -10,7 +11,11 @@ const SessionSchema = new Schema({
     enum: ['UNSTARTED', 'STARTED', 'IN_PROGRESS', 'FINISHED', 'TO_SYNCHRONIZE'],
     default: 'UNSTARTED'
   },
-  exercises: {type: [mongoose.Schema.Types.ObjectId], ref: 'Exercise', default: []},
+  exercises: [{type: mongoose.Schema.Types.ObjectId, ref: 'Exercise', default: []}],
+  mainMusclesGroup: {
+    type: [String]
+  },
+  training: Boolean,
   updatedAt: Date,
   createdAt: Date
 });
