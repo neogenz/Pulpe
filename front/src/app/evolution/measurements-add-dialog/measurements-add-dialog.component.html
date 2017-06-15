@@ -3,7 +3,7 @@
 
         <div class="modal-header">
             <div class="text-center">
-                <h4 class="text-light-weight">{{title || 'Confirm'}}</h4>
+                <h4 class="text-light-weight">Editer mes mensurations</h4>
             </div>
         </div>
         <form (ngSubmit)="confirm()" [formGroup]="measurementsForm">
@@ -13,7 +13,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="size">
                                 <input id="inputSize" mdInput type="number"
-                                       placeholder="Taille"
+                                       placeholder="Taille (cm)"
                                        formControlName="size"
                                        required>
                                 <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('')"
@@ -30,7 +30,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="weight">
                                 <input id="inputWeight" mdInput type="number"
-                                       placeholder="Poids"
+                                       placeholder="Poids (kg)"
                                        formControlName="weight"
                                        required>
                                 <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('')"
@@ -49,7 +49,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="chest">
                                 <input id="inputChest" mdInput type="number"
-                                       placeholder="Tour de poitrine"
+                                       placeholder="Tour de poitrine (cm)"
                                        formControlName="chest">
                                 <md-hint *ngIf="chestCtrl.dirty && chestCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.chest.maxValue}}
@@ -62,7 +62,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="waist">
                                 <input id="inputWaist" mdInput type="number"
-                                       placeholder="Tour de taille"
+                                       placeholder="Tour de taille (cm)"
                                        formControlName="waist">
                                 <md-hint *ngIf="waistCtrl.dirty && waistCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.waist.maxValue}}
@@ -75,7 +75,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="shoulders">
                                 <input id="inputShoulders" mdInput type="number"
-                                       placeholder="Epaules"
+                                       placeholder="Epaules (cm)"
                                        formControlName="shoulders">
                                 <md-hint *ngIf="shouldersCtrl.dirty && shouldersCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.shoulders.maxValue}}
@@ -88,7 +88,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="rightArm">
                                 <input id="inputRightArm" mdInput type="number"
-                                       placeholder="Bras droit"
+                                       placeholder="Bras droit (cm)"
                                        formControlName="rightArm">
                                 <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.rightArm.maxValue}}
@@ -101,7 +101,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="leftArm">
                                 <input id="inputLeftArm" mdInput type="number"
-                                       placeholder="Bras gauche"
+                                       placeholder="Bras gauche (cm)"
                                        formControlName="leftArm">
                                 <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.leftArm.maxValue}}
@@ -117,7 +117,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="rightCalf">
                                 <input id="inputRightCalf" mdInput type="number"
-                                       placeholder="Mollet droit"
+                                       placeholder="Mollet droit (cm)"
                                        formControlName="rightCalf">
                                 <md-hint *ngIf="rightCalfCtrl.dirty && rightCalfCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.rightCalf.maxValue}}
@@ -130,7 +130,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="leftCalf">
                                 <input id="inputLeftCalf" mdInput type="number"
-                                       placeholder="Mollet gauche"
+                                       placeholder="Mollet gauche (cm)"
                                        formControlName="leftCalf">
                                 <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.leftCalf.maxValue}}
@@ -143,7 +143,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">
                                 <input id="inputRightThigh" mdInput type="number"
-                                       placeholder="Cuisse droite"
+                                       placeholder="Cuisse droite (cm)"
                                        formControlName="rightThigh">
                                 <md-hint *ngIf="rightThighCtrl.dirty && rightThighCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.rightThigh.maxValue}}
@@ -156,7 +156,7 @@
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">
                                 <input id="inputCuisseGauche" mdInput type="number"
-                                       placeholder="Cuisse gauche"
+                                       placeholder="Cuisse gauche (cm)"
                                        formControlName="leftThigh">
                                 <md-hint *ngIf="leftThighCtrl.dirty && leftThighCtrl.hasError('maxValue')"
                                          class="form-control-feedback">{{errorTranslations.leftThigh.maxValue}}

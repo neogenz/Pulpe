@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {Animations} from "../../shared/Animations";
 
 @Component({
     selector: 'pulpe-efficient-line-graph',
     templateUrl: './efficient-line-graph.component.html',
-    styleUrls: ['./efficient-line-graph.component.css']
+    styleUrls: ['./efficient-line-graph.component.css'],
+    animations: [Animations.fadeIn()]
 })
 export class EfficientLineGraphComponent implements OnInit {
     public lineChartLabels: Array<any>;

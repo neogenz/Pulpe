@@ -18,11 +18,23 @@ import {MeasurementEnumService} from "../../_services/measurement-enum.service";
   templateUrl: 'measurements-add-dialog.component.html',
   styleUrls: ['measurements-add-dialog.component.css']
 })
-export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementAdd, boolean> implements MeasurementAdd, OnInit {
+export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementAdd, Measurement[]> implements MeasurementAdd, OnInit {
   memberRequest: Observable<Member> = new Observable();
   authenticationProfile: AuthenticationProfile;
-  title: string;
-  message: string;
+  measurements: any;
+  sizesRange: any;
+  weightRange: any;
+  chestRange: any;
+  hipRange: any;
+  waistRange: any;
+  shouldersRange: any;
+  rightArmRange: any;
+  leftArmRange: any;
+  rightCalfRange: any;
+  leftCalfRange: any;
+  rightThighRange: any;
+  leftThighRange: any;
+  errorTranslations: any;
   measurementsForm: FormGroup;
   hipCtrl: FormControl;
   waistCtrl: FormControl;
@@ -36,26 +48,11 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
   rightThighCtrl: FormControl;
   weightCtrl: FormControl;
   sizeCtrl: FormControl;
-  private sizesRange: any;
-  private weightRange: any;
-  private chestRange: any;
-  private hipRange: any;
-  private waistRange: any;
-  private shouldersRange: any;
-  private rightArmRange: any;
-  private leftArmRange: any;
-  private rightCalfRange: any;
-  private leftCalfRange: any;
-  private rightThighRange: any;
-  private leftThighRange: any;
-  private errorTranslations: any;
 
-  constructor(dialogService: DialogService, fb: FormBuilder, private route: ActivatedRoute, private localStorage: LocalStorageService,
+  constructor(dialogService: DialogService, private fb: FormBuilder, private route: ActivatedRoute, private localStorage: LocalStorageService,
               private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService, private router: Router,
               private measurementEnumService: MeasurementEnumService) {
     super(dialogService);
-    this.initValidators();
-    this.buildForm(fb);
   }
 
   initValidators() {
@@ -161,56 +158,68 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     };
   }
 
-  buildForm(fb: FormBuilder) {
-    this.sizeCtrl = fb.control('', [
+  buildForm(fb: FormBuilder, measurements) {
+    let elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Size));
+    this.sizeCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       Validators.required,
       CustomValidators.minValue(this.sizesRange.min),
       CustomValidators.maxValue(this.sizesRange.max)
     ]);
-    this.weightCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Weight));
+    this.weightCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       Validators.required,
       CustomValidators.minValue(this.weightRange.min),
       CustomValidators.maxValue(this.weightRange.max)
     ]);
-    this.hipCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Hip));
+    this.hipCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.hipRange.min),
       CustomValidators.maxValue(this.hipRange.max)
     ]);
-    this.waistCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Waist));
+    this.waistCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.waistRange.min),
       CustomValidators.maxValue(this.waistRange.max)
     ]);
-    this.shouldersCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Shoulders));
+    this.shouldersCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.shouldersRange.min),
       CustomValidators.maxValue(this.shouldersRange.max)
     ]);
-    this.chestCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Chest));
+    this.chestCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.chestRange.min),
       CustomValidators.maxValue(this.chestRange.max)
     ]);
-    this.rightArmCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightArm));
+    this.rightArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightArmRange.min),
       CustomValidators.maxValue(this.rightArmRange.max)
     ]);
-    this.leftArmCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftArm));
+    this.leftArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.leftArmRange.min),
       CustomValidators.maxValue(this.leftArmRange.max)
     ]);
-    this.rightCalfCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightCalf));
+    this.rightCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightCalfRange.min),
       CustomValidators.maxValue(this.rightCalfRange.max)
     ]);
-    this.leftCalfCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftCalf));
+    this.leftCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.leftCalfRange.min),
       CustomValidators.maxValue(this.leftCalfRange.max)
     ]);
-    this.leftThighCtrl = fb.control('', [
-      CustomValidators.minValue(this.leftThighRange.min),
-      CustomValidators.maxValue(this.leftThighRange.max)
-    ]);
-    this.rightThighCtrl = fb.control('', [
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightThigh));
+    this.rightThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightThighRange.min),
       CustomValidators.maxValue(this.rightThighRange.max)
+    ]);
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftThigh));
+    this.leftThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
+      CustomValidators.minValue(this.leftThighRange.min),
+      CustomValidators.maxValue(this.leftThighRange.max)
     ]);
 
     this.measurementsForm = fb.group({
@@ -230,7 +239,6 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
   }
 
   confirm() {
-    this.result = true;
     this.close();
     const measurements = this.getMeasurements();
     if (measurements.length > 0) {
@@ -244,7 +252,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
             this.slimLoadingBarService.complete();
           })
           .subscribe((member) => {
-              this.router.navigateByUrl(`/evolution/member/${member.id}`);
+              this.result = member.measurements;
             },
             (errorMsg) => {
               console.error(errorMsg);
@@ -356,11 +364,11 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
   }
 
   ngOnInit(): void {
-    this.title = `Editer mes mensurations`;
+    this.initValidators();
+    this.buildForm(this.fb, this.measurements === undefined || this.measurements === null ? [] : this.measurements);
   }
 }
 
 export interface MeasurementAdd {
-  title: string;
-  message: string;
+  measurements: any;
 }

@@ -2,11 +2,13 @@ import {Component, OnInit, Input} from '@angular/core';
 import {Measurement} from "../../_model/Measurement";
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
 import {MeasurementsAddDialogComponent} from '../../evolution/measurements-add-dialog/measurements-add-dialog.component';
+import {Animations} from "../../shared/Animations";
 
 @Component({
   selector: 'pulpe-measurements-list',
   templateUrl: 'measurements-list.component.html',
-  styleUrls: ['measurements-list.component.css']
+  styleUrls: ['measurements-list.component.css'],
+  animations: [Animations.fadeIn()]
 })
 export class MeasurementsListComponent implements OnInit {
   @Input() measurements: Measurement[];
@@ -32,14 +34,11 @@ export class MeasurementsListComponent implements OnInit {
   }
 
   openDialogAddMeasurement() {
-    let disposable = this.dialogService.addDialog(MeasurementsAddDialogComponent, {}, {backdropColor: 'rgba(0,0,0,0.5)'}
-    ).subscribe((isConfirmed) => {
-      //We get dialog result
-      if (isConfirmed) {
-        console.log('accepted');
-      }
-      else {
-        console.log('declined');
+    this.dialogService.addDialog(MeasurementsAddDialogComponent, {measurements: this.measurements}, {
+      backdropColor: 'rgba(0,0,0,0.5)'
+    }).subscribe((measurements) => {
+      if (measurements) {
+        this.measurements = measurements;
       }
     });
   }

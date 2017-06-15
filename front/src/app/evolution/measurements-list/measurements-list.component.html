@@ -1,7 +1,7 @@
 <md-card class="bg-secondary card-cascade">
     <h4 class="text-light-weight text-white">Mes mensurations</h4>
 </md-card>
-<div class="row mt-4">
+<div class="row mt-4" [@fadeIn]>
     <div class="col-md-12">
         <md-list-item *ngFor="let measurement of measurements; let last = last">
             <div class="row">
@@ -58,7 +58,7 @@
         <div class="pt-5 pb-5">
             <button type="button" (click)="openDialogAddMeasurement()" class="btn btn-lg btn-secondary text-white w-100 text-center"
                     type="submit">
-                <i class="material-icons">mode_add</i>
+                <i class="ion-plus"></i>
             </button>
         </div>
     </div>
