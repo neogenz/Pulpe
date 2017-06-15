@@ -22,6 +22,7 @@ export class Member {
     availability: any; //// TODO: create class Planning
     objective: string;
     program: Program;
+    profileCompleted: boolean;
     measurements: Measurement[];
 
     public static of(): MemberBuilder {
@@ -78,6 +79,11 @@ class MemberBuilder {
 
     public objective(objective: string): MemberBuilder {
         this.me.objective = objective;
+        return this;
+    }
+
+    public profileCompleted(profileCompleted: boolean): MemberBuilder {
+        this.me.profileCompleted = profileCompleted;
         return this;
     }
 

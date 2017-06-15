@@ -10,7 +10,6 @@ import {MeasurementsAddDialogComponent} from '../../evolution/measurements-add-d
 })
 export class MeasurementsListComponent implements OnInit {
   @Input() measurements: Measurement[];
-  selectedValue: string;
   measurementsList: any;
 
   constructor(private dialogService: DialogService) {
@@ -29,14 +28,11 @@ export class MeasurementsListComponent implements OnInit {
       {value: 'LEFTCALF', name: 'Mollet gauche'},
       {value: 'RIGHTTHIGH', name: 'Cuisse droite'},
       {value: 'LEFTTHIGH', name: 'Cuisse gauche'},
-
     ];
   }
 
   openDialogAddMeasurement() {
-    let disposable = this.dialogService.addDialog(MeasurementsAddDialogComponent, {
-        measurementsList: this.measurementsList
-      }
+    let disposable = this.dialogService.addDialog(MeasurementsAddDialogComponent, {}, {backdropColor: 'rgba(0,0,0,0.5)'}
     ).subscribe((isConfirmed) => {
       //We get dialog result
       if (isConfirmed) {

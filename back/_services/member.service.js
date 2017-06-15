@@ -4,7 +4,7 @@ const Measurement = require('../_model/Measurement');
 const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
-//const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -116,7 +116,7 @@ class MemberService {
         member.profileCompleted = true;
         member.sessionFrequency = sessionFrequency;
         member.birthDate = new Date(birthDate);
-        member.objective = objectiveEnum.name;
+        member.objective = ObjectiveEnum.MassGainer;
         return member.save();
       })
       .then(member => {

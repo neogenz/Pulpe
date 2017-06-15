@@ -4,6 +4,7 @@ import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
 import {Member} from "../../_model/Member";
 import {LocalStorageService} from "angular-2-local-storage";
+import {Measurement} from "../../_model/Measurement";
 
 @Injectable()
 export class MemberService extends ObservableHelper {
@@ -18,7 +19,7 @@ export class MemberService extends ObservableHelper {
       let rawMember = JSON.parse(memberLocallyStored);
       return Observable.of(new Member().initFromRawObject(rawMember));
     } else {
-      return this.http.get('http://localhost:5000/members/' + id)
+      return this.http.get(`http://localhost:5000/members/${id}`)
         .map(response => {
           const data: any = this.extractDataOf(response);
           return Member.of()
@@ -30,6 +31,21 @@ export class MemberService extends ObservableHelper {
             .build();
         }).catch(this.handleError);
     }
+  }
+
+  public addMeasurements(memberId: string, measurements: any) {
+    return this.http.put(`http://localhost:5000/members/${memberId}/measurements`, {
+      measurements: measurements
+    }).map(response => {
+      const data: any = this.extractDataOf(response);
+      return Member.of()
+        .id(data.member._id)
+        .lastName(data.member.lastName)
+        .firstName(data.member.firstName)
+        .measurements(data.member.measurements)
+        .objective(data.member.objective)
+        .build();
+    }).catch(this.handleError);
   }
 
 }
