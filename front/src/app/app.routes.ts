@@ -5,6 +5,7 @@ import {EvolutionComponent} from './evolution/evolution.component';
 import {ProgramComponent} from './program/program.component';
 import {SignupComponent} from './Signup/signup.component';
 import {ProfileCompletationComponent} from './profile/profile-completation/profile-completation.component';
+import {ProfileCompletationCoachComponent} from './profile/profile-completation-coach/profile-completation-coach.component';
 import {SessionsComponent} from "./sessions/sessions.component";
 import {ProgramResolver} from "./program/program.resolver";
 import {AuthenticationGuard} from "./_guards/authentication-guard.service";
@@ -14,6 +15,8 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
 import {ProfileResolver} from "./profile/profile.resolver";
 import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
+import {AppComponent} from "./app.component";
+import {ProfileIsMemberGuardService} from "./_guards/profile-is-member-guard.service";
 
 // Route Configuration
 export const ROUTES: Routes = [
@@ -41,12 +44,12 @@ export const ROUTES: Routes = [
     resolve: {
       program: ProgramResolver,
     },
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService]
   },
   {
     path: 'evolution/:id',
     component: EvolutionComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
     resolve: {
       evolution: EvolutionResolver
     }
@@ -54,7 +57,7 @@ export const ROUTES: Routes = [
   {
     path: 'seances',
     component: SessionsComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
     resolve: {
       sessions: SessionsResolver
     }
@@ -68,8 +71,13 @@ export const ROUTES: Routes = [
     }
   },
   {
-    path: 'profil/complete',
+    path: 'profil/member/complete',
     component: ProfileCompletationComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'profil/coach/complete',
+    component: ProfileCompletationCoachComponent,
     canActivate: [AuthenticationGuard]
   }
   //{path: '', redirectTo: '/', pathMatch: 'full'}

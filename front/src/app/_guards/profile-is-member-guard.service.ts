@@ -6,21 +6,15 @@ import {Router} from '@angular/router';
 import {ProfileService} from "../profile/profile.service";
 
 @Injectable()
-export class ProfileCompletedGuardService implements CanActivate {
+export class ProfileIsMemberGuardService implements CanActivate {
 
   constructor(private router: Router, private profileService: ProfileService) {
   }
 
   canActivate() {
-    // debugger;
-    const profileIsCompleted: boolean = this.profileService.profileIsCompleted();
-    if (!profileIsCompleted) {
-      const profileIsCoach: boolean = this.profileService.profileIsCoach();
-      if(profileIsCoach) {
-        this.router.navigate(['/profil/coach/complete']);
-      } else {
-        this.router.navigate(['/profil/member/complete']);
-      }
+    debugger;
+    const profileIsCoach: boolean = this.profileService.profileIsCoach();
+    if (profileIsCoach) {
       return false;
     }
     return true;

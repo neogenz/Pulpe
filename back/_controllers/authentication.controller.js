@@ -34,9 +34,10 @@ class AuthenticationController {
     const email = req.body.email,
       password = req.body.password,
       firstname = req.body.firstname,
-      lastname = req.body.lastname;
+      lastname = req.body.lastname,
+      isCoach = req.body.isCoach;
 
-    AuthenticationService.signupBy(firstname, lastname, email, password).then((token)=> {
+    AuthenticationService.signupBy(firstname, lastname, email, password, isCoach).then((token)=> {
       res.send({token: token});
     }).catch((error)=> {
       const httpError = HttpErrorHelper.buildHttpErrorByError(error);

@@ -2,13 +2,13 @@ import {Observable} from "rxjs/Observable";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 export interface IAuthenticationService {
 
-  signin(login:string, password:string):Observable<AuthenticationProfile>;
+  signin(login: string, password: string, isCoach: boolean): Observable<AuthenticationProfile>;
 
-  signup(firstName:string, lastName:string, login:string, password:string):Observable<AuthenticationProfile>;
+  signup(firstName: string, lastName: string, login: string, password: string, isCoach: boolean): Observable<AuthenticationProfile>;
 
-  signout():void;
+  signout(): void;
 
-  authenticated():boolean;
+  authenticated(): boolean;
 
-  getAuthenticationProfileInLocalStorage():AuthenticationProfile;
+  getAuthenticationProfileInLocalStorage(): AuthenticationProfile;
 }

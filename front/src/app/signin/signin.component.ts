@@ -19,7 +19,7 @@ export class SigninComponent implements OnInit, OnError {
   signinForm: FormGroup;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
-
+  isCoachCtrl: FormControl;
   isInError: boolean;
   errorMsg: string;
 
@@ -29,7 +29,8 @@ export class SigninComponent implements OnInit, OnError {
     this.signinForm = fb.group({
       email: this.emailCtrl,
       password: this.passwordCtrl,
-      rememberMe: [false]
+      rememberMe: [false],
+      isCoach: this.isCoachCtrl
     });
   }
 
@@ -47,7 +48,8 @@ export class SigninComponent implements OnInit, OnError {
 
   signin(): void {
     this.signing = true;
-    this.authenticationRequest = this.authenticationService.signin(this.emailCtrl.value, this.signinForm.get('password').value);
+    const isCoach = this.isCoachCtrl.get('isCoach').value === 'coach' ? true : false;
+    this.authenticationRequest = this.authenticationService.signin(this.emailCtrl.value, this.signinForm.get('password').value, isCoach);
     this.slimLoadingBarService.start();
     this.authenticationRequest
       .finally(() => {

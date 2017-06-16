@@ -37,20 +37,22 @@ class MemberService {
      * Password is checked by validation method.
      * @param email
      * @param password
+     * @param isCoach
      * @returns {Promise.<Member>|Promise}
      */
-    static findByEmailAndPassword(email, password) {
-        return Member.findOne({'email': email}).then((member) => {
-            if (!member) {
-                throw new NotFoundError('Adhérent introuvable.');
-            }
-            if (!member.validPassword(password)) {
-                throw new NotFoundError('Email ou mot de passe invalide.');
-            }
-            return member;
-        }).catch(err => {
-            throw err;
-        });
+    static findBy(email, password, isCoach) {
+        return Member.findOne({'email': email, 'isCoach': isCoach})
+            .then((member) => {
+                if (!member) {
+                    throw new NotFoundError('Adhérent introuvable.');
+                }
+                if (!member.validPassword(password)) {
+                    throw new NotFoundError('Email ou mot de passe invalide.');
+                }
+                return member;
+            }).catch(err => {
+                throw err;
+            });
     }
 
     /**
@@ -114,8 +116,7 @@ class MemberService {
      * @param {ObjectiveEnum} objectiveEnum
      * @returns {Promise.<Member>|Promise}
      */
-    static
-    completeProfile(memberId, measurements, sessionFrequency, birthDate, objectiveEnum) {
+    static completeProfile(memberId, measurements, sessionFrequency, birthDate, objectiveEnum) {
         return this.findById(memberId)
             .then(member => {
                 measurements.forEach(mes => {

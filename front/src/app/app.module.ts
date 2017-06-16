@@ -43,6 +43,7 @@ import {ProfilePhotoComponent} from './profile/profile-photo/profile-photo.compo
 import {ProfileInfosComponent} from './profile/profile-infos/profile-infos.component';
 import {ProfileService} from './profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
+import {ProfileIsMemberGuardService} from './_guards/profile-is-member-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
 import {SidebarComponent} from './shared/navbar/sidebar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
@@ -54,6 +55,7 @@ import {MeasurementsListComponent} from './evolution/measurements-list/measureme
 import {MeasurementsAddDialogComponent} from './evolution/measurements-add-dialog/measurements-add-dialog.component';
 import {BootstrapModalModule} from "ng2-bootstrap-modal";
 import {EvolutionResolver} from "./evolution/evolution.resolver";
+import {ProfileCompletationCoachComponent} from './profile/profile-completation-coach/profile-completation-coach.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import {EvolutionResolver} from "./evolution/evolution.resolver";
     SidebarComponent,
     FooterComponent,
     MeasurementsListComponent,
-    MeasurementsAddDialogComponent
+    MeasurementsAddDialogComponent,
+    ProfileCompletationCoachComponent
   ],
   imports: [
     BrowserModule,
@@ -136,6 +139,7 @@ import {EvolutionResolver} from "./evolution/evolution.resolver";
     ProfileService,
     AuthenticationGuard,
     ProfileCompletedGuardService,
+    ProfileIsMemberGuardService,
     MeasurementEnumService
   ],
   entryComponents: [

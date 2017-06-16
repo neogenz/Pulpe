@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit, OnError {
   passwordForm: FormGroup;
   firstNameCtrl: FormControl;
   lastNameCtrl: FormControl;
+  isCoachCtrl: FormControl;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
   confirmPasswordCtrl: FormControl;
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit, OnError {
     this.emailCtrl = fb.control('', Validators.required);
     this.passwordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
     this.confirmPasswordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
-
+    this.isCoachCtrl = fb.control('');
     this.passwordForm = fb.group(
       {password: this.passwordCtrl, confirmPassword: this.confirmPasswordCtrl},
       {validator: SignupComponent.passwordMatch}
@@ -51,7 +52,8 @@ export class SignupComponent implements OnInit, OnError {
       firstName: this.firstNameCtrl,
       lastName: this.lastNameCtrl,
       email: this.emailCtrl,
-      passwordForm: this.passwordForm
+      passwordForm: this.passwordForm,
+      isCoach: this.isCoachCtrl
     })
   }
 
@@ -67,7 +69,8 @@ export class SignupComponent implements OnInit, OnError {
       this.firstNameCtrl.value,
       this.lastNameCtrl.value,
       this.emailCtrl.value,
-      this.passwordCtrl.value
+      this.passwordCtrl.value,
+      this.isCoachCtrl.value === 'coach' ? true : false
     );
     this.slimLoadingBarService.start();
     this.authenticationRequest
@@ -77,7 +80,11 @@ export class SignupComponent implements OnInit, OnError {
       })
       .subscribe((authProfile) => {
           this.localStorage.set('profile', JSON.stringify(authProfile));
-          this.router.navigateByUrl('/profil/complete');
+          if(authProfile.isCoach) {
+            this.router.navigateByUrl('/profil/coach/complete');
+          } else {
+            this.router.navigateByUrl('/profil/member/complete');
+          }
         },
         (errorMsg) => {
           this.displayErrorMsg(errorMsg);

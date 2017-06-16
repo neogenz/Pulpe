@@ -11,6 +11,7 @@ export class AuthenticationProfile {
   public lastName:string;
   public firstName:string;
   public profileCompleted:boolean;
+  public isCoach:boolean;
 
   public static of():AuthenticationProfileBuilder {
     return new AuthenticationProfileBuilder();
@@ -60,6 +61,11 @@ class AuthenticationProfileBuilder {
 
   public profileCompleted(profileCompleted:boolean):AuthenticationProfileBuilder{
     this.me.profileCompleted = profileCompleted;
+    return this;
+  }
+
+  public isCoach(isCoach:boolean):AuthenticationProfileBuilder {
+    this.me.isCoach = isCoach;
     return this;
   }
 
