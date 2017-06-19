@@ -57,7 +57,7 @@ class CoachService {
 
     /**
      * Hash the password of a Coach and save them.
-     * @param Coach
+     * @param coach
      * @returns {Promise.<Coach>|Promise}
      */
     static createCoach(coach) {
@@ -90,7 +90,7 @@ class CoachService {
                 return this.findById(coachId);
             })
             .then(coach => {
-                coach.gym_id = gym.id;
+                coach.gym = gym.id;
                 coach.profileCompleted = true;
                 coach.birthDate = new Date(birthDate);
                 return coach.save();

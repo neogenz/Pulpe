@@ -17,9 +17,7 @@ class AuthenticationService {
     static signinBy(email, password) {
         return CoachService.findBy(email, password)
             .then((coachFinded) => {
-                const token = jwt.sign(coachFinded.toObject(), process.env.JWT_SECRET, {
-                    expiresIn: 60 * 60 * 24 // expires in 24 hours
-                });
+                const token = _generateToken(coachFinded);
                 return {
                     token: token,
                     isCoach: true
@@ -28,9 +26,7 @@ class AuthenticationService {
                 return MemberService.findBy(email, password);
             })
             .then(memberFinded => {
-                const token = jwt.sign(memberFinded.toObject(), process.env.JWT_SECRET, {
-                    expiresIn: 60 * 60 * 24 // expires in 24 hours
-                });
+                const token = _generateToken(memberFinded);
                 return {
                     token: token,
                     isCoach: false
@@ -55,43 +51,52 @@ class AuthenticationService {
      */
     static signupBy(firstname, lastname, email, password, isCoach) {
         if (isCoach) {
-            let coach = new Coach();
+            const coach = new Coach();
             coach.firstName = firstname;
             coach.lastName = lastname;
             coach.email = email;
             coach.password = password;
-            return CoachService.createCoach(coach)
-                .then((coachCreated) => {
-                        const token = jwt.sign(coachCreated.toObject(), process.env.JWT_SECRET, {
-                            expiresIn: 60 * 60 * 24 // expires in 24 hours
-                        });
-                        return token;
-                    },
-                    (error) => {
-                        throw error;
-                    }).catch(error => {
-                    throw error;
-                });
+            return _signupCoach(coach);
         }
 
-        let member = new Member();
+        const member = new Member();
         member.firstName = firstname;
         member.lastName = lastname;
         member.email = email;
         member.password = password;
-        return MemberService.createMember(member)
-            .then((memberCreated) => {
-                    const token = jwt.sign(memberCreated.toObject(), process.env.JWT_SECRET, {
-                        expiresIn: 60 * 60 * 24 // expires in 24 hours
-                    });
-                    return token;
-                },
-                (error) => {
-                    throw error;
-                }).catch(error => {
-                throw error;
-            });
+        return _signupMember(member);
     }
+}
+
+
+function _signupMember(member) {
+    return MemberService.createMember(member)
+        .then((memberCreated) => {
+            return _generateToken(memberCreated);
+        }, (error) => {
+            throw error;
+        })
+        .catch(error => {
+            throw error;
+        });
+}
+
+function _signupCoach(coach) {
+    return CoachService.createCoach(coach)
+        .then((coachCreated) => {
+            return _generateToken(coachCreated);
+        }, (error) => {
+            throw error;
+        })
+        .catch(error => {
+            throw error;
+        });
+}
+
+function _generateToken(obj) {
+    return jwt.sign(obj.toObject(), process.env.JWT_SECRET, {
+        expiresIn: 60 * 60 * 24 // expires in 24 hours
+    });
 }
 
 module.exports = AuthenticationService;

@@ -4,18 +4,17 @@ import {Member} from "../../_model/Member";
 
 
 @Component({
-    selector: 'pulpe-profile-infos',
-    templateUrl: 'profile-infos.component.html',
-    styleUrls: ['profile-infos.component.css'],
+  selector: 'pulpe-profile-infos',
+  templateUrl: 'profile-infos.component.html',
+  styleUrls: ['profile-infos.component.css'],
 })
 export class ProfileInfosComponent implements OnInit {
-    @Input() member: Member;
+  @Input() member: Member;
 
-    constructor() {
-    }
+  constructor() {
+  }
 
-    ngOnInit() {
-        console.dir(this.member);
-    }
+  ngOnInit() {
+  }
 
 }

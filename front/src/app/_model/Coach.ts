@@ -1,3 +1,4 @@
+import {Gym} from "./Gym";
 export class Coach {
 
   constructor() {
@@ -17,7 +18,7 @@ export class Coach {
   objective: string;
   profileCompleted: boolean;
   dateOfBirth: Date;
-  gym_id: string; // Todo : object Gym
+  gym: Gym;
 
   public static of(): CoachBuilder {
     return new CoachBuilder();
@@ -71,8 +72,8 @@ class CoachBuilder {
     return this;
   }
 
-  public gymId(gymId: string): CoachBuilder {
-    this.me.gym_id = gymId;
+  public gym(gym: Gym): CoachBuilder {
+    this.me.gym = gym;
     return this;
   }
 

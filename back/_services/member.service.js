@@ -20,7 +20,12 @@ class MemberService {
      * @returns {Promise|Promise.<Member>}
      */
     static findById(id) {
+        const populationGraph = {
+            path: 'gym',
+            model: 'Gym'
+        };
         return Member.findOne({'_id': id})
+            .populate(populationGraph)
             .then((member) => {
                 if (!member) {
                     throw new NotFoundError('Adhérent introuvable.');
@@ -28,7 +33,7 @@ class MemberService {
                 return member;
             })
             .catch(err => {
-                throw TechnicalError(err.message);
+                throw new TechnicalError(err.message);
             });
     }
 
@@ -126,7 +131,7 @@ class MemberService {
                 member.sessionFrequency = sessionFrequency;
                 member.birthDate = new Date(birthDate);
                 member.objective = ObjectiveEnum.MassGainer;
-                member.gym_id = gymId;
+                member.gym = gymId;
                 return member.save();
             })
             .then(member => {

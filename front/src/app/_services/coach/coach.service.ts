@@ -28,7 +28,7 @@ export class CoachService extends ObservableHelper {
             .city(data.coach.city)
             .address(data.coach.address)
             .dateOfBirth(data.coach.dateOfBirth)
-            .gymId(data.coach.gym_id)
+            .gym(data.coach.gym)
             .profileCompleted(data.coach.profileIsCompleted)
             .build();
         }).catch(this.handleError);

@@ -19,7 +19,7 @@ const MemberSchema = new Schema({
     ]
   },
   measurements: {type: [Measurement.schema], default: []},
-  gym_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
+  gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date,
   password: String,

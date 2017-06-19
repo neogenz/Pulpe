@@ -26,6 +26,20 @@ class MemberController {
             });
     }
 
+    static findByIdPopulated(req, res) {
+        const id = req.params.id;
+
+        MemberService.findById(id)
+            .then(member => {
+                res.send({member: member});
+            })
+            .catch((error) => {
+                console.log(error);
+                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+                return res.status(httpError.code).send(httpError);
+            });
+    }
+
     /**
      * Add measurements for a member.
      * @param req

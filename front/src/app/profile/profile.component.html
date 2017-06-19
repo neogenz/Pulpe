@@ -3,12 +3,43 @@
             [title]="'Votre profil'">
     </pulpe-page-title>
 
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <pulpe-simple-counter-with-icon icoClass="ion ion-location"
+                                            label="Ma salle de sport"
+                                            icoBackgroundColor="blue"
+                                            value="{{member.gym.name}} - {{member.gym.city}}">
+            </pulpe-simple-counter-with-icon>
+        </div>
+        <div class="col-md-4">
+            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-calendar-outline"
+                                            label="Adhérent depuis"
+                                            icoBackgroundColor="orange"
+                                            value="{{member.createdAt | date: 'dd/MM/yyyy'}}">
+            </pulpe-simple-counter-with-icon>
+        </div>
+        <div class="col-md-4">
+            <pulpe-simple-counter-with-icon icoClass="ion ion-clipboard"
+                                            label="Objective"
+                                            icoBackgroundColor="green"
+                                            value="{{objective}}">
+            </pulpe-simple-counter-with-icon>
+        </div>
+    </div>
+
     <div class="row card-cascade-parent">
         <div class="col-md-8 pt-md-0 pt-5">
             <pulpe-profile-infos [member]="member"></pulpe-profile-infos>
         </div>
         <div class="col-md-4">
             <pulpe-profile-photo></pulpe-profile-photo>
+        </div>
+    </div>
+    <div class="row bottom-right">
+        <div class="col-md-12 pt-10 pb-2">
+            <button md-fab class="pull-right bg-primary">
+                <i class="ion-edit edit"></i>
+            </button>
         </div>
     </div>
 </div>

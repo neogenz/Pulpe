@@ -25,22 +25,22 @@
                         <span *ngSwitchCase="'SHOULDERS'" class="text-black-primary text-muted">
                             Epaules
                         </span>
-                        <span *ngSwitchCase="'RIGHTARM'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'RIGHT_ARM'" class="text-black-primary text-muted">
                             Bras droit
                         </span>
-                        <span *ngSwitchCase="'LEFTARM'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'LEFT_ARM'" class="text-black-primary text-muted">
                             Bras gauche
                         </span>
-                        <span *ngSwitchCase="'RIGHTCALF'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'RIGHT_CALF'" class="text-black-primary text-muted">
                             Mollet droite
                         </span>
-                        <span *ngSwitchCase="'LEFTCALF'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'LEFT_CALF'" class="text-black-primary text-muted">
                             Mollet gauche
                         </span>
-                        <span *ngSwitchCase="'RIGHTTHIGH'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'RIGHT_THIGH'" class="text-black-primary text-muted">
                             Cuisse droite
                         </span>
-                        <span *ngSwitchCase="'LEFTTHIGH'" class="text-black-primary text-muted">
+                        <span *ngSwitchCase="'LEFT_THIGH'" class="text-black-primary text-muted">
                             Cuisse gauche
                         </span>
                     </div>
@@ -56,7 +56,8 @@
             <hr *ngIf="!last">
         </md-list-item>
         <div class="pt-5 pb-5">
-            <button type="button" (click)="openDialogAddMeasurement()" class="btn btn-lg btn-secondary text-white w-100 text-center"
+            <button type="button" (click)="openDialogAddMeasurement()"
+                    class="btn btn-lg btn-secondary text-white w-100 text-center"
                     type="submit">
                 <i class="ion-plus"></i>
             </button>

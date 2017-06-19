@@ -22,18 +22,23 @@ export class MemberService extends ObservableHelper {
       return this.http.get(`http://localhost:5000/members/${id}`)
         .map(response => {
           const data: any = this.extractDataOf(response);
+          debugger;
           return Member.of()
             .id(data.member._id)
             .lastName(data.member.lastName)
             .firstName(data.member.firstName)
             .measurements(data.member.measurements)
             .objective(data.member.objective)
+            .sessionFrequency(data.member.sessionFrequency)
+            .gym(data.member.gym)
+            .mail(data.member.email)
+            .createdAt(data.member.createdAt.toLocaleString())
             .build();
         }).catch(this.handleError);
     }
   }
 
-  public addMeasurements(memberId: string, measurements: any) : Observable<Member | string> {
+  public addMeasurements(memberId: string, measurements: any): Observable<Member | string> {
     return this.http.put(`http://localhost:5000/members/${memberId}/measurements`, {
       measurements: measurements
     }).map(response => {
@@ -44,6 +49,10 @@ export class MemberService extends ObservableHelper {
         .firstName(data.member.firstName)
         .measurements(data.member.measurements)
         .objective(data.member.objective)
+        .sessionFrequency(data.member.sessionFrequency)
+        .gym(data.member.gym)
+        .mail(data.member.email)
+        .createdAt(data.member.createdAt.toLocaleString())
         .build();
     }).catch(this.handleError);
   }

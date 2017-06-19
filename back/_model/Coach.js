@@ -17,7 +17,7 @@ const CoachSchema = new Schema({
         unique: true,
         required: true
     },
-    gym_id: {type: mongoose.Schema.Types.ObjectId}
+    gym: {type: mongoose.Schema.Types.ObjectId}
 });
 
 CoachSchema.pre('save', function (next) {

@@ -54,28 +54,48 @@
                                     <md-tab label="Création de ma salle">
                                         <div class="row pt-3">
                                             <md-input-container class="col-md-12">
-                                                <input id="inputNameGym" type="text" mdInput formControlName="nameGym"
+                                                <input id="inputNameGym" minlength="2" maxlength="80" type="text" mdInput formControlName="nameGym"
                                                        placeholder="Saisissez le nom de votre salle de sport">
                                             </md-input-container>
                                             <md-hint *ngIf="nameGymCtrl.dirty && nameGymCtrl.hasError('')"
                                                      class="form-control-feedback">{{errorTranslations.name.required}}
                                             </md-hint>
+                                            <md-hint *ngIf="nameGymCtrl.dirty && nameGymCtrl.hasError('maxValue')"
+                                                     class="form-control-feedback">{{errorTranslations.name.maxValue}}
+                                            </md-hint>
+                                            <md-hint *ngIf="nameGymCtrl.dirty && nameGymCtrl.hasError('minValue')"
+                                                     class="form-control-feedback">{{errorTranslations.name.minValue}}
+                                            </md-hint>
                                             <md-input-container class="col-md-12">
                                                 <input id="inputCityGym" type="text" mdInput
-                                                       formControlName="cityGym"
+                                                       formControlName="cityGym" minlength="3" maxlength="60"
                                                        placeholder="Saisissez la ville">
                                             </md-input-container>
                                             <md-hint *ngIf="cityGymCtrl.dirty && cityGymCtrl.hasError('')"
                                                      class="form-control-feedback">{{errorTranslations.city.required}}
                                             </md-hint>
+                                            <md-hint *ngIf="cityGymCtrl.dirty && cityGymCtrl.hasError('maxValue')"
+                                                     class="form-control-feedback">{{errorTranslations.city.maxValue}}
+                                            </md-hint>
+                                            <md-hint *ngIf="cityGymCtrl.dirty && cityGymCtrl.hasError('minValue')"
+                                                     class="form-control-feedback">{{errorTranslations.city.minValue}}
+                                            </md-hint>
                                             <md-input-container class="col-md-12">
                                                 <input id="inputAddressGym" type="text" mdInput
-                                                       formControlName="addressGym"
+                                                       formControlName="addressGym" minlength="5" maxlength="150"
                                                        placeholder="Saisissez l'adresse">
                                             </md-input-container>
                                             <md-hint *ngIf="addressGymCtrl.dirty && addressGymCtrl.hasError('')"
                                                      class="form-control-feedback">
                                                 {{errorTranslations.address.required}}
+                                            </md-hint>
+                                            <md-hint *ngIf="addressGymCtrl.dirty && addressGymCtrl.hasError('maxValue')"
+                                                     class="form-control-feedback">
+                                                {{errorTranslations.address.maxValue}}
+                                            </md-hint>
+                                            <md-hint *ngIf="addressGymCtrl.dirty && cityGymCtrl.hasError('minValue')"
+                                                     class="form-control-feedback">
+                                                {{errorTranslations.address.minValue}}
                                             </md-hint>
                                         </div>
                                     </md-tab>

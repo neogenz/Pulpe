@@ -30,9 +30,24 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   errorTranslations: any;
   TAB_CREATE_GYM = 0;
   gyms: any;
+  private cityRange: any;
+  private addressRange: any;
+  private nameRange: any;
 
   constructor(private fb: FormBuilder, private profileService: ProfileService, private gymService: GymService, private localStorageService: LocalStorageService, private router: Router) {
     this.maximumBirthdate = this.buildToBeOldEnoughDate();
+    this.cityRange = {
+      min: 10,
+      max: 150
+    };
+    this.addressRange = {
+      min: 10,
+      max: 150
+    };
+    this.nameRange = {
+      min: 10,
+      max: 90
+    };
     this.initValidators();
     this.buildForm(fb);
   }
@@ -43,13 +58,19 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
         required: 'Votre date de naissance doit être renseignée.'
       },
       name: {
-        required: 'Le nom de la salle de sport doit être renseignée.'
+        required: 'Le nom de la salle de sport doit être renseignée.',
+        minValue: `Le nom de la salle de sport doit être supérieur à ${this.nameRange.min} caractères.`,
+        maxValue: `Le nom de la salle de sport doit être inférieur à ${this.nameRange.max} caractères.`,
       },
       address: {
-        required: `L'adresse être renseignée.`
+        required: `L'adresse être renseignée.`,
+        minValue: `L'adresse de la salle de sport doit être supérieure à ${this.addressRange.min} caractères.`,
+        maxValue: `L'adresse de la salle de sport doit être inférieure à ${this.addressRange.max} caractères.`,
       },
       city: {
-        required: 'Le nom de la ville doit être renseignée.'
+        required: 'Le nom de la ville doit être renseignée.',
+        minValue: `Le nom de la ville doit être supérieur à ${this.cityRange.min} caractères.`,
+        maxValue: `Le nom de la ville doit être inférieur à ${this.cityRange.max} caractères.`,
       },
       nameExisting: {
         required: 'La salle de sport doit être renseignée.'
@@ -115,7 +136,7 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   }
 
   onSelectChange = ($event: any): void => {
-    this.birthdateCtrl = this.fb.control('', Validators.required);
+    this.birthdateCtrl = this.fb.control(this.birthdateCtrl.value, Validators.required);
     if ($event.index === this.TAB_CREATE_GYM) {
       this.nameGymCtrl = this.fb.control('', Validators.required);
       this.addressGymCtrl = this.fb.control('', Validators.required);
