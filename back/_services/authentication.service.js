@@ -13,39 +13,36 @@ class AuthenticationService {
      * Signin the user or the coach.
      * @param email
      * @param password
-     * @param isCoach
      */
-    static signinBy(email, password, isCoach) {
-        if (isCoach) {
-            return CoachService.findBy(email, password)
-                .then((coachFinded) => {
-                        const token = jwt.sign(coachFinded.toObject(), process.env.JWT_SECRET, {
-                            expiresIn: 60 * 60 * 24 // expires in 24 hours
-                        });
-                        return token;
-                    },
-                    (error) => {
-                        throw error;
-                    }).catch(error => {
-                    throw error;
+    static signinBy(email, password) {
+        return CoachService.findBy(email, password)
+            .then((coachFinded) => {
+                const token = jwt.sign(coachFinded.toObject(), process.env.JWT_SECRET, {
+                    expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
-        }
-        return MemberService.findBy(email, password).then(
-            (memberFinded) => {
+                return {
+                    token: token,
+                    isCoach: true
+                };
+            }, (error) => {
+                return MemberService.findBy(email, password);
+            })
+            .then(memberFinded => {
                 const token = jwt.sign(memberFinded.toObject(), process.env.JWT_SECRET, {
                     expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
-                return token;
+                return {
+                    token: token,
+                    isCoach: false
+                };
             }, (error) => {
-                if (error instanceof NotFoundError) {
-                    throw new Error('Email ou mot de passe introuvable.');
-                }
+                throw  error;
+            })
+            .catch(error => {
                 throw error;
-            }).catch(err => {
-                throw err;
-            }
-        );
+            });
     }
+
 
     /**
      * Create member or a coach and return a token to authenticate them.

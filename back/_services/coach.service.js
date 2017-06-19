@@ -44,7 +44,7 @@ class CoachService {
         return Coach.findOne({'email': email})
             .then((coach) => {
                 if (!coach) {
-                    throw new NotFoundError('Coach introuvable.');
+                    throw new NotFoundError('Utilisateur introuvable.');
                 }
                 if (!coach.validPassword(password)) {
                     throw new NotFoundError('Email ou mot de passe invalide.');

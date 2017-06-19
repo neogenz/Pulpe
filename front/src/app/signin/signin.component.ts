@@ -19,19 +19,16 @@ export class SigninComponent implements OnInit, OnError {
   signinForm: FormGroup;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
-  isCoachCtrl: FormControl;
   isInError: boolean;
   errorMsg: string;
 
   constructor(private localStorage: LocalStorageService, private authenticationService: AuthenticationService, private slimLoadingBarService: SlimLoadingBarService, private router: Router, fb: FormBuilder) {
     this.emailCtrl = fb.control('', Validators.required);
     this.passwordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
-    this.isCoachCtrl = fb.control('');
     this.signinForm = fb.group({
       email: this.emailCtrl,
       password: this.passwordCtrl,
-      rememberMe: [false],
-      isCoach: this.isCoachCtrl
+      rememberMe: [false]
     });
   }
 
@@ -42,7 +39,6 @@ export class SigninComponent implements OnInit, OnError {
       if (profile.rememberMe) {
         this.signinForm.get('password').setValue(profile.password);
         this.emailCtrl.setValue(profile.login);
-        this.isCoachCtrl.setValue(profile.isCoach ? 0 : 1);
         this.signinForm.get('rememberMe').setValue(true);
       }
     }
@@ -50,8 +46,7 @@ export class SigninComponent implements OnInit, OnError {
 
   signin(): void {
     this.signing = true;
-    const isCoach = this.isCoachCtrl.value === 'coach' ? true : false;
-    this.authenticationRequest = this.authenticationService.signin(this.emailCtrl.value, this.signinForm.get('password').value, isCoach);
+    this.authenticationRequest = this.authenticationService.signin(this.emailCtrl.value, this.signinForm.get('password').value);
     this.slimLoadingBarService.start();
     this.authenticationRequest
       .finally(() => {

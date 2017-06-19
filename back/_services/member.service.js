@@ -43,7 +43,7 @@ class MemberService {
         return Member.findOne({'email': email})
             .then((member) => {
                 if (!member) {
-                    throw new NotFoundError('Adhérent introuvable.');
+                    throw new NotFoundError('Utilisateur introuvable.');
                 }
                 if (!member.validPassword(password)) {
                     throw new NotFoundError('Email ou mot de passe invalide.');

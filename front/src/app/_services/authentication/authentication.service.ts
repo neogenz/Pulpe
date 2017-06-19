@@ -17,11 +17,10 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
     super();
   }
 
-  public signin(login: string, password: string, isCoach: boolean): Observable<AuthenticationProfile | string> {
+  public signin(login: string, password: string): Observable<AuthenticationProfile | string> {
     return this.http.post(`${environment.baseUrl()}/signin`, {
       email: login,
-      password: password,
-      isCoach: isCoach
+      password: password
     }).map(response => {
       const data: any = this.extractDataOf(response);
       const rawProfile = this.jwtHelper.decodeToken(data.token);
@@ -31,8 +30,8 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
         .id(rawProfile._id)
         .profileCompleted(rawProfile.profileCompleted)
         .firstName(rawProfile.firstName)
+        .isCoach(data.isCoach)
         .lastName(rawProfile.lastName)
-        .isCoach(isCoach)
         .password(password).build();
     }).catch(this.handleError);
   }
@@ -52,7 +51,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
         .id(rawProfile._id)
         .login(rawProfile.email)
         .firstName(rawProfile.firstName)
-        .profileCompleted(rawProfile.isCoach)
+        .profileCompleted(rawProfile.profileCompleted)
         .isCoach(isCoach)
         .lastName(rawProfile.lastName)
         .password(password).build();

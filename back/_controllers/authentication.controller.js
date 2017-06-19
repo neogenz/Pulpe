@@ -13,12 +13,11 @@ class AuthenticationController {
      */
     static signin(req, res) {
         const email = req.body.email,
-            password = req.body.password,
-            isCoach = req.body.isCoach;
+            password = req.body.password;
 
-        AuthenticationService.signinBy(email, password, isCoach)
-            .then((token) => {
-                res.send({token: token});
+        AuthenticationService.signinBy(email, password)
+            .then((resp) => {
+                res.send({token: resp.token, isCoach: resp.isCoach});
             }).catch((err) => {
             var httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.NOT_FOUND, err);
             return res.status(httpError.code).send(httpError);
