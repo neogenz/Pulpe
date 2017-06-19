@@ -5,7 +5,7 @@ const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
-const MeasurementService = require('../_services/measurement.service');
+const GymService = require('../_services/gym.service');
 
 class AlreadyExistCoachError extends AlreadyExistError {
 }
@@ -40,8 +40,8 @@ class CoachService {
      * @param isCoach
      * @returns {Promise.<Coach>|Promise}
      */
-    static findBy(email, password, isCoach) {
-        return Coach.findOne({'email': email, 'isCoach': isCoach})
+    static findBy(email, password) {
+        return Coach.findOne({'email': email})
             .then((coach) => {
                 if (!coach) {
                     throw new NotFoundError('Coach introuvable.');
@@ -84,8 +84,13 @@ class CoachService {
      * @returns {Promise.<Coach>|Promise}
      */
     static completeProfile(coachId, gym, birthDate) {
-        return this.findById(coachId)
+        return GymService.getOrCreateGym(gym.id, gym.name, gym.address, gym.city)
+            .then(gymToAttach => {
+                gym = gymToAttach;
+                return this.findById(coachId);
+            })
             .then(coach => {
+                coach.gym_id = gym.id;
                 coach.profileCompleted = true;
                 coach.birthDate = new Date(birthDate);
                 return coach.save();

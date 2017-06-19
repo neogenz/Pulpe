@@ -20,8 +20,8 @@ export class ProfileService extends ObservableHelper {
 
   public profileIsCompleted(): boolean {
     const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-    if (profile && profile.profileCompleted) {
-      return true;
+    if (profile) {
+      return profile.profileCompleted;
     }
     return false;
   }
@@ -29,13 +29,13 @@ export class ProfileService extends ObservableHelper {
 
   public profileIsCoach(): boolean {
     const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-    if (profile && profile.isCoach) {
-      return true;
+    if (profile) {
+      return profile.isCoach;
     }
     return false;
   }
 
-  public completeProfile(size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string): Observable<AuthenticationProfile|string> {
+  public completeMemberProfile(gymId: string, size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string): Observable<AuthenticationProfile|string> {
     const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
     const url = `${environment.baseUrl()}/members/${profile.id}/profile/completed`;
     const body = {
@@ -51,43 +51,13 @@ export class ProfileService extends ObservableHelper {
           value: weight.value
         }
       ],
+      gymId: gymId,
       sessionFrequency: frequency,
       birthDate: moment(birthdate).format('YYYY-MM-DD'),
       objective: objective
     };
     return this.http.post(url, body).map(response => {
       const data: any = this.extractDataOf(response);
-      //const rawProfile = this.jwtHelper.decodeToken(data.token);
-      const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-      profile.profileCompleted = true;
-      return profile;
-    })
-      .catch(this.handleError);
-  }
-
-  public completeMemberProfile(size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string): Observable<AuthenticationProfile|string> {
-    const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-    const url = `${environment.baseUrl()}/members/${profile.id}/profile/completed`;
-    const body = {
-      measurements: [
-        {
-          name: this.measurementEnumService.getCodeFromName(size.name),
-          unit: this.measurementEnumService.getCodeFromUnit(size.unit),
-          value: size.value
-        },
-        {
-          name: this.measurementEnumService.getCodeFromName(weight.name),
-          unit: this.measurementEnumService.getCodeFromUnit(weight.unit),
-          value: weight.value
-        }
-      ],
-      sessionFrequency: frequency,
-      birthDate: moment(birthdate).format('YYYY-MM-DD'),
-      objective: objective
-    };
-    return this.http.post(url, body).map(response => {
-      const data: any = this.extractDataOf(response);
-      //const rawProfile = this.jwtHelper.decodeToken(data.token);
       const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
       profile.profileCompleted = true;
       return profile;

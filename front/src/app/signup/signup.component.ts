@@ -80,7 +80,7 @@ export class SignupComponent implements OnInit, OnError {
       })
       .subscribe((authProfile) => {
           this.localStorage.set('profile', JSON.stringify(authProfile));
-          if(authProfile.isCoach) {
+          if (authProfile.isCoach) {
             this.router.navigateByUrl('/profil/coach/complete');
           } else {
             this.router.navigateByUrl('/profil/member/complete');

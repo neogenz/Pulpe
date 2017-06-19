@@ -18,7 +18,7 @@
                         </md-card>
                     </div>
                 </div>
-                <div class="row pt-4">
+                <div class="row pt-5">
                     <div class="col-md-8 offset-md-2 form-group">
                         <div class="row">
                             <md-input-container class="col-md-8 offset-md-2 form-group">
@@ -30,6 +30,24 @@
                                 </md-hint>
                             </md-input-container>
                         </div>
+                    </div>
+                </div>
+            </md-card>
+        </div>
+    </div>
+
+    <div class="row card-cascade-parent pt-1">
+        <div class="col-md-12">
+            <md-card class="pt-0 white">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <md-card class="bg-primary-color card-cascade">
+                            <h4 class="text-light-weight">Ma salle de sport.</h4>
+                        </md-card>
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-md-8 offset-md-2 form-group">
                         <div class="row">
                             <div class="col-md-8 offset-md-2 form-group">
                                 <md-tab-group (selectChange)="onSelectChange($event)">
@@ -56,20 +74,23 @@
                                                        placeholder="Saisissez l'adresse">
                                             </md-input-container>
                                             <md-hint *ngIf="addressGymCtrl.dirty && addressGymCtrl.hasError('')"
-                                                     class="form-control-feedback">{{errorTranslations.address.required}}
+                                                     class="form-control-feedback">
+                                                {{errorTranslations.address.required}}
                                             </md-hint>
                                         </div>
                                     </md-tab>
                                     <md-tab label="Ma salle existe">
                                         <div class="row">
-                                            <md-select placeholder="Choissisez votre salle" class="pt-4 col-md-12"
+                                            <md-select placeholder="Choisissez votre salle" class="pt-4 col-md-12"
                                                        formControlName="nameExistingGym">
-                                                <md-option [value]="todo">
-                                                    TODO
+                                                <md-option *ngFor="let gym of gyms" [value]="gym.id">
+                                                    {{gym.name}} - {{gym.city}}
                                                 </md-option>
                                             </md-select>
-                                            <md-hint *ngIf="nameExistingGymCtrl.dirty && nameExistingGymCtrl.hasError('')"
-                                                     class="form-control-feedback">{{errorTranslations.nameExisting.required}}
+                                            <md-hint
+                                                    *ngIf="nameExistingGymCtrl.dirty && nameExistingGymCtrl.hasError('')"
+                                                    class="form-control-feedback">
+                                                {{errorTranslations.nameExisting.required}}
                                             </md-hint>
                                         </div>
                                     </md-tab>
@@ -81,6 +102,7 @@
             </md-card>
         </div>
     </div>
+
     <div class="row mt-4">
         <div *ngIf="isInError" class="col-md-12 col-12">
             <div class="alert alert-danger">

@@ -9,4 +9,5 @@ module.exports = (provider) => {
     require('./_routes/member.routes')(provider);
     require('./_routes/coach.routes')(provider);
     require('./_routes/measurement.routes')(provider);
+    require('./_routes/gym.routes')(provider);
 };

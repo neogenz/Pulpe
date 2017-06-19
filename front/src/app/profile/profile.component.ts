@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+        debugger;
         this.member = this.route.snapshot.data['profile'];
     }
 

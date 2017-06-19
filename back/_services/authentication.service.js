@@ -10,15 +10,29 @@ class AuthenticationService {
     }
 
     /**
-     * Signin the user
+     * Signin the user or the coach.
      * @param email
      * @param password
      * @param isCoach
      */
     static signinBy(email, password, isCoach) {
-        return MemberService.findBy(email, password, isCoach).then(
-            (member) => {
-                var token = jwt.sign(member.toObject(), process.env.JWT_SECRET, {
+        if (isCoach) {
+            return CoachService.findBy(email, password)
+                .then((coachFinded) => {
+                        const token = jwt.sign(coachFinded.toObject(), process.env.JWT_SECRET, {
+                            expiresIn: 60 * 60 * 24 // expires in 24 hours
+                        });
+                        return token;
+                    },
+                    (error) => {
+                        throw error;
+                    }).catch(error => {
+                    throw error;
+                });
+        }
+        return MemberService.findBy(email, password).then(
+            (memberFinded) => {
+                const token = jwt.sign(memberFinded.toObject(), process.env.JWT_SECRET, {
                     expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
                 return token;
@@ -31,23 +45,10 @@ class AuthenticationService {
                 throw err;
             }
         );
-        //return  (login, password).then(function (agent) {
-        //  try {
-        //    var token = jwt.sign(agent.toObject(), process.env.JWT_SECRET, {
-        //      expiresIn: "86400000" // expires in 24 hours
-        //    });
-        //    return token;
-        //  } catch (err) {
-        //    err.statusHttp = 500;
-        //    throw err;
-        //  }
-        //}).catch(function (err) {
-        //  return err;
-        //});
     }
 
     /**
-     * Create member and return an token to authenticate them.
+     * Create member or a coach and return a token to authenticate them.
      * @param firstname
      * @param lastname
      * @param email
@@ -56,25 +57,34 @@ class AuthenticationService {
      * @returns {Promise.<string>|Promise}
      */
     static signupBy(firstname, lastname, email, password, isCoach) {
-        let member;
-        let coach;
         if (isCoach) {
-            coach = new Coach();
+            let coach = new Coach();
             coach.firstName = firstname;
             coach.lastName = lastname;
             coach.email = email;
             coach.password = password;
-        } else {
-            member = new Member();
-            member.firstName = firstname;
-            member.lastName = lastname;
-            member.email = email;
-            member.password = password;
+            return CoachService.createCoach(coach)
+                .then((coachCreated) => {
+                        const token = jwt.sign(coachCreated.toObject(), process.env.JWT_SECRET, {
+                            expiresIn: 60 * 60 * 24 // expires in 24 hours
+                        });
+                        return token;
+                    },
+                    (error) => {
+                        throw error;
+                    }).catch(error => {
+                    throw error;
+                });
         }
-        if (!isCoach) {
-            return MemberService.createMember(member).then(
-                (member) => {
-                    const token = jwt.sign(member.toObject(), process.env.JWT_SECRET, {
+
+        let member = new Member();
+        member.firstName = firstname;
+        member.lastName = lastname;
+        member.email = email;
+        member.password = password;
+        return MemberService.createMember(member)
+            .then((memberCreated) => {
+                    const token = jwt.sign(memberCreated.toObject(), process.env.JWT_SECRET, {
                         expiresIn: 60 * 60 * 24 // expires in 24 hours
                     });
                     return token;
@@ -84,23 +94,7 @@ class AuthenticationService {
                 }).catch(error => {
                 throw error;
             });
-        } else {
-            return CoachService.createCoach(coach).then(
-                (member) => {
-                    const token = jwt.sign(member.toObject(), process.env.JWT_SECRET, {
-                        expiresIn: 60 * 60 * 24 // expires in 24 hours
-                    });
-                    return token;
-                },
-                (error) => {
-                    throw error;
-                }).catch(error => {
-                throw error;
-            });
-        }
     }
-
-
 }
 
 module.exports = AuthenticationService;

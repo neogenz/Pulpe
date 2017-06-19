@@ -78,7 +78,7 @@ mongoose.connection.on('connected', function () {
     })
     .then((exercisesReferencesInformations) => {
       global.exercisesReferencesInformations = exercisesReferencesInformations;
-      return GymService.createGym('Keep cool', 'Avignon',
+      return GymService.createGym('Keep cool', '20 Place pan carre', 'Avignon',
         {
           monday: {
             openingHour: moment("08:00", "HH:mm").toDate(),

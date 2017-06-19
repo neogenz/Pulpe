@@ -37,11 +37,10 @@ class MemberService {
      * Password is checked by validation method.
      * @param email
      * @param password
-     * @param isCoach
      * @returns {Promise.<Member>|Promise}
      */
-    static findBy(email, password, isCoach) {
-        return Member.findOne({'email': email, 'isCoach': isCoach})
+    static findBy(email, password) {
+        return Member.findOne({'email': email})
             .then((member) => {
                 if (!member) {
                     throw new NotFoundError('Adhérent introuvable.');
@@ -109,6 +108,7 @@ class MemberService {
 
     /**
      * Add measurements for a member and complete his profile.
+     * @param gymId
      * @param memberId
      * @param measurements
      * @param sessionFrequency
@@ -116,7 +116,7 @@ class MemberService {
      * @param {ObjectiveEnum} objectiveEnum
      * @returns {Promise.<Member>|Promise}
      */
-    static completeProfile(memberId, measurements, sessionFrequency, birthDate, objectiveEnum) {
+    static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum) {
         return this.findById(memberId)
             .then(member => {
                 measurements.forEach(mes => {
@@ -126,6 +126,7 @@ class MemberService {
                 member.sessionFrequency = sessionFrequency;
                 member.birthDate = new Date(birthDate);
                 member.objective = ObjectiveEnum.MassGainer;
+                member.gym_id = gymId;
                 return member.save();
             })
             .then(member => {

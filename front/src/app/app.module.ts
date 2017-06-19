@@ -56,6 +56,8 @@ import {MeasurementsAddDialogComponent} from './evolution/measurements-add-dialo
 import {BootstrapModalModule} from "ng2-bootstrap-modal";
 import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletationCoachComponent} from './profile/profile-completation-coach/profile-completation-coach.component';
+import {GymService} from "./_services/gym/gym.service";
+import {CoachService} from "./_services/coach/coach.service";
 
 @NgModule({
   declarations: [
@@ -140,7 +142,9 @@ import {ProfileCompletationCoachComponent} from './profile/profile-completation-
     AuthenticationGuard,
     ProfileCompletedGuardService,
     ProfileIsMemberGuardService,
-    MeasurementEnumService
+    MeasurementEnumService,
+    GymService,
+    CoachService
   ],
   entryComponents: [
     MeasurementsAddDialogComponent

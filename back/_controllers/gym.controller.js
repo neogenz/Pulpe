@@ -1,5 +1,6 @@
 'use strict';
 
+const GymService = require('../_services/gym.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 
@@ -12,17 +13,10 @@ class GymController {
    * @param req
    * @param res
    */
-  static completeProfile(req, res) {
-    const memberId = req.params.id,
-      measurements = req.body.measurements,
-      sessionFrequency = req.body.sessionFrequency,
-      birthDate = new Date(req.body.birthDate);
-    let objective = req.body.objective;
-    objective = ObjectiveEnum[objective];
-
-    MemberService.completeProfile(memberId, measurements, sessionFrequency, birthDate, objective)
-      .then(member => {
-        res.send({member: member});
+  static findAll(req, res) {
+    GymService.findAll()
+      .then(gyms => {
+        res.send({gyms: gyms});
       })
       .catch((error) => {
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);

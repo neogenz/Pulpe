@@ -8,6 +8,8 @@ import {OnError} from "../../_helpers/IUIErrorHandlerHelper";
 import {Animations} from "../../shared/Animations";
 import {Observable} from "rxjs";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
+import {GymService} from "../../_services/gym/gym.service";
+import {Gym} from "../../_model/Gym";
 
 @Component({
   selector: 'pulpe-profile-completation-coach',
@@ -27,8 +29,9 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   errorMsg: string;
   errorTranslations: any;
   TAB_CREATE_GYM = 0;
+  gyms: any;
 
-  constructor(private fb: FormBuilder, private profileService: ProfileService, private localStorageService: LocalStorageService, private router: Router) {
+  constructor(private fb: FormBuilder, private profileService: ProfileService, private gymService: GymService, private localStorageService: LocalStorageService, private router: Router) {
     this.maximumBirthdate = this.buildToBeOldEnoughDate();
     this.initValidators();
     this.buildForm(fb);
@@ -55,6 +58,14 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   }
 
   ngOnInit() {
+    const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
+    httpRequest.subscribe(gyms => {
+        console.dir(gyms);
+        this.gyms = gyms;
+      },
+      errorMsg => {
+        this.displayErrorMsg(errorMsg);
+      });
   }
 
   complete() {

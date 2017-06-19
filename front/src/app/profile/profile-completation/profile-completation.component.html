@@ -55,24 +55,53 @@
                                placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
                     </md-input-container>
                     <pre class="col-md-8 offset-md-2" *ngIf="debug">{{birthdateCtrl.errors | json}}</pre>
-                    <md-input-container class="col-md-8 offset-md-2 form-group" required>
-                        <input id="inputFrequency" type="number" mdInput formControlName="frequency"
-                               placeholder="Saisissez la fréquence à votre salle de sport" required>
-                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('required')"
-                                 class="form-control-feedback">{{errorTranslations.frequency.required}}
-                        </md-hint>
-                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('maxValue')"
-                                 class="form-control-feedback">{{errorTranslations.frequency.maxValue}}
-                        </md-hint>
-                        <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('minValue')"
-                                 class="form-control-feedback">{{errorTranslations.frequency.minValue}}
-                        </md-hint>
-                    </md-input-container>
-                    <pre class="col-md-8 offset-md-2" *ngIf="debug">{{frequencyCtrl.errors | json}}</pre>
                 </div>
             </md-card>
         </div>
     </div>
+    <div class="row card-cascade-parent pt-1">
+        <div class="col-md-12">
+            <md-card class="pt-0 white">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <md-card class="bg-primary-color card-cascade">
+                            <h4 class="text-light-weight">Selectionnez votre salle de sport.</h4>
+                        </md-card>
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-md-8 offset-md-2 form-group">
+                        <div class="row">
+                            <md-select placeholder="Choisissez votre salle" formControlName="gym"
+                                       class="col-md-12 form-group">
+                                <md-option *ngFor="let gym of gyms" [value]="gym.id">
+                                    {{gym.name}} - {{gym.city}}
+                                </md-option>
+                            </md-select>
+                        </div>
+                        <div class="row">
+                            <md-input-container class="col-md-12" required>
+                                <input id="inputFrequency" type="number" mdInput formControlName="frequency"
+                                       placeholder="Saisissez la fréquence à votre salle de sport" required>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('required')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.required}}
+                                </md-hint>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('maxValue')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.maxValue}}
+                                </md-hint>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('minValue')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.minValue}}
+                                </md-hint>
+                            </md-input-container>
+                            <pre class="col-md-8 offset-md-2" *ngIf="debug">{{frequencyCtrl.errors | json}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </md-card>
+        </div>
+    </div>
+
+
     <div class="row card-cascade-parent pt-1">
         <div class="col-md-12">
             <md-card class="pt-0 white">

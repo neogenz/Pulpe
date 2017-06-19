@@ -24,6 +24,7 @@ export class Member {
     program: Program;
     profileCompleted: boolean;
     measurements: Measurement[];
+    gym_id: string;
 
     public static of(): MemberBuilder {
         return new MemberBuilder();
@@ -89,6 +90,11 @@ class MemberBuilder {
 
     public measurements(measurements: Measurement[]): MemberBuilder {
         this.me.measurements = measurements;
+        return this;
+    }
+
+    public gymId(gymId: string): MemberBuilder {
+        this.me.gym_id = gymId;
         return this;
     }
 

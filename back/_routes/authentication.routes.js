@@ -4,7 +4,7 @@ const AuthenticationController = require('../_controllers/authentication.control
 
 class AuthenticationRouter {
   constructor(provider) {
-    provider.post('/signin', AuthenticationController.signinByEmailAndPassword);
+    provider.post('/signin', AuthenticationController.signin);
     provider.post('/signup', AuthenticationController.signup);
   }
 }

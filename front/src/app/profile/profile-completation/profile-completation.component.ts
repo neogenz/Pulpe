@@ -10,6 +10,8 @@ import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {Router} from '@angular/router';
 import {OnError} from "../../_helpers/IUIErrorHandlerHelper";
+import {Gym} from "../../_model/Gym";
+import {GymService} from "../../_services/gym/gym.service";
 
 @Component({
   selector: 'pulpe-profile-completation',
@@ -25,12 +27,14 @@ export class ProfileCompletationComponent implements OnInit, OnError {
   weightCtrl: FormControl;
   birthdateCtrl: FormControl;
   frequencyCtrl: FormControl;
+  gymCtrl: FormControl;
   errorTranslations: any;
   private sizesRange: any;
   private frequencyRange: any;
   private maximumBirthdate: string;
   private weightRange: any;
   debug: boolean;
+  gyms: any;
   objectiveChoices = [
     {
       checked: false,
@@ -52,7 +56,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
     }
   ];
 
-  constructor(fb: FormBuilder, private profileService: ProfileService, private localStorageService: LocalStorageService, private router: Router) {
+  constructor(fb: FormBuilder, private profileService: ProfileService, private gymService: GymService, private localStorageService: LocalStorageService, private router: Router) {
     this.sizesRange = {
       min: 50,
       max: 250
@@ -104,16 +108,26 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       CustomValidators.minValue(this.frequencyRange.min),
       CustomValidators.maxValue(this.frequencyRange.max)
     ]);
+    this.gymCtrl = fb.control('');
     this.profileCompleteForm = fb.group({
       size: this.sizeCtrl,
       objective: this.objectiveCtrl,
       weight: this.weightCtrl,
       birthdate: this.birthdateCtrl,
-      frequency: this.frequencyCtrl
+      frequency: this.frequencyCtrl,
+      gym: this.gymCtrl
     });
   }
 
   ngOnInit() {
+    const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
+    httpRequest.subscribe(gyms => {
+        console.dir(gyms);
+        this.gyms = gyms;
+      },
+      errorMsg => {
+        this.displayErrorMsg(errorMsg);
+      });
   }
 
   check(choice) {
@@ -141,7 +155,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       .build();
 
 
-    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeProfile(size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
+    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeMemberProfile(this.gymCtrl.value, size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
     httpRequest.subscribe(
       authProfile => {
         this.localStorageService.set('profile', JSON.stringify(authProfile));
