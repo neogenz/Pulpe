@@ -6,10 +6,10 @@ import {Session} from "../_model/Session";
 
 @Injectable()
 export class SessionsResolver implements Resolve<any> {
-    constructor(private sessionsService: SessionsService) {
-    }
+  constructor(private sessionsService: SessionsService) {
+  }
 
-    resolve(route: ActivatedRouteSnapshot): Observable<Session> | Promise<Session> | Session {
-        return this.sessionsService.findBy(null);
-    }
+  resolve(route: ActivatedRouteSnapshot): Observable<Session> | Promise<Session> | Session {
+    return this.sessionsService.findActiveProgramByAuthenticatedUser();
+  }
 }

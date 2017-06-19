@@ -1,10 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, AfterContentInit} from '@angular/core';
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {MassGainerExercise} from '../../_model/exercise/MassGainerExercise';
-import {CardioExercise} from "../../_model/exercise/CardioExercise";
-import {OrganizedExercise} from "../../_model/exercise/OrganizedExercise";
-import {StretchingExercise} from "../../_model/exercise/StretchingExercise";
-import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 
 @Component({
   selector: 'pulpe-exercise-preview',
@@ -13,29 +9,21 @@ import {DifficultyConverter} from "../../shared/DifficultyConverter";
 })
 export class ExercisePreviewComponent implements OnInit {
 
+  public bodybuildingExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise].toString();
+  public trainingExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise].toString();
+  public stretchingExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise].toString();
+  public cardioExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise].toString();
+  public recuperationExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise].toString();
+  public abdominusExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise].toString();
+  public organizedExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise].toString();
+
   constructor() {
   }
 
   ngOnInit() {
-    console.log(this.exerciseGroupRawCode);
   }
 
-  @Input() exercise:AbstractExercise;
-  @Input() exerciseGroupRawCode:string;
 
-  public isMassGainer(exercise:AbstractExercise):boolean {
-    return exercise instanceof MassGainerExercise;
-  }
-
-  public isCardio(exercise:AbstractExercise):boolean {
-    return exercise instanceof CardioExercise;
-  }
-
-  public isOrganized(exercise:AbstractExercise):boolean {
-    return exercise instanceof OrganizedExercise;
-  }
-
-  public isStretching(exercise:AbstractExercise):boolean {
-    return exercise instanceof StretchingExercise;
-  }
+  @Input() exercise: AbstractExercise;
+  @Input() exercisesGroupRawCode: string;
 }

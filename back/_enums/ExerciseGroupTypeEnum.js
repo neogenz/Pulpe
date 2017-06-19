@@ -24,5 +24,6 @@ ExerciseGroupTypeEnum.OrganizedExercise = new ExerciseGroupTypeEnum('OrganizedEx
 ExerciseGroupTypeEnum.BodybuildingExercise = new ExerciseGroupTypeEnum('BodybuildingExercise', 'BodybuildingExercise');
 ExerciseGroupTypeEnum.StretchingExercise = new ExerciseGroupTypeEnum('StretchingExercise', 'StretchingExercise');
 ExerciseGroupTypeEnum.CardioExercise = new ExerciseGroupTypeEnum('CardioExercise', 'CardioExercise');
+ExerciseGroupTypeEnum.TrainingExercise = new ExerciseGroupTypeEnum('TrainingExercise', 'TrainingExercise');
 
 module.exports = ExerciseGroupTypeEnum;

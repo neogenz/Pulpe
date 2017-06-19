@@ -16,6 +16,7 @@ const ProgramSchema = new Schema({
       ObjectiveEnum.WeightLoss.name
     ]
   },
+  isActive: {type: Boolean, default: false, required: true},
   updatedAt: Date,
   createdAt: Date
 });

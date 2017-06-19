@@ -6,27 +6,29 @@ import {Router} from "@angular/router";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 
 @Component({
-    selector: 'pulpe-sidebar',
-    templateUrl: 'sidebar.component.html',
-    styleUrls: ['sidebar.component.css']
+  selector: 'pulpe-sidebar',
+  templateUrl: 'sidebar.component.html',
+  styleUrls: ['sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
 
-    public authenticationProfile: AuthenticationProfile;
+  public authenticationProfile: AuthenticationProfile;
 
-    constructor(public auth: AuthenticationService, private router: Router, public profileService: ProfileService, public localStorage: LocalStorageService) {
-    }
+  constructor(public auth: AuthenticationService, private router: Router, public profileService: ProfileService, public localStorage: LocalStorageService) {
+    /*let profileInLocalStorage: string = this.localStorage.get<string>('profile');
+     if (profileInLocalStorage) {
+     this.authenticationProfile = JSON.parse(profileInLocalStorage);
+     }*/
+  }
 
 
-    ngOnInit(): void {
-        let profileInLocalStorage: string = this.localStorage.get<string>('profile');
-        if (profileInLocalStorage) {
-            this.authenticationProfile = JSON.parse(profileInLocalStorage);
-        }
-    }
+  ngOnInit(): void {
+    debugger;
+    this.authenticationProfile = this.auth.getAuthenticationProfileInLocalStorage();
+  }
 
-    public signout(): void {
-        this.auth.signout();
-        this.router.navigateByUrl('');
-    }
+  public signout(): void {
+    this.auth.signout();
+    this.router.navigateByUrl('');
+  }
 }

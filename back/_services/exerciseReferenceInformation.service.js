@@ -54,7 +54,7 @@ class ExerciseReferenceInformationService {
     let cardioPhaseOne = new CardioExerciseReferenceInformation({
       phase: 1,
       objective: ObjectiveEnum.MassGainer,
-      time: [10],
+      times: [10],
       speed: 7,
       recovery: 2,
     });
@@ -62,7 +62,7 @@ class ExerciseReferenceInformationService {
     let cardioPhaseTwo = new CardioExerciseReferenceInformation({
       phase: 1,
       objective: ObjectiveEnum.MassGainer,
-      time: [10],
+      times: [10],
       speed: 7,
       recovery: 2,
     });

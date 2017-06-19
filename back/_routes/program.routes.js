@@ -1,14 +1,16 @@
 'use strict';
 
-const programController = require('../_controllers/program.controller');
+const ProgramController = require('../_controllers/program.controller');
+const AuthenticationController = require('../_controllers/authentication.controller');
 
 class ProgramRouter {
-    constructor(provider) {
-        provider.get('/programs/members/:memberId', programController.findByMemberId);
-        provider.post('/programs', programController.createProgram);
-    }
+  constructor(provider) {
+    provider.get('/programs/active', AuthenticationController.ensureAuthorized, ProgramController.findActiveByAuthenticatedMember);
+    provider.get('/programs/:programId/sessions', AuthenticationController.ensureAuthorized, ProgramController.findAllSessionsOfActiveProgramIdByAuthenticatedMember);
+    provider.post('/programs', ProgramController.createProgram);
+  }
 }
 
 module.exports = (provider) => {
-    return new ProgramRouter(provider);
+  return new ProgramRouter(provider);
 };

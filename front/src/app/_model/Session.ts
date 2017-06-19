@@ -1,31 +1,83 @@
 import {AbstractExercise} from "./exercise/AbstractExercise";
 import {ExerciseFactory} from "./exercise/ExerciseFactory";
+import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
+import {SessionsService} from "../sessions/sessions.service";
+import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
 
 export class Session {
-    goal:string;
-    exercises:Map<string, AbstractExercise[]>;
-    createdAt:Date;
+  objective: string;
+  exercisesGroups: Map<string, AbstractExercise[]>;
+  createdAt: Date;
+  mainMusclesGroup: string[];
+  doneCounter: boolean;
+  needTraining: boolean;
 
-    constructor() {
-        this.exercises = new Map<string, AbstractExercise[]>();
+
+  constructor() {
+    this.exercisesGroups = new Map<string, AbstractExercise[]>();
+    this.mainMusclesGroup = [];
+  }
+
+  public static of() {
+    return new SessionBuilder();
+  }
+
+  public getNbExercises(): number {
+    let totalLength = 0;
+    this.exercisesGroups.forEach((exercisesForCurrentGroup: AbstractExercise[]) => {
+      totalLength += exercisesForCurrentGroup.length;
+    });
+    return totalLength;
+  }
+}
+
+class SessionBuilder {
+  private me: Session;
+
+  constructor() {
+    this.me = new Session();
+  }
+
+  objective(objective: string): SessionBuilder {
+    this.me.objective = objective;
+    return this;
+  }
+
+  exercisesGroups(exercisesGroups: Map<string, AbstractExercise[]>): SessionBuilder {
+    this.me.exercisesGroups = exercisesGroups;
+    return this;
+  }
+
+  exercisesGroupsFromServer(rawExercises: Object[]): SessionBuilder {
+    this.me.exercisesGroups = ExerciseGroupCodeConverter.createExercisesGroupsFrom(rawExercises);
+    return this;
+  }
+
+  createdAt(createdAt: Date): SessionBuilder {
+    if (typeof createdAt === 'string') {
+      this.me.createdAt = new Date(createdAt);
+    } else {
+      this.me.createdAt = createdAt;
     }
+    return this;
+  }
 
-    public initFromRawObject(rawInitObject:any) {
-        if (!rawInitObject.exercisesGroup) {
-            throw new Error('exercises is not defined in raw json.');
-        }
-        let rawExercisesByCurrentGroup = [];
-        this.goal = rawInitObject.goal;
-        this.createdAt = new Date(rawInitObject.createdAt);
+  mainMusclesGroup(mainMusclesGroup: string[]): SessionBuilder {
+    this.me.mainMusclesGroup = mainMusclesGroup;
+    return this;
+  }
 
-        for (let groupKey in rawInitObject.exercisesGroup) {
-            this.exercises.set(groupKey, []);
-            rawExercisesByCurrentGroup = rawInitObject.exercisesGroup[groupKey];
+  doneCounter(doneCounter: boolean): SessionBuilder {
+    this.me.doneCounter = doneCounter;
+    return this;
+  }
 
-            rawExercisesByCurrentGroup.forEach((rawExercise) => {
-                this.exercises.get(groupKey).push(ExerciseFactory.create(rawExercise.type, rawExercise));
-            });
-        }
-        return this;
-    }
+  needTraining(needTraining: boolean): SessionBuilder {
+    this.me.needTraining = needTraining;
+    return this;
+  }
+
+  build(): Session {
+    return this.me;
+  }
 }

@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {Observable}     from 'rxjs/Observable';
-import {Member} from "../_model/Member";
 import {LocalStorageService} from 'angular-2-local-storage';
 import {environment} from '../../environments/environment'
 import {Program} from "../_model/Program";
-import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
-import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
@@ -18,43 +15,28 @@ export class ProgramService {
 
 
   /**
-   * Calcul and return the total time of the program.
-   * @param {Program} program
-   * @returns {number}
-   */
-  getTotalTimeOf(program: Program): number {
-    let totalTime: number = 0;
-
-    program.exercises.forEach((exercises: AbstractExercise[], exerciseGroupCode: string) => {
-      exercises.forEach((exercise: AbstractExercise) => {
-        totalTime += exercise.approximateTime;
-      });
-    });
-
-    totalTime = Math.ceil(totalTime);
-
-    return totalTime;
-  }
-
-
-  /**
    * Find the current program of member
-   * @param {String} memberId
    * @returns {Observable<Program>}
    */
-  findBy(memberId: String): Observable<Program> {
+  findActiveByAuthenticatedMemberId(): Observable<Program> {
     let programLocallyStored: string = this.localStorageService.get<string>('program');
     if (programLocallyStored) {
       let rawProgram = JSON.parse(programLocallyStored);
-      return Observable.of(new Program().initFromRawObject(rawProgram));
+      return Observable.of(Program.of()
+        .sessionsFromServer(rawProgram.sessions)
+        .createdAt(rawProgram.createdAt)
+        .objective(rawProgram.objective)
+        .level(rawProgram.level).build());
     } else {
-      return this._http.get(`${environment.baseUrl()}/programs/members/${memberId}`)
+      return this._http.get(`${environment.baseUrl()}/programs/active`)
         .map(res => {
-          console.log(ExerciseGroupTypeEnum.BodybuildingExercise);
-          debugger;
           let data: any = this.extractData(res);
-          //this.localStorageService.set('program', JSON.stringify(data.massGainers[0]));
-          return new Program().initFromRawServerObject(data.program);
+          this.localStorageService.set('program', JSON.stringify(data.program));
+          return Program.of()
+            .sessionsFromServer(data.program.sessions)
+            .createdAt(data.program.createdAt)
+            .objective(data.program.objective)
+            .level(data.program.level).build();
         })
         .catch(this.handleError);
     }

@@ -237,7 +237,9 @@ mongoose.connection.on('connected', function () {
       GymService.addMachine(machine, gymSaved)
         .then(machineSaved => {
           ExerciseService.createExerciseBy('Running', [machineSaved], {
-            type: ExerciseGroupTypeEnum.CardioExercise, reference: true
+            type: ExerciseGroupTypeEnum.CardioExercise,
+            reference: true,
+            km: 10
           });
         });
       machine = new Machine({
@@ -249,10 +251,20 @@ mongoose.connection.on('connected', function () {
           {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
         ]
       });
+      let bike = null;
       return GymService.addMachine(machine, gymSaved)
         .then(machineSaved => {
-          return ExerciseService.createExerciseBy('Biking', [machineSaved], {
-            type: ExerciseGroupTypeEnum.CardioExercise, reference: true
+          bike = machineSaved;
+          return ExerciseService.createExerciseBy('Biking', [bike], {
+            type: ExerciseGroupTypeEnum.CardioExercise,
+            reference: true,
+            km: 10
+          });
+        }).then(() => {
+          return ExerciseService.createExerciseBy('Biking', [bike], {
+            type: ExerciseGroupTypeEnum.TrainingExercise,
+            reference: true,
+            km: 10
           });
         });
     }).catch(error => {

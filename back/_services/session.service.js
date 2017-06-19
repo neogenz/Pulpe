@@ -9,7 +9,9 @@ const MuscleEnum = require('../_enums/MuscleEnum');
 const moment = require('moment');
 const SessionError = require('../_model/Errors').SessionError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
-
+const NotFoundError = require('../_model/Errors').NotFoundError;
+const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
+const SessionTypeEnum = require('../_enums/SessionTypeEnum');
 
 class SessionService {
   constructor() {
@@ -20,7 +22,7 @@ class SessionService {
    * Generate more sessions
    * @param {number} nbSessions
    * @param {ObjectiveEnum} objective
-   * @returns {Promise.<Array<Session>>}
+   * @returns {Array<Session>}
    */
   static generateSessionsBy(nbSessions, objective) {
     console.info(`Generation of session to ${nbSessions} sessions by week with ${objective.toString()} objective.`);
@@ -39,6 +41,7 @@ class SessionService {
     days.forEach((day, index) => {
       sessions.push(new Session({
         day: day,
+        sessionType: musclesGroups[index].sessionType,
         mainMusclesGroup: musclesGroups[index].muscles,
         training: musclesGroups[index].training
       }));
@@ -48,29 +51,15 @@ class SessionService {
 
 
   /**
-   * Generate an session with exercises founded by objective
-   * @param {Date} day Only day of week in date is important
-   * @param {Array<{
-   *          training: boolean,
-   *          muscles: Array<MuscleEnum>
-   *        }>} muscleGroup
-   * @param objective
-   * @returns {Promise<Session>}
+   *
+   * @param nbSeance
+   * @param objectiveEnum
+   * @returns {Array<{
+   *    sessionType:ExerciseGroupTypeEnum,
+   *    training:boolean,
+   *    muscles:Array<MuscleEnum>
+   * }>}
    */
-  static generateOneSessionBy(day, muscleGroup, objective) {
-    return ExerciseService.generateExercisesBy(muscleGroup, DifficultyEnum.HARD, objective)
-      .then(exercises => {
-        return new Session({
-          day: day,
-          exercises: exercises
-        });
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
-
-
   static getMusclesGroupsBySessionAndObjective(nbSeance, objectiveEnum) {
     let sessionsRepartition = [];
     switch (objectiveEnum) {
@@ -85,7 +74,11 @@ class SessionService {
   /**
    * todo : Store this informations in database and use them
    * @param nbSessions
-   * @returns {Array}
+   * @returns {Array<{
+   *    sessionType:ExerciseGroupTypeEnum,
+   *    training:boolean,
+   *    muscles:Array<MuscleEnum>
+   * }>}
    */
   static getMuscularGroupSessionRepartitionToMassGainerBy(nbSessions) {
     let muscularsGroupsSession = [];
@@ -95,17 +88,21 @@ class SessionService {
       case 2:
         break;
       case 3:
+        //todo we return 3 sessions, because of sessions nb, but its a good idea ?
         muscularsGroupsSession = [
           {
-            muscles: [MuscleEnum.PECS, MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.RECTUS_ABDOMINIS],
+            sessionType: SessionTypeEnum.Bodybuilding.name,
+            muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
             training: true
           },
           {
-            muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.RECTUS_ABDOMINIS],
+            sessionType: SessionTypeEnum.Bodybuilding.name,
+            muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
             training: true
           },
           {
-            muscles: [MuscleEnum.THIGH_BICEPS, MuscleEnum.THIGH_QUADRICEPS, MuscleEnum.GLUTEUS_MEDIUS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.RECTUS_ABDOMINIS],
+            sessionType: SessionTypeEnum.Bodybuilding.name,
+            muscles: [MuscleEnum.THIGH_BICEPS, MuscleEnum.THIGH_QUADRICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.GLUTEUS_MEDIUS, MuscleEnum.RECTUS_ABDOMINIS],
             training: true
           }
         ];
@@ -134,15 +131,6 @@ class SessionService {
         break;
     }
     return daysSessionRepartition;
-  }
-
-
-  static saveSessions(sessions) {
-    let sessionsSavecPromises = [];
-    sessions.forEach(session => {
-      sessionsSavecPromises.push(session.save());
-    });
-    return Promise.all(sessionsSavecPromises);
   }
 }
 

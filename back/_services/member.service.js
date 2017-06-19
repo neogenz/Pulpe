@@ -28,7 +28,7 @@ class MemberService {
                 return member;
             })
             .catch(err => {
-                throw err;
+                throw TechnicalError(err.message);
             });
     }
 

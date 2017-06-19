@@ -1,15 +1,18 @@
 <div class="row" md-line>
-    <div class="col-md-1 col-12 text-center mr-md-1">
-        <img *ngIf="isMassGainer(exercise)"
+    <div class="col-md-1 col-12 text-center mr-md-1" [ngSwitch]="exercisesGroupRawCode">
+        <img *ngSwitchCase="bodybuildingExerciseEnumLabel"
              src="../../assets/img/exercise-types/strength-64.png"
              class="rounded" alt="Type">
-        <img *ngIf="isCardio(exercise)"
+        <img *ngSwitchCase="cardioExerciseEnumLabel"
              src="../../assets/img/exercise-types/cardiogram-64.png"
              class="rounded" alt="Type">
-        <img *ngIf="isOrganized(exercise)"
+        <img *ngSwitchCase="trainingExerciseEnumLabel"
+             src="../../assets/img/exercise-types/cardiogram-64.png"
+             class="rounded" alt="Type">
+        <img *ngSwitchCase="organizedExerciseEnumLabel"
              src="../../assets/img/exercise-types/music-player-64.png"
              class="rounded" alt="Type">
-        <img *ngIf="isStretching(exercise)"
+        <img *ngSwitchCase="stretchingExerciseEnumLabel"
              src="../../assets/img/exercise-types/dressing-room-64.png"
              class="rounded" alt="Type">
     </div>
@@ -21,57 +24,79 @@
     </div>
 </div>
 
-<div *ngIf="isMassGainer(exercise)" class="row exerciseDetails" md-line>
-    <div class="col-6 offset-md-2 offset-sm-0 col-md-2 text-center">
+<div [ngSwitch]="exercisesGroupRawCode">
+    <div *ngSwitchCase="bodybuildingExerciseEnumLabel" class="row exerciseDetails" md-line>
+        <div class="col-6 offset-md-2 offset-sm-0 col-md-2 text-center">
 
-        <i class="ion ion-refresh"></i>
-        <span>{{exercise.series}}</span>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <span class="icon-althere"></span>
-        <span>{{exercise.repetitions}} </span>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <i class="icon-weight"></i>
-        <span> {{exercise.weight | number:'1.1'}} kg </span>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <i class="ion-ios-timer-outline"></i>
+            <i class="ion ion-refresh"></i>
+            <span>{{exercise.series}}</span>
+        </div>
+        <div class="col-6 col-md-2 text-center">
+            <span class="icon-althere"></span>
+            <span>{{exercise.repetitions}} </span>
+        </div>
+        <div class="col-6 col-md-2 text-center">
+            <i class="icon-weight"></i>
+            <span> {{exercise.weight | number:'1.1'}} kg </span>
+        </div>
+        <div class="col-6 col-md-2 text-center">
+            <i class="ion-ios-timer-outline"></i>
 
-        <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
+            <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
+        </div>
     </div>
-</div>
 
-<div *ngIf="isCardio(exercise)" class="row exerciseDetails justify-content-center" md-line>
-    <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
-        <i class="fa fa-repeat"></i>
-        <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
-    </div>
-    <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
-        <span class="fa fa-road"></span>
-        <span>{{exercise.km  | number}} km</span>
-    </div>
-    <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
-        <i class="icon-balance"></i>
-        <span> {{exercise.calories | number}} kcal</span>
-    </div>
-    <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
-        <i class="ion-speedometer"></i>
+    <div *ngSwitchCase="cardioExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
+        <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
+            <i class="fa fa-repeat"></i>
+            <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
+            <span class="fa fa-road"></span>
+            <span>{{exercise.km  | number}} km</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
+            <i class="icon-balance"></i>
+            <span> {{exercise.calories | number}} kcal</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
+            <i class="ion-speedometer"></i>
 
-        <span>{{exercise.speed | number}} km/h </span>
+            <span>{{exercise.speed | number}} km/h </span>
+        </div>
     </div>
-</div>
 
-<div *ngIf="isOrganized(exercise)" class="row exerciseDetails" md-line>
-    <div class="col-12 text-center">
-        <i class="ion ion-ios-bolt"></i>
-        <span class="text-capitalize">{{exercise.difficulty}}</span>
+    <div *ngSwitchCase="trainingExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
+        <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
+            <i class="fa fa-repeat"></i>
+            <span>{{exercise.times | number:'1.2-2'}} min</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
+            <span class="fa fa-road"></span>
+            <span>{{exercise.km  | number}} km</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
+            <i class="icon-balance"></i>
+            <span> {{exercise.calories | number}} kcal</span>
+        </div>
+        <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
+            <i class="ion-speedometer"></i>
+
+            <span>{{exercise.speed | number}} km/h </span>
+        </div>
     </div>
-</div>
 
-<div *ngIf="isStretching(exercise)" class="row exerciseDetails" md-line>
-    <div class="col-12 text-center">
-        <i class="fa fa-hourglass-half"></i>
-        <span>{{exercise.time | number:'1.2-2'}} min</span>
+    <div *ngSwitchCase="organizedExerciseEnumLabel" class="row exerciseDetails" md-line>
+        <div class="col-12 text-center">
+            <i class="ion ion-ios-bolt"></i>
+            <span class="text-capitalize">{{exercise.difficulty}}</span>
+        </div>
+    </div>
+
+    <div *ngSwitchCase="stretchingExerciseEnumLabel" class="row exerciseDetails" md-line>
+        <div class="col-12 text-center">
+            <i class="fa fa-hourglass-half"></i>
+            <span>{{exercise.time | number:'1.2-2'}} min</span>
+        </div>
     </div>
 </div>

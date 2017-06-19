@@ -48,21 +48,20 @@ class ProgramService {
    * @param {number} nbSessions Its session number by week
    * @param {ObjectiveEnum} objective
    * @param {Member} member
+   * @param {boolean} isActive
    * @returns {Promise.<Program>}
    */
-  static generateProgramBy(nbSessions, objective, member) {
+  static generateProgramBy(nbSessions, objective, member, isActive) {
     let sessions = SessionService.generateSessionsBy(nbSessions, objective);
     let program = new Program();
     program.member = member;
     program.sessions = sessions;
     program.objective = objective.name;
+    program.isActive = isActive;
     let promises = [];
     program.sessions.forEach(session => {
       promises.push(
-        ExerciseService.generateExercisesBy({
-          muscles: session.mainMusclesGroup,
-          training: session.training
-        }, DifficultyEnum.HARD, objective)
+        ExerciseService.generateExercisesBy(session, DifficultyEnum.HARD, objective)
           .then(exercises => {
             session.exercises = exercises;
           })
@@ -93,10 +92,37 @@ class ProgramService {
       promises.push(ExerciseService.saveExercises(session.exercises))
     });
     promises.push(program.save());
-    return Promise.all(promises).catch(error => {
-      console.error(error.message);
+    return Promise.all(promises)
+      .catch(error => {
+        console.error(error.stack);
+        throw new TechnicalError(error.message);
+      })
+  }
+
+  /**
+   * Find all sessions populated of active program by member id.
+   * @param {number} memberId
+   * @returns {Promise|Promise.<Session>}
+   */
+  static findAllSessionsOfActiveProgramByMemberId(memberId) {
+    const populationGraph = {
+      path: 'sessions.exercises',
+      model: 'Exercise'
+    };
+    //todo use member service to verify integrity of member
+    return Program.findOne({
+      'member': memberId
+    }).populate(populationGraph).then((finded) => {
+      if (finded) {
+        return finded.sessions;
+      }
+      throw new NotFoundError(`Programme introuvable pour l'adhérent ${memberId}`);
+    }, error => {
+      console.error(error.stack);
       throw new TechnicalError(error.message);
-    })
+    }).catch(error => {
+      throw error;
+    });
   }
 }
 

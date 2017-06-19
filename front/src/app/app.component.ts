@@ -18,10 +18,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let profileInLocalStorage: string = this.localStorage.get<string>('profile');
-    if (profileInLocalStorage) {
-      this.authenticationProfile = JSON.parse(profileInLocalStorage);
-    }
+    this.authenticationProfile = this.auth.getAuthenticationProfileInLocalStorage();
   }
 
   private toggleSidebar() {

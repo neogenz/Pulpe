@@ -37,7 +37,7 @@
 <ng-sidebar-container>
     <ng-sidebar [(opened)]="_opened" [mode]="'over'" [closeOnClickOutside]="true"
                 [closeOnClickBackdrop]="true" [showBackdrop]="true">
-        <pulpe-sidebar></pulpe-sidebar>
+        <pulpe-sidebar *ngIf="auth.authenticated()"></pulpe-sidebar>
     </ng-sidebar>
     <div class="container">
         <ng2-slim-loading-bar [height]="'4px'"></ng2-slim-loading-bar>

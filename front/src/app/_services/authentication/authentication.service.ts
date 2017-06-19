@@ -24,7 +24,8 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
     }).map(response => {
       const data: any = this.extractDataOf(response);
       const rawProfile = this.jwtHelper.decodeToken(data.token);
-      this.localStorageService.set('token', data.token);
+      const token: string = data.token;
+      this.localStorageService.set('token', token);
       return AuthenticationProfile.of().token(data.token)
         .login(rawProfile.email)
         .id(rawProfile._id)

@@ -9,15 +9,16 @@ class ProgramController {
   constructor() {
   }
 
-  static findByMemberId(req, res) {
-    const memberId = req.params.memberId;
+  static findActiveByAuthenticatedMember(req, res) {
+    const memberId = req.user._id;
 
     ProgramService.findByMemberId(memberId)
       .then((program) => {
         res.send({program: program});
       })
-      .catch((err) => {
-        const httpError = HttpErrorHelper.buildHttpErrorByError(err);
+      .catch((error) => {
+        console.error(error.stack);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
   }
@@ -25,10 +26,11 @@ class ProgramController {
   static createProgram(req, res) {
     const memberId = req.body.memberId,
       nbSessions = req.body.nbSessions,
+      isActive = req.body.isActive,
       objective = ObjectiveEnum.fromName(req.body.objective);
     return MemberService.findById(memberId)
       .then(member => {
-        return ProgramService.generateProgramBy(nbSessions, objective, member);
+        return ProgramService.generateProgramBy(nbSessions, objective, member, isActive);
       })
       .then(program => {
         return ProgramService.saveProgram(program);
@@ -36,10 +38,31 @@ class ProgramController {
       .then(programSaved => {
         res.send(programSaved);
       }, error => {
-        console.error(error.message);
-        throw new TechnicalError(error.message);
+        throw error;
       })
       .catch(error => {
+        console.error(error.stack);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      })
+  }
+
+  /**
+   * Find all sessions populated on program
+   * @param req
+   * @param res
+   */
+  static findAllSessionsOfActiveProgramIdByAuthenticatedMember(req, res) {
+    const memberId = req.user._id;
+    return ProgramService.findAllSessionsOfActiveProgramByMemberId(memberId)
+      .then(sessions => {
+        return res.send(sessions);
+      }, error => {
+        console.error(error.stack);
+        throw error;
+      })
+      .catch(error => {
+        console.error(error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       })

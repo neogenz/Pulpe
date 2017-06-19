@@ -1,4 +1,20 @@
-<pulpe-page-title title="Votre programme"></pulpe-page-title>
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="text-left text-black-primary text-w-300">
+            Votre programme
+        </h3>
+    </div>
+    <div class="col-md-6 my-auto">
+        <md-select placeholder="Séance" class="pull-right" [(ngModel)]="focusedSession"
+                   (change)="focusedSessionChanged($event)">
+            <md-option *ngFor="let session of program.sessions; let i = index;" [value]="session">
+                Séance {{ i+1 }}
+            </md-option>
+        </md-select>
+        <h3 class="my-auto"><i class="mr-2 pull-right fa fa-filter text-secondary"></i></h3>
+    </div>
+</div>
+<hr>
 <section>
     <div class="row mb-3">
         <div class="col-md-4">
@@ -19,7 +35,7 @@
             <pulpe-simple-counter-with-icon icoClass="ion-ios-timer-outline"
                                             label="Durée"
                                             icoBackgroundColor="blue"
-                                            value="{{totalTimeOfProgram}}">
+                                            value="{{totalTimeOfFocusedSession}}">
             </pulpe-simple-counter-with-icon>
         </div>
     </div>
@@ -37,7 +53,7 @@
             </md-card>
         </div>
         <div class="col-md-8 mb-2">
-            <pulpe-exercises-repartition-graph [program]="program"></pulpe-exercises-repartition-graph>
+            <pulpe-exercises-repartition-graph [session]="focusedSession"></pulpe-exercises-repartition-graph>
             <!--<md-card class="goals h-100">-->
 
             <!--<div class="row mb-2">-->
@@ -69,17 +85,17 @@
     <div class="row">
         <div class="col-md-12">
             <md-tab-group>
-                <md-tab *ngFor="let exerciseGroupLabelDictionary of exerciseGroupLabelsDictionary"
-                        label="{{exerciseGroupLabelDictionary.label}}">
+                <md-tab *ngFor="let exercisesGroupLabel of exerciseGroupLabels"
+                        label="{{exercisesGroupLabel.label}}">
                     <md-card>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="row mt-4">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <md-list-item
-                                                *ngFor="let exercise of program.exercises.get(exerciseGroupLabelDictionary.rawCode); let last = last">
+                                                *ngFor="let exercise of focusedSession.exercisesGroups.get(exercisesGroupLabel.rawCode); let last = last">
                                             <pulpe-exercise-preview [exercise]="exercise"
-                                                                    [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode"></pulpe-exercise-preview>
+                                                                    [exercisesGroupRawCode]="exercisesGroupLabel.rawCode"></pulpe-exercise-preview>
                                             <hr *ngIf="!last" class="white">
                                         </md-list-item>
                                     </div>

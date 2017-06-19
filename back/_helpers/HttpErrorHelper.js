@@ -3,6 +3,7 @@
 const HTTP_CODE = require('./HTTP_CODE.json');
 const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
+const NotFoundError = require('../_model/Errors').NotFoundError;
 
 class HttpErrorHelper {
   constructor() {
@@ -33,12 +34,14 @@ class HttpErrorHelper {
       if (error instanceof AlreadyExistError) {
         httpErrorResponse = HTTP_CODE.CONFLICT;
       }
+      if (error instanceof NotFoundError) {
+        httpErrorResponse = HTTP_CODE.NOT_FOUND;
+        httpErrorResponse.message = error.message;
+      }
       if (error instanceof TechnicalError) {
         httpErrorResponse = HTTP_CODE.INTERNAL_ERROR_SERVER;
         httpErrorResponse.message = 'Une erreur technique est survenue';
       }
-      console.error(error.message);
-
     }
     return httpErrorResponse;
   }

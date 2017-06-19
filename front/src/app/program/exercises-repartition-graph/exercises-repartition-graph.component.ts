@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import {Program} from "../../_model/Program";
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 import {ChartConfiguration} from "../../shared/ChartConfiguration";
 import {BaseChartDirective} from "ng2-charts/index";
+import {Session} from "../../_model/Session";
 
 @Component({
   selector: 'pulpe-exercises-repartition-graph',
@@ -11,18 +12,19 @@ import {BaseChartDirective} from "ng2-charts/index";
 })
 export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(BaseChartDirective) chartDirective = null;
-  @Input() program:Program;
+  @Input() session: Session;
 
-  public chartColors:any[] = [];
-  public chartLabels:string[] = [];
-  public chartType:string = 'bar';
-  public chartLegends:boolean = true;
-  public chartData:any[] = [{
-    label: '% du programme',
+  private initialized = false;
+  public chartColors: any[] = [];
+  public chartLabels: string[] = [];
+  public chartType: string = 'bar';
+  public chartLegends: boolean = true;
+  public chartData: any[] = [{
+    label: '% de la séance',
     data: [],
     borderWidth: 1
   }];
-  public chartOptions:any = {
+  public chartOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
     legend: {
@@ -80,31 +82,39 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
   }
 
   ngOnInit() {
-    debugger;
-    this.chartColors = this.buildChartColorsFromThis(this.program);
-    this.chartLabels = this.buildChartLabelsFromThis(this.program);
-    this.chartData[0].data = this.buildChartDataFromThis(this.program);
+    this.initialized = true;
+    this.chartColors = this.buildChartColorsFromThis(this.session);
+    this.chartLabels = this.buildChartLabelsFromThis(this.session);
+    this.chartData[0].data = this.buildChartDataFromThis(this.session);
   }
 
 
-  ngAfterViewInit():void {
+  ngAfterViewInit(): void {
     this.chartDirective.updateChartData(this.chartData);
     this.chartDirective.chart.update();
   }
 
 
-  ngOnChanges(changes:SimpleChanges):void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.initialized) {
+      this.chartColors = this.buildChartColorsFromThis(this.session);
+      this.chartLabels = this.buildChartLabelsFromThis(this.session);
+      this.chartData[0].data = this.buildChartDataFromThis(this.session);
+      this.chartDirective.updateChartData(this.chartData);
+      this.chartDirective.chart.update();
+    }
+
   }
 
-  private buildChartColorsFromThis(program:Program):any[] {
-    let chartColor:any = {
+  private buildChartColorsFromThis(session: Session): any[] {
+    let chartColor: any = {
       backgroundColor: [],
       borderColor: []
     };
     let currentChartConf = null;
     let chartColors = [];
 
-    program.exercises.forEach((value:AbstractExercise[], key:string) => {
+    session.exercisesGroups.forEach((value: AbstractExercise[], key: string) => {
       currentChartConf = ChartConfiguration.getInstance().configurations.get(key);
       chartColor.backgroundColor.push(currentChartConf.colors.background);
       chartColor.borderColor.push(currentChartConf.colors.border);
@@ -116,11 +126,11 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
   }
 
 
-  private buildChartLabelsFromThis(program:Program):string[] {
-    let chartLabels:string[] = [];
+  private buildChartLabelsFromThis(session: Session): string[] {
+    let chartLabels: string[] = [];
     let currentChartConf = null;
 
-    program.exercises.forEach((value:AbstractExercise[], key:string) => {
+    session.exercisesGroups.forEach((value: AbstractExercise[], key: string) => {
       currentChartConf = ChartConfiguration.getInstance().configurations.get(key);
       chartLabels.push(currentChartConf.label);
     });
@@ -129,11 +139,11 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
   }
 
 
-  private buildChartDataFromThis(program:Program):any[] {
-    let nbExercises = program.getNbExercises();
-    let newData:number[] = [];
+  private buildChartDataFromThis(session: Session): any[] {
+    let nbExercises = session.getNbExercises();
+    let newData: number[] = [];
 
-    program.exercises.forEach((exercisesForCurrentGroup:AbstractExercise[]) => {
+    session.exercisesGroups.forEach((exercisesForCurrentGroup: AbstractExercise[]) => {
       newData.push(exercisesForCurrentGroup.length * 100 / nbExercises);
     });
 
@@ -142,12 +152,12 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
 
 
   // events
-  public chartClicked(e:any):void {
+  public chartClicked(e: any): void {
     console.log(e);
   }
 
 
-  public chartHovered(e:any):void {
+  public chartHovered(e: any): void {
     console.log(e);
   }
 

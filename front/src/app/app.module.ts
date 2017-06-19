@@ -111,7 +111,7 @@ import {CoachService} from "./_services/coach/coach.service";
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
+      deps: [Http, RequestOptions, LocalStorageService]
     },
     {
       provide: 'IS_PROD', useValue: true
@@ -176,6 +176,10 @@ export function authenticationServiceFactory(IS_PROD: boolean, localStorage: Loc
   //return new AuthenticationMockService(localStorage);
 }
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig(), http, options);
+export function authHttpServiceFactory(http: Http, options: RequestOptions, localStorage: LocalStorageService) {
+  return new AuthHttp(new AuthConfig({
+    tokenName: 'token',
+    tokenGetter: (() => localStorage.get('token').toString()),
+    globalHeaders: [{'Content-Type': 'application/json'}],
+  }), http, options);
 }
