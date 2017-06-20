@@ -60,6 +60,9 @@ import {ProfileCompletationCoachComponent} from './profile/profile-completation-
 import {GymService} from "./_services/gym/gym.service";
 import {CoachService} from "./_services/coach/coach.service";
 import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-dialog/profile-member-edit-dialog.component';
+import {MembersComponent} from './members/members.component';
+import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
+import {MembersResolver} from "./members/members.resolver";
 
 @NgModule({
   declarations: [
@@ -87,7 +90,8 @@ import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-di
     MeasurementsListComponent,
     MeasurementsAddDialogComponent,
     ProfileCompletationCoachComponent,
-    ProfileMemberEditDialogComponent
+    ProfileMemberEditDialogComponent,
+    MembersComponent
   ],
   imports: [
     BrowserModule,
@@ -143,9 +147,11 @@ import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-di
     EvolutionResolver,
     ProfileResolver,
     ProfileService,
+    MembersResolver,
     AuthenticationGuard,
     ProfileCompletedGuardService,
     ProfileIsMemberGuardService,
+    ProfileIsCoachGuardService,
     MeasurementEnumService,
     GymService,
     CoachService

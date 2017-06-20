@@ -15,15 +15,10 @@ export class SidebarComponent implements OnInit {
   public authenticationProfile: AuthenticationProfile;
 
   constructor(public auth: AuthenticationService, private router: Router, public profileService: ProfileService, public localStorage: LocalStorageService) {
-    /*let profileInLocalStorage: string = this.localStorage.get<string>('profile');
-     if (profileInLocalStorage) {
-     this.authenticationProfile = JSON.parse(profileInLocalStorage);
-     }*/
   }
 
 
   ngOnInit(): void {
-    debugger;
     this.authenticationProfile = this.auth.getAuthenticationProfileInLocalStorage();
   }
 

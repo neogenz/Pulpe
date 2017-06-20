@@ -16,6 +16,9 @@ import {ProfileResolver} from "./profile/profile.resolver";
 import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
 import {ProfileIsMemberGuardService} from "./_guards/profile-is-member-guard.service";
+import {MembersComponent} from "./members/members.component";
+import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
+import {MembersResolver} from "./members/members.resolver";
 
 // Route Configuration
 export const ROUTES: Routes = [
@@ -78,8 +81,15 @@ export const ROUTES: Routes = [
     path: 'profil/coach/complete',
     component: ProfileCompletationCoachComponent,
     canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'adherents/:idCoach',
+    component: MembersComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+    resolve: {
+      members: MembersResolver
+    }
   }
-  //{path: '', redirectTo: '/', pathMatch: 'full'}
 ];
 
 // Deprecated provide

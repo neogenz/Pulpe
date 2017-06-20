@@ -20,7 +20,12 @@ class CoachService {
      * @returns {Promise|Promise.<Coach>}
      */
     static findById(id) {
+        const populationGraph = {
+            path: 'gym',
+            model: 'Gym'
+        };
         return Coach.findOne({'_id': id})
+            .populate(populationGraph)
             .then((Coach) => {
                 if (!Coach) {
                     throw new NotFoundError('Coach introuvable.');

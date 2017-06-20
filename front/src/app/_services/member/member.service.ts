@@ -4,7 +4,7 @@ import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
 import {Member} from "../../_model/Member";
 import {LocalStorageService} from "angular-2-local-storage";
-import {Measurement} from "../../_model/Measurement";
+import {environment} from '../../../environments/environment'
 
 @Injectable()
 export class MemberService extends ObservableHelper {
@@ -13,13 +13,38 @@ export class MemberService extends ObservableHelper {
     super();
   }
 
+  public findAllByCoach(id: string): Observable<Member[]> {
+    return this.http.get(`${environment.baseUrl()}/members/coachs/${id}`)
+      .map(response => {
+        const data: any = this.extractDataOf(response);
+        const members = [];
+        data.members.forEach(member => {
+          members.push(
+            Member.of()
+              .id(member._id)
+              .lastName(member.lastName)
+              .firstName(member.firstName)
+              .measurements(member.measurements)
+              .objective(member.objective)
+              .sessionFrequency(member.sessionFrequency)
+              .gym(member.gym)
+              .mail(member.email)
+              .createdAt(member.createdAt.toLocaleString())
+              .birthDate(member.birthDate.toLocaleString())
+              .build()
+          );
+        });
+        return members;
+      }).catch(this.handleError);
+  }
+
   public findById(id: string): Observable<Member | string> {
     let memberLocallyStored: string = this.localStorageService.get<string>('member');
     if (memberLocallyStored) {
       let rawMember = JSON.parse(memberLocallyStored);
       return Observable.of(new Member().initFromRawObject(rawMember));
     } else {
-      return this.http.get(`http://localhost:5000/members/${id}`)
+      return this.http.get(`${environment.baseUrl()}/members/${id}`)
         .map(response => {
           const data: any = this.extractDataOf(response);
           debugger;
@@ -40,7 +65,7 @@ export class MemberService extends ObservableHelper {
   }
 
   public addMeasurements(memberId: string, measurements: any): Observable<Member | string> {
-    return this.http.put(`http://localhost:5000/members/${memberId}/measurements`, {
+    return this.http.put(`${environment.baseUrl()}/members/${memberId}/measurements`, {
       measurements: measurements
     }).map(response => {
       const data: any = this.extractDataOf(response);
@@ -60,7 +85,7 @@ export class MemberService extends ObservableHelper {
   }
 
   public editProfile(member: Member): Observable<Member> {
-    return this.http.put(`http://localhost:5000/members`, {
+    return this.http.put(`${environment.baseUrl()}/members`, {
       member: member
     }).map(response => {
       const data: any = this.extractDataOf(response);

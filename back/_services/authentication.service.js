@@ -17,22 +17,23 @@ class AuthenticationService {
     static signinBy(email, password) {
         return CoachService.findBy(email, password)
             .then((coachFinded) => {
-                const token = _generateToken(coachFinded);
+                return coachFinded;
+            }, (error) => {
+                if (error instanceof NotFoundError) {
+                    return MemberService.findBy(email, password);
+                }
+                console.error(error.stack);
+                throw error;
+            })
+            .then(user => {
+                const token = _generateToken(user);
                 return {
                     token: token,
                     isCoach: true
                 };
             }, (error) => {
-                return MemberService.findBy(email, password);
-            })
-            .then(memberFinded => {
-                const token = _generateToken(memberFinded);
-                return {
-                    token: token,
-                    isCoach: false
-                };
-            }, (error) => {
-                throw  error;
+                console.error(error.stack);
+                throw error;
             })
             .catch(error => {
                 throw error;

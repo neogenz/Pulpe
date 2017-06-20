@@ -6,6 +6,8 @@ const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const MeasurementService = require('../_services/measurement.service');
+const CoachService = require('../_services/coach.service');
+const GymService = require('../_services/gym.service');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -170,6 +172,53 @@ class MemberService {
             ).then(member => {
                 return member;
             }, (error) => {
+                throw new TechnicalError(error.message);
+            })
+            .catch((error) => {
+                throw error;
+            });
+    }
+
+    /**
+     * Find all members of a coach linked by their gym.
+     * @param id of coach
+     * @returns {Promise.<Member[]>|Promise}
+     */
+    static findAllByCoach(id) {
+        return CoachService.findById(id)
+            .then(coachFinded => {
+                return this.findAllByGym(coachFinded.gym._id);
+            }, (error) => {
+                console.error(error.stack);
+                throw new TechnicalError(error.message);
+            })
+            .then(members => {
+                return members;
+            }, (error) => {
+                console.error(error.stack);
+                throw new TechnicalError(error.message);
+            })
+            .catch((error) => {
+                throw error;
+            });
+    }
+
+    /**
+     * Find all members of a gym.
+     * @param id
+     * @returns {Promise.<Member[]>|Promise}
+     */
+    static findAllByGym(id) {
+        const populationGraph = {
+            path: 'gym',
+            model: 'Gym'
+        };
+        return Member.find({'gym': id})
+            .populate(populationGraph)
+            .then(members => {
+                return members;
+            }, (error) => {
+                console.error(error.stack);
                 throw new TechnicalError(error.message);
             })
             .catch((error) => {

@@ -7,12 +7,14 @@ import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {OnError} from "../_helpers/IUIErrorHandlerHelper";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Animations} from "../shared/Animations";
 //import {document} from "@angular/platform-browser/src/facade/browser";
 
 @Component({
   selector: 'pulpe-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+  styleUrls: ['./signin.component.css'],
+  animations: [Animations.fadeIn()]
 })
 export class SigninComponent implements OnInit, OnError, OnDestroy {
   authenticationRequest: Observable<AuthenticationProfile> = new Observable();

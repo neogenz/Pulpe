@@ -4,6 +4,7 @@ import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "angular-2-local-storage";
 import {Gym} from "../../_model/Gym";
+import {environment} from '../../../environments/environment'
 
 @Injectable()
 export class GymService extends ObservableHelper {
@@ -13,7 +14,7 @@ export class GymService extends ObservableHelper {
   }
 
   public findAll(): Observable<Gym[] | string> {
-    return this.http.get(`http://localhost:5000/gyms`)
+    return this.http.get(`${environment.baseUrl()}/gyms`)
       .map(response => {
         const data: any = this.extractDataOf(response);
         const gyms = [];

@@ -4,6 +4,7 @@ import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
 import {Coach} from "../../_model/Coach";
 import {LocalStorageService} from "angular-2-local-storage";
+import {environment} from '../../../environments/environment'
 
 @Injectable()
 export class CoachService extends ObservableHelper {
@@ -18,7 +19,7 @@ export class CoachService extends ObservableHelper {
       let rawMember = JSON.parse(coachLocallyStored);
       return Observable.of(new Coach().initFromRawObject(rawMember));
     } else {
-      return this.http.get(`http://localhost:5000/coachs/${id}`)
+      return this.http.get(`${environment.baseUrl()}/coachs/${id}`)
         .map(response => {
           const data: any = this.extractDataOf(response);
           return Coach.of()

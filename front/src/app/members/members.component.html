@@ -1,0 +1,27 @@
+<div [@fadeIn]>
+    <pulpe-page-title
+            [title]="'Liste des adhérents'">
+    </pulpe-page-title>
+    <div class="row">
+        <md-card class="col-md-12">
+
+            <md-list-item *ngFor="let member of members">
+                <div class="row" md-line>
+                    <div class="col-md-8">
+                        <h4 class="exerciseTitle text-capitalize" md-line>{{member.lastName}}
+                            {{member.firstName}}</h4>
+                        <p md-line> {{member.mail}} </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="exerciseTitle text-capitalize" md-line>{{member.lastName}}
+                            {{member.firstName}}</h4>
+                        <p md-line> {{member.mail}} </p>
+                    </div>
+
+
+                </div>
+            </md-list-item>
+
+        </md-card>
+    </div>
+</div>

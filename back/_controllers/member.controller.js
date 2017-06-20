@@ -99,6 +99,25 @@ class MemberController {
                 return res.status(httpError.code).send(httpError);
             });
     }
+
+    /**
+     * Find all members of a coach linked by their gym.
+     * @param req
+     * @param res
+     */
+    static findAllByCoach(req, res) {
+        const id = req.params.id;
+
+        MemberService.findAllByCoach(id)
+            .then(members => {
+                res.send({members: members});
+            })
+            .catch((error) => {
+                console.log(error);
+                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+                return res.status(httpError.code).send(httpError);
+            });
+    }
 }
 
 module.exports = MemberController;
