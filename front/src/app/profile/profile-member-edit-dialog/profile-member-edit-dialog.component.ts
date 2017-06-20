@@ -16,6 +16,7 @@ import {CustomValidators} from "../../_formValidators/CustomValidators";
   styleUrls: ['profile-member-edit-dialog.component.css']
 })
 export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMemberEdit, Member> implements ProfileMemberEdit, OnInit {
+  memberRequest: Observable<Member> = new Observable();
   private frequencyRange: any;
   member: any;
   gyms: any;
@@ -55,9 +56,27 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   }
 
   edit() {
+    this.member.lastName = this.lastNameCtrl.value;
+    this.member.firstName = this.firstNameCtrl.value;
+    this.member.mail = this.emailCtrl.value;
+    this.member.sessionFrequency = this.frequencyCtrl.value;
+    this.member.birthDate = new Date(this.birthdateCtrl.value);
+    this.member.objective = this.getObjectiveValue();
 
-
-
+    debugger;
+    this.memberRequest = this.memberService.editProfile(this.member);
+    this.slimLoadingBarService.start();
+    this.memberRequest
+      .finally(() => {
+        this.slimLoadingBarService.complete();
+      })
+      .subscribe((member) => {
+          this.result = member;
+        },
+        (errorMsg) => {
+          console.error(errorMsg);
+        }
+      );
   }
 
   ngOnInit() {
@@ -125,6 +144,16 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
     this.resetChoices();
     this.objectiveCtrl.setValue(choice.value);
     choice.checked = true;
+  }
+
+  getObjectiveValue() {
+    let value;
+    this.objectiveChoices.forEach(obj => {
+      if (obj.checked) {
+        value = obj.value;
+      }
+    });
+    return value;
   }
 
   private resetChoices(): void {
