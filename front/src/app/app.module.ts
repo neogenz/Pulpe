@@ -45,7 +45,7 @@ import {ProfileService} from './profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
 import {ProfileIsMemberGuardService} from './_guards/profile-is-member-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
-import {SidebarComponent} from './shared/navbar/sidebar.component';
+import {SidebarComponent} from './shared/sidebar/sidebar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
 import {SidebarModule} from 'ng-sidebar';
 import {FooterComponent} from './shared/footer/footer.component';

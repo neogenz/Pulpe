@@ -27,16 +27,11 @@ class SessionService {
   static generateSessionsBy(nbSessions, objective) {
     console.info(`Generation of session to ${nbSessions} sessions by week with ${objective.toString()} objective.`);
     let musclesGroups = SessionService.getMusclesGroupsBySessionAndObjective(nbSessions, objective);
-    let sessionsPromises = [];
     let days = SessionService.getDaysSessionRepartitionBy(nbSessions);
 
     if (musclesGroups.length !== days.length) {
       throw new SessionError(`The muscles groups size (${musclesGroups.length}) is different of days repartition size ${days.length}`);
     }
-    /*days.forEach((day, index) => {
-     sessionsPromises.push(SessionService.generateOneSessionBy(moment().day(day).toDate(), musclesGroups[index], objective));
-     });
-     return Promise.all(sessionsPromises);*/
     let sessions = [];
     days.forEach((day, index) => {
       sessions.push(new Session({
@@ -82,33 +77,46 @@ class SessionService {
    */
   static getMuscularGroupSessionRepartitionToMassGainerBy(nbSessions) {
     let muscularsGroupsSession = [];
-    switch (nbSessions) {
-      case 1:
-        break;
-      case 2:
-        break;
-      case 3:
-        //todo we return 3 sessions, because of sessions nb, but its a good idea ?
-        muscularsGroupsSession = [
-          {
-            sessionType: SessionTypeEnum.Bodybuilding.name,
-            muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
-            training: true
-          },
-          {
-            sessionType: SessionTypeEnum.Bodybuilding.name,
-            muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
-            training: true
-          },
-          {
-            sessionType: SessionTypeEnum.Bodybuilding.name,
-            muscles: [MuscleEnum.THIGH_BICEPS, MuscleEnum.THIGH_QUADRICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.GLUTEUS_MEDIUS, MuscleEnum.RECTUS_ABDOMINIS],
-            training: true
-          }
-        ];
-        break;
+    if (nbSessions >= 1 && nbSessions <= 2) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [MuscleEnum.THIGH_BICEPS, MuscleEnum.THIGH_QUADRICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.GLUTEUS_MEDIUS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        }
+      ];
+      return muscularsGroupsSession;
     }
-    return muscularsGroupsSession;
+    if (nbSessions >= 3 && nbSessions <= 4) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Cardio.name,
+          muscles: [MuscleEnum.CARDIO, MuscleEnum.THIGH_BICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
+          training: true
+        }
+      ];
+      return muscularsGroupsSession;
+    }
   }
 
 
@@ -128,6 +136,18 @@ class SessionService {
         break;
       case 3:
         daysSessionRepartition = ['Lundi', 'Mercredi', 'Vendredi'];
+        break;
+      case 4:
+        daysSessionRepartition = ['Lundi', 'Mardi', 'Jeudi', 'Vendredi'];
+        break;
+      case 5:
+        daysSessionRepartition = ['Lundi', 'Mardi', 'Mercredi', 'Vendredi', 'Samedi'];
+        break;
+      case 6:
+        daysSessionRepartition = ['Lundi', 'Mardi', 'Mercredi', 'Vendredi', 'Samedi', 'Dimanche'];
+        break;
+      case 6:
+        daysSessionRepartition = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
         break;
     }
     return daysSessionRepartition;

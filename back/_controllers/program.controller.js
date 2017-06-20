@@ -2,6 +2,7 @@ const ProgramService = require('../_services/program.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const MemberService = require('../_services/member.service');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const TechnicalError = require('../_model/Errors').TechnicalError;
 
@@ -24,13 +25,11 @@ class ProgramController {
   }
 
   static createProgram(req, res) {
-    const memberId = req.body.memberId,
-      nbSessions = req.body.nbSessions,
-      isActive = req.body.isActive,
-      objective = ObjectiveEnum.fromName(req.body.objective);
+    const memberId = req.body.memberId;
     return MemberService.findById(memberId)
       .then(member => {
-        return ProgramService.generateProgramBy(nbSessions, objective, member, isActive);
+        const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
+        return ProgramService.generateProgramBy(programGenerationContext);
       })
       .then(program => {
         return ProgramService.saveProgram(program);
