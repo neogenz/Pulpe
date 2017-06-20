@@ -24,11 +24,11 @@
             </div>
             <div class="col-md-3">
                 <label class="text-uppercase">Nom</label><br>
-                <label class="text-secondary">{{member.lastName}}</label>
+                <label class="text-secondary">{{member.lastName}} {{member.firstName}}</label>
             </div>
             <div class="col-md-3">
-                <label class="text-uppercase">Prénom</label><br>
-                <label class="text-secondary">{{member.firstName}}</label>
+                <label class="text-uppercase">Date de naissance</label><br>
+                <label class="text-secondary">{{member.birthDate | date: 'dd/MM/yyyy'}}</label>
             </div>
             <div class="col-md-3">
                 <label class="text-uppercase">Occurence à la salle</label><br>

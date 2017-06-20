@@ -38,6 +38,7 @@ export class ProfileComponent implements OnInit {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((member) => {
       if (member) {
+        debugger;
         this.member = member;
       }
     });

@@ -60,14 +60,13 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   }
 
   edit() {
+    this.close();
     this.member.lastName = this.lastNameCtrl.value;
     this.member.firstName = this.firstNameCtrl.value;
     this.member.mail = this.emailCtrl.value;
     this.member.sessionFrequency = this.frequencyCtrl.value;
     this.member.birthDate = new Date(this.birthdateCtrl.value);
     this.member.objective = this.getObjectiveValue();
-
-    this.close();
     this.memberRequest = this.memberService.editProfile(this.member);
     this.slimLoadingBarService.start();
     this.memberRequest
@@ -120,7 +119,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       CustomValidators.maxValue(this.frequencyRange.max)
     ]);
     this.birthdateCtrl = this.fb.control(
-      moment(this.member.birthdate).format('YYYY-MM-DD'), Validators.required
+      moment(this.member.birthDate).format('YYYY-MM-DD'), Validators.required
     );
 
     if (this.member.objective === 'GeneralForm' || this.member.objective === 'GF') {
