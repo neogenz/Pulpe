@@ -28,6 +28,7 @@ export class Member {
   sessionFrequency: string;
   gym: Gym;
   createdAt: Date;
+  birthDate: Date;
 
   public static of(): MemberBuilder {
     return new MemberBuilder();
@@ -103,6 +104,11 @@ class MemberBuilder {
 
   public createdAt(createdAt: Date): MemberBuilder {
     this.me.createdAt = createdAt;
+    return this;
+  }
+
+  public birthDate(birthDate: Date): MemberBuilder {
+    this.me.birthDate = birthDate;
     return this;
   }
 

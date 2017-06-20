@@ -33,6 +33,7 @@ export class MemberService extends ObservableHelper {
             .gym(data.member.gym)
             .mail(data.member.email)
             .createdAt(data.member.createdAt.toLocaleString())
+            .birthDate(data.member.birthDate.toLocaleString())
             .build();
         }).catch(this.handleError);
     }
@@ -53,8 +54,28 @@ export class MemberService extends ObservableHelper {
         .gym(data.member.gym)
         .mail(data.member.email)
         .createdAt(data.member.createdAt.toLocaleString())
+        .birthDate(data.member.birthDate.toLocaleString())
         .build();
     }).catch(this.handleError);
   }
 
+  public editProfile(member: Member): Observable<Member> {
+    return this.http.put(`http://localhost:5000/members/${member.id}`, {
+      member: member
+    }).map(response => {
+      const data: any = this.extractDataOf(response);
+      return Member.of()
+        .id(data.member._id)
+        .lastName(data.member.lastName)
+        .firstName(data.member.firstName)
+        .measurements(data.member.measurements)
+        .objective(data.member.objective)
+        .sessionFrequency(data.member.sessionFrequency)
+        .gym(data.member.gym)
+        .mail(data.member.email)
+        .createdAt(data.member.createdAt.toLocaleString())
+        .birthDate(data.member.birthDate.toLocaleString())
+        .build();
+    }).catch(this.handleError);
+  }
 }
