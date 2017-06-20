@@ -11,31 +11,36 @@
         </div>
     </div>
     <md-card-content>
-        <div class="row text-center">
-            <div class="col-md-12 text-left">
-                <h4>
-                    <small class="subtitle">Informations personnelles</small>
-                </h4>
+        <div class="text-center">
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <h4>
+                        <small class="subtitle">Informations personnelles</small>
+                    </h4>
+                </div>
             </div>
             <hr class="w-100 mt-0">
-            <div class="col-md-3">
-                <label class="text-uppercase">Email</label><br>
-                <label class="text-secondary">{{member.mail}}</label>
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <label class="text-uppercase">Email</label><br>
+                    <label class="text-secondary">{{member.mail}}</label>
+                </div>
+                <div class="col-md-6">
+                    <label class="text-uppercase">Nom</label><br>
+                    <label class="text-secondary">{{member.lastName}} {{member.firstName}}</label>
+                </div>
             </div>
-            <div class="col-md-3">
-                <label class="text-uppercase">Nom</label><br>
-                <label class="text-secondary">{{member.lastName}} {{member.firstName}}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="text-uppercase">Date de naissance</label><br>
-                <label class="text-secondary">{{member.birthDate | date: 'dd/MM/yyyy'}}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="text-uppercase">Occurence à la salle</label><br>
-                <label class="text-secondary">{{member.sessionFrequency}} fois</label>
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <label class="text-uppercase">Date de naissance</label><br>
+                    <label class="text-secondary">{{member.birthDate | date: 'dd/MM/yyyy'}}</label>
+                </div>
+                <div class="col-md-6">
+                    <label class="text-uppercase">Occurence à la salle</label><br>
+                    <label class="text-secondary">{{member.sessionFrequency}} fois</label>
+                </div>
             </div>
         </div>
-
         <div class="row text-center pt-4">
             <div class="col-md-12 text-left">
                 <h4>

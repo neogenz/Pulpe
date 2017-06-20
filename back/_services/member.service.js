@@ -159,16 +159,20 @@ class MemberService {
                 memberFinded.email = member.mail;
                 memberFinded.firstName = member.firstName;
                 memberFinded.lastName = member.lastName;
-                memberFinded.gym = member.gym._id;
+                memberFinded.gym = member.gym;
                 return memberFinded.save();
             })
             .then(member => {
-                    return member;
-                },
-                (error) => {
+                    return this.findById(member._id)
+                }, (error) => {
                     throw new TechnicalError(error.message);
                 }
-            ).catch((error) => {
+            ).then(member => {
+                return member;
+            }, (error) => {
+                throw new TechnicalError(error.message);
+            })
+            .catch((error) => {
                 throw error;
             });
     }
