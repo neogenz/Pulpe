@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {Router} from '@angular/router';
-import {document} from "@angular/platform-browser/src/facade/browser";
+//import {document} from "@angular/platform-browser/src/facade/browser";
 
 @Component({
   selector: 'pulpe-welcome',
@@ -9,7 +9,7 @@ import {document} from "@angular/platform-browser/src/facade/browser";
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-
+  win:any = typeof window !== 'undefined' && window || {};
   constructor(private authService: AuthenticationService, private router: Router) {
   }
 
@@ -17,10 +17,10 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     if (this.authService.authenticated()) {
       this.router.navigateByUrl('/accueil');
     }
-    document.body.className = "landing-page";
+    this.win.document.body.className = "landing-page";
   }
 
   ngOnDestroy() {
-    document.body.className = "";
+    this.win.document.body.className = "";
   }
 }

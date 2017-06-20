@@ -1,68 +1,97 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {Observable} from "rxjs/Observable";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar/index";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Router} from '@angular/router';
-import {LocalStorageService} from "angular-2-local-storage/dist/index";
+import {LocalStorageService} from "angular-2-local-storage";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
-import {OnError} from "../_helpers/IUIErrorHandlerHelper";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {document} from "@angular/platform-browser/src/facade/browser";
+import {OnError} from "../_helpers/IUIErrorHandlerHelper";
+//import {document} from "@angular/platform-browser/src/facade/browser";
+
 
 @Component({
-  selector: 'pulpe-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+  selector: 'pulpe-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
 })
-export class SigninComponent implements OnInit, OnError, OnDestroy {
+export class SignupComponent implements OnInit, OnError, OnDestroy {
   authenticationRequest: Observable<AuthenticationProfile> = new Observable();
-  signing: boolean = false;
-  signinForm: FormGroup;
+  subscribing: boolean = false;
+  signupForm: FormGroup;
+  passwordForm: FormGroup;
+  firstNameCtrl: FormControl;
+  lastNameCtrl: FormControl;
+  isCoachCtrl: FormControl;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
+  confirmPasswordCtrl: FormControl;
+  win:any = typeof window !== 'undefined' && window || {};
+
   isInError: boolean;
   errorMsg: string;
 
-  constructor(private localStorage: LocalStorageService, private authenticationService: AuthenticationService, private slimLoadingBarService: SlimLoadingBarService, private router: Router, fb: FormBuilder) {
-    this.emailCtrl = fb.control('', Validators.required);
-    this.passwordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
-    this.signinForm = fb.group({
-      email: this.emailCtrl,
-      password: this.passwordCtrl,
-      rememberMe: [false]
-    });
+  constructor(private fb: FormBuilder, private localStorage: LocalStorageService, private authenticationService: AuthenticationService, private slimLoadingBarService: SlimLoadingBarService, private router: Router) {
+    this.buildForm(fb);
   }
 
   ngOnInit() {
-    let profileInLocalStorage: string = this.localStorage.get<string>('profile');
-    if (profileInLocalStorage) {
-      let profile: AuthenticationProfile = JSON.parse(profileInLocalStorage);
-      if (profile.rememberMe) {
-        this.signinForm.get('password').setValue(profile.password);
-        this.emailCtrl.setValue(profile.login);
-        this.signinForm.get('rememberMe').setValue(true);
-      }
-    }
-    document.body.className = "landing-page";
+    this.win.document.body.className = "landing-page";
   }
 
   ngOnDestroy() {
-    document.body.className = "";
+    this.win.document.body.className = "";
   }
 
-  signin(): void {
-    this.signing = true;
-    this.authenticationRequest = this.authenticationService.signin(this.emailCtrl.value, this.signinForm.get('password').value);
+  private buildForm(fb: FormBuilder) {
+    this.firstNameCtrl = fb.control('', Validators.required);
+    this.lastNameCtrl = fb.control('', Validators.required);
+    this.emailCtrl = fb.control('', Validators.required);
+    this.passwordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
+    this.confirmPasswordCtrl = fb.control('', [Validators.required, Validators.minLength(6)]);
+    this.isCoachCtrl = fb.control('');
+    this.passwordForm = fb.group(
+      {password: this.passwordCtrl, confirmPassword: this.confirmPasswordCtrl},
+      {validator: SignupComponent.passwordMatch}
+    );
+
+    this.signupForm = fb.group({
+      firstName: this.firstNameCtrl,
+      lastName: this.lastNameCtrl,
+      email: this.emailCtrl,
+      passwordForm: this.passwordForm,
+      isCoach: this.isCoachCtrl
+    })
+  }
+
+  static passwordMatch(group: FormGroup) {
+    const password = group.get('password').value;
+    const confirm = group.get('confirmPassword').value;
+    return password === confirm ? null : {matchingError: true};
+  }
+
+  public signup(): void {
+    this.subscribing = true;
+    this.authenticationRequest = this.authenticationService.signup(
+      this.firstNameCtrl.value,
+      this.lastNameCtrl.value,
+      this.emailCtrl.value,
+      this.passwordCtrl.value,
+      this.isCoachCtrl.value === 'coach' ? true : false
+    );
     this.slimLoadingBarService.start();
     this.authenticationRequest
       .finally(() => {
-        this.signing = false;
+        this.subscribing = false;
         this.slimLoadingBarService.complete();
       })
       .subscribe((authProfile) => {
-          this.router.navigateByUrl('/accueil');
-          authProfile.rememberMe = this.signinForm.get('rememberMe').value;
           this.localStorage.set('profile', JSON.stringify(authProfile));
+          if (authProfile.isCoach) {
+            this.router.navigateByUrl('/profil/coach/complete');
+          } else {
+            this.router.navigateByUrl('/profil/member/complete');
+          }
         },
         (errorMsg) => {
           this.displayErrorMsg(errorMsg);
