@@ -43,11 +43,11 @@ mongoose.connection.on('connected', function () {
   let ExerciseReferenceInformationService = require('./_services/exerciseReferenceInformation.service');
 
   mongoose.connection.collections['Machines'].drop()
-    .then(() => {
-      return mongoose.connection.collections['Gyms'].drop();
-    }, error => {
-      return mongoose.connection.collections['Gyms'].drop();
-    })
+  // .then(() => {
+  //   return mongoose.connection.collections['Gyms'].drop();
+  // }, error => {
+  //   return mongoose.connection.collections['Gyms'].drop();
+  // })
     .then(() => {
       return mongoose.connection.collections['Exercises'].drop();
     }, error => {
@@ -78,40 +78,42 @@ mongoose.connection.on('connected', function () {
     })
     .then((exercisesReferencesInformations) => {
       global.exercisesReferencesInformations = exercisesReferencesInformations;
-      return GymService.createGym('Keep cool', '20 Place pan carre', 'Avignon',
-        {
-          monday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          },
-          tuesday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          },
-          wednesday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          },
-          thursday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          },
-          friday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          },
-          saturday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("23:00", "HH:mm").toDate()
-          },
-          sunday: {
-            openingHour: moment("08:00", "HH:mm").toDate(),
-            closingHour: moment("21:00", "HH:mm").toDate()
-          }
-        }
-      )
+      return GymService.findAll();
+      // return GymService.createGym('Keep cool', '20 Place pan carre', 'Avignon',
+      //   {
+      //     monday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     },
+      //     tuesday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     },
+      //     wednesday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     },
+      //     thursday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     },
+      //     friday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     },
+      //     saturday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("23:00", "HH:mm").toDate()
+      //     },
+      //     sunday: {
+      //       openingHour: moment("08:00", "HH:mm").toDate(),
+      //       closingHour: moment("21:00", "HH:mm").toDate()
+      //     }
+      //   }
+      // )
     })
     .then(gymSaved => {
+      gymSaved = gymSaved[0];
       let machine = new Machine({
         name: 'Presses à cuisse',
         workedMuscles: [

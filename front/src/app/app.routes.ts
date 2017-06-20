@@ -15,7 +15,6 @@ import {SessionsResolver} from "./sessions/sessions.resolver";
 import {ProfileResolver} from "./profile/profile.resolver";
 import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
-import {AppComponent} from "./app.component";
 import {ProfileIsMemberGuardService} from "./_guards/profile-is-member-guard.service";
 
 // Route Configuration
