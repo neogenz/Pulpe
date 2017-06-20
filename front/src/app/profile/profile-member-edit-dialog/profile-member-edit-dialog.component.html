@@ -44,7 +44,7 @@
                         </div>
                         <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
-                                <input id="inputBirthdate" mdInput type="date"
+                                <input id="inputBirthdate" mdInput type="date" [max]="maximumBirthdate"
                                        placeholder="Votre date de naissance"
                                        formControlName="birthdate"
                                        required>
@@ -100,6 +100,13 @@
                         </div>
                     </md-tab>
                 </md-tab-group>
+                <div class="row mt-4">
+                    <div *ngIf="isInError" class="col-md-12 col-12">
+                        <div class="alert alert-danger">
+                            {{errorMsg}}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="submit" [disabled]="memberForm.invalid">Editer</button>

@@ -144,6 +144,34 @@ class MemberService {
                 throw error;
             });
     }
+
+    /**
+     * Update a member.
+     * @param member
+     * @returns {Promise.<Member>|Promise}
+     */
+    static updateMember(member) {
+        return this.findById(member._id)
+            .then(memberFinded => {
+                memberFinded.sessionFrequency = member.sessionFrequency;
+                memberFinded.birthDate = new Date(member.birthDate);
+                memberFinded.objective = ObjectiveEnum.fromCode(member.objective);
+                memberFinded.email = member.mail;
+                memberFinded.firstName = member.firstName;
+                memberFinded.lastName = member.lastName;
+                memberFinded.gym = member.gym._id;
+                return memberFinded.save();
+            })
+            .then(member => {
+                    return member;
+                },
+                (error) => {
+                    throw new TechnicalError(error.message);
+                }
+            ).catch((error) => {
+                throw error;
+            });
+    }
 }
 
 module.exports = MemberService;

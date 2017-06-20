@@ -60,7 +60,7 @@ export class MemberService extends ObservableHelper {
   }
 
   public editProfile(member: Member): Observable<Member> {
-    return this.http.put(`http://localhost:5000/members/${member.id}`, {
+    return this.http.put(`http://localhost:5000/members`, {
       member: member
     }).map(response => {
       const data: any = this.extractDataOf(response);

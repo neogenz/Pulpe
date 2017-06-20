@@ -9,15 +9,19 @@ import {Observable} from "rxjs";
 import {GymService} from "../../_services/gym/gym.service";
 import {Gym} from "../../_model/Gym";
 import {CustomValidators} from "../../_formValidators/CustomValidators";
+import {OnError} from "../../_helpers/IUIErrorHandlerHelper";
 
 @Component({
   selector: 'pulpe-profile-member-edit-dialog',
   templateUrl: 'profile-member-edit-dialog.component.html',
   styleUrls: ['profile-member-edit-dialog.component.css']
 })
-export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMemberEdit, Member> implements ProfileMemberEdit, OnInit {
+export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMemberEdit, Member> implements ProfileMemberEdit, OnInit, OnError {
   memberRequest: Observable<Member> = new Observable();
+  isInError: boolean;
+  errorMsg: string;
   private frequencyRange: any;
+  private maximumBirthdate: string;
   member: any;
   gyms: any;
   errorTranslations: any;
@@ -63,7 +67,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
     this.member.birthDate = new Date(this.birthdateCtrl.value);
     this.member.objective = this.getObjectiveValue();
 
-    debugger;
+    this.close();
     this.memberRequest = this.memberService.editProfile(this.member);
     this.slimLoadingBarService.start();
     this.memberRequest
@@ -75,6 +79,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
         },
         (errorMsg) => {
           console.error(errorMsg);
+          this.displayErrorMsg(errorMsg);
         }
       );
   }
@@ -86,6 +91,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       },
       errorMsg => {
         console.error(errorMsg);
+        this.displayErrorMsg(errorMsg);
       });
 
     this.buildForm();
@@ -117,18 +123,14 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       moment(this.member.birthdate).format('YYYY-MM-DD'), Validators.required
     );
 
-    switch (this.member.objective) {
-      case 'GeneralForm':
-        this.objectiveChoices[0].checked = true;
-        break;
-      case 'MassGainer':
-        this.objectiveChoices[1].checked = true;
-        break;
-      case 'WeightLoss':
-        this.objectiveChoices[2].checked = true;
-        break;
+    if (this.member.objective === 'GeneralForm' || this.member.objective === 'GF') {
+      this.objectiveChoices[0].checked = true;
+    } else if (this.member.objective === 'MassGainer' || this.member.objective === 'MG') {
+      this.objectiveChoices[1].checked = true;
+    } else {
+      this.objectiveChoices[2].checked = true;
     }
-
+    this.maximumBirthdate = this.buildToBeOldEnoughDate();
     this.memberForm = this.fb.group({
       email: this.emailCtrl,
       firstName: this.firstNameCtrl,
@@ -154,6 +156,24 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       }
     });
     return value;
+  }
+
+  displayErrorMsg(errorMsg: string) {
+    this.isInError = true;
+    this.errorMsg = errorMsg;
+  }
+
+  hideErrorMsg() {
+    this.isInError = false;
+    this.errorMsg = '';
+  }
+
+  private buildToBeOldEnoughDate(): string {
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 14);
+    maxDate.setMonth(0);
+    maxDate.setDate(1);
+    return moment(maxDate).format('YYYY-MM-DD');
   }
 
   private resetChoices(): void {

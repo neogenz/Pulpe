@@ -38,6 +38,11 @@
   border-color: $accent-color;
 }
 
+.choice h6 {
+  font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
 .choice input[type="radio"],
 .choice input[type="checkbox"] {
   position: absolute;

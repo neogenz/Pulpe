@@ -10,7 +10,7 @@ export class Member {
     return this;
   }
 
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   mail: string;
@@ -42,8 +42,8 @@ export class Member {
 class MemberBuilder {
   private me: Member = new Member();
 
-  public id(id: string): MemberBuilder {
-    this.me.id = id;
+  public id(_id: string): MemberBuilder {
+    this.me._id = _id;
     return this;
   }
 
