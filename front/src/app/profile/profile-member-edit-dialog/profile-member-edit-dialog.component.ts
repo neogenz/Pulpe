@@ -60,14 +60,18 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   }
 
   edit() {
-    this.close();
-    this.member.lastName = this.lastNameCtrl.value;
-    this.member.firstName = this.firstNameCtrl.value;
-    this.member.mail = this.emailCtrl.value;
-    this.member.sessionFrequency = this.frequencyCtrl.value;
-    this.member.birthDate = new Date(this.birthdateCtrl.value);
-    this.member.objective = this.getObjectiveValue();
-    this.memberRequest = this.memberService.editProfile(this.member);
+    const editedMember = Member.of()
+      .id(this.member._id)
+      .mail(this.emailCtrl.value)
+      .lastName(this.lastNameCtrl.value)
+      .firstName(this.firstNameCtrl.value)
+      .sessionFrequency(this.frequencyCtrl.value)
+      .birthDate(new Date(this.birthdateCtrl.value))
+      .gym(this.member.gym._id)
+      .objective(this.getObjectiveValue())
+      .build();
+
+    this.memberRequest = this.memberService.editProfile(editedMember);
     this.slimLoadingBarService.start();
     this.memberRequest
       .finally(() => {
@@ -75,6 +79,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       })
       .subscribe((member) => {
           this.result = member;
+          this.close();
         },
         (errorMsg) => {
           console.error(errorMsg);

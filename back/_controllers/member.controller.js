@@ -92,7 +92,7 @@ class MemberController {
 
         MemberService.updateMember(member)
             .then(member => {
-                return member;
+                res.send({member: member});
             })
             .catch((error) => {
                 const httpError = HttpErrorHelper.buildHttpErrorByError(error);
