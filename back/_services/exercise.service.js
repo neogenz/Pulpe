@@ -14,6 +14,8 @@ const TechnicalError = require('../_model/Errors').TechnicalError;
 const SessionError = require('../_model/Errors').TechnicalError;
 const ExerciseReferenceInformationEnum = require('../_enums/ExerciseReferenceInformationEnum');
 const _ = require('underscore');
+const DifficultyEnum = require('../_enums/DifficultyEnum');
+const MuscleEnum = require('../_enums/MuscleEnum');
 
 class ExerciseService {
   constructor() {
@@ -75,6 +77,25 @@ class ExerciseService {
   }
 
   /**
+   * Find exercises list corresponding to criterias
+   * @param {Array<[]>} criterias
+   * @param {number} limit
+   * @returns {Promise<Array<Exercise>>}
+   */
+  static findReferenceExcercisesLimitedBy(criterias, limit) {
+    return Exercise.find({'reference': true}).populate('machines').and(criterias).limit(limit).then(
+      exercises => {
+        return exercises;
+      },
+      error => {
+        throw TechnicalError(error.message);
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+
+  /**
    * Find exercise wich can be used to training
    * @param {DifficultyEnum} difficulty
    * @returns {Promise<Array<Exercise>>}
@@ -100,16 +121,16 @@ class ExerciseService {
   /**
    * Generate a pool of exercises, no persisted
    * @param {Session} session
-   * @param difficulty
+   * @param {DifficultyEnum} difficulty
    * @param objective
    * @returns {Promise.<Array<Exercise>>|Promise}
    */
   static generateExercisesBy(session, difficulty, objective) {
     let exercisesGeneratedPromises = [];
-    return this._findReferenceExercisesBy(session, difficulty, objective)
+    return this._findReferenceExercisesBy(session, difficulty)
       .then(exercises => {
           exercises.forEach(exercise => {
-            if (exercise !== null) {
+            if (exercise !== null && exercise !== undefined) {
               exercisesGeneratedPromises.push(
                 ExerciseService.generateExerciseFromReferencesInformationsBy(exercise.name, exercise.machines, {
                   type: ExerciseGroupTypeEnum.fromName(exercise.__t),
@@ -137,7 +158,14 @@ class ExerciseService {
   }
 
 
-  static _findReferenceExercisesBy(session, difficulty, objective) {
+  /**
+   * Find reference exercises
+   * @param session
+   * @param difficulty
+   * @returns {Promise.<Exercise>|Promise}
+   * @private
+   */
+  static _findReferenceExercisesBy(session, difficulty) {
     let exercisesPromises = [];
     if (session.training) {
       console.info(`The session need training exercise.`);
@@ -147,11 +175,14 @@ class ExerciseService {
       case SessionTypeEnum.Cardio.name:
         //todo add some organized exercise
         console.info(`The session is of cardio type.`);
-        exercisesPromises.push(ExerciseService.findSomeReferenceCardioExercisesBy(2));
+        //todo add CARDIO to muscle worked on this session, and get just 2 exercises of type cardio
+        //exercisesPromises.push(ExerciseService.findReferenceCardioExercisesByLimit(2));
+        exercisesPromises.push(ExerciseService.findReferencesExercisesToCardioSessionBy(session.mainMusclesGroup));
+        //exercisesPromises.push(ExerciseService.findWorkedExercisesByWorkedMuscleGroupAndIntensity(session.mainMusclesGroup, DifficultyEnum.MEDIUM));
         break;
       case SessionTypeEnum.Bodybuilding.name:
         console.info(`The session is of bodybuilding type.`);
-        exercisesPromises.push(ExerciseService.findWorkedExercisesByWorkedMuscleGroupAndIntensity(session.mainMusclesGroup, difficulty));
+        exercisesPromises.push(ExerciseService.findReferencesExercisesToBodybuildingSessionBy(session.mainMusclesGroup));
         break;
       default:
         console.error(`This sessionType is unknown ${session.sessionType}`);
@@ -164,8 +195,8 @@ class ExerciseService {
     });
   }
 
-  static findSomeReferenceCardioExercisesBy(nbToFind) {
-    Exercise.findOne({
+  static findReferenceCardioExercisesByLimit(nbToFind) {
+    return Exercise.findOne({
       reference: true,
       __t: ExerciseGroupTypeEnum.CardioExercise.name
     }).populate('machines')
@@ -180,6 +211,75 @@ class ExerciseService {
       .catch(error => {
         throw error;
       });
+  }
+
+  /**
+   *
+   * @param {Array<MuscleEnum>} musclesGroup
+   */
+  //todo refactor
+  static findReferencesExercisesToCardioSessionBy(musclesGroup) {
+    let muscleAlreadyWorked = [];
+    let exercisesPromises = [];
+    let criterias = [];
+    musclesGroup.forEach(muscle => {
+      if (muscle === MuscleEnum.CARDIO.toString()) {
+        criterias = [
+          {'workedMuscles.name': muscle.toString()},
+          {'workedMuscles.intensity': DifficultyEnum.HARD.toString()},
+          {
+            'workedMuscles.name': {
+              $nin: muscleAlreadyWorked.map(muscle => {
+                return muscle.toString()
+              })
+            }
+          }
+        ];
+        exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 2));
+      } else {
+        criterias = [
+          {'workedMuscles.name': muscle.toString()},
+          {'workedMuscles.intensity': DifficultyEnum.MEDIUM.toString()},
+          {
+            'workedMuscles.name': {
+              $nin: muscleAlreadyWorked.map(muscle => {
+                return muscle.toString()
+              })
+            }
+          }
+        ];
+        exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 1));
+      }
+      muscleAlreadyWorked = muscleAlreadyWorked.concat([muscle]);
+    });
+    return Promise.all(exercisesPromises);
+  }
+
+  /**
+   *
+   * @param {Array<MuscleEnum>} musclesGroup
+   */
+  //todo refactor
+  static findReferencesExercisesToBodybuildingSessionBy(musclesGroup) {
+    let muscleAlreadyWorked = [];
+    let exercisesPromises = [];
+    let criterias = [];
+    musclesGroup.forEach(muscle => {
+      criterias = [
+        {'workedMuscles.name': muscle.toString()},
+        {'workedMuscles.intensity': DifficultyEnum.HARD.toString()},
+        {
+          'workedMuscles.name': {
+            $nin: muscleAlreadyWorked.map(muscle => {
+              return muscle.toString()
+            })
+          }
+        }
+      ];
+      exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 1));
+      muscleAlreadyWorked = muscleAlreadyWorked.concat([muscle]);
+    });
+    return Promise.all(exercisesPromises);
   }
 
 
@@ -300,32 +400,33 @@ class ExerciseService {
   static generateBodybuildingExercise(name, machines, exerciseProperties) {
     return ExerciseInformationReferenceService.findBy({
       __t: ExerciseReferenceInformationEnum.Bodybuilding.name,
-      phase: 1
+      phase: 1,
+      objective: ObjectiveEnum.MassGainer.toString()
     }).then(exerciseReferenceInformation => {
       if (!exerciseReferenceInformation.length) {
         throw new NotFoundError(`No ExerciseInformationReferenceService found with this criterias : 
           { __t: '${ExerciseReferenceInformationEnum.Bodybuilding.name}', phase: 1 }`
         );
       }
-      let massGainerExercisesRefInfo = exerciseReferenceInformation.find(currentRefInfo => {
-        return currentRefInfo.objective === ObjectiveEnum.MassGainer.toString()
-      });
-      if (!massGainerExercisesRefInfo) {
-        throw new NotFoundError(`No ExerciseInformationReferenceService to ${ObjectiveEnum.MassGainer.toString()} objective found with this criterias : 
-          { __t: '${ExerciseReferenceInformationEnum.Bodybuilding.name}', phase: 1 }`
-        );
-      }
+      // let massGainerExercisesRefInfo = exerciseReferenceInformation.find(currentRefInfo => {
+      //   return currentRefInfo.objective === ObjectiveEnum.MassGainer.toString()
+      // });
+      // if (!massGainerExercisesRefInfo) {
+      //   throw new NotFoundError(`No ExerciseInformationReferenceService to ${ObjectiveEnum.MassGainer.toString()} objective found with this criterias :
+      //     { __t: '${ExerciseReferenceInformationEnum.Bodybuilding.name}', phase: 1 }`
+      //   );
+      // }
 
       let exercise = new BodybuildingExercise({
         workedMuscles: exerciseProperties.workedMuscles,
         name: name,
         machines: machines,
         reference: exerciseProperties.reference ? exerciseProperties.reference : false,
-        series: massGainerExercisesRefInfo.series,
-        repetitions: massGainerExercisesRefInfo.repetitions,
-        recoveryTimesBetweenEachSeries: massGainerExercisesRefInfo.recoveryTimesBetweenEachSeries,
-        finalRecoveryTimes: massGainerExercisesRefInfo.finalRecoveryTimes,
-        approximateTimeBySeries: massGainerExercisesRefInfo.approximateTimeBySeries,
+        series: exerciseReferenceInformation[0].series,
+        repetitions: exerciseReferenceInformation[0].repetitions,
+        recoveryTimesBetweenEachSeries: exerciseReferenceInformation[0].recoveryTimesBetweenEachSeries,
+        finalRecoveryTimes: exerciseReferenceInformation[0].finalRecoveryTimes,
+        approximateTimeBySeries: exerciseReferenceInformation[0].approximateTimeBySeries,
         weight: exerciseProperties.weight
       });
 

@@ -26,7 +26,12 @@ class SessionError extends ExtendableError {
 class InstanceError extends TechnicalError {
 }
 
+class ParamsError extends TechnicalError {
+}
+
+
 module.exports.TechnicalError = TechnicalError;
+module.exports.ParamsError = ParamsError;
 module.exports.AlreadyExistError = AlreadyExistError;
 module.exports.NotFoundError = NotFoundError;
 module.exports.SessionError = SessionError;

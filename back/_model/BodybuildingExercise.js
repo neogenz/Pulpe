@@ -7,12 +7,12 @@ const Schema = mongoose.Schema;
 const discriminator = 'BodybuildingExercise';
 const BodybuildingExercise = Exercise.discriminator(discriminator,
   new Schema({
-    repetitions: {type: Number, required: true},
-    series: {type: Number, required: true},
-    weight: {type: Number, required: true},
-    recoveryTimesBetweenEachSeries: {type: Number, required: true},
-    finalRecoveryTimes: {type: Number, required: true},
-    approximateTimeBySeries: {type: Number, required: true, default: 1.30}
+    repetitions: {type: Number},
+    series: {type: Number},
+    weight: {type: Number},
+    recoveryTimesBetweenEachSeries: {type: Number},
+    finalRecoveryTimes: {type: Number},
+    approximateTimeBySeries: {type: Number, default: 1.30}
   }), options
 );
 

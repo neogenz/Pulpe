@@ -13,37 +13,39 @@
         <div class="row pt-1">
             <div class="col-md-12 p-0">
                 <ul class="mynav" *ngIf="!profileService.profileIsCoach()">
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" [routerLink]="['profile', authenticationProfile.id]"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['profile', authenticationProfile.id]"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">person</i>
                             <span class="pl-4">Mon profil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" routerLink="/accueil"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">store</i>
                             <span class="pl-4">Accueil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" routerLink="/programme"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/programme"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">assignment</i>
                             <span class="pl-4">Programme</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" [routerLink]="['evolution', authenticationProfile.id]"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['evolution', authenticationProfile.id]"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">trending_up</i>
                             <span class="pl-4">Evolution</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" routerLink="/seances"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/seances"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">fitness_center</i>
                             <span class="pl-4">Séances</span>
                         </a>
@@ -55,30 +57,31 @@
                             <span class="pl-4">Timeline</span>
                         </a>
                     </li>-->
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a (click)="signout()" *ngIf="auth.authenticated()">
+                    <li class="sidebar-link pt-2 pb-3" (click)="signout()" *ngIf="auth.authenticated()">
+                        <a>
                             <i class="material-icons">power_settings_new</i>
                             <span class="pl-4">Déconnexion</span>
                         </a>
                     </li>
                 </ul>
                 <ul class="mynav" *ngIf="profileService.profileIsCoach()">
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" [routerLink]="['profile', authenticationProfile.id]"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['profile', authenticationProfile.id]"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">person</i>
                             <span class="pl-4">Mon profil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a [routerLinkActive]="['active']" routerLink="/accueil"
-                           *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil"
+                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        <a>
                             <i class="material-icons">store</i>
                             <span class="pl-4">Accueil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3">
-                        <a (click)="signout()" *ngIf="auth.authenticated()">
+                    <li class="sidebar-link pt-2 pb-3" (click)="signout()" *ngIf="auth.authenticated()">
+                        <a>
                             <i class="material-icons">power_settings_new</i>
                             <span class="pl-4">Déconnexion</span>
                         </a>

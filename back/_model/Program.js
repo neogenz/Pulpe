@@ -31,4 +31,38 @@ ProgramSchema.pre('save', function (next) {
 
 const Program = mongoose.model('Program', ProgramSchema, 'Programs');
 
+Program.of = () => {
+  return new ProgramBuilder();
+};
+
+class ProgramBuilder {
+  constructor() {
+    this.me = new Program();
+  }
+
+  member(member) {
+    this.me.member = member;
+    return this;
+  }
+
+  sessions(sessions) {
+    this.me.sessions = sessions;
+    return this;
+  }
+
+  objective(objective) {
+    this.me.objective = objective;
+    return this;
+  }
+
+  isActive(isActive) {
+    this.me.isActive = isActive;
+    return this;
+  }
+
+  build() {
+    return this.me;
+  }
+}
+
 module.exports = Program;

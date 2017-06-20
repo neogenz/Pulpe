@@ -237,6 +237,12 @@ mongoose.connection.on('connected', function () {
       GymService.addMachine(machine, gymSaved)
         .then(machineSaved => {
           ExerciseService.createExerciseBy('Running', [machineSaved], {
+            workedMuscles: [
+              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GASTROCNEMIUS_LATERAL, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
+            ],
             type: ExerciseGroupTypeEnum.CardioExercise,
             reference: true,
             km: 10
@@ -256,12 +262,24 @@ mongoose.connection.on('connected', function () {
         .then(machineSaved => {
           bike = machineSaved;
           return ExerciseService.createExerciseBy('Biking', [bike], {
+            workedMuscles: [
+              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
+              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
+            ],
             type: ExerciseGroupTypeEnum.CardioExercise,
             reference: true,
             km: 10
           });
         }).then(() => {
           return ExerciseService.createExerciseBy('Biking', [bike], {
+            workedMuscles: [
+              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
+              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
+            ],
             type: ExerciseGroupTypeEnum.TrainingExercise,
             reference: true,
             km: 10

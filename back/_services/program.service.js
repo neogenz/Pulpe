@@ -1,6 +1,4 @@
-const MemberService = require('./member.service');
 const Program = require('../_model/Program');
-const jwt = require('jsonwebtoken');
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
@@ -45,23 +43,21 @@ class ProgramService {
 
   /**
    * Generate a program for a member
-   * @param {number} nbSessions Its session number by week
-   * @param {ObjectiveEnum} objective
-   * @param {Member} member
-   * @param {boolean} isActive
+   * @param {ProgramGenerationContext} programGenerationContext
    * @returns {Promise.<Program>}
    */
-  static generateProgramBy(nbSessions, objective, member, isActive) {
-    let sessions = SessionService.generateSessionsBy(nbSessions, objective);
-    let program = new Program();
-    program.member = member;
-    program.sessions = sessions;
-    program.objective = objective.name;
-    program.isActive = isActive;
+  static generateProgramBy(programGenerationContext) {
+    let sessions = SessionService.generateSessionsBy(programGenerationContext.member.sessionFrequency, programGenerationContext.objective);
+    let program = Program.of()
+      .member(programGenerationContext.member)
+      .sessions(sessions)
+      .objective(programGenerationContext.objective.name)
+      .isActive(programGenerationContext.isActive)
+      .build();
     let promises = [];
     program.sessions.forEach(session => {
       promises.push(
-        ExerciseService.generateExercisesBy(session, DifficultyEnum.HARD, objective)
+        ExerciseService.generateExercisesBy(session, DifficultyEnum.HARD, programGenerationContext.objective)
           .then(exercises => {
             session.exercises = exercises;
           })
