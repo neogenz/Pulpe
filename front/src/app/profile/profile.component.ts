@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openDialogEditMember() {
-      this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member}, {
+    this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member}, {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((member) => {
       if (member) {

@@ -4,24 +4,17 @@
     </pulpe-page-title>
 
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <pulpe-simple-counter-with-icon icoClass="ion ion-location"
                                             label="Ma salle de sport"
-                                            icoBackgroundColor="blue"
+                                            icoBackgroundColor="green"
                                             value="{{member.gym.name}} - {{member.gym.city}}">
             </pulpe-simple-counter-with-icon>
         </div>
-        <div class="col-md-4">
-            <pulpe-simple-counter-with-icon icoClass="ion ion-ios-calendar-outline"
-                                            label="Adhérent depuis"
-                                            icoBackgroundColor="orange"
-                                            value="{{member.createdAt | date: 'dd/MM/yyyy'}}">
-            </pulpe-simple-counter-with-icon>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <pulpe-simple-counter-with-icon icoClass="ion ion-clipboard"
                                             label="Objective"
-                                            icoBackgroundColor="green"
+                                            icoBackgroundColor="orange"
                                             value="{{objective}}">
             </pulpe-simple-counter-with-icon>
         </div>

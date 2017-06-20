@@ -5,23 +5,106 @@
                 <h4 class="text-light-weight">Editer mon profil</h4>
             </div>
         </div>
-        <div class="modal-body">
-            <md-tab-group>
-                <md-tab label="Informations">
-                </md-tab>
-                <md-tab label="Photo">
-                </md-tab>
-                <md-tab label="Objectif">
-                </md-tab>
-                <md-tab label="Salle de sport">
-                </md-tab>
-            </md-tab-group>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">
-                Enregistrer
-            </button>
-            <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
-        </div>
+        <form (ngSubmit)="confirm()" [formGroup]="memberForm">
+            <div class="modal-body">
+                <md-tab-group>
+                    <md-tab label="Informations">
+                        <div class="row pt-4">
+                            <md-input-container class="col-md-12" color="primary" ngxErrors="email">
+                                <input id="inputMail" mdInput type="text"
+                                       placeholder="Votre Email"
+                                       formControlName="email"
+                                       required>
+                                <md-hint *ngIf="emailCtrl.dirty && emailCtrl.hasError('')"
+                                         class="form-control-feedback">Votre email est obligatoire
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="row pt-2">
+                            <md-input-container class="col-md-12" color="primary" ngxErrors="firstName">
+                                <input id="inputFirstname" mdInput type="text"
+                                       placeholder="Votre prénom"
+                                       formControlName="firstName"
+                                       required>
+                                <md-hint *ngIf="firstNameCtrl.dirty && firstNameCtrl.hasError('')"
+                                         class="form-control-feedback">Votre prénom est obligatoire
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="row pt-2">
+                            <md-input-container class="col-md-12" color="primary" ngxErrors="lastName">
+                                <input id="inputLastname" mdInput type="text"
+                                       placeholder="Votre nom"
+                                       formControlName="lastName"
+                                       required>
+                                <md-hint *ngIf="lastNameCtrl.dirty && lastNameCtrl.hasError('')"
+                                         class="form-control-feedback">Votre nom est obligatoire
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="row pt-2">
+                            <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
+                                <input id="inputBirthdate" mdInput type="date"
+                                       placeholder="Votre date de naissance"
+                                       formControlName="birthdate"
+                                       required>
+                                <md-hint *ngIf="birthdateCtrl.dirty && birthdateCtrl.hasError('')"
+                                         class="form-control-feedback">Votre date de naissance est obligatoire
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                    </md-tab>
+                    <md-tab label="Objectif">
+                        <div class="row pt-4">
+                            <div class="col-md-4" *ngFor="let objective of objectiveChoices">
+                                <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                     [class.active]="objective.checked"
+                                     (click)="check(objective)">
+                                    <input type="radio" name="objective" [checked]="objective.checked"
+                                           formControlName="objective">
+                                    <div class="icon center-icon">
+                                        <img [src]="objective.picture">
+                                    </div>
+                                    <h6 class="text-uppercase formule-type-title">{{objective.display}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </md-tab>
+                    <md-tab label="Salle de sport">
+                        <div class="row pt-4">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <md-select placeholder="Choisissez votre salle" formControlName="gym"
+                                               class="col-md-12 form-group" [(ngModel)]="member.gym._id">
+                                        <md-option *ngFor="let gym of gyms" [value]="gym.id">
+                                            {{gym.name}} - {{gym.city}}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <md-input-container class="col-md-12" required>
+                                <input id="inputFrequency" type="number" mdInput formControlName="frequency"
+                                       placeholder="Saisissez la fréquence à votre salle de sport" required>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('required')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.required}}
+                                </md-hint>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('maxValue')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.maxValue}}
+                                </md-hint>
+                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('minValue')"
+                                         class="form-control-feedback">{{errorTranslations.frequency.minValue}}
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                    </md-tab>
+                </md-tab-group>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" [disabled]="memberForm.invalid">Editer</button>
+                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+            </div>
+        </form>
     </div>
 </div>
