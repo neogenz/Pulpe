@@ -6,4 +6,7 @@ body {
   flex-direction: row;
   -webkit-flex-direction: row; }
 
+.container-bg {
+  background: url("../assets/img/background.jpg"); }
+
 /*# sourceMappingURL=app.component.css.map */

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import {Member} from "../_model/Member";
 import {Animations} from "../shared/Animations";
+import {DialogService} from "ng2-bootstrap-modal";
+import {ProfileMemberEditDialogComponent} from "./profile-member-edit-dialog/profile-member-edit-dialog.component";
 
 @Component({
   selector: 'pulpe-profile',
@@ -13,7 +15,7 @@ export class ProfileComponent implements OnInit {
   private member: Member;
   objective: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -29,5 +31,15 @@ export class ProfileComponent implements OnInit {
         this.objective = 'Forme générale';
         break;
     }
+  }
+
+  openDialogEditMember() {
+      this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member}, {
+      backdropColor: 'rgba(0,0,0,0.5)'
+    }).subscribe((member) => {
+      if (member) {
+        this.member = member;
+      }
+    });
   }
 }

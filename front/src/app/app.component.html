@@ -4,39 +4,12 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
-    <!--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
-    <!--<ul class="nav navbar-nav mx-auto w-100">-->
-    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
-    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
-    <!--routerLink="/programme">Mon programme <span-->
-    <!--class="sr-only">(current)</span></a>-->
-    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
-    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
-    <!--routerLink="/evolution">Mon-->
-    <!--évolution</a>-->
-    <!--<a class="nav-item nav-link" [routerLinkActive]="['active']"-->
-    <!--*ngIf="auth.authenticated() && profileService.profileIsCompleted()"-->
-    <!--routerLink="/seances">Mes séances</a>-->
-    <!--</ul>-->
-    <!--<ul class="nav navbar-nav navbar-right" *ngIf="auth.authenticated()">-->
-    <!--<li class="nav-item dropdown">-->
-    <!--<a class="nav-item nav-link myAccount" [routerLinkActive]="['active']"-->
-    <!--data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i-->
-    <!--class="ion-ios-contact-outline"></i></a>-->
-    <!--<div class="dropdown-menu dropdown-menu-right">-->
-    <!--<a class="dropdown-item nav-link nav-item" routerLink="/profil">Mon profil</a>-->
-    <!--<div class="dropdown-divider"></div>-->
-    <!--<a class="dropdown-item nav-link nav-item" (click)="signout()">Déconnexion</a>-->
-    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Separated link</a>&ndash;&gt;-->
-    <!--</div>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
 </nav>
 
 <ng-sidebar-container>
     <ng-sidebar [(opened)]="_opened" [mode]="'over'" [closeOnClickOutside]="true"
-                [closeOnClickBackdrop]="true" [showBackdrop]="true">
+                [closeOnClickBackdrop]="true" [showBackdrop]="true"
+                style="position: absolute;min-height: 100% !important;">
         <pulpe-sidebar *ngIf="auth.authenticated()"></pulpe-sidebar>
     </ng-sidebar>
     <div class="container">

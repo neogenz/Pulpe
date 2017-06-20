@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar/index";
@@ -7,13 +7,14 @@ import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {OnError} from "../_helpers/IUIErrorHandlerHelper";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {document} from "@angular/platform-browser/src/facade/browser";
 
 @Component({
   selector: 'pulpe-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class SigninComponent implements OnInit, OnError {
+export class SigninComponent implements OnInit, OnError, OnDestroy {
   authenticationRequest: Observable<AuthenticationProfile> = new Observable();
   signing: boolean = false;
   signinForm: FormGroup;
@@ -42,6 +43,11 @@ export class SigninComponent implements OnInit, OnError {
         this.signinForm.get('rememberMe').setValue(true);
       }
     }
+    document.body.className = "landing-page";
+  }
+
+  ngOnDestroy() {
+    document.body.className = "";
   }
 
   signin(): void {

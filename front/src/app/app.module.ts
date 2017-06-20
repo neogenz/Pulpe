@@ -58,6 +58,7 @@ import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletationCoachComponent} from './profile/profile-completation-coach/profile-completation-coach.component';
 import {GymService} from "./_services/gym/gym.service";
 import {CoachService} from "./_services/coach/coach.service";
+import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-dialog/profile-member-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import {CoachService} from "./_services/coach/coach.service";
     FooterComponent,
     MeasurementsListComponent,
     MeasurementsAddDialogComponent,
-    ProfileCompletationCoachComponent
+    ProfileCompletationCoachComponent,
+    ProfileMemberEditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -147,7 +149,8 @@ import {CoachService} from "./_services/coach/coach.service";
     CoachService
   ],
   entryComponents: [
-    MeasurementsAddDialogComponent
+    MeasurementsAddDialogComponent,
+    ProfileMemberEditDialogComponent
   ],
   bootstrap: [AppComponent]
 })

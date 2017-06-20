@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
@@ -7,6 +7,7 @@ import {LocalStorageService} from "angular-2-local-storage";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OnError} from "../_helpers/IUIErrorHandlerHelper";
+import {document} from "@angular/platform-browser/src/facade/browser";
 
 
 @Component({
@@ -14,7 +15,7 @@ import {OnError} from "../_helpers/IUIErrorHandlerHelper";
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit, OnError {
+export class SignupComponent implements OnInit, OnError, OnDestroy {
   authenticationRequest: Observable<AuthenticationProfile> = new Observable();
   subscribing: boolean = false;
   signupForm: FormGroup;
@@ -34,6 +35,11 @@ export class SignupComponent implements OnInit, OnError {
   }
 
   ngOnInit() {
+    document.body.className = "landing-page";
+  }
+
+  ngOnDestroy() {
+    document.body.className = "";
   }
 
   private buildForm(fb: FormBuilder) {
