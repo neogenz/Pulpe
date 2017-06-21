@@ -15,8 +15,10 @@ class AuthenticationService {
      * @param password
      */
     static signinBy(email, password) {
+        let isCoach = false;
         return CoachService.findBy(email, password)
             .then((coachFinded) => {
+                isCoach = true;
                 return coachFinded;
             }, (error) => {
                 if (error instanceof NotFoundError) {
@@ -29,7 +31,7 @@ class AuthenticationService {
                 const token = _generateToken(user);
                 return {
                     token: token,
-                    isCoach: true
+                    isCoach: isCoach
                 };
             }, (error) => {
                 console.error(error.stack);

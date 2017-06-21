@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="auth.authenticated() && w">
                         <a>
                             <i class="material-icons">store</i>
                             <span class="pl-4">Accueil</span>

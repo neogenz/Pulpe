@@ -71,7 +71,7 @@
                         </div>
                     </md-tab>
                     <md-tab label="Salle de sport">
-                        <div class="row pt-4">
+                        <div class="row pt-4" *ngIf="!profileService.profileIsCoach()">
                             <div class="col-md-12">
                                 <div class="row">
                                     <md-select placeholder="Choisissez votre salle" formControlName="gym"

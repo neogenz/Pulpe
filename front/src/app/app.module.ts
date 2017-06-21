@@ -63,6 +63,8 @@ import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-di
 import {MembersComponent} from './members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./members/members.resolver";
+import {ObjectiveEnumService} from "./_services/objective-enum.service";
+import {FilterMembers} from "./members/members.filter.pipe";
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import {MembersResolver} from "./members/members.resolver";
     MeasurementsAddDialogComponent,
     ProfileCompletationCoachComponent,
     ProfileMemberEditDialogComponent,
-    MembersComponent
+    MembersComponent,
+    FilterMembers
   ],
   imports: [
     BrowserModule,
@@ -153,6 +156,7 @@ import {MembersResolver} from "./members/members.resolver";
     ProfileIsMemberGuardService,
     ProfileIsCoachGuardService,
     MeasurementEnumService,
+    ObjectiveEnumService,
     GymService,
     CoachService
   ],

@@ -2,26 +2,91 @@
     <pulpe-page-title
             [title]="'Liste des adhérents'">
     </pulpe-page-title>
+
     <div class="row">
         <md-card class="col-md-12">
-
-            <md-list-item *ngFor="let member of members">
-                <div class="row" md-line>
-                    <div class="col-md-8">
-                        <h4 class="exerciseTitle text-capitalize" md-line>{{member.lastName}}
-                            {{member.firstName}}</h4>
-                        <p md-line> {{member.mail}} </p>
+            <div class="row">
+                <div class="col-md-2 text-center my-auto separatorVertical">
+                    <span class="ion ion-person-stalker usersIcon"></span>
+                    <div class="text-light-weight">
+                        <strong class="text-primary">{{members.length}}</strong> Adhérents
                     </div>
-                    <div class="col-md-4">
-                        <h4 class="exerciseTitle text-capitalize" md-line>{{member.lastName}}
-                            {{member.firstName}}</h4>
-                        <p md-line> {{member.mail}} </p>
-                    </div>
-
-
                 </div>
-            </md-list-item>
-
+                <div class="col-md-10">
+                    <div class="float-md-right text-center">
+                        <span class="ion ion-ios-search actionsIcon"></span>
+                        <md-input-container class="searchPlaceHolder font-weight-light">
+                            <input mdInput placeholder="Par nom, prénom" [(ngModel)]="filterArgs">
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
         </md-card>
+    </div>
+
+    <div class="row pt-3">
+        <md-card class="col-md-12 my-auto text-center" *ngIf="members.length === 0">
+            <div>Aucun adhérent</div>
+        </md-card>
+
+        <table class="col-md-12 table table-striped bg-secondary" *ngIf="members.length > 0">
+            <thead>
+            <tr>
+                <th class="text-white text-center text-light-weight text-uppercase">Sexe</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Prénom</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Email</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Date de naissance</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Objectif</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let member of members | filterMembers: filterArgs">
+            <tr class="my-auto text-center">
+                <td><i class="ion ion-male iconsList text-primary"></i></td>
+                <td>{{member.lastName}}</td>
+                <td>{{member.firstName}}</td>
+                <td>{{member.mail}}</td>
+                <td>{{member.birthDate | date:'dd/MM/yyyy'}}</td>
+                <td>
+                    <div class="col-md-1 col-12 mr-md-1">
+                        <img *ngIf="isMassGainer(member.objective)" mdTooltip="Prise de masse"
+                             [mdTooltipPosition]="'above'"
+                             src="../../assets/img/exercise-types/strength-64.png"
+                             class="objectiveImg" alt="Type">
+
+                        <img *ngIf="isGeneralForm(member.objective)" mdTooltip="Forme générale"
+                             [mdTooltipPosition]="'above'"
+                             src="../../assets/img/exercise-types/stationary-bike-64.png"
+                             class="objectiveImg" alt="Type">
+                        <img *ngIf="isWeightLoss(member.objective)" mdTooltip="Perte de poids"
+                             [mdTooltipPosition]="'above'"
+                             src="../../assets/img/exercise-types/weight-64.png"
+                             class="objectiveImg" alt="Type">
+                    </div>
+                </td>
+                <td>
+                    <div class="row iconsList">
+                        <div class="col-md-6">
+                            <i class="ion ion-clipboard pointer" mdTooltip="Consulter le programme de l'adhérent"
+                               [mdTooltipPosition]="'left'"></i>
+                        </div>
+                        <div class="col-md-6" (click)="openDialogEditMember(member)">
+                            <i class="ion ion-edit pointer" mdTooltip="Editer l'adhérent" [mdTooltipPosition]="'right'"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-12 pt-2 pb-2 btnBottomRight">
+                <button md-fab class="pull-right bg-primary" mdTooltip="Ajouter un adhérent"
+                        [mdTooltipPosition]="'right'">
+                    <i class="ion-person-add addIcon"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </div>

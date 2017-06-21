@@ -10,6 +10,7 @@ import {GymService} from "../../_services/gym/gym.service";
 import {Gym} from "../../_model/Gym";
 import {CustomValidators} from "../../_formValidators/CustomValidators";
 import {OnError} from "../../_helpers/IUIErrorHandlerHelper";
+import {ProfileService} from "../profile.service";
 
 @Component({
   selector: 'pulpe-profile-member-edit-dialog',
@@ -55,7 +56,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   ];
 
   constructor(dialogService: DialogService, private fb: FormBuilder,
-              private memberService: MemberService, private gymService: GymService, private slimLoadingBarService: SlimLoadingBarService) {
+              private profileService: ProfileService, private memberService: MemberService, private gymService: GymService, private slimLoadingBarService: SlimLoadingBarService) {
     super(dialogService);
   }
 

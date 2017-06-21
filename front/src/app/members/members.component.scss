@@ -1,26 +1,33 @@
 @import "../../assets/style/colors";
 
-.exerciseTitle {
-  font-size: 1.15rem;
-  font-weight: 400;
-  //background-color: @accent-color;
-  color: $accent-color;
+.objectiveImg {
+  width: 2rem;
 }
 
-.exerciseMachineName{
-  font-size: 0.85rem;
-  font-weight: 400;
-  font-style: italic;
-  color: $secondary-text;
+.iconsList {
+  font-size: 1.3rem;
 }
 
-.exerciseDetails {
-  color: rgba(0, 0, 0, .54);
-  font-size: 1rem;
-  font-weight: 400;
-  font-style: italic;
+.usersIcon {
+  font-size: 1.7rem;
 }
 
-.mat-list-item-content {
-  display: block !important;
+.addIcon {
+  font-size: 1.2rem;
+}
+
+.searchPlaceHolder {
+  font-size: 0.8rem;
+}
+
+md-card {
+  opacity: 0.8;
+}
+
+.separatorVertical {
+  border-right: 1px solid $primary-color;
+}
+
+.pointer {
+  cursor: pointer;
 }
