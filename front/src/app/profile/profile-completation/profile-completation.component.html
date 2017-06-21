@@ -55,6 +55,14 @@
                                placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
                     </md-input-container>
                     <pre class="col-md-8 offset-md-2" *ngIf="debug">{{birthdateCtrl.errors | json}}</pre>
+
+                    <div class="col-md-12 text-center">
+                        <i class="ion-ios-person-outline iconGender"></i>
+                        <md-radio-group formControlName="gender" class="col-7 col-md-8">
+                            <md-radio-button checked="true" value="Male">Homme</md-radio-button>
+                            <md-radio-button class="pl-4" value="Female">Femme</md-radio-button>
+                        </md-radio-group>
+                    </div>
                 </div>
             </md-card>
         </div>

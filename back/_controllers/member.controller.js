@@ -2,6 +2,7 @@ const MemberService = require('../_services/member.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const GenderEnum = require('../_enums/GenderEnum');
 const ProgramService = require('../_services/program.service');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 
@@ -59,10 +60,12 @@ class MemberController {
             sessionFrequency = req.body.sessionFrequency,
             birthDate = new Date(req.body.birthDate);
         let objective = req.body.objective;
+        let gender = req.body.gender;
         objective = ObjectiveEnum.fromCode(objective);
-        let memberCompleted;
+        gender = GenderEnum.fromName(gender);
 
-        MemberService.completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objective)
+        let memberCompleted;
+        MemberService.completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objective, gender)
             .then(member => {
                 memberCompleted = member;
                 const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});

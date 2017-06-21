@@ -86,9 +86,10 @@ class CoachService {
      * @param coachId
      * @param gym
      * @param birthDate
+     * @param gender
      * @returns {Promise.<Coach>|Promise}
      */
-    static completeProfile(coachId, gym, birthDate) {
+    static completeProfile(coachId, gym, birthDate, gender) {
         return GymService.getOrCreateGym(gym.id, gym.name, gym.address, gym.city)
             .then(gymToAttach => {
                 gym = gymToAttach;
@@ -98,6 +99,7 @@ class CoachService {
                 coach.gym = gym.id;
                 coach.profileCompleted = true;
                 coach.birthDate = new Date(birthDate);
+                coach.gender = gender;
                 return coach.save();
             })
             .then(coach => {

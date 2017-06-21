@@ -16,6 +16,7 @@ export class Member {
   mail: string;
   password: string;
   address: string;
+  gender: string;
   city: string;
   country: string;
   phone: string;
@@ -109,6 +110,11 @@ class MemberBuilder {
 
   public birthDate(birthDate: Date): MemberBuilder {
     this.me.birthDate = birthDate;
+    return this;
+  }
+
+  public gender(gender: string): MemberBuilder {
+    this.me.gender = gender;
     return this;
   }
 

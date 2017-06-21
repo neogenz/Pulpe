@@ -29,6 +29,13 @@
                                          class="form-control-feedback">{{errorTranslations.birthdate.required}}
                                 </md-hint>
                             </md-input-container>
+                            <div class="col-md-12 text-center">
+                                <i class="ion-ios-person-outline iconGender"></i>
+                                <md-radio-group formControlName="gender" class="col-7 col-md-8">
+                                    <md-radio-button checked="true" value="Male">Homme</md-radio-button>
+                                    <md-radio-button class="pl-4" value="Female">Femme</md-radio-button>
+                                </md-radio-group>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,7 +61,8 @@
                                     <md-tab label="Création de ma salle">
                                         <div class="row pt-3">
                                             <md-input-container class="col-md-12">
-                                                <input id="inputNameGym" minlength="2" maxlength="80" type="text" mdInput formControlName="nameGym"
+                                                <input id="inputNameGym" minlength="2" maxlength="80" type="text"
+                                                       mdInput formControlName="nameGym"
                                                        placeholder="Saisissez le nom de votre salle de sport">
                                             </md-input-container>
                                             <md-hint *ngIf="nameGymCtrl.dirty && nameGymCtrl.hasError('')"

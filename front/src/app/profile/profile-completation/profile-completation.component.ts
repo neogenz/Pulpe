@@ -27,6 +27,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
   weightCtrl: FormControl;
   birthdateCtrl: FormControl;
   frequencyCtrl: FormControl;
+  genderCtrl: FormControl;
   gymCtrl: FormControl;
   errorTranslations: any;
   private sizesRange: any;
@@ -104,6 +105,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       CustomValidators.maxValue(this.weightRange.max)
     ]);
     this.birthdateCtrl = fb.control('', Validators.required);
+    this.genderCtrl = fb.control('Male');
     this.frequencyCtrl = fb.control('', [Validators.required,
       CustomValidators.minValue(this.frequencyRange.min),
       CustomValidators.maxValue(this.frequencyRange.max)
@@ -115,7 +117,8 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       weight: this.weightCtrl,
       birthdate: this.birthdateCtrl,
       frequency: this.frequencyCtrl,
-      gym: this.gymCtrl
+      gym: this.gymCtrl,
+      gender: this.genderCtrl
     });
   }
 
@@ -155,7 +158,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       .build();
 
 
-    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeMemberProfile(this.gymCtrl.value, size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value);
+    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeMemberProfile(this.gymCtrl.value, size, weight, this.frequencyCtrl.value, new Date(this.birthdateCtrl.value), this.objectiveCtrl.value, this.genderCtrl.value);
     httpRequest.subscribe(
       authProfile => {
         this.localStorageService.set('profile', JSON.stringify(authProfile));

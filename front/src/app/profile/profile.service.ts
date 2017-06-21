@@ -35,7 +35,7 @@ export class ProfileService extends ObservableHelper {
     return false;
   }
 
-  public completeMemberProfile(gymId: string, size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string): Observable<AuthenticationProfile|string> {
+  public completeMemberProfile(gymId: string, size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string, gender: string): Observable<AuthenticationProfile|string> {
     const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
     const url = `${environment.baseUrl()}/members/${profile.id}/profile/completed`;
     const body = {
@@ -54,7 +54,8 @@ export class ProfileService extends ObservableHelper {
       gymId: gymId,
       sessionFrequency: frequency,
       birthDate: moment(birthdate).format('YYYY-MM-DD'),
-      objective: objective
+      objective: objective,
+      gender: gender
     };
     return this.http.post(url, body).map(response => {
       const data: any = this.extractDataOf(response);
@@ -65,11 +66,12 @@ export class ProfileService extends ObservableHelper {
       .catch(this.handleError);
   }
 
-  public completeCoachProfile(gymId: string, nameGym: string, addressGym: string, cityGym: string, birthdate: Date): Observable<AuthenticationProfile|string> {
+  public completeCoachProfile(gymId: string, nameGym: string, addressGym: string, cityGym: string, birthdate: Date, gender:string): Observable<AuthenticationProfile|string> {
     const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
     const url = `${environment.baseUrl()}/coachs/${profile.id}/profile/completed`;
     const body = {
       birthDate: moment(birthdate).format('YYYY-MM-DD'),
+      gender: gender,
       gym: {
         id: gymId,
         name: nameGym,

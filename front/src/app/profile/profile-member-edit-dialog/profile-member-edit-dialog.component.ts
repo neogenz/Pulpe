@@ -32,6 +32,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   firstNameCtrl: FormControl;
   lastNameCtrl: FormControl;
   birthdateCtrl: FormControl;
+  genderCtrl: FormControl;
   gymCtrl: FormControl;
   objectiveCtrl: FormControl;
   objectiveChoices = [
@@ -69,6 +70,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       .sessionFrequency(this.frequencyCtrl.value)
       .birthDate(new Date(this.birthdateCtrl.value))
       .gym(this.member.gym._id)
+      .gender(this.genderCtrl.value)
       .objective(this.getObjectiveValue())
       .build();
 
@@ -120,6 +122,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
     this.lastNameCtrl = this.fb.control(this.member.lastName, Validators.required);
     this.objectiveCtrl = this.fb.control('');
     this.gymCtrl = this.fb.control('');
+    this.genderCtrl = this.fb.control(this.member.gender);
     this.frequencyCtrl = this.fb.control(this.member.sessionFrequency, [Validators.required,
       CustomValidators.minValue(this.frequencyRange.min),
       CustomValidators.maxValue(this.frequencyRange.max)
@@ -128,6 +131,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       moment(this.member.birthDate).format('YYYY-MM-DD'), Validators.required
     );
 
+    // TODO : Make enum
     if (this.member.objective === 'GeneralForm' || this.member.objective === 'GF') {
       this.objectiveChoices[0].checked = true;
     } else if (this.member.objective === 'MassGainer' || this.member.objective === 'MG') {
@@ -143,7 +147,8 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       birthdate: this.birthdateCtrl,
       objective: this.objectiveCtrl,
       frequency: this.frequencyCtrl,
-      gym: this.gymCtrl
+      gym: this.gymCtrl,
+      gender: this.genderCtrl
     });
   }
 

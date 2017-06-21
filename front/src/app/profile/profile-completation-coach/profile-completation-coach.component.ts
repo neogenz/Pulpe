@@ -25,6 +25,7 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   addressGymCtrl: FormControl;
   cityGymCtrl: FormControl;
   nameExistingGymCtrl: FormControl;
+  genderCtrl: FormControl;
   isInError: boolean;
   errorMsg: string;
   errorTranslations: any;
@@ -90,7 +91,7 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
   }
 
   complete() {
-    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeCoachProfile(this.nameExistingGymCtrl.value, this.nameGymCtrl.value, this.addressGymCtrl.value, this.cityGymCtrl.value, new Date(this.birthdateCtrl.value));
+    const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeCoachProfile(this.nameExistingGymCtrl.value, this.nameGymCtrl.value, this.addressGymCtrl.value, this.cityGymCtrl.value, new Date(this.birthdateCtrl.value), this.genderCtrl.value);
     httpRequest.subscribe(
       authProfile => {
         this.localStorageService.set('profile', JSON.stringify(authProfile));
@@ -107,13 +108,15 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
     this.nameGymCtrl = fb.control('', Validators.required);
     this.addressGymCtrl = fb.control('', Validators.required);
     this.cityGymCtrl = fb.control('', Validators.required);
+    this.genderCtrl = fb.control('Male');
     this.nameExistingGymCtrl = fb.control();
     this.profileCompleteForm = fb.group({
       birthdate: this.birthdateCtrl,
       nameGym: this.nameGymCtrl,
       addressGym: this.addressGymCtrl,
       cityGym: this.cityGymCtrl,
-      nameExistingGym: this.nameExistingGymCtrl
+      nameExistingGym: this.nameExistingGymCtrl,
+      gender: this.genderCtrl
     });
   }
 
@@ -137,12 +140,14 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
 
   onSelectChange = ($event: any): void => {
     this.birthdateCtrl = this.fb.control(this.birthdateCtrl.value, Validators.required);
+    this.genderCtrl = this.fb.control(this.genderCtrl.value, Validators.required);
     if ($event.index === this.TAB_CREATE_GYM) {
       this.nameGymCtrl = this.fb.control('', Validators.required);
       this.addressGymCtrl = this.fb.control('', Validators.required);
       this.cityGymCtrl = this.fb.control('', Validators.required);
       this.profileCompleteForm = this.fb.group({
         birthdate: this.birthdateCtrl,
+        gender: this.genderCtrl,
         nameGym: this.nameGymCtrl,
         addressGym: this.addressGymCtrl,
         cityGym: this.cityGymCtrl
@@ -151,6 +156,7 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
       this.nameExistingGymCtrl = this.fb.control('', Validators.required);
       this.profileCompleteForm = this.fb.group({
         birthdate: this.birthdateCtrl,
+        gender: this.genderCtrl,
         nameExistingGym: this.nameExistingGymCtrl
       });
     }

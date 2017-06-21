@@ -43,7 +43,10 @@
             </thead>
             <tbody *ngFor="let member of members | filterMembers: filterArgs">
             <tr class="my-auto text-center">
-                <td><i class="ion ion-male iconsList text-primary"></i></td>
+                <td [ngSwitch]="member.gender">
+                    <i *ngSwitchCase="'Male'" class="ion ion-male femaleIcon"></i>
+                    <i *ngSwitchCase="'Female'" class="ion ion-female maleIcon"></i>
+                </td>
                 <td>{{member.lastName}}</td>
                 <td>{{member.firstName}}</td>
                 <td>{{member.mail}}</td>
@@ -68,11 +71,13 @@
                 <td>
                     <div class="row iconsList">
                         <div class="col-md-6">
-                            <i class="ion ion-clipboard pointer" mdTooltip="Consulter le programme de l'adhérent"
-                               [mdTooltipPosition]="'left'"></i>
+                            <button class="ion ion-clipboard pointer bg-primary" md-mini-fab
+                                    mdTooltip="Consulter le programme de l'adhérent"
+                                    [mdTooltipPosition]="'left'"></button>
                         </div>
                         <div class="col-md-6" (click)="openDialogEditMember(member)">
-                            <i class="ion ion-edit pointer" mdTooltip="Editer l'adhérent" [mdTooltipPosition]="'right'"></i>
+                            <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'adhérent"
+                                    [mdTooltipPosition]="'right'"></button>
                         </div>
                     </div>
                 </td>

@@ -5,9 +5,17 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const Measurement = require('./Measurement');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const GenderEnum = require('../_enums/GenderEnum');
 const MemberSchema = new Schema({
   firstName: String,
   lastName: String,
+  gender: {
+    type: String,
+      enum: [
+        GenderEnum.Female.name,
+        GenderEnum.Male.name
+      ]
+  },
   birthDate: Date,
   sessionFrequency: Number,
   objective: {

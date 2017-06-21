@@ -3,10 +3,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
+const GenderEnum = require('../_enums/GenderEnum');
 
 const CoachSchema = new Schema({
     firstName: String,
     lastName: String,
+    gender: {
+        type: String,
+        enum: [
+            GenderEnum.Female.name,
+            GenderEnum.Male.name
+        ]
+    },
     dateOfBirth: Date,
     updatedAt: Date,
     createdAt: Date,

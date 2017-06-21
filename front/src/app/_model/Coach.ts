@@ -11,6 +11,7 @@ export class Coach {
   id: string;
   firstName: string;
   lastName: string;
+  gender: string;
   address: string;
   city: string;
   email: string;
@@ -72,6 +73,11 @@ class CoachBuilder {
     return this;
   }
 
+  public gender(gender: string): CoachBuilder {
+    this.me.gender = gender;
+    return this;
+  }
+  
   public gym(gym: Gym): CoachBuilder {
     this.me.gym = gym;
     return this;

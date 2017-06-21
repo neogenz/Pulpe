@@ -30,6 +30,7 @@ export class CoachService extends ObservableHelper {
             .address(data.coach.address)
             .dateOfBirth(data.coach.dateOfBirth)
             .gym(data.coach.gym)
+            .gender(data.coach.gender)
             .profileCompleted(data.coach.profileIsCompleted)
             .build();
         }).catch(this.handleError);

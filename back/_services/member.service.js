@@ -5,6 +5,7 @@ const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const GenderEnum = require('../_enums/GenderEnum');
 const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
 const GymService = require('../_services/gym.service');
@@ -123,7 +124,7 @@ class MemberService {
      * @param {ObjectiveEnum} objectiveEnum
      * @returns {Promise.<Member>|Promise}
      */
-    static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum) {
+    static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum, gender) {
         return this.findById(memberId)
             .then(member => {
                 measurements.forEach(mes => {
@@ -134,6 +135,7 @@ class MemberService {
                 member.birthDate = new Date(birthDate);
                 member.objective = ObjectiveEnum.MassGainer;
                 member.gym = gymId;
+                member.gender = gender;
                 return member.save();
             })
             .then(member => {
@@ -161,6 +163,7 @@ class MemberService {
                 memberFinded.email = member.mail;
                 memberFinded.firstName = member.firstName;
                 memberFinded.lastName = member.lastName;
+                memberFinded.gender = GenderEnum.fromName(member.gender);
                 memberFinded.gym = member.gym;
                 return memberFinded.save();
             })
