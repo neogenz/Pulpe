@@ -11,9 +11,9 @@ export class FilterMembers implements PipeTransform {
       return members;
     }
     return members.filter(member =>
-      member.mail.includes(arg)
-      || member.firstName.includes(arg)
-      || member.lastName.includes(arg)
+      member.mail.toLocaleLowerCase().includes(arg.toLocaleLowerCase())
+      || member.firstName.toLocaleLowerCase().includes(arg.toLocaleLowerCase())
+      || member.lastName.toLocaleLowerCase().includes(arg.toLocaleLowerCase())
     );
   }
 }

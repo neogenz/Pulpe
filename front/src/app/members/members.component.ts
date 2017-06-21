@@ -16,23 +16,18 @@ import {ProfileMemberEditDialogComponent} from "../profile/profile-member-edit-d
   styleUrls: ['./members.component.css'],
   animations: [Animations.fadeIn()]
 })
-export class MembersComponent implements OnInit, OnChanges {
-  @ViewChildren('membersFiltered') membersFiltered;
+export class MembersComponent implements OnInit {
   private members: Member[];
   ObjectiveEnum
   objectiveEnum;
   filterArgs: string;
 
-  constructor(private route: ActivatedRoute, private chRef: ChangeDetectorRef, private dialogService: DialogService, private objectiveEnumService: ObjectiveEnumService) {
+  constructor(private route: ActivatedRoute, private dialogService: DialogService, private objectiveEnumService: ObjectiveEnumService) {
   }
 
   ngOnInit() {
     this.members = this.route.snapshot.data['members'];
     this.filterArgs = '';
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    debugger;
   }
 
   public isMassGainer(objective: string): boolean {

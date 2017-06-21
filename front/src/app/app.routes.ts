@@ -17,8 +17,10 @@ import {EvolutionResolver} from "./evolution/evolution.resolver";
 import {ProfileCompletedGuardService} from "./_guards/profile-completed-guard.service";
 import {ProfileIsMemberGuardService} from "./_guards/profile-is-member-guard.service";
 import {MembersComponent} from "./members/members.component";
+import {MachinesComponent} from "./machines/machines.component";
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./members/members.resolver";
+import {MachinesResolver} from "./machines/machines.resolver";
 
 // Route Configuration
 export const ROUTES: Routes = [
@@ -88,6 +90,14 @@ export const ROUTES: Routes = [
     canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
     resolve: {
       members: MembersResolver
+    }
+  },
+  {
+    path: 'machines/:idCoach',
+    component: MachinesComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+    resolve: {
+      machines: MachinesResolver
     }
   }
 ];

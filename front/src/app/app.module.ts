@@ -65,6 +65,10 @@ import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.servi
 import {MembersResolver} from "./members/members.resolver";
 import {ObjectiveEnumService} from "./_services/objective-enum.service";
 import {FilterMembers} from "./members/members.filter.pipe";
+import {MachinesComponent} from './machines/machines.component';
+import {MachinesResolver} from "./machines/machines.resolver";
+import {FilterMachines} from "./machines/machines.filter.pipe";
+import {MachineService} from "./_services/machine/machine.service";
 
 @NgModule({
   declarations: [
@@ -94,7 +98,9 @@ import {FilterMembers} from "./members/members.filter.pipe";
     ProfileCompletationCoachComponent,
     ProfileMemberEditDialogComponent,
     MembersComponent,
-    FilterMembers
+    FilterMembers,
+    FilterMachines,
+    MachinesComponent
   ],
   imports: [
     BrowserModule,
@@ -151,12 +157,14 @@ import {FilterMembers} from "./members/members.filter.pipe";
     ProfileResolver,
     ProfileService,
     MembersResolver,
+    MachinesResolver,
     AuthenticationGuard,
     ProfileCompletedGuardService,
     ProfileIsMemberGuardService,
     ProfileIsCoachGuardService,
     MeasurementEnumService,
     ObjectiveEnumService,
+    MachineService,
     GymService,
     CoachService
   ],

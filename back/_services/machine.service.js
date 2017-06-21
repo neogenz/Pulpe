@@ -4,6 +4,8 @@ const Machine = require('../_model/Machine');
 const MuscleEnum = require('../_enums/MuscleEnum');
 const Gym = require('../_model/Gym');
 const InstanceError = require('../_model/Errors').InstanceError;
+const CoachService = require('../_services/coach.service');
+const TechnicalError = require('../_model/Errors').TechnicalError;
 
 class MachineService {
   constructor() {
@@ -37,6 +39,30 @@ class MachineService {
         throw error;
       })
   }
+
+    /**
+     * Find all machines of a coach linked by their gym.
+     * @param id of coach
+     * @returns {Promise.<Member[]>|Promise}
+     */
+    static findAllByCoach(id) {
+        return CoachService.findById(id)
+            .then(coachFinded => {
+                return this.findAllByGym(coachFinded.gym);
+            }, (error) => {
+                console.error(error.stack);
+                throw new TechnicalError(error.message);
+            })
+            .then(machines => {
+                return machines;
+            }, (error) => {
+                console.error(error.stack);
+                throw new TechnicalError(error.message);
+            })
+            .catch((error) => {
+                throw error;
+            });
+    }
 
 
   static findAllByGym(gym) {
