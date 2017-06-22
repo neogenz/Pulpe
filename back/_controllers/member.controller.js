@@ -48,44 +48,6 @@ class MemberController {
       });
   }
 
-<<<<<<< Updated upstream
-    /**
-     * Add measurement to a member and complete his profile.
-     * @param req
-     * @param res
-     */
-    static completeProfile(req, res) {
-        const memberId = req.params.id,
-            measurements = req.body.measurements,
-            gymId = req.body.gymId,
-            sessionFrequency = req.body.sessionFrequency,
-            birthDate = new Date(req.body.birthDate);
-        let objective = req.body.objective;
-        let gender = req.body.gender;
-        objective = ObjectiveEnum.fromCode(objective);
-        gender = GenderEnum.fromName(gender);
-
-        let memberCompleted;
-        MemberService.completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objective, gender)
-            .then(member => {
-                memberCompleted = member;
-                const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
-                return ProgramService.generateProgramBy(programGenerationContext);
-            })
-            .then(programGenerated => {
-                return ProgramService.saveProgram(programGenerated);
-            })
-            .then(programSaved => {
-                res.send(memberCompleted);
-            }, error => {
-                throw error;
-            })
-            .catch((error) => {
-                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-                return res.status(httpError.code).send(httpError);
-            });
-    }
-=======
   /**
    * Add measurement to a member and complete his profile.
    * @param req
@@ -98,10 +60,12 @@ class MemberController {
       sessionFrequency = req.body.sessionFrequency,
       birthDate = new Date(req.body.birthDate);
     let objective = req.body.objective;
+    let gender = req.body.gender;
     objective = ObjectiveEnum.fromCode(objective);
-    let memberCompleted;
+    gender = GenderEnum.fromName(gender);
 
-    MemberService.completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objective)
+    let memberCompleted;
+    MemberService.completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objective, gender)
       .then(member => {
         memberCompleted = member;
         const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
@@ -116,12 +80,10 @@ class MemberController {
         throw error;
       })
       .catch((error) => {
-        console.error(error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
   }
->>>>>>> Stashed changes
 
   /**
    * Update a member.
@@ -131,36 +93,6 @@ class MemberController {
   static updateMember(req, res) {
     const member = req.body.member;
 
-<<<<<<< Updated upstream
-        MemberService.updateMember(member)
-            .then(member => {
-                res.send({member: member});
-            })
-            .catch((error) => {
-                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-                return res.status(httpError.code).send(httpError);
-            });
-    }
-
-    /**
-     * Find all members of a coach linked by their gym.
-     * @param req
-     * @param res
-     */
-    static findAllByCoach(req, res) {
-        const id = req.params.id;
-
-        MemberService.findAllByCoach(id)
-            .then(members => {
-                res.send({members: members});
-            })
-            .catch((error) => {
-                console.log(error);
-                const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-                return res.status(httpError.code).send(httpError);
-            });
-    }
-=======
     MemberService.updateMember(member)
       .then(member => {
         res.send({member: member});
@@ -170,7 +102,25 @@ class MemberController {
         return res.status(httpError.code).send(httpError);
       });
   }
->>>>>>> Stashed changes
+
+  /**
+   * Find all members of a coach linked by their gym.
+   * @param req
+   * @param res
+   */
+  static findAllByCoach(req, res) {
+    const id = req.params.id;
+
+    MemberService.findAllByCoach(id)
+      .then(members => {
+        res.send({members: members});
+      })
+      .catch((error) => {
+        console.log(error);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      });
+  }
 }
 
 module.exports = MemberController;

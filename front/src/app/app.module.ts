@@ -16,7 +16,10 @@ import {
   MdCardModule,
   MdProgressSpinnerModule,
   MdTabsModule,
-  MdRadioModule
+  MdRadioModule,
+  MdTooltipModule,
+  MdChipsModule,
+  MdButtonModule
 } from '@angular/material';
 
 
@@ -114,6 +117,9 @@ import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine
     MachineFormDialogComponent
   ],
   imports: [
+    MdButtonModule,
+    MdChipsModule,
+    MdTooltipModule,
     MdInputModule,
     MdSelectModule,
     MdProgressSpinnerModule,
