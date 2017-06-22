@@ -14,22 +14,22 @@ class MuscleEnum {
   }
 }
 
-MuscleEnum.TRAPS = new MuscleEnum('traps', 'TRA');
-MuscleEnum.DELTOID = new MuscleEnum('deltoid', 'DEL'); //Avant des épaules
-MuscleEnum.POSTERIOR_DELTOID = new MuscleEnum('deltoid', 'PDE'); // Arrière des épaules
-MuscleEnum.PECS = new MuscleEnum('pecs', 'PEC');
-MuscleEnum.LATISSIMUS_DORSI = new MuscleEnum('latissimus dorsi', 'LDO'); //Dorsaux
-MuscleEnum.BICEPS = new MuscleEnum('biceps', 'BIC');
-MuscleEnum.TRICEPS = new MuscleEnum('triceps', 'TRI');
-MuscleEnum.LUMBAR = new MuscleEnum('lumbar', 'LUM');
-MuscleEnum.MIDDLE_BACK = new MuscleEnum('middle back', 'MBA');
-MuscleEnum.RECTUS_ABDOMINIS = new MuscleEnum('rectus abdominus', 'RAB'); // Abdos
-MuscleEnum.LOWER_BACK = new MuscleEnum('lower back', 'LBA');
-MuscleEnum.THIGH_QUADRICEPS = new MuscleEnum('thigh quadriceps', 'TQU'); //Avant de la cuisse
-MuscleEnum.THIGH_BICEPS = new MuscleEnum('thigh biceps', 'TBI'); //Arrière de la cuisse
-MuscleEnum.GLUTEUS_MAXIMUS = new MuscleEnum('gluteus maximus', 'GMA'); //Grand fessier
-MuscleEnum.GLUTEUS_MEDIUS = new MuscleEnum('gluteus medius', 'GMA'); //Moyen fessier
-MuscleEnum.CARDIO = new MuscleEnum('cardiovascular', 'CAR');
-MuscleEnum.GASTROCNEMIUS_LATERAL = new MuscleEnum('gastrocnemius lateral', 'GAL');
+MuscleEnum.Traps = new MuscleEnum('Traps', 'TRA');
+MuscleEnum.Deltoid = new MuscleEnum('Deltoid', 'DEL'); //Avant des épaules
+MuscleEnum.PosteriorDeltoid = new MuscleEnum('PosteriorDeltoid', 'PDE'); // Arrière des épaules
+MuscleEnum.Pecs = new MuscleEnum('Pecs', 'PEC');
+MuscleEnum.LatissimusDorsi = new MuscleEnum('LatissimusDorsi', 'LDO'); //Dorsaux
+MuscleEnum.Biceps = new MuscleEnum('Biceps', 'BIC');
+MuscleEnum.Triceps = new MuscleEnum('Triceps', 'TRI');
+MuscleEnum.Lumbar = new MuscleEnum('Lumbar', 'LUM');
+MuscleEnum.MiddleBack = new MuscleEnum('MiddleBack', 'MBA');
+MuscleEnum.RectusAbdominus = new MuscleEnum('RectusAbdominus', 'RAB'); // Abdos
+MuscleEnum.LowerBack = new MuscleEnum('LowerBack', 'LBA');
+MuscleEnum.ThighQuadriceps = new MuscleEnum('ThighQuadriceps', 'TQU'); //Avant de la cuisse
+MuscleEnum.ThighBiceps = new MuscleEnum('ThighBiceps', 'TBI'); //Arrière de la cuisse
+MuscleEnum.GluteusMaximus = new MuscleEnum('GluteusMaximus', 'GMA'); //Grand fessier
+MuscleEnum.GluteusMedius = new MuscleEnum('GluteusMedius', 'GMA'); //Moyen fessier
+MuscleEnum.Cardiovascular = new MuscleEnum('Cardiovascular', 'CAR');
+MuscleEnum.GastrocnemiusLateral = new MuscleEnum('GastrocnemiusLateral', 'GAL');
 
 module.exports = MuscleEnum;
