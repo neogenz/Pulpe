@@ -25,3 +25,8 @@ body {
   font-family: $font-family-base;
 }
 
+a {
+  &:active, &:focus, &:hover {
+    color: darken($link-color, 20);
+  }
+}

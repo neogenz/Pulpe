@@ -19,11 +19,13 @@ class SessionService {
    * Generate more sessions
    * @param {number} nbSessions
    * @param {ObjectiveEnum} objective
+   * @param {Gym} gym
    * @returns {Promise<Array<SessionGenerationContext>>}
    */
-  static generateSessionsBy(nbSessions, objective) {
+  static generateSessionsBy(nbSessions, objective, gym) {
     console.info(`Generation of session to ${nbSessions} sessions by week with ${objective.toString()} objective.`);
     let sessionsGenerationConfigs = SessionService.getSessionsGenerationConfigsBySessionAndObjective(nbSessions, objective);
+    sessionsGenerationConfigs.gym = gym;
     let days = SessionService.getDaysSessionRepartitionBy(nbSessions);
     return SessionService._generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective).then((sessionsGenerationContext) => {
       return sessionsGenerationContext.map(sessionGenerationContext => sessionGenerationContext.session);
@@ -37,6 +39,7 @@ class SessionService {
    * @param {Array<{
    *    sessionType:ExerciseGroupTypeEnum,
    *    training:boolean,
+   *    gym:Gym,
    *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
    * }>} sessionsGenerationConfigs
    * @param {ObjectiveEnum} objective
@@ -46,15 +49,20 @@ class SessionService {
   static _generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective) {
     let sessionsGenerationContextWithoutExercises = [];
     merge(days, sessionsGenerationConfigs, (day, sessionGenerationConfig) => {
-      sessionsGenerationContextWithoutExercises.push(new SessionGenerationContext(new Session({
-        day: day,
-        sessionType: sessionGenerationConfig.sessionType,
-        mainMusclesGroup: sessionGenerationConfig.muscles.map(muscle => muscle.muscle),
-        training: sessionGenerationConfig.training
-      }), sessionGenerationConfig.muscles));
+      sessionsGenerationContextWithoutExercises.push(
+        new SessionGenerationContext(
+          new Session({
+            day: day,
+            sessionType: sessionGenerationConfig.sessionType,
+            mainMusclesGroup: sessionGenerationConfig.muscles.map(muscle => muscle.muscle),
+            training: sessionGenerationConfig.training
+          }),
+          sessionGenerationConfig.muscles,
+          gym)
+      );
     });
     return SessionService._fillExercisesIntoSessionGenerationContextBy(sessionsGenerationContextWithoutExercises, objective)
-      .then((sessionsGenerationContext)=> {
+      .then((sessionsGenerationContext) => {
         return sessionsGenerationContext;
       })
   }
@@ -78,7 +86,7 @@ class SessionService {
         })
       );
     });
-    return Promise.all(exercisesGeneratedPromises).then(()=>{
+    return Promise.all(exercisesGeneratedPromises).then(() => {
       return sessionsGenerationContextWithoutExercises;
     })
   }
@@ -128,23 +136,23 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           musclesRepartition: [{
-            muscle: MuscleEnum.PECS,
+            muscle: MuscleEnum.Pecs,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.BICEPS,
+            muscle: MuscleEnum.Biceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.DELTOID,
+            muscle: MuscleEnum.Deltoid,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.LUMBAR,
+            muscle: MuscleEnum.Lumbar,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -153,23 +161,23 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           musclesRepartition: [{
-            muscle: MuscleEnum.THIGH_BICEPS,
+            muscle: MuscleEnum.ThighBiceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            muscle: MuscleEnum.ThighQuadriceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.GLUTEUS_MAXIMUS,
+            muscle: MuscleEnum.GluteusMaximus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            muscle: MuscleEnum.GluteusMedius,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -182,15 +190,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.PECS,
+            muscle: MuscleEnum.Pecs,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.BICEPS,
+            muscle: MuscleEnum.Biceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -199,15 +207,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.DELTOID,
+            muscle: MuscleEnum.Deltoid,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.TRAPS,
+            muscle: MuscleEnum.Traps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -216,23 +224,23 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.LUMBAR,
+            muscle: MuscleEnum.Lumbar,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            muscle: MuscleEnum.LatissimusDorsi,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            muscle: MuscleEnum.ThighQuadriceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            muscle: MuscleEnum.GluteusMedius,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -245,15 +253,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.PECS,
+            muscle: MuscleEnum.Pecs,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.TRICEPS,
+            muscle: MuscleEnum.Triceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -262,15 +270,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.DELTOID,
+            muscle: MuscleEnum.Deltoid,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.TRAPS,
+            muscle: MuscleEnum.Traps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -279,19 +287,19 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.LUMBAR,
+            muscle: MuscleEnum.Lumbar,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            muscle: MuscleEnum.LatissimusDorsi,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            muscle: MuscleEnum.ThighQuadriceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -300,15 +308,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.BICEPS,
+            muscle: MuscleEnum.Biceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            muscle: MuscleEnum.GluteusMedius,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -322,15 +330,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.PECS,
+            muscle: MuscleEnum.Pecs,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.TRICEPS,
+            muscle: MuscleEnum.Triceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -339,15 +347,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.DELTOID,
+            muscle: MuscleEnum.Deltoid,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.TRAPS,
+            muscle: MuscleEnum.Traps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -356,19 +364,19 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.LUMBAR,
+            muscle: MuscleEnum.Lumbar,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            muscle: MuscleEnum.LatissimusDorsi,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            muscle: MuscleEnum.ThighQuadriceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
@@ -377,15 +385,15 @@ class SessionService {
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
           muscles: [{
-            muscle: MuscleEnum.BICEPS,
+            muscle: MuscleEnum.Biceps,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 2
           }, {
-            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            muscle: MuscleEnum.GluteusMedius,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }, {
-            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            muscle: MuscleEnum.RectusAbdominus,
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],

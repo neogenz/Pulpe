@@ -47,7 +47,9 @@ class ProgramService {
    * @returns {Promise.<Program>}
    */
   static generateProgramBy(programGenerationContext) {
-    return SessionService.generateSessionsBy(programGenerationContext.member.sessionFrequency, programGenerationContext.objective)
+    return SessionService.generateSessionsBy(programGenerationContext.member.sessionFrequency,
+      programGenerationContext.objective,
+      programGenerationContext.member.gym)
       .then((sessions) => {
         let program = Program.of()
           .member(programGenerationContext.member)

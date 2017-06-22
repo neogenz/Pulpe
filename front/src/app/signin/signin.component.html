@@ -66,14 +66,28 @@
                                                      formControlName="rememberMe">Se souvenir de moi
                                         </md-checkbox>
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <div class="offset-md-7 col-md-5 col-12 bottom-md-right">
-                                            <button [class.disabled]="signinForm.invalid" type="button"
-                                                    class="btn btn-lg btn-primary text-white w-100" type="submit"
-                                                    [disabled]="signinForm.invalid">
-                                                Se
-                                                connecter
-                                            </button>
+                                    <div class="form-group mb-3 col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-7 col-12 hidden-sm-down">
+                                                <div class="text-center text-md-left text-black-primary pull-down">
+                                                    <p class="mb-0 d-inline">Vous n'avez pas de compte ?</p>
+                                                    <a routerLink="/inscription" class="d-inline-block" href>Inscrivez-vous</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-12">
+                                                <button [class.disabled]="signinForm.invalid" type="button"
+                                                        class="btn btn-lg btn-primary text-white w-100" type="submit"
+                                                        [disabled]="signinForm.invalid">
+                                                    Se
+                                                    connecter
+                                                </button>
+                                            </div>
+                                            <div class="col-12 hidden-lg-up">
+                                                <div class="text-center text-md-left text-black-primary">
+                                                    <p class="mb-0 d-inline">Vous n'avez pas de compte ?</p>
+                                                    <a routerLink="/inscription" class="d-inline-block" href>Inscrivez-vous</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>

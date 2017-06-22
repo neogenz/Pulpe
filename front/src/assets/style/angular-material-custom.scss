@@ -42,6 +42,15 @@ md-input-container.ng-dirty.ng-invalid md-hint {
   color: $input-error-color;
 }
 
+.mat-input-invalid {
+  .mat-input-placeholder {
+    color: $input-error-color;
+  }
+  .mat-input-ripple {
+    background-color: $input-error-color;
+  }
+}
+
 input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placeholder-required, .mat-focused .mat-input-placeholder.mat-float .mat-placeholder-required {
   color: $primary-color;
 }

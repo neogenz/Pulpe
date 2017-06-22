@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'pulpe-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
   win:any = typeof window !== 'undefined' && window || {};

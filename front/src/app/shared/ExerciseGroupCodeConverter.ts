@@ -41,6 +41,7 @@ export class ExerciseGroupCodeConverter {
   }
 
   public getLabelOfThis(rawExerciseGroupCode: string) {
+    Array.from(this.exerciseGroupLabelConverter.values());
     return this.exerciseGroupLabelConverter.get(rawExerciseGroupCode);
   }
 

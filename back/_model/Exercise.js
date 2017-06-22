@@ -17,6 +17,7 @@ const ExerciseSchema = new Schema({
     name: String
   }],
   reference: {type: Boolean, default: false},
+  _gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date
 });
@@ -37,7 +38,13 @@ ExerciseSchema.query.muscleWorkedBy = function (muscle, intensity) {
         intensity: intensity
       }
     }
-  })
+  });
+};
+
+ExerciseSchema.query.onThisGymId = function (gymId) {
+  return this.find({
+    '_gym': gymId
+  });
 };
 
 ExerciseSchema.query.isReference = function () {

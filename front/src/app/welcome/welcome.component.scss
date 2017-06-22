@@ -27,3 +27,18 @@ hr {
   line-height: 300%;
   font-size: 1.3rem;
 }
+
+.btn {
+  &:hover {
+    &:before {
+      background: none !important;
+    }
+  }
+  &:before {
+    background: none !important;
+  }
+}
+
+.btn-round{
+  font-size:1rem;
+}

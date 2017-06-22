@@ -31,7 +31,7 @@ class MachineService {
 
   static findSpecificNumberOfMachinesUsableToTraining(number) {
     return Machine.find({
-      'workedMuscles.name': MuscleEnum.CARDIO.toString()
+      'workedMuscles.name': MuscleEnum.Cardiovascular.toString()
     }).limit(number)
       .then(machinesUsableToTraining => {
         return machinesUsableToTraining;

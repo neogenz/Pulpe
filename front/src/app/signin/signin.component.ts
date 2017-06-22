@@ -13,7 +13,7 @@ import {Animations} from "../shared/Animations";
 @Component({
   selector: 'pulpe-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css'],
+  styleUrls: ['./signin.component.scss'],
   animations: [Animations.fadeIn()]
 })
 export class SigninComponent implements OnInit, OnError, OnDestroy {

@@ -119,13 +119,32 @@
                                             <md-radio-button class="pl-4" value="coach">Coach</md-radio-button>
                                         </md-radio-group>
                                     </div>
-                                    <div class="form-group mb-3">
+                                    <div class="form-group mb-3 col-md-12">
+
+                                        <div class="row">
+                                            <div class="col-md-7 col-12 hidden-sm-down">
+                                                <div class="text-center text-md-left text-black-primary pull-down">
+                                                    <p class="mb-0 d-inline">Vous avez déja un compte ?</p>
+                                                    <a routerLink="/connexion" class="d-inline-block" href>Connectez-vous</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-12">
+                                                <button [class.disabled]="signupForm.invalid" type="button"
+                                                        class="btn btn-lg btn-primary text-white w-100" type="submit"
+                                                        [disabled]="signupForm.invalid">
+                                                    S'inscrire
+                                                </button>
+                                            </div>
+                                            <div class="col-12 hidden-lg-up">
+                                                <div class="text-center text-md-left text-black-primary">
+                                                    <p class="mb-0 d-inline">Vous avez déja un compte ?</p>
+                                                    <a routerLink="/connexion" class="d-inline-block" href>Connectez-vous</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="offset-md-7 col-md-5 col-12 bottom-md-right">
-                                            <button [class.disabled]="subscribing" type="button"
-                                                    class="btn btn-lg btn-primary text-white w-100" type="submit"
-                                                    [disabled]="signupForm.invalid">
-                                                S'inscrire
-                                            </button>
+
                                         </div>
                                     </div>
                                 </form>

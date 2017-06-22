@@ -121,10 +121,10 @@ mongoose.connection.on('connected', function () {
       let machine = new Machine({
         name: 'Presses à cuisse',
         workedMuscles: [
-          {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.THIGH_BICEPS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
-          {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.EASY}
+          {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.ThighBiceps, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.EASY},
+          {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.EASY}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -133,18 +133,19 @@ mongoose.connection.on('connected', function () {
             weight: 60,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.THIGH_BICEPS, intensity: DifficultyEnum.MEDIUM}
-            ], reference: true
+              {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.ThighBiceps, intensity: DifficultyEnum.MEDIUM}
+            ], reference: true,
+            gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Banc de développé couché',
         workedMuscles: [
-          {name: MuscleEnum.PECS, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.RECTUS_ABDOMINIS, intensity: DifficultyEnum.EASY}
+          {name: MuscleEnum.Pecs, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Triceps, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.RectusAbdominus, intensity: DifficultyEnum.EASY}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -153,16 +154,16 @@ mongoose.connection.on('connected', function () {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.PECS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.MEDIUM}
-            ], reference: true
+              {name: MuscleEnum.Pecs, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.Triceps, intensity: DifficultyEnum.MEDIUM}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Pec-deck',
         workedMuscles: [
-          {name: MuscleEnum.PECS, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.Pecs, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -171,19 +172,19 @@ mongoose.connection.on('connected', function () {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.PECS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.MEDIUM}
+              {name: MuscleEnum.Pecs, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.MEDIUM}
             ],
-            reference: true
+            reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Poulie haute',
         workedMuscles: [
-          {name: MuscleEnum.LATISSIMUS_DORSI, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.PECS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.EASY},
-          {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.EASY}
+          {name: MuscleEnum.LatissimusDorsi, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Pecs, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.Biceps, intensity: DifficultyEnum.EASY},
+          {name: MuscleEnum.Triceps, intensity: DifficultyEnum.EASY}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -192,18 +193,18 @@ mongoose.connection.on('connected', function () {
             weight: 8,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.Triceps, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Poulie basse',
         workedMuscles: [
-          {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.LATISSIMUS_DORSI, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.LatissimusDorsi, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Biceps, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Triceps, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -212,16 +213,16 @@ mongoose.connection.on('connected', function () {
             weight: 10,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Machine épaule',//todo get real name
         workedMuscles: [
-          {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -230,9 +231,9 @@ mongoose.connection.on('connected', function () {
             weight: 12,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
         });
 
@@ -240,8 +241,8 @@ mongoose.connection.on('connected', function () {
       machine = new Machine({
         name: 'Machine biceps',//todo get real name
         workedMuscles: [
-          {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -250,15 +251,15 @@ mongoose.connection.on('connected', function () {
             weight: 15,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.EASY}
-            ], reference: true
+              {name: MuscleEnum.Biceps, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.EASY}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Pupitre Larry Scott',
         workedMuscles: [
-          {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.Biceps, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -267,14 +268,14 @@ mongoose.connection.on('connected', function () {
             weight: 15,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.Biceps, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Salle abdos',
         workedMuscles: [
-          {name: MuscleEnum.RECTUS_ABDOMINIS, intensity: DifficultyEnum.HARD}
+          {name: MuscleEnum.RectusAbdominus, intensity: DifficultyEnum.HARD}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -283,18 +284,18 @@ mongoose.connection.on('connected', function () {
             weight: 15,
             type: ExerciseGroupTypeEnum.OrganizedExercise,
             workedMuscles: [
-              {name: MuscleEnum.RECTUS_ABDOMINIS, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.RectusAbdominus, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
         });
       //todo see this muscles worked (Banc incliné) ...
       machine = new Machine({
         name: 'Banc incliné',
         workedMuscles: [
-          {name: MuscleEnum.LATISSIMUS_DORSI, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.PECS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.EASY},
-          {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.EASY}
+          {name: MuscleEnum.LatissimusDorsi, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Pecs, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.Biceps, intensity: DifficultyEnum.EASY},
+          {name: MuscleEnum.Triceps, intensity: DifficultyEnum.EASY}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -303,18 +304,18 @@ mongoose.connection.on('connected', function () {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.PECS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.TRICEPS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.EASY}
-            ], reference: true
+              {name: MuscleEnum.Pecs, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.Triceps, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.Biceps, intensity: DifficultyEnum.EASY}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Bar de musculation',
         workedMuscles: [
-          {name: MuscleEnum.LATISSIMUS_DORSI, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.MEDIUM}
+          {name: MuscleEnum.LatissimusDorsi, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.MEDIUM}
         ]
       });
       GymService.addMachine(machine, gymSaved)
@@ -323,18 +324,18 @@ mongoose.connection.on('connected', function () {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.LATISSIMUS_DORSI, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.POSTERIOR_DELTOID, intensity: DifficultyEnum.MEDIUM}
-            ], reference: true
+              {name: MuscleEnum.LatissimusDorsi, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.PosteriorDeltoid, intensity: DifficultyEnum.MEDIUM}
+            ], reference: true, gym: gymSaved
           });
           ExerciseService.createExerciseBy('Tirage menton', [machineSaved], {
             weight: 10,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.TRAPS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.DELTOID, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.BICEPS, intensity: DifficultyEnum.EASY}
-            ], reference: true
+              {name: MuscleEnum.Traps, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Deltoid, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.Biceps, intensity: DifficultyEnum.EASY}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
@@ -347,51 +348,51 @@ mongoose.connection.on('connected', function () {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.LUMBAR, intensity: DifficultyEnum.HARD}
-            ], reference: true
+              {name: MuscleEnum.Lumbar, intensity: DifficultyEnum.HARD}
+            ], reference: true, gym: gymSaved
           });
           ExerciseService.createExerciseBy('Squat', [machineSaved], {
             weight: 20,
             type: ExerciseGroupTypeEnum.BodybuildingExercise,
             workedMuscles: [
-              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.THIGH_BICEPS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.RECTUS_ABDOMINIS, intensity: DifficultyEnum.EASY}
-            ], reference: true
+              {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.ThighBiceps, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.RectusAbdominus, intensity: DifficultyEnum.EASY}
+            ], reference: true, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Tapis de courses',
         workedMuscles: [
-          {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.GASTROCNEMIUS_LATERAL, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.GastrocnemiusLateral, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.Cardiovascular, intensity: DifficultyEnum.HARD},
         ]
       });
       GymService.addMachine(machine, gymSaved)
         .then(machineSaved => {
           ExerciseService.createExerciseBy('Running', [machineSaved], {
             workedMuscles: [
-              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.GASTROCNEMIUS_LATERAL, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GastrocnemiusLateral, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.Cardiovascular, intensity: DifficultyEnum.HARD},
             ],
             type: ExerciseGroupTypeEnum.CardioExercise,
             reference: true,
-            km: 10
+            km: 10, gym: gymSaved
           });
         });
       machine = new Machine({
         name: 'Vélo',
         workedMuscles: [
-          {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
-          {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
-          {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
-          {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
+          {name: MuscleEnum.Cardiovascular, intensity: DifficultyEnum.HARD},
+          {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.MEDIUM},
+          {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.EASY},
+          {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.EASY}
         ]
       });
       let bike = null;
@@ -400,26 +401,26 @@ mongoose.connection.on('connected', function () {
           bike = machineSaved;
           return ExerciseService.createExerciseBy('Biking', [bike], {
             workedMuscles: [
-              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
-              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
+              {name: MuscleEnum.Cardiovascular, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.EASY},
+              {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.EASY}
             ],
             type: ExerciseGroupTypeEnum.CardioExercise,
             reference: true,
-            km: 10
+            km: 10, gym: gymSaved
           });
         }).then(() => {
           return ExerciseService.createExerciseBy('Biking', [bike], {
             workedMuscles: [
-              {name: MuscleEnum.CARDIO, intensity: DifficultyEnum.HARD},
-              {name: MuscleEnum.GLUTEUS_MEDIUS, intensity: DifficultyEnum.MEDIUM},
-              {name: MuscleEnum.GLUTEUS_MAXIMUS, intensity: DifficultyEnum.EASY},
-              {name: MuscleEnum.THIGH_QUADRICEPS, intensity: DifficultyEnum.EASY}
+              {name: MuscleEnum.Cardiovascular, intensity: DifficultyEnum.HARD},
+              {name: MuscleEnum.GluteusMedius, intensity: DifficultyEnum.MEDIUM},
+              {name: MuscleEnum.GluteusMaximus, intensity: DifficultyEnum.EASY},
+              {name: MuscleEnum.ThighQuadriceps, intensity: DifficultyEnum.EASY}
             ],
             type: ExerciseGroupTypeEnum.TrainingExercise,
             reference: true,
-            km: 10
+            km: 4, gym: gymSaved
           });
         })
     }).catch(error => {

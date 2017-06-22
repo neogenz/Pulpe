@@ -75,12 +75,14 @@ class ExerciseService {
     /*END - Debug context*/
     if (sessionGenerationContext.session.training) {
       winston.log('debug', `The session need training exercise.`);
-      exercisesPromises.push(ExerciseService.findOneTrainingReferenceExercise());
+      exercisesPromises.push(ExerciseService.findOneTrainingReferenceExerciseBy(sessionGenerationContext.gym));
     }
     sessionGenerationContext.musclesRepartitions.forEach(muscleRepartition => {
       exercisesPromises.push(ExerciseService.findReferenceExercisesByMuscleRepartionWichAreNotAlreadyWorkedHard(
         muscleRepartition,
-        alreadyWorkedMusclesRepartition));
+        alreadyWorkedMusclesRepartition,
+        sessionGenerationContext.gym
+      ));
       alreadyWorkedMusclesRepartition = alreadyWorkedMusclesRepartition.concat([muscleRepartition]);
     });
     return Promise.all(exercisesPromises).then(exercisesFinded => {
@@ -101,6 +103,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {boolean} [exerciseProperties.reference]
+   * @param {Gym} [exerciseProperties.gym]
    * @returns {Promise|Promise.<Exercise>}
    */
   static createExerciseBy(name, machines, exerciseProperties) {
@@ -118,13 +121,15 @@ class ExerciseService {
 
   /**
    * Find exercise wich can be used to training
+   * @param {Gym} gym
    * @returns {Promise<Array<Exercise>>}
    */
-  static findOneTrainingReferenceExercise() {
+  static findOneTrainingReferenceExerciseBy(gym) {
     return Exercise.findOne({
-      reference: true,
       __t: ExerciseGroupTypeEnum.TrainingExercise.name
-    }).populate('machines')
+    })
+      .isReference()
+      .onThisGymId(gym._id).populate('machines')
       .then(exercise => {
           return exercise;
         },
@@ -140,13 +145,15 @@ class ExerciseService {
   /**
    * @param {{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}} muscleRepartition
    * @param {Array<{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}>} alreadyWorkedMuscles
+   * @param {Gym} gym
    * @returns {Promise|Promise.<Array<Exercise>>}
    */
-  static findReferenceExercisesByMuscleRepartionWichAreNotAlreadyWorkedHard(muscleRepartition, alreadyWorkedMuscles) {
+  static findReferenceExercisesByMuscleRepartionWichAreNotAlreadyWorkedHard(muscleRepartition, alreadyWorkedMuscles, gym) {
     let criterias = `Find ${muscleRepartition.nbOfExercises} references exercises : ${muscleRepartition.muscle.toString()} => ${muscleRepartition.intensity.toString()}`;
     let filteredExercises = [];
     return Exercise.find()
       .muscleWorkedBy(muscleRepartition.muscle.toString(), muscleRepartition.intensity.toString())
+      .onThisGymId(gym._id)
       .isReference()
       .populate('machines')
       .limit(muscleRepartition.nbOfExercises)
@@ -213,6 +220,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {number} [exerciseProperties.reference]
+   * @param {Gym} [exerciseProperties.gym]
    * @param {ObjectiveEnum} objective
    * @returns {Promise|Promise.<Exercise>}
    */
@@ -241,6 +249,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {number} [exerciseProperties.reference]
+   * @param {Gym} [exerciseProperties.gym]
    * @returns {Promise|Promise.<CardioExercise>}
    */
   static generateCardioExercise(name, machines, exerciseProperties) {
@@ -257,7 +266,8 @@ class ExerciseService {
           calories: exerciseReferenceInformation[0].calories,
           speed: exerciseReferenceInformation[0].speed,
           recovery: exerciseReferenceInformation[0].recovery,
-          times: exerciseReferenceInformation[0].times
+          times: exerciseReferenceInformation[0].times,
+          _gym: exerciseProperties.gym
         });
         return exercise;
       })
@@ -277,6 +287,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {number} [exerciseProperties.reference]
+   * @param {Gym} [exerciseProperties.gym]
    * @param {ObjectiveEnum} objective
    * @returns {Promise|Promise.<CardioExercise>}
    */
@@ -296,7 +307,8 @@ class ExerciseService {
           calories: exerciseReferenceInformation[0].calories,
           speed: exerciseReferenceInformation[0].speed,
           recovery: exerciseReferenceInformation[0].recovery,
-          times: exerciseReferenceInformation[0].times[0]
+          times: exerciseReferenceInformation[0].times[0],
+          _gym: exerciseProperties.gym
         });
         return exercise;
       })
@@ -316,6 +328,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {number} [exerciseProperties.reference]
+   * @param {Gym} [exerciseProperties.gym]
    * @returns {Promise.<BodybuildingExercise>}
    */
   static generateBodybuildingExercise(name, machines, exerciseProperties) {
@@ -339,7 +352,8 @@ class ExerciseService {
         recoveryTimesBetweenEachSeries: exerciseReferenceInformation[0].recoveryTimesBetweenEachSeries,
         finalRecoveryTimes: exerciseReferenceInformation[0].finalRecoveryTimes,
         approximateTimeBySeries: exerciseReferenceInformation[0].approximateTimeBySeries,
-        weight: exerciseProperties.weight
+        weight: exerciseProperties.weight,
+        _gym: exerciseProperties.gym
       });
 
       return exercise;
@@ -372,7 +386,8 @@ class ExerciseService {
           name: name,
           machines: machines,
           approximateTime: exerciseReferenceInformation[0].approximateTime,
-          difficulty: exerciseReferenceInformation[0].difficulty
+          difficulty: exerciseReferenceInformation[0].difficulty,
+          _gym: exerciseProperties.gym
         });
         return exercise;
       })
