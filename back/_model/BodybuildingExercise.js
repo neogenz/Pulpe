@@ -4,7 +4,8 @@ const options = {discriminatorKey: 'kind'};
 const Exercise = require('./Exercise');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const discriminator = 'BodybuildingExercise';
+const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
+const discriminator = ExerciseGroupTypeEnum.BodybuildingExercise.name;
 const BodybuildingExercise = Exercise.discriminator(discriminator,
   new Schema({
     repetitions: {type: Number},

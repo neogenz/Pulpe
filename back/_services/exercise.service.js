@@ -1,5 +1,6 @@
 'use strict';
 
+const winston = require('winston');
 const Exercise = require('../_model/Exercise');
 const BodybuildingExercise = require('../_model/BodybuildingExercise');
 const CardioExercise = require('../_model/CardioExercise');
@@ -11,14 +12,83 @@ const SessionTypeEnum = require('../_enums/SessionTypeEnum');
 const ExerciseInformationReferenceService = require('../_services/exerciseReferenceInformation.service');
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
-const SessionError = require('../_model/Errors').TechnicalError;
 const ExerciseReferenceInformationEnum = require('../_enums/ExerciseReferenceInformationEnum');
 const _ = require('underscore');
 const DifficultyEnum = require('../_enums/DifficultyEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
+const OrganizedExercise = require('../_model/OrganizedExercise');
 
 class ExerciseService {
   constructor() {
+  }
+
+  /**
+   * Generate a pool of exercises, no persisted
+   * @param {SessionGenerationContext} sessionGenerationContext
+   * @param objective
+   * @returns {Promise.<Array<Exercise>>|Promise}
+   */
+  static generateExercisesBy(sessionGenerationContext, objective) {
+    let exercisesGeneratedPromises = [];
+    return this._findReferenceExercisesBy(sessionGenerationContext)
+      .then(exercises => {
+          exercises.forEach(exercise => {
+            exercisesGeneratedPromises.push(ExerciseService.generateExerciseFromReferencesInformationsBy(
+              exercise.name,
+              exercise.machines,
+              {
+                type: ExerciseGroupTypeEnum.fromName(exercise.__t),
+                workedMuscles: exercise.workedMuscles,
+                weight: exercise.weight
+              },
+              objective)
+            );
+          });
+          return Promise.all(exercisesGeneratedPromises);
+        },
+        error => {
+          throw new TechnicalError(error.message);
+        })
+      .catch(error => {
+        throw error;
+      });
+  }
+
+
+  /**
+   * Find reference exercises
+   * @param {SessionGenerationContext} sessionGenerationContext
+   * @returns {Promise.<Exercise>|Promise}
+   * @private
+   */
+  static _findReferenceExercisesBy(sessionGenerationContext) {
+    let exercisesPromises = [];
+    let alreadyWorkedMusclesRepartition = [];
+    /*START - Debug context*/
+    let nbTotalOfExercisesToThisSession = 0;
+    sessionGenerationContext.musclesRepartitions.forEach(muscleRepartition => {
+      nbTotalOfExercisesToThisSession += muscleRepartition.nbOfExercises;
+    });
+    if (sessionGenerationContext.session.training) {
+      nbTotalOfExercisesToThisSession++;
+    }
+    /*END - Debug context*/
+    if (sessionGenerationContext.session.training) {
+      winston.log('debug', `The session need training exercise.`);
+      exercisesPromises.push(ExerciseService.findOneTrainingReferenceExercise());
+    }
+    sessionGenerationContext.musclesRepartitions.forEach(muscleRepartition => {
+      exercisesPromises.push(ExerciseService.findReferenceExercisesByMuscleRepartionWichAreNotAlreadyWorkedHard(
+        muscleRepartition,
+        alreadyWorkedMusclesRepartition));
+      alreadyWorkedMusclesRepartition = alreadyWorkedMusclesRepartition.concat([muscleRepartition]);
+    });
+    return Promise.all(exercisesPromises).then(exercisesFinded => {
+      let exercises = _.flatten(exercisesFinded);
+      let validReferenceExercises = exercises.filter(exercise => exercise !== null && exercise !== undefined);
+      winston.log('debug', `This session need ${nbTotalOfExercisesToThisSession} exercises, ${validReferenceExercises.length} references exercises finded.`)
+      return validReferenceExercises;
+    });
   }
 
   /**
@@ -30,8 +100,7 @@ class ExerciseService {
    * @param {Array<Exercise>} [exerciseProperties.workedMuscles]
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
-   * @param {number} [exerciseProperties.reference]
-   * @param {number} [exerciseProperties.reference]
+   * @param {boolean} [exerciseProperties.reference]
    * @returns {Promise|Promise.<Exercise>}
    */
   static createExerciseBy(name, machines, exerciseProperties) {
@@ -47,239 +116,90 @@ class ExerciseService {
       })
   }
 
-
-  /**
-   * Find exercises list corresponding to criterias
-   * @param {Array<MuscleEnum>} muscleGroup
-   * @param {DifficultyEnum} difficulty
-   * @returns {Promise<Array<Exercise>>}
-   */
-  static findWorkedExercisesByWorkedMuscleGroupAndIntensity(muscleGroup, difficulty) {
-    return Exercise.find({'reference': true}).populate('machines').and([
-      {
-        'workedMuscles.name': {
-          $in: muscleGroup.map(muscle => {
-            return muscle.toString()
-          })
-        }
-      },
-      {'workedMuscles.intensity': difficulty.toString()}
-    ]).then(
-      exercises => {
-        return exercises;
-      },
-      error => {
-        throw TechnicalError(error.message);
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
-
-  /**
-   * Find exercises list corresponding to criterias
-   * @param {Array<[]>} criterias
-   * @param {number} limit
-   * @returns {Promise<Array<Exercise>>}
-   */
-  static findReferenceExcercisesLimitedBy(criterias, limit) {
-    return Exercise.find({'reference': true}).populate('machines').and(criterias).limit(limit).then(
-      exercises => {
-        return exercises;
-      },
-      error => {
-        throw TechnicalError(error.message);
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
-
   /**
    * Find exercise wich can be used to training
-   * @param {DifficultyEnum} difficulty
    * @returns {Promise<Array<Exercise>>}
    */
-  static findOneTrainingReferenceExercise(difficulty) {
+  static findOneTrainingReferenceExercise() {
     return Exercise.findOne({
       reference: true,
       __t: ExerciseGroupTypeEnum.TrainingExercise.name
     }).populate('machines')
+      .then(exercise => {
+          return exercise;
+        },
+        error => {
+          throw TechnicalError(error.message);
+        })
+      .catch(error => {
+        throw error;
+      });
+  }
+
+
+  /**
+   * @param {{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}} muscleRepartition
+   * @param {Array<{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}>} alreadyWorkedMuscles
+   * @returns {Promise|Promise.<Array<Exercise>>}
+   */
+  static findReferenceExercisesByMuscleRepartionWichAreNotAlreadyWorkedHard(muscleRepartition, alreadyWorkedMuscles) {
+    let criterias = `Find ${muscleRepartition.nbOfExercises} references exercises : ${muscleRepartition.muscle.toString()} => ${muscleRepartition.intensity.toString()}`;
+    let filteredExercises = [];
+    return Exercise.find()
+      .muscleWorkedBy(muscleRepartition.muscle.toString(), muscleRepartition.intensity.toString())
+      .isReference()
+      .populate('machines')
+      .limit(muscleRepartition.nbOfExercises)
       .then(
         exercises => {
-          return exercises;
-        },
-        error => {
-          throw TechnicalError(error.message);
-        })
-      .catch(error => {
-        throw error;
-      });
-  }
-
-
-  /**
-   * Generate a pool of exercises, no persisted
-   * @param {Session} session
-   * @param {DifficultyEnum} difficulty
-   * @param objective
-   * @returns {Promise.<Array<Exercise>>|Promise}
-   */
-  static generateExercisesBy(session, difficulty, objective) {
-    let exercisesGeneratedPromises = [];
-    return this._findReferenceExercisesBy(session, difficulty)
-      .then(exercises => {
-          exercises.forEach(exercise => {
-            if (exercise !== null && exercise !== undefined) {
-              exercisesGeneratedPromises.push(
-                ExerciseService.generateExerciseFromReferencesInformationsBy(exercise.name, exercise.machines, {
-                  type: ExerciseGroupTypeEnum.fromName(exercise.__t),
-                  workedMuscles: exercise.workedMuscles,
-                  weight: exercise.weight
-                }, objective)
-              );
-            }
+          winston.log('debug', `To ${criterias}, ${exercises.length} exercices finded.`);
+          if (_.isEmpty(exercises)) {
+            return [];
+          }
+          filteredExercises = exercises.filter(exercise => {
+            return ExerciseService._filterExerciseAlreadyWorkedHard(exercise, alreadyWorkedMuscles)
           });
-          return Promise.all(exercisesGeneratedPromises);
+          return filteredExercises;
         },
         error => {
           throw TechnicalError(error.message);
         })
-      .then(exercisesCreated => {
-          return exercisesCreated;
-        },
-        error => {
-          throw new TechnicalError(error.message);
-        })
       .catch(error => {
-        console.error(error.stack);
         throw error;
       });
   }
 
 
   /**
-   * Find reference exercises
-   * @param session
-   * @param difficulty
-   * @returns {Promise.<Exercise>|Promise}
+   *
+   * @param {Exercise} exercise
+   * @param {Array<{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}>} alreadyWorkedMuscles
+   * @returns {boolean}
    * @private
    */
-  static _findReferenceExercisesBy(session, difficulty) {
-    let exercisesPromises = [];
-    if (session.training) {
-      console.info(`The session need training exercise.`);
-      exercisesPromises.push(ExerciseService.findOneTrainingReferenceExercise(difficulty));
-    }
-    switch (session.sessionType) {
-      case SessionTypeEnum.Cardio.name:
-        //todo add some organized exercise
-        console.info(`The session is of cardio type.`);
-        //todo add CARDIO to muscle worked on this session, and get just 2 exercises of type cardio
-        //exercisesPromises.push(ExerciseService.findReferenceCardioExercisesByLimit(2));
-        exercisesPromises.push(ExerciseService.findReferencesExercisesToCardioSessionBy(session.mainMusclesGroup));
-        //exercisesPromises.push(ExerciseService.findWorkedExercisesByWorkedMuscleGroupAndIntensity(session.mainMusclesGroup, DifficultyEnum.MEDIUM));
-        break;
-      case SessionTypeEnum.Bodybuilding.name:
-        console.info(`The session is of bodybuilding type.`);
-        exercisesPromises.push(ExerciseService.findReferencesExercisesToBodybuildingSessionBy(session.mainMusclesGroup));
-        break;
-      default:
-        console.error(`This sessionType is unknown ${session.sessionType}`);
-        throw new SessionError(`This sessionType is unknown ${session.sessionType}`);
-        break;
-    }
-    return Promise.all(exercisesPromises).then(exercisesFinded => {
-      let exercises = _.flatten(exercisesFinded);
-      return exercises.filter(exercise => exercise !== null);
+  static _filterExerciseAlreadyWorkedHard(exercise, alreadyWorkedMuscles) {
+    let alreadyWorked = false;
+    exercise.workedMuscles.forEach(workedMuscle => {
+      if (ExerciseService._thisMuscleIsAlreadyWorkedWithHardIntensity(workedMuscle, alreadyWorkedMuscles))
+        alreadyWorked = true;
     });
+    alreadyWorked = false;
+    return !alreadyWorked;
   }
 
-  static findReferenceCardioExercisesByLimit(nbToFind) {
-    return Exercise.findOne({
-      reference: true,
-      __t: ExerciseGroupTypeEnum.CardioExercise.name
-    }).populate('machines')
-      .limit(nbToFind)
-      .then(
-        exercises => {
-          return exercises;
-        },
-        error => {
-          throw TechnicalError(error.message);
-        })
-      .catch(error => {
-        throw error;
-      });
-  }
 
   /**
    *
-   * @param {Array<MuscleEnum>} musclesGroup
+   * @param {string} muscleName
+   * @param musclesRepartitionAlreadyWorked
+   * @returns {boolean}
+   * @private
    */
-  //todo refactor
-  static findReferencesExercisesToCardioSessionBy(musclesGroup) {
-    let muscleAlreadyWorked = [];
-    let exercisesPromises = [];
-    let criterias = [];
-    musclesGroup.forEach(muscle => {
-      if (muscle === MuscleEnum.CARDIO.toString()) {
-        criterias = [
-          {'workedMuscles.name': muscle.toString()},
-          {'workedMuscles.intensity': DifficultyEnum.HARD.toString()},
-          {
-            'workedMuscles.name': {
-              $nin: muscleAlreadyWorked.map(muscle => {
-                return muscle.toString()
-              })
-            }
-          }
-        ];
-        exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 2));
-      } else {
-        criterias = [
-          {'workedMuscles.name': muscle.toString()},
-          {'workedMuscles.intensity': DifficultyEnum.MEDIUM.toString()},
-          {
-            'workedMuscles.name': {
-              $nin: muscleAlreadyWorked.map(muscle => {
-                return muscle.toString()
-              })
-            }
-          }
-        ];
-        exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 1));
-      }
-      muscleAlreadyWorked = muscleAlreadyWorked.concat([muscle]);
+  static _thisMuscleIsAlreadyWorkedWithHardIntensity(muscleName, musclesRepartitionAlreadyWorked) {
+    let musclesRepartitionAlreadyWorkedHard = musclesRepartitionAlreadyWorked.map(muscleRepartitionAlreadyWorked => {
+      return muscleRepartitionAlreadyWorked.intensity === DifficultyEnum.HARD;
     });
-    return Promise.all(exercisesPromises);
-  }
-
-  /**
-   *
-   * @param {Array<MuscleEnum>} musclesGroup
-   */
-  //todo refactor
-  static findReferencesExercisesToBodybuildingSessionBy(musclesGroup) {
-    let muscleAlreadyWorked = [];
-    let exercisesPromises = [];
-    let criterias = [];
-    musclesGroup.forEach(muscle => {
-      criterias = [
-        {'workedMuscles.name': muscle.toString()},
-        {'workedMuscles.intensity': DifficultyEnum.HARD.toString()},
-        {
-          'workedMuscles.name': {
-            $nin: muscleAlreadyWorked.map(muscle => {
-              return muscle.toString()
-            })
-          }
-        }
-      ];
-      exercisesPromises.push(ExerciseService.findReferenceExcercisesLimitedBy(criterias, 1));
-      muscleAlreadyWorked = muscleAlreadyWorked.concat([muscle]);
-    });
-    return Promise.all(exercisesPromises);
+    return musclesRepartitionAlreadyWorkedHard.includes({name: muscleName});
   }
 
 
@@ -305,6 +225,8 @@ class ExerciseService {
         return ExerciseService.generateTrainingExercise(name, machines, exerciseProperties, objective);
       case ExerciseGroupTypeEnum.BodybuildingExercise:
         return ExerciseService.generateBodybuildingExercise(name, machines, exerciseProperties);
+      case ExerciseGroupTypeEnum.OrganizedExercise:
+        return ExerciseService.generateOrganizedExercise(name, machines, exerciseProperties);
     }
   }
 
@@ -340,10 +262,10 @@ class ExerciseService {
         return exercise;
       })
       .catch(error => {
-        console.error(error.stack);
         throw error;
       });
   }
+
 
   /**
    * Generate an exercise, no persisted
@@ -379,7 +301,6 @@ class ExerciseService {
         return exercise;
       })
       .catch(error => {
-        console.error(error.stack);
         throw error;
       });
   }
@@ -408,15 +329,6 @@ class ExerciseService {
           { __t: '${ExerciseReferenceInformationEnum.Bodybuilding.name}', phase: 1 }`
         );
       }
-      // let massGainerExercisesRefInfo = exerciseReferenceInformation.find(currentRefInfo => {
-      //   return currentRefInfo.objective === ObjectiveEnum.MassGainer.toString()
-      // });
-      // if (!massGainerExercisesRefInfo) {
-      //   throw new NotFoundError(`No ExerciseInformationReferenceService to ${ObjectiveEnum.MassGainer.toString()} objective found with this criterias :
-      //     { __t: '${ExerciseReferenceInformationEnum.Bodybuilding.name}', phase: 1 }`
-      //   );
-      // }
-
       let exercise = new BodybuildingExercise({
         workedMuscles: exerciseProperties.workedMuscles,
         name: name,
@@ -432,18 +344,53 @@ class ExerciseService {
 
       return exercise;
     }).catch(error => {
-      console.error(error.stack);
       throw error;
     })
   }
 
 
+  /**
+   * Generate an exercise, no persisted
+   * @param name
+   * @param machines
+   * @param {Object} exerciseProperties
+   * @param {ExerciseGroupTypeEnum} exerciseProperties.type
+   * @param {Array<Exercise>} [exerciseProperties.workedMuscles]
+   * @param {number} [exerciseProperties.difficulty]
+   * @param {number} [exerciseProperties.approximateTime]
+   * @param {number} [exerciseProperties.reference]
+   * @returns {Promise|Promise.<CardioExercise>}
+   */
+  static generateOrganizedExercise(name, machines, exerciseProperties) {
+    return ExerciseInformationReferenceService.findBy({
+      __t: ExerciseReferenceInformationEnum.Organized.name
+    })
+      .then(exerciseReferenceInformation => {
+        let exercise = new OrganizedExercise({
+          workedMuscles: exerciseProperties.workedMuscles,
+          reference: exerciseProperties.reference ? exerciseProperties.reference : false,
+          name: name,
+          machines: machines,
+          approximateTime: exerciseReferenceInformation[0].approximateTime,
+          difficulty: exerciseReferenceInformation[0].difficulty
+        });
+        return exercise;
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+
+  /**
+   * Save an array of exercise and resolve when all are saved.
+   * @param {Array<Exercise>} exercises
+   * @returns {Promise|Promise.<Array<Exercise>>}
+   */
   static saveExercises(exercises) {
     let promises = [];
     exercises.forEach(exercise => promises.push(exercise.save()));
     return Promise.all(promises)
       .catch(error => {
-        console.error(error.stack);
         throw new TechnicalError(error.message);
       });
   }

@@ -47,24 +47,14 @@ class ProgramService {
    * @returns {Promise.<Program>}
    */
   static generateProgramBy(programGenerationContext) {
-    let sessions = SessionService.generateSessionsBy(programGenerationContext.member.sessionFrequency, programGenerationContext.objective);
-    let program = Program.of()
-      .member(programGenerationContext.member)
-      .sessions(sessions)
-      .objective(programGenerationContext.objective.name)
-      .isActive(programGenerationContext.isActive)
-      .build();
-    let promises = [];
-    program.sessions.forEach(session => {
-      promises.push(
-        ExerciseService.generateExercisesBy(session, DifficultyEnum.HARD, programGenerationContext.objective)
-          .then(exercises => {
-            session.exercises = exercises;
-          })
-      );
-    });
-    return Promise.all(promises)
-      .then(() => {
+    return SessionService.generateSessionsBy(programGenerationContext.member.sessionFrequency, programGenerationContext.objective)
+      .then((sessions) => {
+        let program = Program.of()
+          .member(programGenerationContext.member)
+          .sessions(sessions)
+          .objective(programGenerationContext.objective.name)
+          .isActive(programGenerationContext.isActive)
+          .build();
         return program;
       })
       .catch(error => {
@@ -72,16 +62,12 @@ class ProgramService {
       });
   }
 
+
   /**
-   * Find and fill exercises in one or more sessions
-   * @param {Array<Session>|Session} sessions
-   * @returns {Document|Query|Promise|*}
+   * Save program and each of these exercises
+   * @param program
+   * @returns {Promise|Promise.<*>}
    */
-  static populateSessions(sessions) {
-    return Session.populate(sessions, 'exercises');
-  }
-
-
   static saveProgram(program) {
     let promises = [];
     program.sessions.forEach(session => {

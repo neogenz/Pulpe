@@ -5,6 +5,8 @@ const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const TechnicalError = require('../_model/Errors').TechnicalError;
+const SessionError = require('../_model/Errors').SessionError;
+
 
 class ProgramController {
   constructor() {
@@ -30,6 +32,11 @@ class ProgramController {
       .then(member => {
         const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
         return ProgramService.generateProgramBy(programGenerationContext);
+      }, error => {
+        console.error(error.stack);
+        if (error instanceof SessionError) {
+          throw new TechnicalError(error.message);
+        }
       })
       .then(program => {
         return ProgramService.saveProgram(program);

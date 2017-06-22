@@ -29,6 +29,23 @@ ExerciseSchema.pre('save', function (next) {
   next();
 });
 
+ExerciseSchema.query.muscleWorkedBy = function (muscle, intensity) {
+  return this.find({
+    'workedMuscles': {
+      '$elemMatch': {
+        name: muscle,
+        intensity: intensity
+      }
+    }
+  })
+};
+
+ExerciseSchema.query.isReference = function () {
+  return this.find({
+    'reference': true
+  })
+};
+
 const Exercise = mongoose.model('Exercise', ExerciseSchema, 'Exercises');
 
 module.exports = Exercise;

@@ -43,9 +43,11 @@ class AuthenticationController {
       .then((token) => {
         res.send({token: token});
       }).catch((error) => {
-      const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-      return res.status(httpError.code).send(httpError);
-    });
+        console.error(error.stack);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      }
+    );
   }
 
   static ensureAuthorized(req, res, next) {

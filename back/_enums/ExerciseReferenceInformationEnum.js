@@ -22,6 +22,7 @@ class ExerciseReferenceInformationEnum {
 
 ExerciseReferenceInformationEnum.Bodybuilding = new ExerciseReferenceInformationEnum('BodybuildingExerciseReferenceInformation', 'bodybuilding');
 ExerciseReferenceInformationEnum.Cardio = new ExerciseReferenceInformationEnum('CardioExerciseReferenceInformation', 'Cardio');
+ExerciseReferenceInformationEnum.Organized = new ExerciseReferenceInformationEnum('OrganizedExerciseReferenceInformation', 'Organized');
 
 
 module.exports = ExerciseReferenceInformationEnum;

@@ -33,6 +33,7 @@ class HttpErrorHelper {
       httpErrorResponse.message = error.message;
       if (error instanceof AlreadyExistError) {
         httpErrorResponse = HTTP_CODE.CONFLICT;
+        httpErrorResponse.message = error.message;
       }
       if (error instanceof NotFoundError) {
         httpErrorResponse = HTTP_CODE.NOT_FOUND;

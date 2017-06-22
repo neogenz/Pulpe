@@ -7,9 +7,18 @@ import {RouterModule} from '@angular/router'
 import {ROUTES} from './app.routes'; // ROUTING HERE!
 import {APP_BASE_HREF} from '@angular/common';
 
-import {MaterialModule} from '@angular/material';
 import {ChartsModule} from 'ng2-charts';
 import {LocalStorageModule, LocalStorageService} from 'angular-2-local-storage';
+import {
+  MdInputModule,
+  MdCheckboxModule,
+  MdSelectModule,
+  MdCardModule,
+  MdProgressSpinnerModule,
+  MdTabsModule,
+  MdRadioModule
+} from '@angular/material';
+
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -105,11 +114,18 @@ import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine
     MachineFormDialogComponent
   ],
   imports: [
+    MdInputModule,
+    MdSelectModule,
+    MdProgressSpinnerModule,
+    MdRadioModule,
+    MdCheckboxModule,
+    MdTabsModule,
+    MdCardModule,
     BrowserModule,
     FormsModule,
+    MdCheckboxModule,
     HttpModule,
     BrowserAnimationsModule,
-    MaterialModule,
     ChartsModule,
     ReactiveFormsModule,
     NgxErrorsModule,

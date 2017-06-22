@@ -2,16 +2,13 @@
 
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const Session = require('../_model/Session');
-const ExerciseService = require('../_services/exercise.service');
 const Exercise = require('../_model/Exercise');
 const DifficultyEnum = require('../_enums/DifficultyEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
 const moment = require('moment');
-const SessionError = require('../_model/Errors').SessionError;
-const TechnicalError = require('../_model/Errors').TechnicalError;
-const NotFoundError = require('../_model/Errors').NotFoundError;
-const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
 const SessionTypeEnum = require('../_enums/SessionTypeEnum');
+const SessionGenerationContext = require('../_contextExecutionClass/SessionGenerationContext');
+const ExerciseService = require('../_services/exercise.service');
 
 class SessionService {
   constructor() {
@@ -22,26 +19,68 @@ class SessionService {
    * Generate more sessions
    * @param {number} nbSessions
    * @param {ObjectiveEnum} objective
-   * @returns {Array<Session>}
+   * @returns {Promise<Array<SessionGenerationContext>>}
    */
   static generateSessionsBy(nbSessions, objective) {
     console.info(`Generation of session to ${nbSessions} sessions by week with ${objective.toString()} objective.`);
-    let musclesGroups = SessionService.getMusclesGroupsBySessionAndObjective(nbSessions, objective);
+    let sessionsGenerationConfigs = SessionService.getSessionsGenerationConfigsBySessionAndObjective(nbSessions, objective);
     let days = SessionService.getDaysSessionRepartitionBy(nbSessions);
-
-    if (musclesGroups.length !== days.length) {
-      throw new SessionError(`The muscles groups size (${musclesGroups.length}) is different of days repartition size ${days.length}`);
-    }
-    let sessions = [];
-    days.forEach((day, index) => {
-      sessions.push(new Session({
-        day: day,
-        sessionType: musclesGroups[index].sessionType,
-        mainMusclesGroup: musclesGroups[index].muscles,
-        training: musclesGroups[index].training
-      }));
+    return SessionService._generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective).then((sessionsGenerationContext) => {
+      return sessionsGenerationContext.map(sessionGenerationContext => sessionGenerationContext.session);
     });
-    return sessions;
+  }
+
+
+  /**
+   *
+   * @param {Array<string>} days
+   * @param {Array<{
+   *    sessionType:ExerciseGroupTypeEnum,
+   *    training:boolean,
+   *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
+   * }>} sessionsGenerationConfigs
+   * @param {ObjectiveEnum} objective
+   * @returns {Promise<Array<SessionGenerationContext>>}
+   * @private
+   */
+  static _generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective) {
+    let sessionsGenerationContextWithoutExercises = [];
+    merge(days, sessionsGenerationConfigs, (day, sessionGenerationConfig) => {
+      sessionsGenerationContextWithoutExercises.push(new SessionGenerationContext(new Session({
+        day: day,
+        sessionType: sessionGenerationConfig.sessionType,
+        mainMusclesGroup: sessionGenerationConfig.muscles.map(muscle => muscle.muscle),
+        training: sessionGenerationConfig.training
+      }), sessionGenerationConfig.muscles));
+    });
+    return SessionService._fillExercisesIntoSessionGenerationContextBy(sessionsGenerationContextWithoutExercises, objective)
+      .then((sessionsGenerationContext)=> {
+        return sessionsGenerationContext;
+      })
+  }
+
+
+  /**
+   *
+   * @param {Array<SessionGenerationContext>} sessionsGenerationContextWithoutExercises
+   * @param {ObjectiveEnum} objective
+   * @returns {Promise<Array<SessionGenerationContext>>} sessionsGenerationContext
+   * @private
+   */
+  static _fillExercisesIntoSessionGenerationContextBy(sessionsGenerationContextWithoutExercises, objective) {
+    let exercisesGeneratedPromises = [];
+    sessionsGenerationContextWithoutExercises.forEach(sessionGenerationContext => {
+      exercisesGeneratedPromises.push(ExerciseService.generateExercisesBy(
+        sessionGenerationContext,
+        objective
+        ).then(exercises => {
+          sessionGenerationContext.session.exercises = exercises;
+        })
+      );
+    });
+    return Promise.all(exercisesGeneratedPromises).then(()=>{
+      return sessionsGenerationContextWithoutExercises;
+    })
   }
 
 
@@ -52,12 +91,18 @@ class SessionService {
    * @returns {Array<{
    *    sessionType:ExerciseGroupTypeEnum,
    *    training:boolean,
-   *    muscles:Array<MuscleEnum>
-   * }>}
+   *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
+   * }>} sessionsGenerationConfigs
    */
-  static getMusclesGroupsBySessionAndObjective(nbSeance, objectiveEnum) {
+  static getSessionsGenerationConfigsBySessionAndObjective(nbSeance, objectiveEnum) {
     let sessionsRepartition = [];
     switch (objectiveEnum) {
+      case ObjectiveEnum.GeneralForm:
+        sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
+        break;
+      case ObjectiveEnum.WeightLoss:
+        sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
+        break;
       case ObjectiveEnum.MassGainer:
         sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
         break;
@@ -72,60 +117,291 @@ class SessionService {
    * @returns {Array<{
    *    sessionType:ExerciseGroupTypeEnum,
    *    training:boolean,
-   *    muscles:Array<MuscleEnum>
+   *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
    * }>}
    */
+  //todo pass this to db ?
   static getMuscularGroupSessionRepartitionToMassGainerBy(nbSessions) {
     let muscularsGroupsSession = [];
     if (nbSessions >= 1 && nbSessions <= 2) {
       muscularsGroupsSession = [
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
+          musclesRepartition: [{
+            muscle: MuscleEnum.PECS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.BICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.DELTOID,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.LUMBAR,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
           training: true
         },
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
-          training: true
-        },
-        {
-          sessionType: SessionTypeEnum.Bodybuilding.name,
-          muscles: [MuscleEnum.THIGH_BICEPS, MuscleEnum.THIGH_QUADRICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.GLUTEUS_MEDIUS, MuscleEnum.RECTUS_ABDOMINIS],
+          musclesRepartition: [{
+            muscle: MuscleEnum.THIGH_BICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.GLUTEUS_MAXIMUS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
           training: true
         }
       ];
-      return muscularsGroupsSession;
     }
     if (nbSessions >= 3 && nbSessions <= 4) {
       muscularsGroupsSession = [
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          muscles: [MuscleEnum.BICEPS, MuscleEnum.TRICEPS, MuscleEnum.PECS, MuscleEnum.TRAPS, MuscleEnum.RECTUS_ABDOMINIS],
-          training: true
-        },
-        {
-          sessionType: SessionTypeEnum.Cardio.name,
-          muscles: [MuscleEnum.CARDIO, MuscleEnum.THIGH_BICEPS, MuscleEnum.GLUTEUS_MAXIMUS, MuscleEnum.RECTUS_ABDOMINIS],
+          muscles: [{
+            muscle: MuscleEnum.PECS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.BICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
           training: true
         },
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          muscles: [MuscleEnum.LATISSIMUS_DORSI, MuscleEnum.POSTERIOR_DELTOID, MuscleEnum.DELTOID, MuscleEnum.LATS, MuscleEnum.RECTUS_ABDOMINIS],
+          muscles: [{
+            muscle: MuscleEnum.DELTOID,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.TRAPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.LUMBAR,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
           training: true
         }
       ];
-      return muscularsGroupsSession;
     }
+    if (nbSessions === 5) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.PECS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.TRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.DELTOID,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.TRAPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.LUMBAR,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.BICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        }
+      ];
+    }
+//todo make an session to 6 or more frequency, because it's same than 5 for the moment
+    if (nbSessions > 6) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.PECS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.TRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.DELTOID,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.TRAPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.LUMBAR,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.LATISSIMUS_DORSI,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.THIGH_QUADRICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [{
+            muscle: MuscleEnum.BICEPS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 2
+          }, {
+            muscle: MuscleEnum.GLUTEUS_MEDIUS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }, {
+            muscle: MuscleEnum.RECTUS_ABDOMINIS,
+            intensity: DifficultyEnum.HARD,
+            nbOfExercises: 1
+          }],
+          training: true
+        }
+      ];
+    }
+    return muscularsGroupsSession;
   }
-
 
   /**
    * todo:Get this by planning
    * @param nbSessions
    * @returns {Array}
    */
-  static getDaysSessionRepartitionBy(nbSessions) {
+  static  getDaysSessionRepartitionBy(nbSessions) {
     let daysSessionRepartition = [];
     switch (nbSessions) {
       case 1:
@@ -155,3 +431,54 @@ class SessionService {
 }
 
 module.exports = SessionService;
+
+/**
+ *  @desc Make an matching between two arrays, and apply mergingCallback on each element.
+ *  @example
+ *  let a = ['to','mo','lo'];
+ *  let b = [3,4];
+ *  let result = [];
+ *  merge(a, b, (aCurrent, bCurrent) => {
+ *    let obj = {};
+ *    obj[aCurrent] = bCurrent;
+ *    result.push(obj);
+ *  });
+ *  // result = [{to: 3}, {mo: 4}, {lo: 3}]
+ * @param {Array<L>} first
+ * @param {Array<M>} second
+ * @param {function(currentFirst:L, currentSecond:M)} mergingCallback
+ */
+function merge(first, second, mergingCallback) {
+  let firstAndSecondAreInversed = false;
+  let smaller = [];
+  let bigger = [];
+  if (first.length < second.length) {
+    smaller = first;
+    bigger = second;
+  } else if (first.length > second.length) {
+    firstAndSecondAreInversed = true;
+    smaller = second;
+    bigger = first;
+  } else if (first.length === second.length) {
+    smaller = first;
+    bigger = second;
+  }
+  _merge(smaller, bigger, 0, 0, mergingCallback, firstAndSecondAreInversed);
+
+  function _merge(smaller, bigger, smallerIndex, biggerIndex, mergingCallback, firstAndSecondAreInversed) {
+    while (smallerIndex < smaller.length && biggerIndex < bigger.length) {
+      if (firstAndSecondAreInversed) {
+        mergingCallback(bigger[biggerIndex], smaller[smallerIndex]);
+      } else {
+        mergingCallback(smaller[smallerIndex], bigger[biggerIndex]);
+      }
+      smallerIndex++;
+      biggerIndex++;
+    }
+
+    if (smallerIndex < bigger.length && biggerIndex < bigger.length) {
+      _merge(smaller, bigger, 0, biggerIndex, mergingCallback, firstAndSecondAreInversed);
+    }
+  }
+}
+
