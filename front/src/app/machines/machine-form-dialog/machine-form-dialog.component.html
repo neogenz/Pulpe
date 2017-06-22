@@ -1,0 +1,72 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div class="text-center">
+                <h4 *ngIf="mode === 'add'" class="text-light-weight">Ajout d'une machine</h4>
+                <h4 *ngIf="mode === 'edit'" class="text-light-weight">Edition d'une machine</h4>
+            </div>
+        </div>
+        <form (ngSubmit)="confirm()" [formGroup]="machineForm">
+            <div class="modal-body">
+                <div class="row pt-2">
+                    <div class="col-md-12">
+                        <span class="text-w-300 titleWorkedMuscles">
+                            Information de la machine
+                        </span>
+                        <hr>
+                    </div>
+
+                    <md-input-container class="col-md-10 offset-md-1" color="primary">
+                        <input id="inputName" mdInput type="text" minlength="5" maxlength="30"
+                               placeholder="Nom de la machine"
+                               formControlName="name"
+                               required>
+                    </md-input-container>
+
+                    <div class="col-md-12">
+                        <span class="text-w-300 titleWorkedMuscles">
+                            Liste des muscles travaillés
+                        </span>
+                        <hr>
+                    </div>
+
+
+                    <md-chip-list class="mat-chip-selected col-md-12" [@fadeIn]>
+                        <div *ngFor="let workedMuscle of machine.workedMuscles" [ngSwitch]="workedMuscle.intensity">
+                            <md-chip *ngSwitchCase="'hard'"
+                                     selected="true"
+                                     color="primary">
+                                {{workedMuscle.name}}
+                                <i class="ion ion-ios-close-outline"></i>
+                            </md-chip>
+                            <md-chip *ngSwitchCase="'medium'"
+                                     selected="true"
+                                     color="accent">
+                                {{workedMuscle.name}}
+                                <i class="ion ion-ios-close-outline"></i>
+                            </md-chip>
+                            <md-chip *ngSwitchCase="'easy'"
+                                     selected="true"
+                                     color="warn">
+                                {{workedMuscle.name}}
+                                <i class="ion ion-ios-close-outline"></i>
+                            </md-chip>
+                        </div>
+                    </md-chip-list>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <span>
+                    Test
+                </span>
+                <button class="btn btn-primary" type="submit" [disabled]="machineForm.invalid">
+                    <span *ngIf="mode === 'add'" (click)="add()">Ajouter</span>
+                    <span *ngIf="mode === 'edit'" (click)="edit()">Editer</span>
+                </button>
+                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>

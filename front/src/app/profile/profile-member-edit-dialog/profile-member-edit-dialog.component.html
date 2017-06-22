@@ -2,14 +2,14 @@
     <div class="modal-content">
         <div class="modal-header">
             <div class="text-center">
-                <h4 class="text-light-weight">Editer mon profil</h4>
+                <h4 class="text-light-weight">Edition de mon profil</h4>
             </div>
         </div>
         <form (ngSubmit)="edit()" [formGroup]="memberForm">
             <div class="modal-body">
                 <md-tab-group>
-                    <md-tab label="Informations">
-                        <div class="row pt-4">
+                    <md-tab label="Informations" class="row">
+                        <div class="overflow-hidden">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="email">
                                 <input id="inputMail" mdInput type="email"
                                        placeholder="Votre Email"
@@ -19,8 +19,6 @@
                                          class="form-control-feedback">Votre email est obligatoire
                                 </md-hint>
                             </md-input-container>
-                        </div>
-                        <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="firstName">
                                 <input id="inputFirstname" mdInput type="text"
                                        placeholder="Votre prénom"
@@ -30,8 +28,6 @@
                                          class="form-control-feedback">Votre prénom est obligatoire
                                 </md-hint>
                             </md-input-container>
-                        </div>
-                        <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="lastName">
                                 <input id="inputLastname" mdInput type="text"
                                        placeholder="Votre nom"
@@ -41,8 +37,6 @@
                                          class="form-control-feedback">Votre nom est obligatoire
                                 </md-hint>
                             </md-input-container>
-                        </div>
-                        <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
                                 <input id="inputBirthdate" mdInput type="date" [max]="maximumBirthdate"
                                        placeholder="Votre date de naissance"
@@ -52,15 +46,11 @@
                                          class="form-control-feedback">Votre date de naissance est obligatoire
                                 </md-hint>
                             </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <div class="col-md-12">
+                            <md-radio-group formControlName="gender" class="col-md-12 pl-3">
                                 <i class="ion-ios-person-outline iconGender"></i>
-                                <md-radio-group formControlName="gender" class="pl-3">
-                                    <md-radio-button value="Male">Homme</md-radio-button>
-                                    <md-radio-button class="pl-4" value="Female">Femme</md-radio-button>
-                                </md-radio-group>
-                            </div>
+                                <md-radio-button value="Male">Homme</md-radio-button>
+                                <md-radio-button class="pl-4" value="Female">Femme</md-radio-button>
+                            </md-radio-group>
                         </div>
                     </md-tab>
                     <md-tab label="Objectif">

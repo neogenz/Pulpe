@@ -14,8 +14,8 @@ class MachineController {
         const id = req.params.id;
 
         MachineService.findAllByCoach(id)
-            .then(members => {
-                res.send({members: members});
+            .then(machines => {
+                res.send({machines: machines});
             })
             .catch((error) => {
                 console.log(error);

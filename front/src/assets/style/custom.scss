@@ -233,3 +233,9 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.modal-header {
+  background-color: $primary-color;
+  color: #FFFFFF;
+  display: inline;
+}

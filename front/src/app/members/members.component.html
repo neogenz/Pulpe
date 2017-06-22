@@ -38,7 +38,6 @@
                 <th class="text-white text-center text-light-weight text-uppercase">Email</th>
                 <th class="text-white text-center text-light-weight text-uppercase">Date de naissance</th>
                 <th class="text-white text-center text-light-weight text-uppercase">Objectif</th>
-                <th class="text-white text-center text-light-weight text-uppercase">Actions</th>
             </tr>
             </thead>
             <tbody *ngFor="let member of members | filterMembers: filterArgs">
@@ -52,21 +51,18 @@
                 <td>{{member.mail}}</td>
                 <td>{{member.birthDate | date:'dd/MM/yyyy'}}</td>
                 <td>
-                    <div class="col-md-1 col-12 mr-md-1">
-                        <img *ngIf="isMassGainer(member.objective)" mdTooltip="Prise de masse"
-                             [mdTooltipPosition]="'above'"
-                             src="../../assets/img/exercise-types/strength-64.png"
-                             class="objectiveImg" alt="Type">
-
-                        <img *ngIf="isGeneralForm(member.objective)" mdTooltip="Forme générale"
-                             [mdTooltipPosition]="'above'"
-                             src="../../assets/img/exercise-types/stationary-bike-64.png"
-                             class="objectiveImg" alt="Type">
-                        <img *ngIf="isWeightLoss(member.objective)" mdTooltip="Perte de poids"
-                             [mdTooltipPosition]="'above'"
-                             src="../../assets/img/exercise-types/weight-64.png"
-                             class="objectiveImg" alt="Type">
-                    </div>
+                    <img *ngIf="isMassGainer(member.objective)" mdTooltip="Prise de masse"
+                         [mdTooltipPosition]="'above'"
+                         src="../../assets/img/exercise-types/strength-64.png"
+                         class="objectiveImg" alt="Type">
+                    <img *ngIf="isGeneralForm(member.objective)" mdTooltip="Forme générale"
+                         [mdTooltipPosition]="'above'"
+                         src="../../assets/img/exercise-types/stationary-bike-64.png"
+                         class="objectiveImg" alt="Type">
+                    <img *ngIf="isWeightLoss(member.objective)" mdTooltip="Perte de poids"
+                         [mdTooltipPosition]="'above'"
+                         src="../../assets/img/exercise-types/weight-64.png"
+                         class="objectiveImg" alt="Type">
                 </td>
                 <td>
                     <div class="row iconsList pull-right">

@@ -33,7 +33,6 @@
             <thead>
             <tr>
                 <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
-                <th class="text-white text-center text-light-weight text-uppercase">Actions</th>
             </tr>
             </thead>
             <tbody *ngFor="let machine of machines | filterMachines: filterArgs">
@@ -44,22 +43,26 @@
                         <div class="col-md-6">
                             <button class="ion ion-trash-b pointer bg-primary" md-mini-fab
                                     mdTooltip="Supprimer cette machine"
-                                    [mdTooltipPosition]="'left'"></button>
+                                    [mdTooltipPosition]="'left'">
+                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer la machine"
-                                    [mdTooltipPosition]="'right'"></button>
+                            <button class="ion ion-edit pointer" md-mini-fab
+                                    (click)="openMachineFormDialog(machine)"
+                                    mdTooltip="Editer la machine"
+                                    [mdTooltipPosition]="'right'">
+                            </button>
                         </div>
                     </div>
                 </td>
             </tr>
             </tbody>
-
         </table>
 
         <div class="row">
             <div class="col-md-12 pt-2 pb-2 btnBottomRight">
-                <button md-fab class="pull-right bg-primary" mdTooltip="Ajouter une machine"
+                <button md-fab class="pull-right bg-primary" (click)="openMachineFormDialog()"
+                        mdTooltip="Ajouter une machine"
                         [mdTooltipPosition]="'right'">
                     <i class="ion-plus addIcon"></i>
                 </button>

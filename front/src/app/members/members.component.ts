@@ -50,10 +50,9 @@ export class MembersComponent implements OnInit {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((editedMember) => {
         if (editedMember) {
-          var foundIndex = this.members.findIndex(m => m._id == member._id);
-          this.members[foundIndex] = editedMember;
+          const indexFinded = this.members.findIndex(m => m._id == member._id);
+          this.members[indexFinded] = editedMember;
         }
-        debugger;
       }
     );
   }

@@ -49,8 +49,8 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
   weightCtrl: FormControl;
   sizeCtrl: FormControl;
 
-    constructor(dialogService: DialogService, private fb: FormBuilder, private route: ActivatedRoute, private localStorage: LocalStorageService,
-                private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService, private router: Router,
+  constructor(dialogService: DialogService, private fb: FormBuilder, private route: ActivatedRoute, private localStorage: LocalStorageService,
+              private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService, private router: Router,
               private measurementEnumService: MeasurementEnumService) {
     super(dialogService);
   }

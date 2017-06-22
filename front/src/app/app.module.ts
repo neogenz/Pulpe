@@ -69,6 +69,7 @@ import {MachinesComponent} from './machines/machines.component';
 import {MachinesResolver} from "./machines/machines.resolver";
 import {FilterMachines} from "./machines/machines.filter.pipe";
 import {MachineService} from "./_services/machine/machine.service";
+import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import {MachineService} from "./_services/machine/machine.service";
     MembersComponent,
     FilterMembers,
     FilterMachines,
-    MachinesComponent
+    MachinesComponent,
+    MachineFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -170,7 +172,8 @@ import {MachineService} from "./_services/machine/machine.service";
   ],
   entryComponents: [
     MeasurementsAddDialogComponent,
-    ProfileMemberEditDialogComponent
+    ProfileMemberEditDialogComponent,
+    MachineFormDialogComponent
   ],
   bootstrap: [AppComponent]
 })

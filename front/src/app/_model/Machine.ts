@@ -1,6 +1,7 @@
 import {Program} from "./Program";
 import {Measurement} from "./Measurement";
 import {Gym} from "./Gym";
+import {WorkedMuscles} from "./WorkedMuscles";
 export class Machine {
 
   constructor() {
@@ -11,7 +12,8 @@ export class Machine {
   }
 
   _id: string;
-  name:string;
+  name: string;
+  workedMuscles: WorkedMuscles[];
 
   public static of(): MachineBuilder {
     return new MachineBuilder();
@@ -31,6 +33,11 @@ class MachineBuilder {
 
   public name(name: string): MachineBuilder {
     this.me.name = name;
+    return this;
+  }
+
+  public workedMuscles(workedMuscles: WorkedMuscles[]): MachineBuilder {
+    this.me.workedMuscles = workedMuscles;
     return this;
   }
 
