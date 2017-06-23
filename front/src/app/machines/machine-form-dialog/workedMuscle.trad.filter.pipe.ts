@@ -15,7 +15,6 @@ export class FilterWorkedMuscle implements PipeTransform {
     if (!workedMuscle) {
       return;
     }
-    let t = this.muscleConverter.getLabelFromEnum(workedMuscle.name);
-    return t;
+    return this.muscleConverter.getLabelFromEnum(workedMuscle.name);
   }
 }

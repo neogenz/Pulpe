@@ -63,5 +63,8 @@ export class MuscleConverter {
 		return this.muscleLabelConverter.get(MuscleEnum.Name[enumValue]);
 	}
 
+	public getEnumFromValue(value: number): MuscleEnum.Name {
+		return MuscleEnum.Name[MuscleEnum.Name[value]];
+	}
 
 }

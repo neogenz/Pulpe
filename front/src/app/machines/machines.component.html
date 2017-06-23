@@ -41,15 +41,15 @@
                 <td>
                     <div class="row iconsList pull-right">
                         <div class="col-md-6">
-                            <button class="ion ion-trash-b pointer bg-primary" md-mini-fab
-                                    mdTooltip="Supprimer cette machine"
+                            <button class="ion ion-edit pointer" md-mini-fab
+                                    (click)="openMachineFormDialog(machine)"
+                                    mdTooltip="Editer la machine"
                                     [mdTooltipPosition]="'left'">
                             </button>
                         </div>
                         <div class="col-md-6">
-                            <button class="ion ion-edit pointer" md-mini-fab
-                                    (click)="openMachineFormDialog(machine)"
-                                    mdTooltip="Editer la machine"
+                            <button class="ion ion-trash-b pointer bg-primary" md-mini-fab
+                                    mdTooltip="Supprimer cette machine"
                                     [mdTooltipPosition]="'right'">
                             </button>
                         </div>
@@ -62,8 +62,7 @@
         <div class="row">
             <div class="col-md-12 pt-2 pb-2 btnBottomRight">
                 <button md-fab class="pull-right bg-secondary" (click)="openMachineFormDialog()"
-                        mdTooltip="Ajouter une machine"
-                        [mdTooltipPosition]="'right'">
+                        mdTooltip="Ajouter une machine" [mdTooltipPosition]="'right'">
                     <i class="ion-plus addIcon"></i>
                 </button>
             </div>

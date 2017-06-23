@@ -30,8 +30,9 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	intensityCtrl: FormControl;
 	workedMuscles: string[];
 	errorTranslations: any;
-	titleConfirm: String;
-	title: String;
+	titleConfirm: string;
+	title: string;
+	workedMusclesTmp: WorkedMuscles[];
 
 	constructor(private machineService: MachineService, dialogService: DialogService, private auth: AuthenticationService, private slimLoadingBarService: SlimLoadingBarService, private muscleConverter: MuscleConverter, private fb: FormBuilder, private route: ActivatedRoute, private toastrService: ToastrService) {
 		super(dialogService);
@@ -47,11 +48,15 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	}
 
 	buildForm() {
+		this.workedMusclesTmp = [];
 		if (!this.machine) {
 			this.machine = Machine.of()
 				.name('')
-				.workedMuscles([])
 				.build();
+		} else {
+			this.machine.workedMuscles.forEach(m => {
+				this.workedMusclesTmp.push(m);
+			});
 		}
 
 		this.workedMuscles = this.muscleConverter.toLabelArray();
@@ -75,12 +80,8 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 			.intensity(this.intensityCtrl.value)
 			.build();
 
-		if (!this.machine.workedMuscles) {
-			this.machine.workedMuscles = [];
-		}
-
 		let isOnError = false;
-		this.machine.workedMuscles.forEach(m => {
+		this.workedMusclesTmp.forEach(m => {
 			if (m.name === workedMuscle.name && m.intensity === workedMuscle.intensity) {
 				this.toastrService.error(this.errorTranslations.workedMuscle.alreadyExist, 'Erreur');
 				isOnError = true;
@@ -88,12 +89,12 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 		});
 
 		if (!isOnError) {
-			this.machine.workedMuscles.push(workedMuscle);
+			this.workedMusclesTmp.push(workedMuscle);
 		}
 	}
 
 	deleteThis(workedMuscle: WorkedMuscles) {
-		this.machine.workedMuscles = this.machine.workedMuscles.filter(m => {
+		this.workedMusclesTmp = this.workedMusclesTmp.filter(m => {
 			if (m.name === workedMuscle.name && m.intensity === workedMuscle.intensity) {
 				return (m.name === workedMuscle.name && m.intensity !== workedMuscle.intensity);
 			}
@@ -111,11 +112,10 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 
 	add() {
 		const authProfile = this.auth.getAuthenticationProfileInLocalStorage();
-		debugger;
 		const machine = Machine
 			.of()
 			.name(this.nameCtrl.value)
-			.workedMuscles(this.machine.workedMuscles)
+			.workedMuscles(this.workedMusclesTmp)
 			.gym(authProfile.gym)
 			.build();
 
@@ -127,6 +127,7 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 			})
 			.subscribe((machine) => {
 					this.result = machine;
+					this.toastrService.success('Une nouvelle machine a été ajouté', 'Succès!');
 					this.close();
 				},
 				(errorMsg) => {
@@ -137,8 +138,11 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	}
 
 	edit() {
-		debugger;
 		this.machine.name = this.nameCtrl.value;
+		this.workedMusclesTmp.forEach((m) => {
+			m.name = this.muscleConverter.getEnumFromValue(m.name);
+		});
+		this.machine.workedMuscles = this.workedMusclesTmp;
 		this.machineRequest = this.machineService.update(this.machine);
 		this.slimLoadingBarService.start();
 		this.machineRequest
@@ -147,6 +151,7 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 			})
 			.subscribe((machine) => {
 					this.result = machine;
+					this.toastrService.success('La machine a été mis à jour', 'Succès!');
 					this.close();
 				},
 				(errorMsg) => {

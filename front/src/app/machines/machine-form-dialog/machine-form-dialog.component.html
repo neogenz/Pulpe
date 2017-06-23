@@ -50,13 +50,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 pt-3">
-                            <div *ngIf="isInError" class="col-md-12 col-12">
-                                <div class="alert alert-danger">
-                                    {{errorMsg}}
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-12 text-center pt-3">
                             <button type="submit" class="text-accent" [disabled]="workedMuscleForm.invalid"
                                     md-button>
@@ -82,7 +75,7 @@
                     </div>
 
                     <md-chip-list class="mat-chip-selected col-md-12 pt-1">
-                        <div *ngFor="let workedMuscle of machine.workedMuscles" [ngSwitch]="workedMuscle.intensity"
+                        <div *ngFor="let workedMuscle of workedMusclesTmp" [ngSwitch]="workedMuscle.intensity"
                              [@fadeIn]>
                             <md-chip *ngSwitchCase="'hard'"
                                      selected="true"
