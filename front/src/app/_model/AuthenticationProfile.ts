@@ -1,3 +1,4 @@
+import {Gym} from "./Gym";
 export class AuthenticationProfile {
   constructor() {
 
@@ -12,6 +13,7 @@ export class AuthenticationProfile {
   public firstName:string;
   public profileCompleted:boolean;
   public isCoach:boolean;
+  public gym:Gym;
 
   public static of():AuthenticationProfileBuilder {
     return new AuthenticationProfileBuilder();
@@ -66,6 +68,11 @@ class AuthenticationProfileBuilder {
 
   public isCoach(isCoach:boolean):AuthenticationProfileBuilder {
     this.me.isCoach = isCoach;
+    return this;
+  }
+
+  public gym(gym:Gym):AuthenticationProfileBuilder {
+    this.me.gym = gym;
     return this;
   }
 

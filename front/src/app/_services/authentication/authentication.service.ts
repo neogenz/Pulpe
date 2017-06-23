@@ -32,6 +32,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
         .profileCompleted(rawProfile.profileCompleted)
         .firstName(rawProfile.firstName)
         .isCoach(data.isCoach)
+				.gym(rawProfile.gym)
         .lastName(rawProfile.lastName)
         .password(password).build();
     }).catch(this.handleError);
@@ -54,6 +55,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
         .firstName(rawProfile.firstName)
         .profileCompleted(rawProfile.profileCompleted)
         .isCoach(isCoach)
+        .gym(rawProfile.gym)
         .lastName(rawProfile.lastName)
         .password(password).build();
     })

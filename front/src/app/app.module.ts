@@ -6,6 +6,7 @@ import {HttpModule, Http, RequestOptions} from '@angular/http'; //Http class use
 import {RouterModule} from '@angular/router'
 import {ROUTES} from './app.routes'; // ROUTING HERE!
 import {APP_BASE_HREF} from '@angular/common';
+import {ToastrModule} from 'ngx-toastr';
 
 import {ChartsModule} from 'ng2-charts';
 import {LocalStorageModule, LocalStorageService} from 'angular-2-local-storage';
@@ -82,6 +83,8 @@ import {MachinesResolver} from "./machines/machines.resolver";
 import {FilterMachines} from "./machines/machines.filter.pipe";
 import {MachineService} from "./_services/machine/machine.service";
 import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine-form-dialog.component';
+import {FilterWorkedMuscle} from "./machines/machine-form-dialog/workedMuscle.trad.filter.pipe";
+import {MuscleConverter} from "./shared/MuscleConverter";
 
 @NgModule({
   declarations: [
@@ -113,6 +116,7 @@ import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine
     MembersComponent,
     FilterMembers,
     FilterMachines,
+    FilterWorkedMuscle,
     MachinesComponent,
     MachineFormDialogComponent
   ],
@@ -139,6 +143,7 @@ import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine
     RouterModule.forRoot(ROUTES),
     SlimLoadingBarModule.forRoot(),
     SidebarModule.forRoot(),
+    ToastrModule.forRoot(),
     LocalStorageModule.withConfig({
       prefix: '',
       storageType: 'localStorage'
@@ -175,6 +180,7 @@ import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine
     SessionsService,
     ExerciseGroupCodeConverter,
     DifficultyConverter,
+    MuscleConverter,
     ProgramResolver,
     SessionsResolver,
     EvolutionResolver,

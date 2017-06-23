@@ -4,10 +4,12 @@ export namespace MuscleEnum {
     Traps,
     Deltoid,
     Pecs,
+    PosteriorDeltoid,
+    Lumbar,
+    Cardio,
     LatissimusDorsi,
     Biceps,
     Triceps,
-    Lats,
     MiddleBack,
     RectusAbdominus,
     LowerBack,
@@ -15,7 +17,6 @@ export namespace MuscleEnum {
     ThighBiceps,
     GluteusMaximus,
     GluteusMedius,
-    Cardiovascular,
     GastrocnemiusLateral
   }
 

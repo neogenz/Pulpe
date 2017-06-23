@@ -9,4 +9,17 @@ body {
 .container-bg {
   background: url("../assets/img/background.jpg"); }
 
+.footer {
+  margin-top: 1rem;
+  height: 3.75rem;
+  border-top: 1px solid #BDBDBD; }
+  .footer .v-center {
+    display: flex;
+    align-items: center; }
+  .footer p {
+    margin: 0; }
+  .footer .icon {
+    font-size: 1.4rem;
+    color: #212121; }
+
 /*# sourceMappingURL=app.component.css.map */

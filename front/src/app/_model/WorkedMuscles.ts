@@ -1,3 +1,4 @@
+import {MuscleEnum} from "../_enums/MuscleEnum";
 export class WorkedMuscles {
 
   constructor() {
@@ -8,7 +9,7 @@ export class WorkedMuscles {
   }
 
   intensity: string;
-  name: string;
+  name: MuscleEnum.Name;
 
   public static of(): WorkedMusclesBuilder {
     return new WorkedMusclesBuilder();
@@ -26,7 +27,7 @@ class WorkedMusclesBuilder {
     return this;
   }
 
-  public name(name: string): WorkedMusclesBuilder {
+  public name(name: MuscleEnum.Name): WorkedMusclesBuilder {
     this.me.name = name;
     return this;
   }
