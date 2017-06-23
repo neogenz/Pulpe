@@ -8,7 +8,7 @@ import {AuthenticationProfile} from "./_model/AuthenticationProfile";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   private _opened: boolean = false;

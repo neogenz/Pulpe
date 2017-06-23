@@ -61,11 +61,11 @@
                 <span>
                     Test
                 </span>
+                <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
                 <button class="btn btn-primary" type="submit" [disabled]="machineForm.invalid">
                     <span *ngIf="mode === 'add'" (click)="add()">Ajouter</span>
                     <span *ngIf="mode === 'edit'" (click)="edit()">Editer</span>
                 </button>
-                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
             </div>
         </form>
     </div>

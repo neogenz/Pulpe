@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <div class="text-center">
-                <h4 class="text-light-weight">Edition de mon profil</h4>
+                <h4 class="text-light-weight">{{title}}</h4>
             </div>
         </div>
         <form (ngSubmit)="edit()" [formGroup]="memberForm">
@@ -108,8 +108,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
                 <button class="btn btn-primary" type="submit" [disabled]="memberForm.invalid">Editer</button>
-                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
             </div>
         </form>
     </div>

@@ -11,4 +11,4 @@ class AuthenticationRouter {
 
 module.exports = (provider)=> {
   return new AuthenticationRouter(provider);
-};''
+};

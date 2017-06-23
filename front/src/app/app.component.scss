@@ -13,3 +13,20 @@ body {
 .container-bg {
   background: url('../assets/img/background.jpg');
 }
+
+.footer {
+  margin-top: 1rem;
+  height: 3.75rem;
+  border-top: 1px solid $divider-color;
+  .v-center {
+    display: flex;
+    align-items: center;
+  }
+  p {
+    margin: 0;
+  }
+  .icon {
+    font-size: 1.4rem;
+    color: $primary-text;
+  }
+}

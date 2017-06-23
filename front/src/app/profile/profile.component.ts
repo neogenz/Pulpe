@@ -34,11 +34,10 @@ export class ProfileComponent implements OnInit {
   }
 
   openDialogEditMember() {
-    this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member}, {
+    this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member, title:'Edition de mon profil'}, {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((member) => {
       if (member) {
-        debugger;
         this.member = member;
       }
     });

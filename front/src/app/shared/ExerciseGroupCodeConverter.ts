@@ -19,6 +19,7 @@ export class ExerciseGroupCodeConverter {
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise], 'Musculation');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], 'Abdominaux');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], 'Cours organisés');
+    this.exerciseGroupLabelConverter.entries()
   }
 
 

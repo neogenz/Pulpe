@@ -1,6 +1,7 @@
 const ProgramService = require('../_services/program.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const MemberService = require('../_services/member.service');
+const winston = require('winston');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
@@ -33,10 +34,10 @@ class ProgramController {
         const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
         return ProgramService.generateProgramBy(programGenerationContext);
       }, error => {
-        console.error(error.stack);
         if (error instanceof SessionError) {
           throw new TechnicalError(error.message);
         }
+        throw error;
       })
       .then(program => {
         return ProgramService.saveProgram(program);
@@ -47,7 +48,7 @@ class ProgramController {
         throw error;
       })
       .catch(error => {
-        console.error(error.stack);
+        winston.log('error', error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       })

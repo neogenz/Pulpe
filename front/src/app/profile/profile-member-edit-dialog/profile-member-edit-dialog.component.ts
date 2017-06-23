@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
 import {Member} from "../../_model/Member";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -15,9 +15,11 @@ import {ProfileService} from "../profile.service";
 @Component({
   selector: 'pulpe-profile-member-edit-dialog',
   templateUrl: 'profile-member-edit-dialog.component.html',
-  styleUrls: ['profile-member-edit-dialog.component.css']
+  styleUrls: ['profile-member-edit-dialog.component.scss']
 })
 export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMemberEdit, Member> implements ProfileMemberEdit, OnInit, OnError {
+
+  title:string;
   memberRequest: Observable<Member> = new Observable();
   isInError: boolean;
   errorMsg: string;
@@ -194,4 +196,5 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
 
 export interface ProfileMemberEdit {
   member: any;
+  title:string;
 }

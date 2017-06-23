@@ -25,11 +25,11 @@ class SessionService {
   static generateSessionsBy(nbSessions, objective, gym) {
     console.info(`Generation of session to ${nbSessions} sessions by week with ${objective.toString()} objective.`);
     let sessionsGenerationConfigs = SessionService.getSessionsGenerationConfigsBySessionAndObjective(nbSessions, objective);
-    sessionsGenerationConfigs.gym = gym;
     let days = SessionService.getDaysSessionRepartitionBy(nbSessions);
-    return SessionService._generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective).then((sessionsGenerationContext) => {
-      return sessionsGenerationContext.map(sessionGenerationContext => sessionGenerationContext.session);
-    });
+    return SessionService._generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective, gym)
+      .then((sessionsGenerationContext) => {
+        return sessionsGenerationContext.map(sessionGenerationContext => sessionGenerationContext.session);
+      });
   }
 
 
@@ -46,7 +46,7 @@ class SessionService {
    * @returns {Promise<Array<SessionGenerationContext>>}
    * @private
    */
-  static _generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective) {
+  static _generateSessionGenerationContextBy(days, sessionsGenerationConfigs, objective, gym) {
     let sessionsGenerationContextWithoutExercises = [];
     merge(days, sessionsGenerationConfigs, (day, sessionGenerationConfig) => {
       sessionsGenerationContextWithoutExercises.push(

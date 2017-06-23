@@ -27,76 +27,121 @@
 <div [ngSwitch]="exercisesGroupRawCode">
     <div *ngSwitchCase="bodybuildingExerciseEnumLabel" class="row exerciseDetails" md-line>
         <div class="col-6 offset-md-2 offset-sm-0 col-md-2 text-center">
-
-            <i class="ion ion-refresh"></i>
-            <span>{{exercise.series}}</span>
+            <span mdTooltip="Séries"
+                  [mdTooltipPosition]="'right'">
+                <i class="ion ion-refresh"></i>
+                <span>{{exercise.series}}</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center">
-            <span class="icon-althere"></span>
-            <span>{{exercise.repetitions}} </span>
+            <span mdTooltip="Répétitions"
+                  [mdTooltipPosition]="'right'">
+                <span class="icon-althere"></span>
+                <span>{{exercise.repetitions}} </span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center">
-            <i class="icon-weight"></i>
-            <span> {{exercise.weight | number:'1.1'}} kg </span>
+            <span mdTooltip="Poids"
+                  [mdTooltipPosition]="'right'">
+                <i class="icon-weight"></i>
+                <span> {{exercise.weight | number:'1.1'}} kg </span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center">
-            <i class="ion-ios-timer-outline"></i>
-
-            <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
+            <span mdTooltip="Temps de repos entre chaque séries"
+                  [mdTooltipPosition]="'right'">
+                <i class="ion-ios-timer-outline"></i>
+                <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
+            </span>
         </div>
     </div>
 
     <div *ngSwitchCase="cardioExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
         <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
-            <i class="fa fa-repeat"></i>
-            <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
+            <span mdTooltip="Nombre de fois x Durée"
+                  [mdTooltipPosition]="'right'">
+                <i class="fa fa-repeat"></i>
+                <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
-            <span class="fa fa-road"></span>
-            <span>{{exercise.km  | number}} km</span>
+            <span mdTooltip="Distance à parcourir"
+                  [mdTooltipPosition]="'right'">
+                <span class="fa fa-road"></span>
+                <span>{{exercise.km  | number}} km</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
-            <i class="icon-balance"></i>
-            <span> {{exercise.calories | number}} kcal</span>
+            <span mdTooltip="Calories à bruler"
+                  [mdTooltipPosition]="'right'">
+                <i class="icon-balance"></i>
+                <span> {{exercise.calories | number}} kcal</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
-            <i class="ion-speedometer"></i>
-
-            <span>{{exercise.speed | number}} km/h </span>
+            <span mdTooltip="Vitesse"
+                  [mdTooltipPosition]="'right'">
+                <i class="ion-speedometer"></i>
+                <span>{{exercise.speed | number}} km/h </span>
+            </span>
         </div>
     </div>
 
     <div *ngSwitchCase="trainingExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
         <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
-            <i class="fa fa-repeat"></i>
-            <span>{{exercise.times | number:'1.2-2'}} min</span>
+            <span mdTooltip="Durée"
+                  [mdTooltipPosition]="'right'">
+                <i class="fa fa-repeat"></i>
+                <span>{{exercise.times | number:'1.2-2'}} min</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.km">
-            <span class="fa fa-road"></span>
-            <span>{{exercise.km  | number}} km</span>
+            <span mdTooltip="Distance"
+                  [mdTooltipPosition]="'right'">
+                <span class="fa fa-road"></span>
+                <span>{{exercise.km  | number}} km</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.calories">
-            <i class="icon-balance"></i>
-            <span> {{exercise.calories | number}} kcal</span>
+            <span mdTooltip="Calories à bruler"
+                  [mdTooltipPosition]="'right'">
+                <i class="icon-balance"></i>
+                <span> {{exercise.calories | number}} kcal</span>
+            </span>
         </div>
         <div class="col-6 col-md-2 text-center" *ngIf="exercise.speed">
-            <i class="ion-speedometer"></i>
-
-            <span>{{exercise.speed | number}} km/h </span>
+            <span mdTooltip="Vitesse"
+                  [mdTooltipPosition]="'right'">
+                <i class="ion-speedometer"></i>
+                <span>{{exercise.speed | number}} km/h </span>
+            </span>
         </div>
     </div>
 
     <div *ngSwitchCase="organizedExerciseEnumLabel" class="row exerciseDetails" md-line>
-        <div class="col-12 text-center">
-            <i class="ion ion-ios-bolt"></i>
-            <span class="text-capitalize">{{exercise.difficulty}}</span>
+        <div class="col-6 col-md-2 offset-md-4 text-center">
+            <span mdTooltip="Difficulté"
+                  [mdTooltipPosition]="'right'">
+                <i class="ion ion-ios-bolt"></i>
+                <span class="text-capitalize">{{exercise.difficulty}}</span>
+            </span>
+        </div>
+        <div class="col-6 col-md-2 text-center">
+            <span mdTooltip="Temps approximatif du cours"
+                  [mdTooltipPosition]="'right'">
+                <i class="fa fa-hourglass-half"></i>
+                <span>{{exercise.approximateTime | number:'1.2-2'}} min</span>
+            </span>
         </div>
     </div>
 
     <div *ngSwitchCase="stretchingExerciseEnumLabel" class="row exerciseDetails" md-line>
         <div class="col-12 text-center">
-            <i class="fa fa-hourglass-half"></i>
-            <span>{{exercise.time | number:'1.2-2'}} min</span>
+            <span mdTooltip="Durée"
+                  [mdTooltipPosition]="'right'">
+                <i class="fa fa-hourglass-half"></i>
+                <span>{{exercise.time | number:'1.2-2'}} min</span>
+            </span>
         </div>
     </div>
 </div>

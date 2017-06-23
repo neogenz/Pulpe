@@ -28,7 +28,7 @@ winston.level = process.env.LOG_LEVEL;
 mongoose.Promise = global.Promise;
 mongoose.connect(configHelper.buildDatabaseConnectionURI());
 mongoose.connection.on('connected', function () {
-  // mongoose.set('debug', true);
+  mongoose.set('debug', true);
 
   console.log('Mongoose default connection open to ' + configHelper.buildDatabaseConnectionURI());
   require('./routing')(app);
