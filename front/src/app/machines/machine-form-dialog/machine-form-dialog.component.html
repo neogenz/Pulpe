@@ -3,8 +3,7 @@
 
         <div class="modal-header">
             <div class="text-center">
-                <h4 *ngIf="mode === 'add'" class="text-light-weight">Ajout d'une machine</h4>
-                <h4 *ngIf="mode === 'edit'" class="text-light-weight">Edition d'une machine</h4>
+                <h4 class="text-light-weight">{{title}}</h4>
             </div>
         </div>
         <form (ngSubmit)="confirm()" [formGroup]="machineForm">
@@ -59,7 +58,8 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-center pt-3">
-                            <button type="submit" class="text-accent" [disabled]="workedMuscleForm.invalid" md-button>
+                            <button type="submit" class="text-accent" [disabled]="workedMuscleForm.invalid"
+                                    md-button>
                                 <i class="ion ion-ios-plus-outline"></i>
                                 <span class="pl-2">Ajouter ce muscle</span>
                             </button>
@@ -109,8 +109,7 @@
 
             <div class="modal-footer">
                 <button class="btn btn-primary" type="submit" [disabled]="machineForm.invalid">
-                    <span *ngIf="mode === 'add'" (click)="add()">Ajouter</span>
-                    <span *ngIf="mode === 'edit'" (click)="edit()">Editer</span>
+                    <span>{{titleConfirm}}</span>
                 </button>
                 <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
             </div>

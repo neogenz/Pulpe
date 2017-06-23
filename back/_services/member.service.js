@@ -8,7 +8,6 @@ const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GenderEnum = require('../_enums/GenderEnum');
 const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
-const GymService = require('../_services/gym.service');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }

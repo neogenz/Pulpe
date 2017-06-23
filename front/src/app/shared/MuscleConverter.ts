@@ -22,7 +22,7 @@ export class MuscleConverter {
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.MiddleBack], 'Dos central');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Pecs], 'Pectoraux');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.PosteriorDeltoid], 'Deltoide postérieur');
-		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.RectusAbdominus], 'RectusAbdominus');
+		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.RectusAbdominus], 'Abdos');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.ThighBiceps], 'Arrière de la cuisse');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.ThighQuadriceps], 'Avant de la cuisse');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Triceps], 'Tricepts');

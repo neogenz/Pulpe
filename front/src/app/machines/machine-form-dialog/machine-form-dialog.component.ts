@@ -30,6 +30,8 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	intensityCtrl: FormControl;
 	workedMuscles: string[];
 	errorTranslations: any;
+	titleConfirm: String;
+	title: String;
 
 	constructor(private machineService: MachineService, dialogService: DialogService, private auth: AuthenticationService, private slimLoadingBarService: SlimLoadingBarService, private muscleConverter: MuscleConverter, private fb: FormBuilder, private route: ActivatedRoute, private toastrService: ToastrService) {
 		super(dialogService);
@@ -51,6 +53,7 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 				.workedMuscles([])
 				.build();
 		}
+
 		this.workedMuscles = this.muscleConverter.toLabelArray();
 		this.nameCtrl = this.fb.control(this.machine.name, Validators.required);
 		this.machineForm = this.fb.group({
@@ -98,8 +101,17 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 		});
 	}
 
+	confirm() {
+		if (this.mode === 'add') {
+			this.add();
+		} else {
+			this.edit();
+		}
+	}
+
 	add() {
 		const authProfile = this.auth.getAuthenticationProfileInLocalStorage();
+		debugger;
 		const machine = Machine
 			.of()
 			.name(this.nameCtrl.value)
@@ -124,8 +136,10 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 			);
 	}
 
-	edit(machine) {
-		this.machineRequest = this.machineService.update(machine);
+	edit() {
+		debugger;
+		this.machine.name = this.nameCtrl.value;
+		this.machineRequest = this.machineService.update(this.machine);
 		this.slimLoadingBarService.start();
 		this.machineRequest
 			.finally(() => {
@@ -146,4 +160,6 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 export interface MachineForm {
 	machine: any;
 	mode: any;
+	title: any;
+	titleConfirm: any;
 }

@@ -55,8 +55,7 @@ export class MachineService extends ObservableHelper {
 		})
 			.map(response => {
 					const data: any = this.extractDataOf(response);
-
-					return machine;
+					return data.machine;
 				}
 			).catch(this.handleError);
 	}
@@ -67,8 +66,7 @@ export class MachineService extends ObservableHelper {
 		})
 			.map(response => {
 					const data: any = this.extractDataOf(response);
-
-					return machine;
+					return data.machine;
 				}
 			).catch(this.handleError);
 	}

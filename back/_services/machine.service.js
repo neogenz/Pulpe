@@ -6,21 +6,68 @@ const Gym = require('../_model/Gym');
 const InstanceError = require('../_model/Errors').InstanceError;
 const CoachService = require('../_services/coach.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
+const NotFoundError = require('../_model/Errors').NotFoundError;
 
 class MachineService {
 	constructor() {
+	}
 
+	/**
+	 * Find a machine by an id.
+	 * @param id
+	 * @returns {Promise|Promise.<Machine>}
+	 */
+	static findById(id) {
+		return Machine.findOne({'_id': id})
+			.then((machine) => {
+				if (!machine) {
+					throw new NotFoundError('Machine introuvable.');
+				}
+				return machine;
+			})
+			.catch(err => {
+				throw new TechnicalError(err.message);
+			});
 	}
 
 	static createMachine(name, workedMuscles, gym) {
 		let machine = new Machine({
 			name: name,
 			workedMuscles: workedMuscles,
-			gym_id: gym
+			gym: gym
 		});
 		return MachineService.saveMachine(machine);
 	}
 
+	/**
+	 * Update a machine.
+	 * @param machine
+	 * @returns {Promise|Promise.<Machine>}
+	 */
+	static updateMachine(machine) {
+		return this.findById(machine._id)
+			.then(machineFinded => {
+				machineFinded.workedMuscles = machine.workedMuscles;
+				machineFinded.name = machine.name;
+				return this.saveMachine(machineFinded);
+			}, (error) => {
+				throw error;
+			})
+			.then((machineSaved) => {
+				return machineSaved;
+			}, (error) => {
+				throw error;
+			})
+			.catch(error => {
+				throw error
+			});
+	}
+
+	/**
+	 * Save a new machine
+	 * @param machine
+	 * @returns {Promise|Promise.<TResult>}
+	 */
 	static saveMachine(machine) {
 		return machine.save().then(saved => {
 			return saved

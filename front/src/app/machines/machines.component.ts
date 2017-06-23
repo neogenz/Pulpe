@@ -27,21 +27,29 @@ export class MachinesComponent implements OnInit {
 		this.filterArgs = '';
 	}
 
-	openMachineFormDialog(idMachine: string) {
-		let machine: Machine;
-		if (idMachine) {
-			machine = this.machines.find(m => m._id == idMachine);
+	openMachineFormDialog(machine: Machine) {
+		const mode = machine === undefined ? 'add' : 'edit';
+		let title: string;
+		let titleConfirm: string;
+		if (mode === 'add') {
+			title = `Ajout d'une machine`;
+			titleConfirm = 'Ajouter';
+		} else {
+			title = `Edition d'une machine`;
+			titleConfirm = 'Editer';
 		}
-		const mode = !machine ? 'edit' : 'add';
-
 		this.dialogService.addDialog(MachineFormDialogComponent, {
-				machine: machine,
-				mode: mode
-			}, {backdropColor: 'rgba(0,0,0,0.5)'}
-		).subscribe((machineSaved) => {
+			machine: machine, mode: mode, title: title, titleConfirm: titleConfirm
+		}, {
+			backdropColor: 'rgba(0,0,0,0.5)'
+		}).subscribe((machineSaved) => {
 			if (machineSaved) {
-				const indexFinded = this.machines.findIndex(m => m._id == machine._id);
-				this.machines[indexFinded] = machineSaved;
+				if (mode === 'add') {
+					this.machines.push(machineSaved);
+				} else {
+					const indexFinded = this.machines.findIndex(m => m._id == machine._id);
+					this.machines[indexFinded] = machineSaved;
+				}
 			}
 		});
 	}
