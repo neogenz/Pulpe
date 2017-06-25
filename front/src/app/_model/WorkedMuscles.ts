@@ -9,7 +9,7 @@ export class WorkedMuscles {
   }
 
   intensity: string;
-  name: MuscleEnum.Name;
+  name: any;
 
   public static of(): WorkedMusclesBuilder {
     return new WorkedMusclesBuilder();
@@ -27,7 +27,7 @@ class WorkedMusclesBuilder {
     return this;
   }
 
-  public name(name: MuscleEnum.Name): WorkedMusclesBuilder {
+  public name(name: any): WorkedMusclesBuilder {
     this.me.name = name;
     return this;
   }

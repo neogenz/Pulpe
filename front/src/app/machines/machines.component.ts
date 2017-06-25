@@ -7,6 +7,8 @@ import {MachineFormDialogComponent} from "./machine-form-dialog/machine-form-dia
 import {Gym} from "../_model/Gym";
 import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
+import {MuscleEnum} from "../_enums/MuscleEnum";
+import {MuscleConverter} from "../shared/MuscleConverter";
 
 @Component({
 	selector: 'pulpe-machines',
@@ -19,7 +21,7 @@ export class MachinesComponent implements OnInit {
 	private machines: Machine[];
 	filterArgs: string;
 
-	constructor(private route: ActivatedRoute, private dialogService: DialogService) {
+	constructor(private route: ActivatedRoute, private dialogService: DialogService, private muscleConverter: MuscleConverter) {
 	}
 
 	ngOnInit() {
@@ -44,6 +46,9 @@ export class MachinesComponent implements OnInit {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((machineSaved) => {
 			if (machineSaved) {
+				machineSaved.workedMuscles.forEach((m) => {
+					m.name = this.muscleConverter.getEnumFromName(m.name);
+				});
 				if (mode === 'add') {
 					this.machines.push(machineSaved);
 				} else {

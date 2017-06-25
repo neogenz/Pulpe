@@ -11,6 +11,7 @@ import {MachineService} from "../../_services/machine/machine.service";
 import {Observable} from "rxjs";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {AuthenticationService} from "../../_services/authentication/authentication.service";
+import {MuscleEnum} from "../../_enums/MuscleEnum";
 
 
 @Component({
@@ -19,7 +20,7 @@ import {AuthenticationService} from "../../_services/authentication/authenticati
 	styleUrls: ['machine-form-dialog.component.css'],
 	animations: [Animations.fadeIn()]
 })
-export class MachineFormDialogComponent extends DialogComponent<MachineForm, Machine> implements MachineForm, OnInit {
+export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> implements IForm, OnInit {
 	machineRequest: Observable<Machine> = new Observable();
 	machine: Machine;
 	mode: string;
@@ -111,6 +112,9 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	}
 
 	add() {
+		this.workedMusclesTmp.forEach((m) => {
+			m.name = MuscleEnum.Name[this.muscleConverter.getEnumFromValue(m.name)];
+		});
 		const authProfile = this.auth.getAuthenticationProfileInLocalStorage();
 		const machine = Machine
 			.of()
@@ -140,7 +144,7 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	edit() {
 		this.machine.name = this.nameCtrl.value;
 		this.workedMusclesTmp.forEach((m) => {
-			m.name = this.muscleConverter.getEnumFromValue(m.name);
+			m.name = MuscleEnum.Name[this.muscleConverter.getEnumFromValue(m.name)];
 		});
 		this.machine.workedMuscles = this.workedMusclesTmp;
 		this.machineRequest = this.machineService.update(this.machine);
@@ -162,7 +166,7 @@ export class MachineFormDialogComponent extends DialogComponent<MachineForm, Mac
 	}
 }
 
-export interface MachineForm {
+export interface IForm {
 	machine: any;
 	mode: any;
 	title: any;

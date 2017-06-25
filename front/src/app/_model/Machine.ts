@@ -12,7 +12,7 @@ export class Machine {
 	}
 
 	_id: string;
-	name: string;
+	name: any;
 	workedMuscles: WorkedMuscles[];
 	gym: Gym;
 
