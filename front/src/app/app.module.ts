@@ -85,6 +85,7 @@ import {MachineService} from "./_services/machine/machine.service";
 import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine-form-dialog.component';
 import {FilterWorkedMuscle} from "./machines/machine-form-dialog/workedMuscle.trad.filter.pipe";
 import {MuscleConverter} from "./shared/MuscleConverter";
+import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import {MuscleConverter} from "./shared/MuscleConverter";
     FilterMachines,
     FilterWorkedMuscle,
     MachinesComponent,
-    MachineFormDialogComponent
+    MachineFormDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     MdButtonModule,
@@ -201,7 +203,8 @@ import {MuscleConverter} from "./shared/MuscleConverter";
   entryComponents: [
     MeasurementsAddDialogComponent,
     ProfileMemberEditDialogComponent,
-    MachineFormDialogComponent
+    MachineFormDialogComponent,
+    DeleteDialogComponent
   ],
   bootstrap: [AppComponent]
 })

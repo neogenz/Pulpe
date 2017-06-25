@@ -11,7 +11,7 @@ export class MuscleConverter {
 
 	constructor() {
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Biceps], 'Bicepts');
-		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Cardio], 'Cardio');
+		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Cardiovascular], 'Cardio');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Lumbar], 'Lombaire');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Deltoid], 'Deltoide');
 		this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.GastrocnemiusLateral], 'Mollet');
@@ -66,5 +66,4 @@ export class MuscleConverter {
 	public getEnumFromValue(value: number): MuscleEnum.Name {
 		return MuscleEnum.Name[MuscleEnum.Name[value]];
 	}
-
 }

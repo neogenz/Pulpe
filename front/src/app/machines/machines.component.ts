@@ -4,11 +4,9 @@ import {DialogService} from "ng2-bootstrap-modal";
 import {ActivatedRoute} from "@angular/router";
 import {Animations} from "../shared/Animations";
 import {MachineFormDialogComponent} from "./machine-form-dialog/machine-form-dialog.component";
-import {Gym} from "../_model/Gym";
-import {AuthenticationService} from "../_services/authentication/authentication.service";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
-import {MuscleEnum} from "../_enums/MuscleEnum";
 import {MuscleConverter} from "../shared/MuscleConverter";
+import {DeleteDialogComponent} from "../shared/dialogs/delete-dialog/delete-dialog.component";
 
 @Component({
 	selector: 'pulpe-machines',
@@ -27,6 +25,18 @@ export class MachinesComponent implements OnInit {
 	ngOnInit() {
 		this.machines = this.route.snapshot.data['machines'];
 		this.filterArgs = '';
+	}
+
+	openDeleteDialog(machine) {
+		const title = `Supression d'une machine`;
+		const description = `Souhaitez-vous vraiment supprimer la machine : ${machine.name} ?`;
+		this.dialogService.addDialog(DeleteDialogComponent, {
+			id: machine._id, title: title, description: description
+		}, {
+			backdropColor: 'rgba(0,0,0,0.5)'
+		}).subscribe((id) => {
+
+		});
 	}
 
 	openMachineFormDialog(machine: Machine) {

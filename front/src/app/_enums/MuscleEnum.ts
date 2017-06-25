@@ -6,7 +6,7 @@ export namespace MuscleEnum {
     Pecs,
     PosteriorDeltoid,
     Lumbar,
-    Cardio,
+    Cardiovascular,
     LatissimusDorsi,
     Biceps,
     Triceps,
