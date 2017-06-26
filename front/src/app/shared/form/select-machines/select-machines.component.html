@@ -1,0 +1,36 @@
+<form (ngSubmit)="add()" [formGroup]="machineForm">
+    <div class="col-md-10 offset-md-1 pt-2">
+        <div class="row">
+            <md-select placeholder="Choisissez une machine" class="col-md-12"
+                       formControlName="machineSelected" required>
+                <md-option *ngFor="let machine of selectableMachines" [value]="machine">
+                    {{machine.name}}
+                </md-option>
+            </md-select>
+        </div>
+    </div>
+    <div class="col-md-12 text-center pt-3">
+        <button type="submit" [disabled]="machineForm.invalid"
+                md-button>
+            <i class="ion ion-ios-plus-outline"></i>
+            <span class="pl-2">Ajouter cette machine</span>
+        </button>
+    </div>
+</form>
+
+<div *ngIf="selectedMachines.length>0; else empty">
+    <md-chip-list class="mat-chip-selected col-md-12">
+        <div *ngFor="let machine of selectedMachines; let i = index"
+             [@fadeIn]>
+            <md-chip selected="true">
+                {{machine.name}}
+                <i class="ion ion-ios-close-outline pointer" (click)="deleteAtThisIndex(i)"></i>
+            </md-chip>
+        </div>
+    </md-chip-list>
+</div>
+<ng-template #empty>
+    <div class="col-md-12 pt-1">
+        <p>Aucune machines</p>
+    </div>
+</ng-template>

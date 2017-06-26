@@ -1,27 +1,34 @@
-import {AbstractExercise} from "./AbstractExercise";
+import {AbstractExercise, ServerAbstractExercise} from "./AbstractExercise";
+import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
+import {promise} from "selenium-webdriver";
+import {DifficultyEnum} from "../../_enums/DifficultyEnum";
+import {DifficultyConverter} from "../../shared/DifficultyConverter";
 
 export class TrainingExercise extends AbstractExercise {
   times: number;
   km: number;
   calories: number;
   speed: number;
-  musclesWorked: any[];
   recovery: number;
-  difficulty: number;
+  difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: any[], type: string) {
-    super(id, name, machines, type);
+  constructor(id: number, name: string, machines: any[]) {
+    super(id, name, machines, ExerciseGroupTypeEnum.TrainingExercise);
+    this.times = 0;
+    this.km = 0;
+    this.calories = 0;
+    this.recovery = 0;
+    this.difficulty = DifficultyEnum.easy;
   }
 
 
   initFromRawObject(rawObject: any): TrainingExercise {
-    this.times = rawObject.times;
-    this.km = rawObject.km;
-    this.calories = rawObject.calories;
-    this.speed = rawObject.speed;
-    this.musclesWorked = rawObject.musclesWorked;
-    this.recovery = rawObject.recovery;
-    this.difficulty = rawObject.difficulty;
+    this.times = rawObject.times ? rawObject.times : this.times;
+    this.km = rawObject.km ? rawObject.km : this.km;
+    this.calories = rawObject.calories ? rawObject.calories : this.calories;
+    this.speed = rawObject.speed ? rawObject.speed : this.speed;
+    this.recovery = rawObject.recovery ? rawObject.recovery : this.recovery;
+    this.difficulty = rawObject.difficulty ? new DifficultyConverter().getEnumFromName(rawObject.difficulty) : this.difficulty;
 
     return this;
   }
@@ -30,4 +37,30 @@ export class TrainingExercise extends AbstractExercise {
   calculApproximateTime(): number {
     return this.times;
   }
+
+  serialize(): promise.IThenable<ServerTrainingExercise> | ServerTrainingExercise {
+    let serverExercise: ServerTrainingExercise = new ServerTrainingExercise();
+    serverExercise.times = this.times;
+    serverExercise.km = this.km;
+    serverExercise.calories = this.calories;
+    serverExercise.speed = this.speed;
+    serverExercise.recovery = this.recovery;
+    serverExercise.difficulty = DifficultyEnum[this.difficulty];
+    serverExercise.id = this.id;
+    serverExercise.name = this.name;
+    serverExercise.machines = this.machines.map(m => m.serialize());
+    serverExercise.approximateTime = this.approximateTime;
+    serverExercise.workedMuscles = this.workedMuscles.map(m => m.serialize());
+    serverExercise.type = ExerciseGroupTypeEnum[this.type];
+    return serverExercise;
+  }
+}
+
+export class ServerTrainingExercise extends ServerAbstractExercise {
+  times: number;
+  km: number;
+  calories: number;
+  speed: number;
+  recovery: number;
+  difficulty: string;
 }

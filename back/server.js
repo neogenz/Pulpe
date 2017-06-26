@@ -83,38 +83,38 @@ mongoose.connection.on('connected', function () {
     .then((exercisesReferencesInformations) => {
       global.exercisesReferencesInformations = exercisesReferencesInformations;
       return GymService.findAll();
-      // return GymService.createGym('Keep cool', '20 Place pan carre', 'Avignon',
-      //   {
-      //     monday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     },
-      //     tuesday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     },
-      //     wednesday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     },
-      //     thursday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     },
-      //     friday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     },
-      //     saturday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("23:00", "HH:mm").toDate()
-      //     },
-      //     sunday: {
-      //       openingHour: moment("08:00", "HH:mm").toDate(),
-      //       closingHour: moment("21:00", "HH:mm").toDate()
-      //     }
-      //   }
-      // )
+    //   return GymService.createGym('Keep cool', '20 Place pan carre', 'Avignon',
+    //     {
+    //       monday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       },
+    //       tuesday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       },
+    //       wednesday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       },
+    //       thursday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       },
+    //       friday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       },
+    //       saturday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("23:00", "HH:mm").toDate()
+    //       },
+    //       sunday: {
+    //         openingHour: moment("08:00", "HH:mm").toDate(),
+    //         closingHour: moment("21:00", "HH:mm").toDate()
+    //       }
+    //     }
+    //   )
     })
     .then(gymSaved => {
       gymSaved = gymSaved[0];
@@ -281,7 +281,6 @@ mongoose.connection.on('connected', function () {
       GymService.addMachine(machine, gymSaved)
         .then(machineSaved => {
           ExerciseService.createExerciseBy('Cours abdo', [machineSaved], {
-            weight: 15,
             type: ExerciseGroupTypeEnum.OrganizedExercise,
             workedMuscles: [
               {name: MuscleEnum.RectusAbdominus, intensity: DifficultyEnum.HARD}

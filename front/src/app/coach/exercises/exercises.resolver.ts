@@ -6,7 +6,7 @@ import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ExerciseService} from "./exercise.service";
-import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
+import {ExercisesGroup} from "../_model/exercise/ExercisesGroup";
 
 @Injectable()
 export class ExerciseResolver implements Resolve<any> {

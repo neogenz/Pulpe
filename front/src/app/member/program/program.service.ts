@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable}     from 'rxjs/Observable';
 import {LocalStorageService} from 'angular-2-local-storage';
-import {environment} from '../../../environments/environment'
-import {Program} from "../../_model/Program";
+import {environment} from '../../environments/environment'
+import {Program} from "../_model/Program";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
-import {ObservableHelper} from "../../_helpers/ObservableHelper";
+import {ObservableHelper} from "../_helpers/ObservableHelper";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()

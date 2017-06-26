@@ -13,23 +13,23 @@ export class ExerciseFactory {
     let exercise: AbstractExercise;
     switch (type) {
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise]:
-        exercise = new CardioExercise(initObject.id, initObject.name, initObject.machines, initObject.__t).initFromRawObject(initObject);
+        exercise = new CardioExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
         exercise.approximateTime = exercise.calculApproximateTime();
         return exercise;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise]:
-        exercise = new BodybuildingExercise(initObject.id, initObject.name, initObject.machines, initObject.__t).initFromRawObject(initObject);
+        exercise = new BodybuildingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
         exercise.approximateTime = exercise.calculApproximateTime();
         return exercise;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise]:
-        exercise = new StretchingExercise(initObject.id, initObject.name, initObject.machines, initObject.__t).initFromRawObject(initObject);
+        exercise = new StretchingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
         exercise.approximateTime = exercise.calculApproximateTime();
         return exercise;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise]:
-        exercise = new OrganizedExercise(initObject.id, initObject.name, initObject.machines, initObject.__t).initFromRawObject(initObject);
+        exercise = new OrganizedExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
         exercise.approximateTime = exercise.calculApproximateTime();
         return exercise;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise]:
-        exercise = new TrainingExercise(initObject.id, initObject.name, initObject.machines, initObject.__t).initFromRawObject(initObject);
+        exercise = new TrainingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
         exercise.approximateTime = exercise.calculApproximateTime();
         return exercise;
     }

@@ -1,20 +1,22 @@
-import {AbstractExercise} from "./AbstractExercise";
+import {AbstractExercise, ServerAbstractExercise} from "./AbstractExercise";
 import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
+import {DifficultyEnum} from "../../_enums/DifficultyEnum";
+import {ServerCardioExercise} from "./CardioExercise";
+import {promise} from "selenium-webdriver";
 
 export class OrganizedExercise extends AbstractExercise {
-  difficulty: any; //EnumDifficulty
-  musclesWorked: any[];
-  approximateTime: number;
+  difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: any[], type: string) {
-    super(id, name, machines, type);
+  constructor(id: number, name: string, machines: any[]) {
+    super(id, name, machines, ExerciseGroupTypeEnum.OrganizedExercise);
+    this.difficulty = DifficultyEnum.easy;
   }
 
 
   initFromRawObject(rawObject: any): OrganizedExercise {
-    this.difficulty = new DifficultyConverter().convertThis(rawObject.difficulty);
-    this.musclesWorked = rawObject.musclesWorked;
-    this.approximateTime = rawObject.approximateTime;
+    this.difficulty = rawObject.difficulty ? new DifficultyConverter().getEnumFromName(rawObject.difficulty) : this.difficulty;
+    this.approximateTime = rawObject.approximateTime ? rawObject.approximateTime : this.approximateTime;
     return this;
   }
 
@@ -22,4 +24,21 @@ export class OrganizedExercise extends AbstractExercise {
   calculApproximateTime(): number {
     return this.approximateTime;
   }
+
+  serialize(): promise.IThenable<ServerOrganizedExercise> | ServerOrganizedExercise {
+    let serverExercise: ServerOrganizedExercise = new ServerOrganizedExercise();
+    serverExercise.difficulty = DifficultyEnum[this.difficulty];
+    serverExercise.id = this.id;
+    serverExercise.name = this.name;
+    serverExercise.machines = this.machines.map(m => m.serialize());
+    serverExercise.approximateTime = this.approximateTime;
+    serverExercise.workedMuscles = this.workedMuscles.map(m => m.serialize());
+    serverExercise.type = ExerciseGroupTypeEnum[this.type];
+    return serverExercise;
+  }
+}
+
+export class ServerOrganizedExercise extends ServerAbstractExercise {
+  difficulty: string;
+  approximateTime: number;
 }

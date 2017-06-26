@@ -16,11 +16,9 @@ export class ExerciseGroupCodeConverter {
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise], 'Échauffement');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise], 'Étirements');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise], 'Cardio');
-    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise], 'Récupération');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise], 'Musculation');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], 'Abdominaux');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], 'Cours organisés');
-    this.exerciseGroupLabelConverter.entries()
   }
 
 
@@ -42,13 +40,16 @@ export class ExerciseGroupCodeConverter {
     return exercisesGroupLabel;
   }
 
+  public getLabelArray(): string[] {
+    return Array.from(this.exerciseGroupLabelConverter.values());
+  }
+
   /**
    *
    * @param rawExerciseGroupCode
    * @returns {undefined|string}
    */
-  public getLabelOfThis(rawExerciseGroupCode: string) {
-    Array.from(this.exerciseGroupLabelConverter.values());
+  public getLabelOfThis(rawExerciseGroupCode: string): string {
     return this.exerciseGroupLabelConverter.get(rawExerciseGroupCode);
   }
 
@@ -74,10 +75,40 @@ export class ExerciseGroupCodeConverter {
     });
     return exercisesGroups;
   }
+
+  public getExerciseGroupLabelConverter(): Map<string, string> {
+    return this.exerciseGroupLabelConverter;
+  }
+
+  public getEnumFrom(labelToFind: string): ExerciseGroupTypeEnum {
+    let nameLabelArray: Array<Array<string>> = Array.from(this.exerciseGroupLabelConverter.entries());
+    let name: string;
+    let label: string;
+    for (let i = 0; i < nameLabelArray.length; i++) {
+      name = nameLabelArray[i][0];
+      label = nameLabelArray[i][1];
+      if (label === labelToFind) {
+        return ExerciseGroupTypeEnum[name];
+      }
+    }
+    throw new Error(`This label => ${labelToFind} not find on ExerciseGroupTypeEnum`);
+  }
+
+  public toExerciseGroupCodeArray(): ExerciseGroupCode[] {
+    let exercisesGroupCodes = [];
+    let exerciseGroupCode: ExerciseGroupCode = null;
+    this.exerciseGroupLabelConverter.forEach((label, name) => {
+      exerciseGroupCode = new ExerciseGroupCode(name, label);
+      exerciseGroupCode.enumValue = ExerciseGroupTypeEnum[exerciseGroupCode.rawCode];
+      exercisesGroupCodes.push(exerciseGroupCode);
+    });
+    return exercisesGroupCodes;
+  }
 }
 
 export class ExerciseGroupCode {
   public rawCode: string;
+  public enumValue: ExerciseGroupTypeEnum;
   public label: string;
 
   constructor(rawCode: string, label: string) {

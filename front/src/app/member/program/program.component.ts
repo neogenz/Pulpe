@@ -4,21 +4,21 @@ import {ColorConfiguration} from "./ColorConfiguration";
 import {ProgramService} from "./program.service";
 import {ActivatedRoute} from '@angular/router';
 import {Observable}     from 'rxjs/Observable';
-import {Program} from "../../_model/Program";
-import {ExerciseGroupCodeConverter} from "../../shared/ExerciseGroupCodeConverter";
-import {ExerciseGroupCode} from "../../shared/ExerciseGroupCodeConverter";
-import {ChartConfiguration} from "../../shared/ChartConfiguration";
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
+import {Program} from "../_model/Program";
+import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
+import {ExerciseGroupCode} from "../shared/ExerciseGroupCodeConverter";
+import {ChartConfiguration} from "../shared/ChartConfiguration";
+import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {BaseChartDirective} from "ng2-charts/index";
-import {Animations} from "../../shared/Animations";
-import {Session} from "../../_model/Session";
+import {Animations} from "../shared/Animations";
+import {Session} from "../_model/Session";
 import {SessionsService} from "../sessions/sessions.service";
 import {MdSelectChange} from "@angular/material";
 
 @Component({
   selector: 'pulpe-program',
-  templateUrl: 'program.component.html',
-  styleUrls: ['program.component.css'],
+  templateUrl: './program.component.html',
+  styleUrls: ['./program.component.css'],
   animations: [Animations.fadeIn()]
 })
 export class ProgramComponent implements OnInit {

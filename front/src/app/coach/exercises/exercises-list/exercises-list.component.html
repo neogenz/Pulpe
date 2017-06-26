@@ -1,168 +1,174 @@
 <div class="row">
-    <md-card class="col-md-12 my-auto text-center" *ngIf="exercisesSizes === 0">
+    <md-card class="col-md-12 my-auto text-center" *ngIf="exercisesSizes === 0; else display;">
         <div>Aucun exercices</div>
     </md-card>
-
-    <table class="col-md-12 table table-striped bg-secondary" *ngIf="exercisesSizes > 0">
-        <thead>
-        <tr>
-            <th class="text-white text-center text-light-weight text-uppercase">Type d'exercice</th>
-            <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
-            <th class="text-white text-center text-light-weight text-uppercase">Propriétés</th>
-            <th class="text-white text-center text-light-weight text-uppercase"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let exercise of exercises | filterMembers: filterArgs" class="my-auto text-center">
-            <td>
-                <pulpe-exercises-type-img [width]="'2rem'"
-                                          [exerciseTypeEnumLabel]="exercise.type"></pulpe-exercises-type-img>
-            </td>
-            <td>
-                <p>{{exercise.name}}</p>
-            </td>
-            <td>
-                <div [ngSwitch]="exercise.type">
-                    <div *ngSwitchCase="bodybuildingExerciseEnumLabel" class="row exerciseDetails" md-line>
-                        <div class="col-6 col-md-3 text-center">
+    <ng-template #display>
+        <table class="col-md-12 table table-striped bg-secondary" *ngIf="exercisesSizes > 0">
+            <thead>
+            <tr>
+                <th class="text-white text-center text-light-weight text-uppercase">Type d'exercice</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Propriétés</th>
+                <th class="text-white text-center text-light-weight text-uppercase"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let exercise of exercises | filterMembers: filterArgs" class="my-auto text-center">
+                <td>
+                    <pulpe-exercises-type-img [width]="'2rem'"
+                                              [exerciseTypeEnum]="exercise.type"></pulpe-exercises-type-img>
+                </td>
+                <td>
+                    <p>{{exercise.name}}</p>
+                </td>
+                <td>
+                    <div [ngSwitch]="exercise.type">
+                        <div *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise" class="row exerciseDetails"
+                             md-line>
+                            <div class="col-6 col-md-3 text-center">
                             <span mdTooltip="Séries"
                                   [mdTooltipPosition]="'right'">
                                 <i class="ion ion-refresh"></i>
                                 <span>{{exercise.series}}</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center">
+                            </div>
+                            <div class="col-6 col-md-3 text-center">
                             <span mdTooltip="Répétitions"
                                   [mdTooltipPosition]="'right'">
                                 <span class="icon-althere"></span>
                                 <span>{{exercise.repetitions}} </span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center">
+                            </div>
+                            <div class="col-6 col-md-3 text-center">
                             <span mdTooltip="Poids"
                                   [mdTooltipPosition]="'right'">
                                 <i class="icon-weight"></i>
                                 <span> {{exercise.weight | number:'1.1'}} kg </span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center">
+                            </div>
+                            <div class="col-6 col-md-3 text-center">
                             <span mdTooltip="Temps de repos entre chaque séries"
                                   [mdTooltipPosition]="'right'">
                                 <i class="ion-ios-timer-outline"></i>
                                 <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
                             </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div *ngSwitchCase="cardioExerciseEnumLabel" class="row exerciseDetails justify-content-center"
-                         md-line>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.times">
+                        <div *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise"
+                             class="row exerciseDetails justify-content-center"
+                             md-line>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.times">
                             <span mdTooltip="Nombre de fois x Durée"
                                   [mdTooltipPosition]="'right'">
                                 <i class="fa fa-repeat"></i>
                                 <span>{{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.km">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.km">
                             <span mdTooltip="Distance à parcourir"
                                   [mdTooltipPosition]="'right'">
                                 <span class="fa fa-road"></span>
                                 <span>{{exercise.km  | number}} km</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.calories">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.calories">
                             <span mdTooltip="Calories à bruler"
                                   [mdTooltipPosition]="'right'">
                                 <i class="icon-balance"></i>
                                 <span> {{exercise.calories | number}} kcal</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.speed">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.speed">
                             <span mdTooltip="Vitesse"
                                   [mdTooltipPosition]="'right'">
                                 <i class="ion-speedometer"></i>
                                 <span>{{exercise.speed | number}} km/h </span>
                             </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div *ngSwitchCase="trainingExerciseEnumLabel" class="row exerciseDetails justify-content-center"
-                         md-line>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.times">
+                        <div *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise"
+                             class="row exerciseDetails justify-content-center"
+                             md-line>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.times">
                             <span mdTooltip="Durée"
                                   [mdTooltipPosition]="'right'">
                                 <i class="fa fa-repeat"></i>
                                 <span>{{exercise.times | number:'1.2-2'}} min</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.km">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.km">
                             <span mdTooltip="Distance"
                                   [mdTooltipPosition]="'right'">
                                 <span class="fa fa-road"></span>
                                 <span>{{exercise.km  | number}} km</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.calories">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.calories">
                             <span mdTooltip="Calories à bruler"
                                   [mdTooltipPosition]="'right'">
                                 <i class="icon-balance"></i>
                                 <span> {{exercise.calories | number}} kcal</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-3 text-center" *ngIf="exercise.speed">
+                            </div>
+                            <div class="col-6 col-md-3 text-center" *ngIf="exercise.speed">
                             <span mdTooltip="Vitesse"
                                   [mdTooltipPosition]="'right'">
                                 <i class="ion-speedometer"></i>
                                 <span>{{exercise.speed | number}} km/h </span>
                             </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div *ngSwitchCase="organizedExerciseEnumLabel" class="row exerciseDetails" md-line>
-                        <div class="col-6 col-md-4 offset-md-2 text-center">
+                        <div *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise" class="row exerciseDetails"
+                             md-line>
+                            <div class="col-6 col-md-4 offset-md-2 text-center">
                             <span mdTooltip="Difficulté"
                                   [mdTooltipPosition]="'right'">
                                 <i class="ion ion-ios-bolt"></i>
-                                <span class="text-capitalize">{{exercise.difficulty}}</span>
+                                <span class="text-capitalize">{{difficultyConverter.convertThisEnum(exercise.difficulty)}}</span>
                             </span>
-                        </div>
-                        <div class="col-6 col-md-4 text-center">
+                            </div>
+                            <div class="col-6 col-md-4 text-center">
                             <span mdTooltip="Temps approximatif du cours"
                                   [mdTooltipPosition]="'right'">
                                 <i class="fa fa-hourglass-half"></i>
                                 <span>{{exercise.approximateTime | number:'1.2-2'}} min</span>
                             </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div *ngSwitchCase="stretchingExerciseEnumLabel" class="row exerciseDetails" md-line>
-                        <div class="col-12 text-center">
+                        <div *ngSwitchCase="ExerciseGroupTypeEnum.StretchingExercise" class="row exerciseDetails"
+                             md-line>
+                            <div class="col-12 text-center">
                             <span mdTooltip="Durée"
                                   [mdTooltipPosition]="'right'">
                                 <i class="fa fa-hourglass-half"></i>
                                 <span>{{exercise.time | number:'1.2-2'}} min</span>
                             </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <div class="row iconsList pull-right">
-                    <div class="col-md-6">
-                        <button class="ion ion-clipboard pointer bg-primary" md-mini-fab
-                                mdTooltip="Consulter le programme de l'adhérent"
-                                [mdTooltipPosition]="'left'"></button>
+                </td>
+                <td>
+                    <div class="row iconsList pull-right">
+                        <div class="col-md-6">
+                            <button class="ion ion-clipboard pointer bg-primary" md-mini-fab
+                                    mdTooltip="Consulter le programme de l'adhérent"
+                                    [mdTooltipPosition]="'left'"></button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'exercice"
+                                    [mdTooltipPosition]="'right'"></button>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'exercice"
-                                [mdTooltipPosition]="'right'"></button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </ng-template>
 
     <div class="row">
         <div class="col-md-12 pt-2 pb-2 btnBottomRight">

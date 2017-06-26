@@ -1,4 +1,4 @@
-<div [ngSwitch]="exerciseTypeEnumLabel">
+<div [ngSwitch]="ExerciseGroupTypeEnum[exerciseTypeEnum]">
     <img *ngSwitchCase="bodybuildingExerciseEnumLabel"
          src="../../assets/img/exercise-types/strength-64.png"
          class="rounded" [style.width]="width" alt="Type" mdTooltip="Prise de masse"

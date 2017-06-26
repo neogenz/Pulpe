@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import 'rxjs/Rx';
-import {Member} from "../../_model/Member";
-import {Program} from "../../_model/Program";
+import {Member} from "../_model/Member";
+import {Program} from "../_model/Program";
 
 @Injectable()
 export class ProgramMockService {

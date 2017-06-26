@@ -3,6 +3,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WorkedMuscle} from "../../../_model/WorkedMuscle";
 import {DifficultyEnum} from "../../../_enums/DifficultyEnum";
 import {Animations} from "../../Animations";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'pulpe-chips-removable-worked-muscle',
@@ -13,7 +14,7 @@ import {Animations} from "../../Animations";
 export class ChipsRemovableWorkedMuscleComponent implements OnInit {
 
   @Input() workedMuscles: WorkedMuscle[];
-  @Output() workedMuscleDeleted = new EventEmitter<WorkedMuscle>();
+  @Output() workedMuscleDeletedAtThisIndex = new EventEmitter<number>();
 
   difficultyEnum: any = DifficultyEnum;
 
@@ -23,8 +24,8 @@ export class ChipsRemovableWorkedMuscleComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteThis(workedMuscle: WorkedMuscle) {
-    this.workedMuscleDeleted.emit(workedMuscle);
+  deleteAt(index: number) {
+    this.workedMuscleDeletedAtThisIndex.emit(index);
   }
 
 }

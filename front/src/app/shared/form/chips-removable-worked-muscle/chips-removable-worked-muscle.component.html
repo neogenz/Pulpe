@@ -5,25 +5,25 @@
         <span class="pl-2"><i class="ion ion-record pr-1 hard"></i>Forte</span>
     </div>
     <md-chip-list class="mat-chip-selected col-md-12">
-        <div *ngFor="let workedMuscle of workedMuscles" [ngSwitch]="workedMuscle.intensity"
+        <div *ngFor="let workedMuscle of workedMuscles; let i = index" [ngSwitch]="workedMuscle.intensity"
              [@fadeIn]>
             <md-chip *ngSwitchCase="difficultyEnum.hard"
                      selected="true"
                      class="hard">
                 {{workedMuscle | translateWorkedMuscleName:workedMuscle}}
-                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
+                <i class="ion ion-ios-close-outline pointer" (click)="deleteAt(i)"></i>
             </md-chip>
             <md-chip *ngSwitchCase="difficultyEnum.medium"
                      selected="true"
                      class="medium">
                 {{workedMuscle | translateWorkedMuscleName:workedMuscle}}
-                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
+                <i class="ion ion-ios-close-outline pointer" (click)="deleteAt(i)"></i>
             </md-chip>
             <md-chip *ngSwitchCase="difficultyEnum.easy"
                      selected="true"
                      class="easy">
                 {{workedMuscle | translateWorkedMuscleName:workedMuscle}}
-                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
+                <i class="ion ion-ios-close-outline pointer" (click)="deleteAt(i)"></i>
             </md-chip>
         </div>
     </md-chip-list>

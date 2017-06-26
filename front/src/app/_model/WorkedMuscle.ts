@@ -1,6 +1,7 @@
 import {MuscleEnum} from "../_enums/MuscleEnum";
 import {DifficultyEnum} from "../_enums/DifficultyEnum";
-export class WorkedMuscle {
+import {promise, Serializable} from "selenium-webdriver";
+export class WorkedMuscle implements Serializable<ServerWorkedMuscle> {
   intensity: DifficultyEnum | string;
   name: MuscleEnum.Name | string;
 
@@ -17,7 +18,18 @@ export class WorkedMuscle {
   }
 
   public isSame(workedMuscle: WorkedMuscle): boolean {
-    return workedMuscle.intensity === this.intensity && this.name === workedMuscle.name;
+    if (this.name === workedMuscle.name && this.intensity === workedMuscle.intensity) {
+      return !(this.name === workedMuscle.name && this.intensity !== workedMuscle.intensity);
+    }
+    return false;
+  }
+
+
+  serialize(): ServerWorkedMuscle {
+    let serverWorkedMuscle: ServerWorkedMuscle = new ServerWorkedMuscle();
+    serverWorkedMuscle.name = MuscleEnum[this.name];
+    serverWorkedMuscle.intensity = DifficultyEnum[this.intensity];
+    return serverWorkedMuscle;
   }
 }
 
@@ -44,5 +56,14 @@ class WorkedMusclesBuilder {
 
   public build(): WorkedMuscle {
     return this.me;
+  }
+}
+
+export class ServerWorkedMuscle {
+  intensity: string;
+  name: string;
+
+  constructor() {
+
   }
 }

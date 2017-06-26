@@ -41,8 +41,8 @@
                     </div>
                     <hr>
                 </div>
-                <pulpe-chips-removable-worked-muscle (workedMuscleDeleted)="deleteThis($event)"
-                                                     [workedMuscles]="workedMusclesTmp"></pulpe-chips-removable-worked-muscle>
+                <pulpe-chips-removable-worked-muscle (workedMuscleDeletedAtThisIndex)="deleteWorkedMuscleAtThis($event)"
+                                                     [workedMuscles]="workedMusclesCtrl.value"></pulpe-chips-removable-worked-muscle>
 
             </div>
 
