@@ -29,92 +29,50 @@ import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
 
 // Route Configuration
 export const ROUTES: Routes = [
-  {
-    path: '',
-    component: WelcomeComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'accueil',
-    component: HomeComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
-  },
-  {
-    path: 'inscription',
-    component: SignupComponent
-  },
-  {
-    path: 'connexion',
-    component: SigninComponent
-  },
-  {
-    path: 'programme',
-    component: ProgramComponent,
-    resolve: {
-      program: ProgramResolver,
-    },
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService]
-  },
-  {
-    path: 'evolution/:id',
-    component: EvolutionComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
-    resolve: {
-      evolution: EvolutionResolver
-    }
-  },
-  {
-    path: 'seances',
-    component: SessionsComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
-    resolve: {
-      sessions: SessionsResolver
-    }
-  },
-  {
-    path: 'profile/:id',
-    component: ProfileComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
-    resolve: {
-      profile: ProfileResolver
-    }
-  },
-  {
-    path: 'profil/member/complete',
-    component: ProfileCompletationComponent,
-    canActivate: [AuthenticationGuard]
-  },
-  {
-    path: 'profil/coach/complete',
-    component: ProfileCompletationCoachComponent,
-    canActivate: [AuthenticationGuard]
-  },
-  {
-    path: 'adherents/:idCoach',
-    component: MembersComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
-    resolve: {
-      members: MembersResolver
-    }
-  },
-  {
-    path: 'machines',
-    component: MachinesComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
-    resolve: {
-      machines: MachinesResolver
-    }
-  },
-  {
-    path: 'exercices',
-    component: ExercisesComponent,
-    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
-    resolve: {
-      exercisesGroups: ExerciseResolver
-    }
-  }
 	{
-		path: 'profile/member/:_id',
+		path: '',
+		component: WelcomeComponent,
+		pathMatch: 'full'
+	},
+	{
+		path: 'accueil',
+		component: HomeComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
+	},
+	{
+		path: 'inscription',
+		component: SignupComponent
+	},
+	{
+		path: 'connexion',
+		component: SigninComponent
+	},
+	{
+		path: 'programme',
+		component: ProgramComponent,
+		resolve: {
+			program: ProgramResolver,
+		},
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService]
+	},
+	{
+		path: 'evolution/:id',
+		component: EvolutionComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
+		resolve: {
+			evolution: EvolutionResolver
+		}
+	},
+	{
+		path: 'seances',
+		component: SessionsComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
+		resolve: {
+			sessions: SessionsResolver
+		}
+	},
+	{
+		path: 'profile/member/:id',
 		component: ProfileComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
 		resolve: {
@@ -122,13 +80,47 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
+		path: 'profile/coach/:id',
 		component: ProfileCoachComponent,
-		path: 'profile/coach/:_id',
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
 		resolve: {
 			profile: ProfileCoachResolver
 		}
 	},
+	{
+		path: 'profil/member/complete',
+		component: ProfileCompletationComponent,
+		canActivate: [AuthenticationGuard]
+	},
+	{
+		path: 'profil/coach/complete',
+		component: ProfileCompletationCoachComponent,
+		canActivate: [AuthenticationGuard]
+	},
+	{
+		path: 'adherents/:idCoach',
+		component: MembersComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+		resolve: {
+			members: MembersResolver
+		}
+	},
+	{
+		path: 'machines/:idCoach',
+		component: MachinesComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+		resolve: {
+			machines: MachinesResolver
+		}
+	},
+	{
+		path: 'exercices',
+		component: ExercisesComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+		resolve: {
+			exercisesGroups: ExerciseResolver
+		}
+	}
 ];
 
 // Deprecated provide

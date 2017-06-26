@@ -28,8 +28,8 @@
                 <th class="text-white text-center text-light-weight text-uppercase"></th>
             </tr>
             </thead>
-            <tbody *ngFor="let member of members | filterMembers: filterArgs">
-            <tr class="my-auto text-center">
+            <tbody>
+            <tr class="my-auto text-center" *ngFor="let member of members | filterMembers: filterArgs">
                 <td [ngSwitch]="member.gender">
                     <i *ngSwitchCase="'Male'" class="ion ion-male femaleIcon"></i>
                     <i *ngSwitchCase="'Female'" class="ion ion-female maleIcon"></i>
