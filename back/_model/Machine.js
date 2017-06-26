@@ -11,7 +11,7 @@ const MachineSchema = new Schema({
       enum: [DifficultyEnum.EASY.name, DifficultyEnum.MEDIUM.name, DifficultyEnum.HARD.name],
       default: DifficultyEnum.MEDIUM.name
     },
-    name: String
+    name: {type: String, required: true}
   }],
   gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,

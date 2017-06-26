@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 import {MachineService} from "../../_services/machine/machine.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
+import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 
 @Component({
 	selector: 'pulpe-machines',

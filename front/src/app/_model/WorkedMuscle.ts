@@ -27,7 +27,7 @@ export class WorkedMuscle implements Serializable<ServerWorkedMuscle> {
 
   serialize(): ServerWorkedMuscle {
     let serverWorkedMuscle: ServerWorkedMuscle = new ServerWorkedMuscle();
-    serverWorkedMuscle.name = MuscleEnum[this.name];
+    serverWorkedMuscle.name = MuscleEnum.Name[this.name];
     serverWorkedMuscle.intensity = DifficultyEnum[this.intensity];
     return serverWorkedMuscle;
   }

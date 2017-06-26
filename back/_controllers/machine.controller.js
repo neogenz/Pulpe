@@ -1,5 +1,6 @@
 const MachineService = require('../_services/machine.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
+const winston = require('winston');
 
 class MachineController {
   constructor() {
@@ -17,7 +18,7 @@ class MachineController {
         res.send({machines: machines});
       })
       .catch((error) => {
-        console.log(error);
+        winston.log('error', error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
@@ -31,69 +32,48 @@ class MachineController {
   static save(req, res) {
     const machine = req.body.machine;
 
-    MachineService.createMachine(machine.name, machine.workedMuscles, machine.gym._id)
+    MachineService.create(machine.name, machine.workedMuscles, machine.gym._id)
       .then(machineSaved => {
         res.send({machine: machineSaved});
       })
       .catch((error) => {
-        console.log(error);
+        winston.log('error', error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
   }
 
-		MachineService.create(machine.name, machine.workedMuscles, machine.gym._id)
-			.then(machineSaved => {
-				res.send({machine: machineSaved});
-			})
-			.catch((error) => {
-				console.log(error);
-				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-				return res.status(httpError.code).send(httpError);
-			});
-	}
-
-    MachineService.updateMachine(machine)
+  static update(req, res) {
+    const machine = req.body.machine;
+    MachineService.update(machine)
       .then(machineUpdated => {
         res.send({machine: machineUpdated});
       })
       .catch((error) => {
-        console.log(error);
+        winston.log('error', error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
   }
 
-	/**
-	 * Delete a machine by an id.
-	 * @param res
-	 * @param req
-	 */
-	static delete(req, res) {
-		const id = req.params.id;
-		MachineService.delete(id)
+  /**
+   * Delete a machine by an id.
+   * @param req
+   * @param res
+   */
+  static delete(req, res) {
+    const id = req.params.id;
 
-
-	}
-				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-			});
-				return res.status(httpError.code).send(httpError);
-			.catch((error) => {
-			})
-			.then(machineDeleted => {
-				res.send({machine: machineDeleted});
-				console.log(error);
-		MachineService.update(machine)
-
-	}
-			});
-				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-				console.log(error);
-				return res.status(httpError.code).send(httpError);
-				res.send({machine: machineUpdated});
-			.catch((error) => {
-			})
-			.then(machineUpdated => {
+    MachineService.delete(id)
+      .then(machineDeleted => {
+        res.send({machine: machineDeleted});
+      })
+      .catch((error) => {
+        winston.log('error', error.stack);
+        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      });
+  }
 }
 
 module.exports = MachineController;

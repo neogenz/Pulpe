@@ -16,7 +16,7 @@ import {MeasurementEnumService} from "../../../_services/measurement-enum.servic
 @Component({
   selector: 'pulpe-measurements-add-dialog',
   templateUrl: 'measurements-add-dialog.component.html',
-  styleUrls: ['measurements-add-dialog.component.css']
+  styleUrls: ['measurements-add-dialog.component.scss']
 })
 export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementAdd, Measurement[]> implements MeasurementAdd, OnInit {
   memberRequest: Observable<Member> = new Observable();

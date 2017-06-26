@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, AfterContentInit} from '@angular/core';
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {ExerciseGroupTypeFiltrable} from "../../shared/ExerciseGroupTypeFiltrable";
-import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
+import {ExerciseGroupTypeFiltrable} from "../../../shared/ExerciseGroupTypeFiltrable";
+import {DifficultyConverter} from "../../../shared/DifficultyConverter";
 
 @Component({
   selector: 'pulpe-exercise-preview',

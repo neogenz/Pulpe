@@ -8,7 +8,7 @@ import {StretchingExercise} from "../../../_model/exercise/StretchingExercise";
 @Component({
     selector: 'pulpe-session-list',
     templateUrl: 'session-list.component.html',
-    styleUrls: ['session-list.component.css']
+    styleUrls: ['session-list.component.scss']
 })
 export class SessionListComponent implements OnInit {
 

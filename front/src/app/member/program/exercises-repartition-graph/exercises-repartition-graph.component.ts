@@ -1,9 +1,7 @@
 import {Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
-import {Program} from "../../_model/Program";
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {ChartConfiguration} from "../../shared/ChartConfiguration";
+import {ChartConfiguration} from "../../../shared/ChartConfiguration";
 import {BaseChartDirective} from "ng2-charts/index";
-import {Session} from "../../_model/Session";
+import {Session} from "../../../_model/Session";
 
 @Component({
   selector: 'pulpe-exercises-repartition-graph',

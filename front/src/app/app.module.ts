@@ -71,7 +71,6 @@ import {EvolutionResolver} from "./member/evolution/evolution.resolver";
 import {ProfileCompletationCoachComponent} from './coach/profile/profile-completation-coach/profile-completation-coach.component';
 import {GymService} from "./_services/gym/gym.service";
 import {CoachService} from "./_services/coach/coach.service";
-import {ProfileMemberFormDialogComponent} from './shared/profile/profile-member-form-dialog/profile-member-form-dialog.component';
 import {MembersComponent} from './coach/members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./coach/members/members.resolver";
@@ -100,6 +99,9 @@ import {ProfileCoachComponent} from './coach/profile/profile-coach.component';
 import {ProfileInfosCoachComponent} from './coach/profile/profile-infos-coach/profile-infos-coach.component';
 import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
 import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edit-dialog/profile-coach-edit-dialog.component';
+import {SelectMachinesComponent} from "./shared/form/select-machines/select-machines.component";
+import {SpecificExerciseFormBuilderService} from "./coach/exercises/exercise-form-dialog/specific-exercise-form-builder.service";
+import {ProfileMemberFormDialogComponent} from "./shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
 
 @NgModule({
   declarations: [
@@ -127,7 +129,7 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
     MeasurementsListComponent,
     MeasurementsAddDialogComponent,
     ProfileCompletationCoachComponent,
-    ProfileMemberEditDialogComponent,
+    ProfileCoachEditDialogComponent,
     MembersComponent,
     FilterMembers,
     FilterMachines,
@@ -141,7 +143,11 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
     SelectWorkedMuscleComponent,
     ChipsRemovableWorkedMuscleComponent,
     DeleteDialogComponent,
-    SelectMachinesComponent
+    SelectMachinesComponent,
+    ProfileCoachComponent,
+    HeaderListComponent,
+    ProfileInfosCoachComponent,
+    ProfileMemberFormDialogComponent
   ],
   imports: [
     MdButtonModule,
@@ -206,6 +212,7 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
     MuscleConverter,
     ProgramResolver,
     SessionsResolver,
+    ProfileCoachResolver,
     EvolutionResolver,
     ProfileResolver,
     ProfileService,
@@ -226,10 +233,11 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
   ],
   entryComponents: [
     MeasurementsAddDialogComponent,
-    ProfileMemberEditDialogComponent,
+    ProfileMemberFormDialogComponent,
     ExerciseFormDialogComponent,
     MachineFormDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    ProfileCoachEditDialogComponent
   ],
   bootstrap: [AppComponent]
 })

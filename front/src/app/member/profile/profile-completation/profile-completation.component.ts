@@ -16,7 +16,7 @@ import {GymService} from "../../../_services/gym/gym.service";
 @Component({
   selector: 'pulpe-profile-completation',
   templateUrl: 'profile-completation.component.html',
-  styleUrls: ['profile-completation.component.css']
+  styleUrls: ['profile-completation.component.scss']
 })
 export class ProfileCompletationComponent implements OnInit, OnError {
   isInError: boolean;

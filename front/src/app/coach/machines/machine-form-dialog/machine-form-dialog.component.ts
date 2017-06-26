@@ -1,17 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
 import {FormBuilder, FormGroup, FormControl, Validators, FormArray} from "@angular/forms";
-import {Machine} from "../../_model/Machine";
-import {Animations} from "../../shared/Animations";
-import {WorkedMuscle} from "../../_model/WorkedMuscle";
+import {Machine} from "../../../_model/Machine";
+import {Animations} from "../../../shared/Animations";
+import {WorkedMuscle} from "../../../_model/WorkedMuscle";
 import {ToastrService} from 'ngx-toastr';
-import {MuscleConverter} from "../../shared/MuscleConverter";
-import {MachineService} from "../../_services/machine/machine.service";
+import {MuscleConverter} from "../../../shared/MuscleConverter";
+import {MachineService} from "../../../_services/machine/machine.service";
 import {Observable} from "rxjs";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {AuthenticationService} from "../../_services/authentication/authentication.service";
-import {MuscleEnum} from "../../_enums/MuscleEnum";
-import {WorkedMuscleSelectable} from "../../shared/form/select-worked-muscle/select-worked-muscle.component";
+import {AuthenticationService} from "../../../_services/authentication/authentication.service";
+import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/select-worked-muscle.component";
 
 
 @Component({

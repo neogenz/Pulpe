@@ -8,7 +8,7 @@ import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-mem
 @Component({
 	selector: 'pulpe-profile',
 	templateUrl: 'profile.component.html',
-	styleUrls: ['profile.component.css'],
+	styleUrls: ['profile.component.scss'],
 	animations: [Animations.fadeIn()]
 })
 export class ProfileComponent implements OnInit {

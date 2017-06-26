@@ -7,7 +7,7 @@ import {Session} from "../../_model/Session";
 @Component({
   selector: 'pulpe-sessions',
   templateUrl: 'sessions.component.html',
-  styleUrls: ['sessions.component.css']
+  styleUrls: ['sessions.component.scss']
 })
 export class SessionsComponent implements OnInit {
 

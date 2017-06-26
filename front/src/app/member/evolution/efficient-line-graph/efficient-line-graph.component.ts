@@ -4,7 +4,7 @@ import {Animations} from "../../../shared/Animations";
 @Component({
     selector: 'pulpe-efficient-line-graph',
     templateUrl: 'efficient-line-graph.component.html',
-    styleUrls: ['efficient-line-graph.component.css'],
+    styleUrls: ['efficient-line-graph.component.scss'],
     animations: [Animations.fadeIn()]
 })
 export class EfficientLineGraphComponent implements OnInit {

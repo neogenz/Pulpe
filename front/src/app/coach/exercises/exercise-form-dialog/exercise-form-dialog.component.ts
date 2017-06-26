@@ -1,24 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {Animations} from "../../shared/Animations";
+import {Animations} from "../../../shared/Animations";
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
+import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
 import {FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {BodybuildingExercise} from "../../_model/exercise/BodybuildingExercise";
-import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
-import {WorkedMuscle} from "../../_model/WorkedMuscle";
+import {BodybuildingExercise} from "../../../_model/exercise/BodybuildingExercise";
+import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
+import {WorkedMuscle} from "../../../_model/WorkedMuscle";
 import {ToastrService} from "ngx-toastr";
-import {Machine} from "../../_model/Machine";
-import {WorkedMuscleSelectable} from "../../shared/form/select-worked-muscle/select-worked-muscle.component";
-import {UsedMachineSelectable} from "../../shared/form/select-machines/select-machines.component";
-import {ExerciseGroupCode, ExerciseGroupCodeConverter} from "../../shared/ExerciseGroupCodeConverter";
+import {Machine} from "../../../_model/Machine";
+import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/select-worked-muscle.component";
+import {UsedMachineSelectable} from "../../../shared/form/select-machines/select-machines.component";
+import {ExerciseGroupCode, ExerciseGroupCodeConverter} from "../../../shared/ExerciseGroupCodeConverter";
 import {SpecificExerciseFormBuilderService} from "./specific-exercise-form-builder.service";
 import {ExerciseService} from "../exercise.service";
 import {ExerciseOpenMode} from "../exercises.component";
-import {ExerciseFactory} from "../../_model/exercise/ExerciseFactory";
+import {ExerciseFactory} from "../../../_model/exercise/ExerciseFactory";
 import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {CardioExercise} from "../../_model/exercise/CardioExercise";
-import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {CardioExercise} from "../../../_model/exercise/CardioExercise";
+import {DifficultyConverter} from "../../../shared/DifficultyConverter";
 
 @Component({
   selector: 'pulpe-exercise-form-dialog',

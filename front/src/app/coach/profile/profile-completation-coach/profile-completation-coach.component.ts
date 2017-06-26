@@ -14,7 +14,7 @@ import {ProfileService} from "../../../member/profile/profile.service";
 @Component({
 	selector: 'pulpe-profile-completation-coach',
 	templateUrl: 'profile-completation-coach.component.html',
-	styleUrls: ['profile-completation-coach.component.css'],
+	styleUrls: ['profile-completation-coach.component.scss'],
 	animations: [Animations.fadeIn()]
 })
 export class ProfileCompletationCoachComponent implements OnInit, OnError {

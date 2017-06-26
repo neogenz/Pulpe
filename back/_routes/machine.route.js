@@ -14,8 +14,11 @@ class MachineRouter {
     provider.put('/machines',
       AuthenticationController.ensureAuthorized,
       AuthenticationController.mustBeCoach, MachineController.update);
+    provider.delete('/machines/:id',
+      AuthenticationController.ensureAuthorized,
+      AuthenticationController.mustBeCoach,
+      MachineController.delete);
   }
-		provider.delete('/machines/:id', MachineController.delete);
 }
 
 module.exports = (provider) => {

@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
-import {ExerciseGroupTypeFiltrable} from "../../shared/ExerciseGroupTypeFiltrable";
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
-import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {ExercisesGroup} from "../../../_model/exercise/ExercisesGroup";
+import {ExerciseGroupTypeFiltrable} from "../../../shared/ExerciseGroupTypeFiltrable";
+import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
+import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
+import {DifficultyConverter} from "../../../shared/DifficultyConverter";
 
 @Component({
   selector: 'pulpe-exercises-list',

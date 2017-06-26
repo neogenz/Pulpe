@@ -7,7 +7,7 @@ import {Animations} from "../../shared/Animations";
 @Component({
   selector: 'pulpe-evolution',
   templateUrl: 'evolution.component.html',
-  styleUrls: ['evolution.component.css'],
+  styleUrls: ['evolution.component.scss'],
   animations: [Animations.fadeIn()]
 })
 export class EvolutionComponent implements OnInit {

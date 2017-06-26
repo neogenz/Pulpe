@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Machine} from "../_model/Machine";
+import {Machine} from "../../_model/Machine";
 
 @Pipe({
   name: 'filterMachines',

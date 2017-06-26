@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
+import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {BodybuildingExercise} from "../../_model/exercise/BodybuildingExercise";
-import {TrainingExercise} from "../../_model/exercise/TrainingExercise";
-import {CardioExercise} from "../../_model/exercise/CardioExercise";
-import {OrganizedExercise} from "../../_model/exercise/OrganizedExercise";
+import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
+import {BodybuildingExercise} from "../../../_model/exercise/BodybuildingExercise";
+import {TrainingExercise} from "../../../_model/exercise/TrainingExercise";
+import {CardioExercise} from "../../../_model/exercise/CardioExercise";
+import {OrganizedExercise} from "../../../_model/exercise/OrganizedExercise";
 
 @Injectable()
 export class SpecificExerciseFormBuilderService {

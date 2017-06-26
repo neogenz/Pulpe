@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ExercisesGroup} from "../_model/exercise/ExercisesGroup";
-import {Animations} from "../shared/Animations";
+import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
+import {Animations} from "../../shared/Animations";
 import {ActivatedRoute} from "@angular/router";
 import {
   ExerciseFormConfigurable,
   ExerciseFormDialogComponent
 } from "./exercise-form-dialog/exercise-form-dialog.component";
 import {DialogService} from "ng2-bootstrap-modal";
-import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
-import {AbstractExercise} from "../_model/exercise/AbstractExercise";
+import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
+import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 
 @Component({
   selector: 'pulpe-exercises',

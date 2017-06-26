@@ -7,7 +7,7 @@ import {Animations} from "../../../shared/Animations";
 @Component({
   selector: 'pulpe-measurements-list',
   templateUrl: 'measurements-list.component.html',
-  styleUrls: ['measurements-list.component.css'],
+  styleUrls: ['measurements-list.component.scss'],
   animations: [Animations.fadeIn()]
 })
 export class MeasurementsListComponent implements OnInit {

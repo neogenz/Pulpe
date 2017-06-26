@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
-import {ExerciseGroupTypeFiltrable} from "../../shared/ExerciseGroupTypeFiltrable";
+import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
+import {ExerciseGroupTypeFiltrable} from "../../../shared/ExerciseGroupTypeFiltrable";
 
 @Component({
   selector: 'pulpe-exercises-type-img',
