@@ -15,7 +15,7 @@ const CoachSchema = new Schema({
 			GenderEnum.Male.name
 		]
 	},
-	dateOfBirth: Date,
+	birthDate: Date,
 	updatedAt: Date,
 	createdAt: Date,
 	password: String,

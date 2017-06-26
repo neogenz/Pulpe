@@ -66,7 +66,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
   edit() {
     const editedMember = Member.of()
       .id(this.member._id)
-      .mail(this.emailCtrl.value)
+      .email(this.emailCtrl.value)
       .lastName(this.lastNameCtrl.value)
       .firstName(this.firstNameCtrl.value)
       .sessionFrequency(this.frequencyCtrl.value)
@@ -119,7 +119,7 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<ProfileMem
       }
     };
 
-    this.emailCtrl = this.fb.control(this.member.mail, Validators.required);
+    this.emailCtrl = this.fb.control(this.member.email, Validators.required);
     this.firstNameCtrl = this.fb.control(this.member.firstName, Validators.required);
     this.lastNameCtrl = this.fb.control(this.member.lastName, Validators.required);
     this.objectiveCtrl = this.fb.control('');

@@ -18,8 +18,9 @@ export class Coach {
   country: string;
   objective: string;
   profileCompleted: boolean;
-  dateOfBirth: Date;
+  birthDate: Date;
   gym: Gym;
+  createdAt:Date;
 
   public static of(): CoachBuilder {
     return new CoachBuilder();
@@ -58,13 +59,18 @@ class CoachBuilder {
     return this;
   }
 
+  public email(email: string): CoachBuilder {
+    this.me.email = email;
+    return this;
+  }
+
   public country(country: string): CoachBuilder {
     this.me.country = country;
     return this;
   }
 
-  public dateOfBirth(dateOfBirth: Date): CoachBuilder {
-    this.me.dateOfBirth = dateOfBirth;
+  public birthDate(birthDate: Date): CoachBuilder {
+    this.me.birthDate = birthDate;
     return this;
   }
 
@@ -80,6 +86,11 @@ class CoachBuilder {
   
   public gym(gym: Gym): CoachBuilder {
     this.me.gym = gym;
+    return this;
+  }
+
+  public createdAt(createdAt: Date): CoachBuilder {
+    this.me.createdAt = createdAt;
     return this;
   }
 

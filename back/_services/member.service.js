@@ -168,7 +168,7 @@ class MemberService {
 				memberFinded.sessionFrequency = member.sessionFrequency;
 				memberFinded.birthDate = new Date(member.birthDate);
 				memberFinded.objective = ObjectiveEnum.fromCode(member.objective);
-				memberFinded.email = member.mail;
+				memberFinded.email = member.email;
 				memberFinded.firstName = member.firstName;
 				memberFinded.lastName = member.lastName;
 				memberFinded.gender = GenderEnum.fromName(member.gender);

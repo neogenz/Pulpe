@@ -13,7 +13,7 @@ export class Member {
   _id: string;
   firstName: string;
   lastName: string;
-  mail: string;
+  email: string;
   password: string;
   address: string;
   gender: string;
@@ -58,8 +58,8 @@ class MemberBuilder {
     return this;
   }
 
-  public mail(mail: string): MemberBuilder {
-    this.me.mail = mail;
+  public email(email: string): MemberBuilder {
+    this.me.email = email;
     return this;
   }
 

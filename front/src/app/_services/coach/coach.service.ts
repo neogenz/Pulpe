@@ -9,31 +9,27 @@ import {environment} from '../../../environments/environment'
 @Injectable()
 export class CoachService extends ObservableHelper {
 
-  constructor(private http: Http, private localStorageService: LocalStorageService) {
-    super();
-  }
+	constructor(private http: Http, private localStorageService: LocalStorageService) {
+		super();
+	}
 
-  public findById(id: string): Observable<Coach | string> {
-    let coachLocallyStored: string = this.localStorageService.get<string>('coach');
-    if (coachLocallyStored) {
-      let rawMember = JSON.parse(coachLocallyStored);
-      return Observable.of(new Coach().initFromRawObject(rawMember));
-    } else {
-      return this.http.get(`${environment.baseUrl()}/coachs/${id}`)
-        .map(response => {
-          const data: any = this.extractDataOf(response);
-          return Coach.of()
-            .id(data.member._id)
-            .lastName(data.coach.lastName)
-            .firstName(data.coach.firstName)
-            .city(data.coach.city)
-            .address(data.coach.address)
-            .dateOfBirth(data.coach.dateOfBirth)
-            .gym(data.coach.gym)
-            .gender(data.coach.gender)
-            .profileCompleted(data.coach.profileIsCompleted)
-            .build();
-        }).catch(this.handleError);
-    }
-  }
+	public findById(id: string): Observable<Coach | string> {
+		return this.http.get(`${environment.baseUrl()}/coachs/${id}`)
+			.map(response => {
+				const data: any = this.extractDataOf(response);
+				return Coach.of()
+					.id(data.coach._id)
+					.lastName(data.coach.lastName)
+					.firstName(data.coach.firstName)
+					.city(data.coach.city)
+					.createdAt(data.coach.createdAt)
+					.email(data.coach.email)
+					.address(data.coach.address)
+					.birthDate(data.coach.birthDate)
+					.gym(data.coach.gym)
+					.gender(data.coach.gender)
+					.profileCompleted(data.coach.profileIsCompleted)
+					.build();
+			}).catch(this.handleError);
+	}
 }

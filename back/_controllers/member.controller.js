@@ -5,6 +5,7 @@ const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GenderEnum = require('../_enums/GenderEnum');
 const ProgramService = require('../_services/program.service');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
+const winston = require('winston');
 
 class MemberController {
 	constructor() {
@@ -98,6 +99,7 @@ class MemberController {
 				res.send({member: member});
 			})
 			.catch((error) => {
+				winston.log('error', error.stack);
 				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
 				return res.status(httpError.code).send(httpError);
 			});
