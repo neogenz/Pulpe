@@ -6,6 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BodybuildingExercise} from "../../_model/exercise/BodybuildingExercise";
 import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 import {WorkedMuscle} from "../../_model/WorkedMuscle";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'pulpe-exercise-form-dialog',
@@ -25,10 +26,16 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
   usedMachine: FormControl;
   exercise: AbstractExercise;
   workedMuscles: WorkedMuscle[];
+  errorTranslations: any;
 
-  constructor(dialogService: DialogService, private fb: FormBuilder) {
+  constructor(dialogService: DialogService, private fb: FormBuilder, private toastrService: ToastrService) {
     super(dialogService);
     this.workedMuscles = [];
+    this.errorTranslations = {
+      workedMuscle: {
+        alreadyExist: 'Ce muscle est déjà présent pour cette machine.'
+      }
+    }
   }
 
   ngOnInit() {
@@ -43,8 +50,17 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
     });
   }
 
-  addWorkedMuscle(workedMuscle: WorkedMuscle): void {
-    this.workedMuscles.push(workedMuscle);
+  addWorkedMuscle(workedMuscleToAdd: WorkedMuscle): void {
+    let isOnError = false;
+    for (let i = 0; i < this.workedMuscles.length; i++) {
+      if (this.workedMuscles[i].isSame(workedMuscleToAdd)) {
+        this.toastrService.error(this.errorTranslations.workedMuscle.alreadyExist, 'Erreur');
+        isOnError = true;
+      }
+    }
+    if (!isOnError) {
+      this.workedMuscles.push(workedMuscleToAdd);
+    }
   }
 
   deleteThisWorkedMuscle(workedMuscleToDelete: WorkedMuscle): void {

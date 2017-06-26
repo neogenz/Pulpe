@@ -22,32 +22,28 @@
                                formControlName="name"
                                required>
                     </md-input-container>
-
-                    <div class="col-md-12 pt-2">
+                </div>
+                <div class="col-md-12 pt-2">
                         <span class="text-w-300 titleWorkedMuscles">
                             Ajout d'un nouveau muscle travaillé
                         </span>
-                        <hr>
-                    </div>
-
-                    <div class="col-md-10 offset-md-1 pt-2">
-                        <pulpe-select-worked-muscle
-                                (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
-                    </div>
-
-                    <div class="col-md-12 pt-4">
-                        <div class="row">
-                            <div class="col-md-6 text-w-300 titleWorkedMuscles">
-                                Liste des muscles travaillés
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-                    <pulpe-chips-removable-worked-muscle (workedMuscleDeleted)="deleteThis($event)"
-                                                         [workedMuscles]="workedMusclesTmp"></pulpe-chips-removable-worked-muscle>
-
-
+                    <hr>
                 </div>
+
+                <pulpe-select-worked-muscle
+                        (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
+
+                <div class="col-md-12 pt-4">
+                    <div class="row">
+                        <div class="col-md-6 text-w-300 titleWorkedMuscles">
+                            Liste des muscles travaillés
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <pulpe-chips-removable-worked-muscle (workedMuscleDeleted)="deleteThis($event)"
+                                                     [workedMuscles]="workedMusclesTmp"></pulpe-chips-removable-worked-muscle>
+
             </div>
 
             <div class="modal-footer">

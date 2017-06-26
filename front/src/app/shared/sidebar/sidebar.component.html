@@ -95,6 +95,14 @@
                             <span class="pl-4">Machines</span>
                         </a>
                     </li>
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['exercices']"
+                        *ngIf="profileService.profileIsCompleted()">
+                        <a>
+                            <i class="material-icons">fitness_center</i>
+                            <span class="pl-4">Exercices</span>
+                        </a>
+                    </li>
                     <li class="sidebar-link pt-2 pb-3" (click)="signout()" *ngIf="auth.authenticated()">
                         <a>
                             <i class="material-icons">power_settings_new</i>
