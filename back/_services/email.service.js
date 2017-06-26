@@ -63,7 +63,7 @@ function getMailOptions(email, password) {
 		from: `<${mailConfig.user}>`,
 		to: email,
 		subject: 'Bienvenue chez Pulpe. ✔',
-		html: `<h2>Vous êtes désormais inscrit sur Pulpe (petite salope en manque)! </h2><br><span>Votre mot de passe est : ${password}.</span>`
+		html: `<h3>Vous êtes désormais inscrit sur Pulpe </h3><br><span>Votre mot de passe est : ${password}.</span>`
 	};
 }
 

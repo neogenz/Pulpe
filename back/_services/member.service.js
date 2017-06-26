@@ -9,6 +9,7 @@ const GenderEnum = require('../_enums/GenderEnum');
 const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
 const EmailService = require('../_services/email.service');
+const winston = require('winston');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -115,12 +116,18 @@ class MemberService {
 					if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
 						throw new AlreadyExistMemberError('Cet email existe déja.');
 					}
+					member.delete()
+						.catch((error) => {
+							winston.log('error', error.stack);
+						});
+					throw error;
 				}
 			)
 			.then(() => {
 				return member;
 			}, (error) => {
-				throw new error;
+				winston.log('error', error.stack);
+				throw error;
 			})
 			.catch((error) => {
 				throw error;
