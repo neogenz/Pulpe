@@ -32,7 +32,7 @@ class MachineController {
 	static save(req, res) {
 		const machine = req.body.machine;
 
-		MachineService.createMachine(machine.name, machine.workedMuscles, machine.gym._id)
+		MachineService.create(machine.name, machine.workedMuscles, machine.gym._id)
 			.then(machineSaved => {
 				res.send({machine: machineSaved});
 			})
@@ -51,9 +51,28 @@ class MachineController {
 	static update(req, res) {
 		const machine = req.body.machine;
 
-		MachineService.updateMachine(machine)
+		MachineService.update(machine)
 			.then(machineUpdated => {
 				res.send({machine: machineUpdated});
+			})
+			.catch((error) => {
+				console.log(error);
+				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+				return res.status(httpError.code).send(httpError);
+			});
+	}
+
+	/**
+	 * Delete a machine by an id.
+	 * @param req
+	 * @param res
+	 */
+	static delete(req, res) {
+		const id = req.params.id;
+
+		MachineService.delete(id)
+			.then(machineDeleted => {
+				res.send({machine: machineDeleted});
 			})
 			.catch((error) => {
 				console.log(error);

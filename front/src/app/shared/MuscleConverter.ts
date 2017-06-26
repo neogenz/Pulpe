@@ -59,7 +59,7 @@ export class MuscleConverter {
 		throw new Error(`This label => ${labelToFind} not find on MuscleEnum.Name`);
 	}
 
-	public getLabelFromEnum(enumValue: MuscleEnum.Name): string {
+	public getLabelFromEnum(enumValue: MuscleEnum.Name | string): string {
 		return this.muscleLabelConverter.get(MuscleEnum.Name[enumValue]);
 	}
 

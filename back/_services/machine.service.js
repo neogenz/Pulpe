@@ -30,13 +30,13 @@ class MachineService {
 			});
 	}
 
-	static createMachine(name, workedMuscles, gym) {
+	static create(name, workedMuscles, gym) {
 		let machine = new Machine({
 			name: name,
 			workedMuscles: workedMuscles,
 			gym: gym
 		});
-		return MachineService.saveMachine(machine);
+		return MachineService.save(machine);
 	}
 
 	/**
@@ -44,12 +44,12 @@ class MachineService {
 	 * @param machine
 	 * @returns {Promise|Promise.<Machine>}
 	 */
-	static updateMachine(machine) {
+	static update(machine) {
 		return this.findById(machine._id)
 			.then(machineFinded => {
 				machineFinded.workedMuscles = machine.workedMuscles;
 				machineFinded.name = machine.name;
-				return this.saveMachine(machineFinded);
+				return this.save(machineFinded);
 			}, (error) => {
 				throw error;
 			})
@@ -66,14 +66,32 @@ class MachineService {
 	/**
 	 * Save a new machine
 	 * @param machine
-	 * @returns {Promise|Promise.<TResult>}
+	 * @returns {Promise|Promise.<Machine>}
 	 */
-	static saveMachine(machine) {
+	static save(machine) {
 		return machine.save().then(saved => {
 			return saved
 		}).catch(error => {
 			throw error
 		});
+	}
+
+	/**
+	 * Delete and return a machine by an id.
+	 * @param id
+	 * @returns {Promise.<Machine>|Promise}
+	 */
+	static delete(id) {
+		return Machine.findByIdAndRemove(id)
+			.then((machineDeleted) => {
+				return machineDeleted;
+			}, (error) => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
 	}
 
 	static findSpecificNumberOfMachinesUsableToTraining(number) {

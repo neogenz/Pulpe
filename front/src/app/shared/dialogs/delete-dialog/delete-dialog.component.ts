@@ -13,15 +13,18 @@ export class DeleteDialogComponent extends DialogComponent<IDeletable, Object> i
 	title: string;
 	description: string;
 
-	constructor(dialogService: DialogService, private slimLoadingBarService: SlimLoadingBarService, private toastrService: ToastrService) {
+	constructor(dialogService: DialogService,
+							private slimLoadingBarService: SlimLoadingBarService,
+							private toastrService: ToastrService) {
 		super(dialogService);
 	}
 
 	ngOnInit() {
 	}
 
-	delete() {
-
+	confirm() {
+		this.result = this.id;
+		this.close();
 	}
 }
 

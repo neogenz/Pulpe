@@ -7,6 +7,10 @@ import {MachineFormDialogComponent} from "./machine-form-dialog/machine-form-dia
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {MuscleConverter} from "../shared/MuscleConverter";
 import {DeleteDialogComponent} from "../shared/dialogs/delete-dialog/delete-dialog.component";
+import {Observable} from "rxjs";
+import {MachineService} from "../_services/machine/machine.service";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
 	selector: 'pulpe-machines',
@@ -15,11 +19,16 @@ import {DeleteDialogComponent} from "../shared/dialogs/delete-dialog/delete-dial
 	animations: [Animations.fadeIn()]
 })
 export class MachinesComponent implements OnInit {
-	private authenticationProfile: AuthenticationProfile;
+	machineRequest: Observable<Machine> = new Observable();
 	private machines: Machine[];
 	filterArgs: string;
 
-	constructor(private route: ActivatedRoute, private dialogService: DialogService, private muscleConverter: MuscleConverter) {
+	constructor(private route: ActivatedRoute,
+							private dialogService: DialogService,
+							private slimLoadingBarService: SlimLoadingBarService,
+							private muscleConverter: MuscleConverter,
+							private toastrService: ToastrService,
+							private machineService: MachineService) {
 	}
 
 	ngOnInit() {
@@ -35,7 +44,22 @@ export class MachinesComponent implements OnInit {
 		}, {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((id) => {
-
+			if (id) {
+				this.machineRequest = this.machineService.delete(machine);
+				this.slimLoadingBarService.start();
+				this.machineRequest.finally(() => {
+					this.slimLoadingBarService.complete();
+				})
+					.subscribe((machine) => {
+							this.toastrService.success('La machine a été supprimée.', 'Succès!');
+							this.machines = this.machines.filter(m => m._id !== machine._id);
+						},
+						(errorMsg) => {
+							console.error(errorMsg);
+							this.toastrService.error(errorMsg, 'Erreur');
+						}
+					);
+			}
 		});
 	}
 

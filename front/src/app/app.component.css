@@ -2,6 +2,10 @@ body {
   font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px; }
 
+#holder {
+  min-height: 100%;
+  position: relative; }
+
 .navbar {
   flex-direction: row;
   -webkit-flex-direction: row; }
@@ -10,9 +14,13 @@ body {
   background: url("../assets/img/background.jpg"); }
 
 .footer {
+  z-index: -1;
   margin-top: 1rem;
   height: 3.75rem;
-  border-top: 1px solid #BDBDBD; }
+  border-top: 1px solid #BDBDBD;
+  position: absolute;
+  width: 100%;
+  bottom: 0; }
   .footer .v-center {
     display: flex;
     align-items: center; }
@@ -21,5 +29,8 @@ body {
   .footer .icon {
     font-size: 1.4rem;
     color: #212121; }
+
+.pb-footer {
+  padding-bottom: 3.75rem; }
 
 /*# sourceMappingURL=app.component.css.map */
