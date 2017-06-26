@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalStorageService} from "angular-2-local-storage";
-import {ProfileService} from "../../profile/profile.service";
+import {ProfileService} from "../../member/profile/profile.service";
 import {AuthenticationService} from "../../_services/authentication/authentication.service";
 import {Router} from "@angular/router";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";

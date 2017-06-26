@@ -1,0 +1,31 @@
+@import "../../../assets/style/colors";
+
+.objectiveImg {
+  width: 2rem;
+}
+
+.iconsList {
+  font-size: 1.3rem;
+}
+
+.addIcon {
+  font-size: 1.2rem;
+}
+
+md-card {
+  opacity: 0.8;
+}
+
+.maleIcon {
+  font-size: 1.9rem;
+  color: $accent-color;
+}
+
+.femaleIcon {
+  font-size: 1.9rem;
+  color: $primary-color;
+}
+
+td {
+  vertical-align: middle;
+}

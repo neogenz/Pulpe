@@ -1,0 +1,64 @@
+@import "../../../../assets/style/colors";
+
+.title {
+  color: $primary-color;
+}
+
+.card-primary-color {
+  background-color: $primary-color;
+}
+
+.subtitle {
+  font-weight: 300;
+}
+
+.choice {
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.choice .icon {
+  text-align: center;
+  vertical-align: middle;
+  height: 116px;
+  width: 116px;
+  border-radius: 50%;
+  color: #999999;
+  margin: 0 auto 20px;
+  border: 4px solid #CCCCCC;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+}
+
+.choice i {
+  font-size: 40px;
+  line-height: 111px;
+}
+
+.choice:hover .icon, .choice.active .icon {
+  border-color: $accent-color;
+}
+
+.choice input[type="radio"],
+.choice input[type="checkbox"] {
+  position: absolute;
+  left: -10000px;
+  z-index: -1;
+}
+
+.center-icon {
+  line-height: 108px;
+}
+
+.formule-type-title {
+  color: #999999;
+}
+
+.btn-previous {
+  background-color: #999999;
+}
+
+.iconGender {
+  font-size: 1.9rem;
+}

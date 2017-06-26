@@ -1,4 +1,4 @@
-import {ColorConfiguration} from "../program/ColorConfiguration";
+import {ColorConfiguration} from "../member/program/ColorConfiguration";
 import {ExerciseGroupCodeConverter} from "./ExerciseGroupCodeConverter";
 import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 

@@ -1,0 +1,58 @@
+<div [@fadeIn]>
+    <pulpe-page-title [title]="'Liste des machines'">
+    </pulpe-page-title>
+
+    <pulpe-header-list [title]="'Machines'"
+                       [icon]="'ion ion-levels'"
+                       [nbElements]="machines.length"
+                       [placeHolderTitle]="'Par nom'"
+                       (filterArgs)="filterArgsChanged($event)">
+    </pulpe-header-list>
+
+    <div class="row pt-3">
+        <md-card class="col-md-12 my-auto text-center" *ngIf="machines.length === 0">
+            <div>Aucune machine</div>
+        </md-card>
+
+        <table class="col-md-12 table table-striped bg-secondary" *ngIf="machines.length > 0">
+            <thead>
+            <tr>
+                <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
+                <th class="text-white text-center text-light-weight text-uppercase"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let machine of machines | filterMachines: filterArgs" class="my-auto text-center">
+                <td>{{machine.name}}</td>
+                <td>
+                    <div class="row iconsList pull-right">
+                        <div class="col-md-6">
+                            <button class="ion ion-edit pointer" md-mini-fab
+                                    (click)="openMachineFormDialog(machine)"
+                                    mdTooltip="Editer la machine"
+                                    [mdTooltipPosition]="'left'">
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="ion ion-trash-b pointer bg-primary" md-mini-fab
+                                    mdTooltip="Supprimer cette machine"
+                                    (click)="openDeleteDialog(machine)"
+                                    [mdTooltipPosition]="'right'">
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-12 pt-2 pb-2 btnBottomRight">
+                <button md-fab class="pull-right bg-secondary" (click)="openMachineFormDialog()"
+                        mdTooltip="Ajouter une machine" [mdTooltipPosition]="'right'">
+                    <i class="ion-plus addIcon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

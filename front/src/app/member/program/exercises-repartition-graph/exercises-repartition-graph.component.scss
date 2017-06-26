@@ -1,0 +1,11 @@
+@import "../../../../assets/style/colors";
+
+.repartition{
+  background-color: $accent-color;
+  color: white !important;
+  //margin-bottom: 0;
+  hr {
+    color: white;
+    background-color: white;
+  }
+}

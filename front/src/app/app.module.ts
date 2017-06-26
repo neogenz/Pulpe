@@ -27,34 +27,34 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {SignupComponent} from './Signup/signup.component';
 import {SigninComponent} from './signin/signin.component';
-import {ProfileCompletationComponent} from './profile/profile-completation/profile-completation.component';
-import {ProgramComponent} from './program/program.component';
-import {ProgramMockService} from './program/program-mock.service';
-import {ProgramService} from './program/program.service';
-import {ExercisePreviewComponent} from './program/exercise-preview/exercise-preview.component'
+import {ProfileCompletationComponent} from './member/profile/profile-completation/profile-completation.component';
+import {ProgramComponent} from './member/program/program.component';
+import {ProgramMockService} from './member/program/program-mock.service';
+import {ProgramService} from './member/program/program.service';
+import {ExercisePreviewComponent} from './member/program/exercise-preview/exercise-preview.component'
 import {ExerciseGroupCodeConverter} from "./shared/ExerciseGroupCodeConverter";
 import {DifficultyConverter} from "./shared/DifficultyConverter";
-import {SessionsComponent} from './sessions/sessions.component';
+import {SessionsComponent} from './member/sessions/sessions.component';
 import {PageTitleComponent} from './shared/page-title/page-title.component';
 import {SimpleCounterWithIconComponent} from './shared/simple-counter-with-icon/simple-counter-with-icon.component';
-import {ExercisesRepartitionGraphComponent} from './program/exercises-repartition-graph/exercises-repartition-graph.component';
-import {ProgramResolver} from "./program/program.resolver";
-import {SessionObjectiveComponent} from './sessions/session-objective/session-objective.component';
+import {ExercisesRepartitionGraphComponent} from './member/program/exercises-repartition-graph/exercises-repartition-graph.component';
+import {ProgramResolver} from "./member/program/program.resolver";
+import {SessionObjectiveComponent} from './member/sessions/session-objective/session-objective.component';
 import {AuthenticationService} from "./_services/authentication/authentication.service";
 import {AuthenticationGuard} from './_guards/authentication-guard.service';
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {SlimLoadingBarModule} from "ng2-slim-loading-bar/index";
 import {AuthConfig} from "angular2-jwt/angular2-jwt";
 import {WelcomeComponent} from './welcome/welcome.component';
-import {SessionListComponent} from "./sessions/session-list/session-list.component";
-import {SessionsResolver} from "./sessions/sessions.resolver";
-import {SessionsService} from "./sessions/sessions.service";
-import {EvolutionComponent} from './evolution/evolution.component';
-import {EfficientLineGraphComponent} from './evolution/efficient-line-graph/efficient-line-graph.component';
-import {ProfileComponent} from './profile/profile.component';
-import {ProfilePhotoComponent} from './profile/profile-photo/profile-photo.component';
-import {ProfileInfosComponent} from './profile/profile-infos/profile-infos.component';
-import {ProfileService} from './profile/profile.service';
+import {SessionListComponent} from "./member/sessions/session-list/session-list.component";
+import {SessionsResolver} from "./member/sessions/sessions.resolver";
+import {SessionsService} from "./member/sessions/sessions.service";
+import {EvolutionComponent} from './member/evolution/evolution.component';
+import {EfficientLineGraphComponent} from './member/evolution/efficient-line-graph/efficient-line-graph.component';
+import {ProfileComponent} from './member/profile/profile.component';
+import {ProfilePhotoComponent} from './member/profile/profile-photo/profile-photo.component';
+import {ProfileInfosComponent} from './member/profile/profile-infos/profile-infos.component';
+import {ProfileService} from './member/profile/profile.service';
 import {ProfileCompletedGuardService} from './_guards/profile-completed-guard.service';
 import {ProfileIsMemberGuardService} from './_guards/profile-is-member-guard.service';
 import {MeasurementEnumService} from './_services/measurement-enum.service';
@@ -63,39 +63,40 @@ import {NgxErrorsModule} from '@ultimate/ngxerrors';
 import {SidebarModule} from 'ng-sidebar';
 import {FooterComponent} from './shared/footer/footer.component';
 import {MemberService} from "./_services/member/member.service";
-import {ProfileResolver} from "./profile/profile.resolver";
-import {MeasurementsListComponent} from './evolution/measurements-list/measurements-list.component';
-import {MeasurementsAddDialogComponent} from './evolution/measurements-add-dialog/measurements-add-dialog.component';
+import {ProfileResolver} from "./member/profile/profile.resolver";
+import {MeasurementsListComponent} from './member/evolution/measurements-list/measurements-list.component';
+import {MeasurementsAddDialogComponent} from './member/evolution/measurements-add-dialog/measurements-add-dialog.component';
 import {BootstrapModalModule} from "ng2-bootstrap-modal";
-import {EvolutionResolver} from "./evolution/evolution.resolver";
-import {ProfileCompletationCoachComponent} from './profile/profile-completation-coach/profile-completation-coach.component';
+import {EvolutionResolver} from "./member/evolution/evolution.resolver";
+import {ProfileCompletationCoachComponent} from './coach/profile/profile-completation-coach/profile-completation-coach.component';
 import {GymService} from "./_services/gym/gym.service";
 import {CoachService} from "./_services/coach/coach.service";
-import {ProfileMemberEditDialogComponent} from './profile/profile-member-edit-dialog/profile-member-edit-dialog.component';
-import {MembersComponent} from './members/members.component';
+import {ProfileMemberEditDialogComponent} from './member/profile/profile-member-edit-dialog/profile-member-edit-dialog.component';
+import {MembersComponent} from './coach/members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
-import {MembersResolver} from "./members/members.resolver";
+import {MembersResolver} from "./coach/members/members.resolver";
 import {ObjectiveEnumService} from "./_services/objective-enum.service";
-import {FilterMembers} from "./members/members.filter.pipe";
-import {MachinesComponent} from './machines/machines.component';
-import {MachinesResolver} from "./machines/machines.resolver";
-import {FilterMachines} from "./machines/machines.filter.pipe";
+import {FilterMembers} from "./coach/members/members.filter.pipe";
+import {MachinesComponent} from './coach/machines/machines.component';
+import {MachinesResolver} from "./coach/machines/machines.resolver";
+import {FilterMachines} from "./coach/machines/machines.filter.pipe";
 import {MachineService} from "./_services/machine/machine.service";
-import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine-form-dialog.component';
+import {MachineFormDialogComponent} from './coach/machines/machine-form-dialog/machine-form-dialog.component';
 
 import {MuscleConverter} from "./shared/MuscleConverter";
-import {ExercisesComponent} from './exercises/exercises.component';
+import {ExercisesComponent} from './coach/exercises/exercises.component';
 import {ToastrModule} from "ngx-toastr";
-import {ExerciseResolver} from "./exercises/exercises.resolver";
-import {ExerciseService} from "./exercises/exercise.service";
-import {ExercisesListComponent} from './exercises/exercises-list/exercises-list.component';
-import {ExercisesTypeImgComponent} from './exercises/exercises-type-img/exercises-type-img.component';
-import {ExerciseFormDialogComponent} from './exercises/exercise-form-dialog/exercise-form-dialog.component';
+import {ExerciseResolver} from "./coach/exercises/exercises.resolver";
+import {ExerciseService} from "./coach/exercises/exercise.service";
+import {ExercisesListComponent} from './coach/exercises/exercises-list/exercises-list.component';
+import {ExercisesTypeImgComponent} from './coach/exercises/exercises-type-img/exercises-type-img.component';
+import {ExerciseFormDialogComponent} from './coach/exercises/exercise-form-dialog/exercise-form-dialog.component';
 import { SelectWorkedMuscleComponent } from './shared/form/select-worked-muscle/select-worked-muscle.component';
 import { ChipsRemovableWorkedMuscleComponent } from './shared/form/chips-removable-worked-muscle/chips-removable-worked-muscle.component';
 import {TranslateWorkedMuscleName} from "./shared/pipes/workedMuscle.trad.filter.pipe";
 import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dialog.component';
 import { HeaderListComponent } from './shared/lists/header-list/header-list.component';
+import { ProfileCoachComponent } from './coach/profile/profile-coach.component';
 
 @NgModule({
   declarations: [
@@ -137,7 +138,8 @@ import { HeaderListComponent } from './shared/lists/header-list/header-list.comp
     SelectWorkedMuscleComponent,
     ChipsRemovableWorkedMuscleComponent,
     DeleteDialogComponent,
-    HeaderListComponent
+    HeaderListComponent,
+    ProfileCoachComponent
   ],
   imports: [
     MdButtonModule,

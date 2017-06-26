@@ -2,7 +2,7 @@ import {AbstractExercise} from "./exercise/AbstractExercise";
 import {ExerciseFactory} from "./exercise/ExerciseFactory";
 import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 import {Session} from "./Session";
-import {SessionsService} from "../sessions/sessions.service";
+import {SessionsService} from "../member/sessions/sessions.service";
 import {Injectable} from "@angular/core";
 
 export class Program {

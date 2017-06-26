@@ -3,7 +3,7 @@ import {CanActivate} from '@angular/router';
 import {LocalStorageService} from "angular-2-local-storage/dist/index";
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {Router} from '@angular/router';
-import {ProfileService} from "../profile/profile.service";
+import {ProfileService} from "../member/profile/profile.service";
 
 @Injectable()
 export class ProfileCompletedGuardService implements CanActivate {
