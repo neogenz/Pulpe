@@ -29,7 +29,8 @@
                 <div class="text-center">
                     <h1><i class="ion-ios-search"></i></h1>
                     <md-radio-group class="example-radio-group" [(ngModel)]="filterSeances">
-                        <md-radio-button class="example-radio-button pl-3" *ngFor="let filter of filters" [value]="filter">
+                        <md-radio-button class="example-radio-button pl-3" *ngFor="let filter of filters"
+                                         [value]="filter">
                             {{filter}}
                         </md-radio-button>
                     </md-radio-group>
@@ -51,7 +52,7 @@
                                 <div class="row mt-4">
                                     <div class="col-md-12">
                                         <md-list-item
-                                                *ngFor="let exercise of session.exercisesGroups.get(exerciseGroupLabelDictionary.rawCode); let last = last">
+                                                *ngFor="let exercise of session.getExercisesByType(exerciseGroupLabelDictionary.rawCode); let last = last">
                                             <pulpe-session-list
                                                     [exercise]="exercise"
                                                     [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode">

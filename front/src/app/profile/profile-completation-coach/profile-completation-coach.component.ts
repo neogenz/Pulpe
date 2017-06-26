@@ -94,7 +94,6 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
     const httpRequest: Observable<AuthenticationProfile | string> = this.profileService.completeCoachProfile(this.nameExistingGymCtrl.value, this.nameGymCtrl.value, this.addressGymCtrl.value, this.cityGymCtrl.value, new Date(this.birthdateCtrl.value), this.genderCtrl.value);
     httpRequest.subscribe(
       authProfile => {
-        debugger;
         this.localStorageService.set('profile', JSON.stringify(authProfile));
         this.router.navigateByUrl('/accueil');
       },

@@ -93,7 +93,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <md-list-item
-                                                *ngFor="let exercise of focusedSession.exercisesGroups.get(exercisesGroupLabel.rawCode); let last = last">
+                                                *ngFor="let exercise of focusedSession.getExercisesByType(exercisesGroupLabel.rawCode); let last = last">
                                             <pulpe-exercise-preview [exercise]="exercise"
                                                                     [exercisesGroupRawCode]="exercisesGroupLabel.rawCode"></pulpe-exercise-preview>
                                             <hr *ngIf="!last" class="white">

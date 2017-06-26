@@ -6,7 +6,6 @@ import {HttpModule, Http, RequestOptions} from '@angular/http'; //Http class use
 import {RouterModule} from '@angular/router'
 import {ROUTES} from './app.routes'; // ROUTING HERE!
 import {APP_BASE_HREF} from '@angular/common';
-import {ToastrModule} from 'ngx-toastr';
 
 import {ChartsModule} from 'ng2-charts';
 import {LocalStorageModule, LocalStorageService} from 'angular-2-local-storage';
@@ -83,8 +82,18 @@ import {MachinesResolver} from "./machines/machines.resolver";
 import {FilterMachines} from "./machines/machines.filter.pipe";
 import {MachineService} from "./_services/machine/machine.service";
 import {MachineFormDialogComponent} from './machines/machine-form-dialog/machine-form-dialog.component';
-import {FilterWorkedMuscle} from "./machines/machine-form-dialog/workedMuscle.trad.filter.pipe";
+
 import {MuscleConverter} from "./shared/MuscleConverter";
+import {ExercisesComponent} from './exercises/exercises.component';
+import {ToastrModule} from "ngx-toastr";
+import {ExerciseResolver} from "./exercises/exercises.resolver";
+import {ExerciseService} from "./exercises/exercise.service";
+import {ExercisesListComponent} from './exercises/exercises-list/exercises-list.component';
+import {ExercisesTypeImgComponent} from './exercises/exercises-type-img/exercises-type-img.component';
+import {ExerciseFormDialogComponent} from './exercises/exercise-form-dialog/exercise-form-dialog.component';
+import { SelectWorkedMuscleComponent } from './shared/form/select-worked-muscle/select-worked-muscle.component';
+import { ChipsRemovableWorkedMuscleComponent } from './shared/form/chips-removable-worked-muscle/chips-removable-worked-muscle.component';
+import {TranslateWorkedMuscleName} from "./shared/pipes/workedMuscle.trad.filter.pipe";
 import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
@@ -117,9 +126,15 @@ import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dia
     MembersComponent,
     FilterMembers,
     FilterMachines,
-    FilterWorkedMuscle,
+    TranslateWorkedMuscleName,
     MachinesComponent,
     MachineFormDialogComponent,
+    ExercisesComponent,
+    ExercisesListComponent,
+    ExercisesTypeImgComponent,
+    ExerciseFormDialogComponent,
+    SelectWorkedMuscleComponent,
+    ChipsRemovableWorkedMuscleComponent,
     DeleteDialogComponent
   ],
   imports: [
@@ -189,6 +204,8 @@ import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dia
     ProfileResolver,
     ProfileService,
     MembersResolver,
+    ExerciseResolver,
+    ExerciseService,
     MachinesResolver,
     AuthenticationGuard,
     ProfileCompletedGuardService,
@@ -203,6 +220,7 @@ import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dia
   entryComponents: [
     MeasurementsAddDialogComponent,
     ProfileMemberEditDialogComponent,
+    ExerciseFormDialogComponent,
     MachineFormDialogComponent,
     DeleteDialogComponent
   ],

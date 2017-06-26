@@ -9,8 +9,8 @@ export class CardioExercise extends AbstractExercise {
   recovery:number;
   difficulty:number;
 
-  constructor(id:number, name:string, machines:any[]) {
-    super(id, name, machines);
+  constructor(id:number, name:string, machines:any[], type:string) {
+    super(id, name, machines, type);
   }
 
 

@@ -47,7 +47,6 @@ export class SessionsService {
       sessions: Session[] = [];
     return this._http.get(`${environment.baseUrl()}/programs/active/sessions`)
       .map(res => {
-        debugger;
         let rawSessions: any[] = this.extractData(res);
         rawSessions.forEach(rawSession => {
           session = Session.of()
@@ -73,8 +72,8 @@ export class SessionsService {
   getTotalTimeOf(session: Session): number {
     let totalTime: number = 0;
 
-    session.exercisesGroups.forEach((exercises: AbstractExercise[], exercisesGroupCode: string) => {
-      exercises.forEach((exercise: AbstractExercise) => {
+    session.exercisesGroups.forEach(exercisesGroup => {
+      exercisesGroup.exercises.forEach((exercise: AbstractExercise) => {
         totalTime += exercise.approximateTime;
       });
     });

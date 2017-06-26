@@ -22,7 +22,6 @@ export class SessionsComponent implements OnInit {
 
 
   ngOnInit() {
-    debugger;
     this.session = this.route.snapshot.data['sessions'];
     this.exerciseGroupLabelsDictionary = this.exerciseGroupCodeConverter.convertThis(this.session.exercisesGroups);
     this.createdAt = this.session.createdAt.toLocaleDateString();

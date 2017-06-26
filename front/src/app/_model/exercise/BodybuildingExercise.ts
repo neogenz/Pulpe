@@ -1,6 +1,6 @@
 import {AbstractExercise} from "./AbstractExercise";
 
-export class MassGainerExercise extends AbstractExercise {
+export class BodybuildingExercise extends AbstractExercise {
   repetitions:number;
   series:number;
   weight:number;
@@ -10,11 +10,11 @@ export class MassGainerExercise extends AbstractExercise {
   approximateTimeBySeries:number;
 
 
-  constructor(id:number, name:string, machines:any[]) {
-    super(id, name, machines);
+  constructor(id:number, name:string, machines:any[], type:string) {
+    super(id, name, machines, type);
   }
 
-  initFromRawObject(rawObject:any):MassGainerExercise {
+  initFromRawObject(rawObject:any):BodybuildingExercise {
     this.repetitions = rawObject.repetitions;
     this.series = rawObject.series;
     this.weight = rawObject.weight;

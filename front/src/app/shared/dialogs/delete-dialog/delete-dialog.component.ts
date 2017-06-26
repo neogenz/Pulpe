@@ -6,7 +6,7 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 @Component({
 	selector: 'pulpe-delete-dialog',
 	templateUrl: 'delete-dialog.component.html',
-	styleUrls: ['delete-dialog.component.css']
+	styleUrls: ['delete-dialog.component.scss']
 })
 export class DeleteDialogComponent extends DialogComponent<IDeletable, Object> implements IDeletable, OnInit {
 	id: string;

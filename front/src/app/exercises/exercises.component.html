@@ -1,0 +1,36 @@
+<div [@fadeIn]>
+    <pulpe-page-title
+            [title]="'Liste des exercises'">
+    </pulpe-page-title>
+
+    <div class="row pb-3">
+        <md-card class="col-md-12">
+            <div class="row">
+                <div class="col-md-2 text-center my-auto separatorVertical">
+                    <span class="ion ion-podium machinesIcon"></span>
+                    <div class="text-light-weight">
+                        <strong class="text-primary">{{exercisesSizes}}</strong> Exercices
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="float-md-right text-center">
+                        <span class="ion ion-ios-search actionsIcon"></span>
+                        <md-input-container class="searchPlaceHolder font-weight-light">
+                            <input mdInput placeholder="Par nom" [(ngModel)]="filterArgs">
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+        </md-card>
+    </div>
+    <pulpe-exercises-list [exercisesGroups]="exercisesGroups"></pulpe-exercises-list>
+
+    <div class="row">
+        <div class="col-md-12 pt-2 pb-2 btnBottomRight">
+            <button md-fab class="pull-right bg-secondary" (click)="openExerciseFormDialogOnMode(openableMode.Add)"
+                    mdTooltip="Ajouter un exercice" [mdTooltipPosition]="'right'">
+                <i class="ion-plus addIcon"></i>
+            </button>
+        </div>
+    </div>
+</div>

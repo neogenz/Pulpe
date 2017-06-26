@@ -12,7 +12,6 @@ export class ProfileIsMemberGuardService implements CanActivate {
   }
 
   canActivate() {
-    debugger;
     const profileIsCoach: boolean = this.profileService.profileIsCoach();
     if (profileIsCoach) {
       return false;

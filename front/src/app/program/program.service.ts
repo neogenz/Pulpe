@@ -5,12 +5,14 @@ import {LocalStorageService} from 'angular-2-local-storage';
 import {environment} from '../../environments/environment'
 import {Program} from "../_model/Program";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
+import {ObservableHelper} from "../_helpers/ObservableHelper";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
-export class ProgramService {
+export class ProgramService extends ObservableHelper {
 
   constructor(private _http: AuthHttp, private localStorageService: LocalStorageService) {
+    super();
   }
 
 
@@ -30,7 +32,7 @@ export class ProgramService {
     } else {
       return this._http.get(`${environment.baseUrl()}/programs/active`)
         .map(res => {
-          let data: any = this.extractData(res);
+          let data: any = this.extractDataOf(res);
           this.localStorageService.set('program', JSON.stringify(data.program));
           return Program.of()
             .sessionsFromServer(data.program.sessions)
@@ -40,22 +42,5 @@ export class ProgramService {
         })
         .catch(this.handleError);
     }
-  }
-
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
-
-
-  private handleError(error: any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
-    //transforms the error into a user-friendly message, and returns the message in a new, failed observable
-    return Observable.throw(errMsg);
   }
 }

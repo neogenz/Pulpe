@@ -2,6 +2,9 @@ const AuthenticationService = require('../_services/authentication.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const jwt = require('jsonwebtoken');
+const CoachService = require('../_services/coach.service');
+const NotFoundError = require('../_model/Errors').NotFoundError;
+const winston = require('winston');
 
 class AuthenticationController {
   constructor() {
@@ -18,9 +21,11 @@ class AuthenticationController {
 
     AuthenticationService.signinBy(email, password)
       .then((resp) => {
+        winston.log('info', `Is coach : ${resp.isCoach}`);
         res.send({token: resp.token, isCoach: resp.isCoach});
       }).catch((err) => {
-      var httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.NOT_FOUND, err);
+      winston.log('error', err.stack);
+      let httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.NOT_FOUND, err);
       return res.status(httpError.code).send(httpError);
     });
   }
@@ -43,7 +48,7 @@ class AuthenticationController {
       .then((token) => {
         res.send({token: token});
       }).catch((error) => {
-        console.error(error.stack);
+        winston.log('error', error.stack);
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       }
@@ -67,11 +72,26 @@ class AuthenticationController {
         next();
       });
     } else {
-      var httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.FORBIDDEN, null, 'Veuillez vous authentifier.');
+      winston.log('warn', `Token undefined`);
+      let httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.FORBIDDEN, null, 'Veuillez vous authentifier.');
       return res.status(httpError.code).send(httpError);
     }
   }
 
+  static mustBeCoach(req, res, next) {
+    return CoachService.findById(req.user._id).then(coach => {
+      req.user = coach;
+      next();
+    }, error => {
+      winston.log('error', error.stack ? error.stack : error);
+      if (error instanceof NotFoundError) {
+        let httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.FORBIDDEN, null, 'Vous devez être un coach pour accéder à ce service.');
+        return res.status(httpError.code).send(httpError);
+      }
+      let httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    });
+  }
 }
 
 module.exports = AuthenticationController;

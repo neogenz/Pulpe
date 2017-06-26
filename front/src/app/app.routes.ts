@@ -21,6 +21,9 @@ import {MachinesComponent} from "./machines/machines.component";
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./members/members.resolver";
 import {MachinesResolver} from "./machines/machines.resolver";
+import {ExercisesComponent} from "./exercises/exercises.component";
+import {ExerciseResolver} from "./exercises/exercises.resolver";
+
 
 // Route Configuration
 export const ROUTES: Routes = [
@@ -98,6 +101,14 @@ export const ROUTES: Routes = [
     canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
     resolve: {
       machines: MachinesResolver
+    }
+  },
+  {
+    path: 'exercices',
+    component: ExercisesComponent,
+    canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+    resolve: {
+      exercisesGroups: ExerciseResolver
     }
   }
 ];

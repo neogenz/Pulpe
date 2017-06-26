@@ -13,7 +13,7 @@ import {ProfileMemberEditDialogComponent} from "../profile/profile-member-edit-d
 @Component({
   selector: 'pulpe-members',
   templateUrl: './members.component.html',
-  styleUrls: ['./members.component.css'],
+  styleUrls: ['./members.component.scss'],
   animations: [Animations.fadeIn()]
 })
 export class MembersComponent implements OnInit {

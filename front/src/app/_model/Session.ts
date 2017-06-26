@@ -1,12 +1,10 @@
 import {AbstractExercise} from "./exercise/AbstractExercise";
-import {ExerciseFactory} from "./exercise/ExerciseFactory";
-import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
-import {SessionsService} from "../sessions/sessions.service";
 import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
+import {ExercisesGroup} from "./exercise/ExercisesGroup";
 
 export class Session {
   objective: string;
-  exercisesGroups: Map<string, AbstractExercise[]>;
+  exercisesGroups: ExercisesGroup[];
   createdAt: Date;
   mainMusclesGroup: string[];
   doneCounter: boolean;
@@ -14,7 +12,7 @@ export class Session {
 
 
   constructor() {
-    this.exercisesGroups = new Map<string, AbstractExercise[]>();
+    this.exercisesGroups = [];
     this.mainMusclesGroup = [];
   }
 
@@ -24,10 +22,18 @@ export class Session {
 
   public getNbExercises(): number {
     let totalLength = 0;
-    this.exercisesGroups.forEach((exercisesForCurrentGroup: AbstractExercise[]) => {
-      totalLength += exercisesForCurrentGroup.length;
+    this.exercisesGroups.forEach((group: ExercisesGroup) => {
+      totalLength += group.exercises.length;
     });
     return totalLength;
+  }
+
+  public getExercisesByType(typeOfExercises: string): AbstractExercise[] {
+    for (let i = 0; i < this.exercisesGroups.length; i++) {
+      if (this.exercisesGroups[i].groupType === typeOfExercises) {
+        return this.exercisesGroups[i].exercises;
+      }
+    }
   }
 }
 
@@ -43,7 +49,7 @@ class SessionBuilder {
     return this;
   }
 
-  exercisesGroups(exercisesGroups: Map<string, AbstractExercise[]>): SessionBuilder {
+  exercisesGroups(exercisesGroups: ExercisesGroup[]): SessionBuilder {
     this.me.exercisesGroups = exercisesGroups;
     return this;
   }

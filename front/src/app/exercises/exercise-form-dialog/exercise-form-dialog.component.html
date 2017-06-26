@@ -1,0 +1,94 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div class="text-center">
+                <h4 class="text-light-weight">{{title}}</h4>
+            </div>
+        </div>
+        <form (ngSubmit)="confirm()" [formGroup]="exerciseForm">
+            <div class="modal-body">
+                <div class="row pt-2 form-group">
+                    <div class="col-md-12">
+                        <span class="text-w-300 titleWorkedMuscles">
+                        Information de l'exercice
+                        </span>
+                        <hr>
+                    </div>
+                    <md-input-container class="col-md-10 offset-md-1" color="primary">
+                        <input id="inputName" mdInput type="text" minlength="5" maxlength="50"
+                               placeholder="Nom de l'exercice"
+                               formControlName="name"
+                               required>
+                    </md-input-container>
+
+                    <!--<div class="col-md-12 pt-2">-->
+                    <!--<span class="text-w-300 titleWorkedMuscles">-->
+                    <!--Ajout d'un nouveau muscle travaillé-->
+                    <!--</span>-->
+                    <!--<hr>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="col-md-12 pt-4">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-md-6 text-w-300 titleWorkedMuscles">-->
+                    <!--Liste des muscles travaillés-->
+                    <!--</div>-->
+                    <!--<div class="col-md-6 my-auto font-italic font-weight-light legend">-->
+                    <!--<span><i class="ion ion-record pr-1 hard"></i>Fort</span>-->
+                    <!--<span class="pl-2"><i class="ion ion-record pr-1 medium"></i>Moyen</span>-->
+                    <!--<span class="pl-2"><i class="ion ion-record pr-1 easy"></i>Faible</span>-->
+                    <!--</div>-->
+
+                    <!--</div>-->
+                    <!--<hr>-->
+                    <!--</div>-->
+
+                    <!--<md-chip-list class="mat-chip-selected col-md-12 pt-1">-->
+                    <!--<div *ngFor="let workedMuscle of workedMusclesTmp" [ngSwitch]="workedMuscle.intensity"-->
+                    <!--[@fadeIn]>-->
+                    <!--<md-chip *ngSwitchCase="'hard'"-->
+                    <!--selected="true"-->
+                    <!--color="primary">-->
+                    <!--{{workedMuscle | translateWorkedMuscleName:workedMuscle}}-->
+                    <!--<i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>-->
+                    <!--</md-chip>-->
+                    <!--<md-chip *ngSwitchCase="'medium'"-->
+                    <!--selected="true"-->
+                    <!--color="accent">-->
+                    <!--{{workedMuscle | translateWorkedMuscleName:workedMuscle}}-->
+                    <!--<i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>-->
+                    <!--</md-chip>-->
+                    <!--<md-chip *ngSwitchCase="'easy'"-->
+                    <!--selected="true"-->
+                    <!--color="warn">-->
+                    <!--{{workedMuscle | translateWorkedMuscleName:workedMuscle}}-->
+                    <!--<i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>-->
+                    <!--</md-chip>-->
+                    <!--</div>-->
+                    <!--</md-chip-list>-->
+                    <!--</div>-->
+                </div>
+                <pulpe-select-worked-muscle (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
+                <div class="col-md-12 pt-4">
+                    <div class="row">
+                        <div class="col-md-6 text-w-300 titleWorkedMuscles">
+                            Liste des muscles travaillés
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <pulpe-chips-removable-worked-muscle [workedMuscles]="workedMuscles"
+                                                     (workedMuscleDeleted)="deleteThisWorkedMuscle($event)"></pulpe-chips-removable-worked-muscle>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" [disabled]="exerciseForm.invalid">
+                        Sauvegarder
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

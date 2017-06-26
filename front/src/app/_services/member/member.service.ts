@@ -48,7 +48,6 @@ export class MemberService extends ObservableHelper {
       return this.http.get(`${environment.baseUrl()}/members/${id}`)
         .map(response => {
           const data: any = this.extractDataOf(response);
-          debugger;
           return Member.of()
             .id(data.member._id)
             .lastName(data.member.lastName)

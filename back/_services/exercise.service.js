@@ -22,6 +22,15 @@ class ExerciseService {
   constructor() {
   }
 
+  static findAllByGymId(gymId) {
+    return Exercise.find().inThisGymId(gymId)
+      .then(exercises => {
+        return exercises;
+      }).catch(error => {
+        throw new TechnicalError(error.message);
+      })
+  }
+
   /**
    * Generate a pool of exercises, no persisted
    * @param {SessionGenerationContext} sessionGenerationContext
@@ -129,7 +138,7 @@ class ExerciseService {
       __t: ExerciseGroupTypeEnum.TrainingExercise.name
     })
       .isReference()
-      .onThisGymId(gym._id).populate('machines')
+      .inThisGymId(gym._id).populate('machines')
       .then(exercise => {
           return exercise;
         },
@@ -153,7 +162,7 @@ class ExerciseService {
     let filteredExercises = [];
     return Exercise.find()
       .muscleWorkedBy(muscleRepartition.muscle.toString(), muscleRepartition.intensity.toString())
-      .onThisGymId(gym._id)
+      .inThisGymId(gym._id)
       .isReference()
       .populate('machines')
       .limit(muscleRepartition.nbOfExercises)

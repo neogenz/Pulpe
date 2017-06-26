@@ -1,0 +1,35 @@
+@import "../../../../assets/style/colors";
+
+.ion-ios-close-outline {
+  font-size: 0.9rem;
+}
+
+.hard {
+  background-color: $primary-color !important;
+}
+
+.medium {
+  background-color: $accent-color !important;
+}
+
+.easy {
+  background-color: $warn-color !important;
+}
+
+.legend {
+  font-size: 0.7rem;
+  .hard {
+    color: $primary-color !important;
+    background: none !important;
+  }
+
+  .medium {
+    color: $accent-color !important;
+    background: none !important;;
+  }
+
+  .easy {
+    color: $warn-color !important;
+    background: none !important;;
+  }
+}

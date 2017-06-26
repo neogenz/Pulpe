@@ -114,8 +114,8 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
     let currentChartConf = null;
     let chartColors = [];
 
-    session.exercisesGroups.forEach((value: AbstractExercise[], key: string) => {
-      currentChartConf = ChartConfiguration.getInstance().configurations.get(key);
+    session.exercisesGroups.forEach(exercisesGroup => {
+      currentChartConf = ChartConfiguration.getInstance().configurations.get(exercisesGroup.groupType);
       chartColor.backgroundColor.push(currentChartConf.colors.background);
       chartColor.borderColor.push(currentChartConf.colors.border);
     });
@@ -130,8 +130,8 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
     let chartLabels: string[] = [];
     let currentChartConf = null;
 
-    session.exercisesGroups.forEach((value: AbstractExercise[], key: string) => {
-      currentChartConf = ChartConfiguration.getInstance().configurations.get(key);
+    session.exercisesGroups.forEach(exercisesGroup => {
+      currentChartConf = ChartConfiguration.getInstance().configurations.get(exercisesGroup.groupType);
       chartLabels.push(currentChartConf.label);
     });
 
@@ -143,8 +143,8 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
     let nbExercises = session.getNbExercises();
     let newData: number[] = [];
 
-    session.exercisesGroups.forEach((exercisesForCurrentGroup: AbstractExercise[]) => {
-      newData.push(exercisesForCurrentGroup.length * 100 / nbExercises);
+    session.exercisesGroups.forEach(exercisesGroup => {
+      newData.push(exercisesGroup.exercises.length * 100 / nbExercises);
     });
 
     return newData;

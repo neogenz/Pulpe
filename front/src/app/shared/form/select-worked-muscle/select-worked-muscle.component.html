@@ -1,0 +1,33 @@
+<form (ngSubmit)="add()" [formGroup]="workedMuscleForm">
+    <div class="col-md-10 offset-md-1 pt-2">
+        <div class="row">
+            <md-select placeholder="Choisissez un muscle" class="col-md-12"
+                       formControlName="name" required>
+                <md-option *ngFor="let muscle of workedMusclesLabels" [value]="muscle">
+                    {{muscle}}
+                </md-option>
+            </md-select>
+            <div class="col-md-12 pt-4">
+                <span class="text-light-weight">Intensité : </span>
+                <md-radio-group class="text-center pl-3" formControlName="intensity">
+                    <md-radio-button checked="true" class="pl-1" [value]="difficultyOpts.easy.value">
+                        Légère
+                    </md-radio-button>
+                    <md-radio-button class="pl-4" [value]="difficultyOpts.medium.value">
+                        Moyenne
+                    </md-radio-button>
+                    <md-radio-button class="pl-4" [value]="difficultyOpts.hard.value">
+                        Forte
+                    </md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center pt-3">
+        <button type="submit" [disabled]="workedMuscleForm.invalid"
+                md-button>
+            <i class="ion ion-ios-plus-outline"></i>
+            <span class="pl-2">Ajouter ce muscle</span>
+        </button>
+    </div>
+</form>

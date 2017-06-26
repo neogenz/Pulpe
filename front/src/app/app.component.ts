@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   private _opened: boolean = false;
   public authenticationProfile: AuthenticationProfile;
 
-  constructor(public auth: AuthenticationService, public profileService: ProfileService, public localStorage: LocalStorageService) {
+  constructor(public auth: AuthenticationService, public profileService: ProfileService, public localStorage: LocalStorageService, private _router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,5 +23,12 @@ export class AppComponent implements OnInit {
 
   private toggleSidebar() {
     this._opened = !this._opened;
+  }
+
+  public footerMustBeDisplayed(): boolean {
+    let currentUrl: string = this._router.url;
+    return (currentUrl !== '/'
+    && currentUrl !== '/connexion'
+    && currentUrl !== '/inscription');
   }
 }

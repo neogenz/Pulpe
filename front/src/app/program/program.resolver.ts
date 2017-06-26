@@ -15,6 +15,6 @@ export class ProgramResolver implements Resolve<any> {
     return this.programService.findActiveByAuthenticatedMemberId().flatMap((program) => {
       this.slimLoadingBarService.complete();
       return Observable.of(program);
-    })
+    });
   }
 }

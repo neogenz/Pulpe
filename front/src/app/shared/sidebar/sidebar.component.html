@@ -15,21 +15,21 @@
                 <ul class="mynav" *ngIf="!profileService.profileIsCoach()">
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
                         [routerLink]="['profile', authenticationProfile.id]"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">person</i>
                             <span class="pl-4">Mon profil</span>
                         </a>
                     </li>
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">store</i>
                             <span class="pl-4">Accueil</span>
                         </a>
                     </li>
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/programme"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">assignment</i>
                             <span class="pl-4">Programme</span>
@@ -37,14 +37,14 @@
                     </li>
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
                         [routerLink]="['evolution', authenticationProfile.id]"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">trending_up</i>
                             <span class="pl-4">Evolution</span>
                         </a>
                     </li>
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/seances"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">fitness_center</i>
                             <span class="pl-4">Séances</span>
@@ -67,28 +67,29 @@
                 <ul class="mynav" *ngIf="profileService.profileIsCoach()">
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
                         [routerLink]="['profile', authenticationProfile.id]"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">person</i>
                             <span class="pl-4">Mon profil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil"
-                        *ngIf="auth.authenticated() && w">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" routerLink="/accueil">
                         <a>
                             <i class="material-icons">store</i>
                             <span class="pl-4">Accueil</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" [routerLink]="['adherents', authenticationProfile.id]"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['adherents', authenticationProfile.id]"
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">supervisor_account</i>
                             <span class="pl-4">Adhérents</span>
                         </a>
                     </li>
-                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']" [routerLink]="['machines', authenticationProfile.id]"
-                        *ngIf="auth.authenticated() && profileService.profileIsCompleted()">
+                    <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
+                        [routerLink]="['machines', authenticationProfile.id]"
+                        *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">fitness_center</i>
                             <span class="pl-4">Machines</span>

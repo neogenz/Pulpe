@@ -1,34 +1,36 @@
-<nav class="navbar navbar-light fixed-top shadow white">
-    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="toggleSidebar()"
-            *ngIf="auth.authenticated()">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
-</nav>
+<div id="holder">
+    <nav class="navbar navbar-light fixed-top shadow white">
+        <button class="navbar-toggler navbar-toggler-right" type="button" (click)="toggleSidebar()"
+                *ngIf="auth.authenticated()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand text-primary pulpe-brand" href="#">Pulpe</a>
+    </nav>
 
-<ng-sidebar-container>
-    <ng-sidebar [(opened)]="_opened" [mode]="'over'" [closeOnClickOutside]="true"
-                [closeOnClickBackdrop]="true" [showBackdrop]="true"
-                style="position: absolute;min-height: 100% !important;">
-        <pulpe-sidebar *ngIf="auth.authenticated()"></pulpe-sidebar>
-    </ng-sidebar>
-    <div class="container">
-        <ng2-slim-loading-bar [height]="'4px'"></ng2-slim-loading-bar>
-        <router-outlet></router-outlet>
-        <!--<pulpe-footer></pulpe-footer>-->
-    </div>
-</ng-sidebar-container>
-<footer class="footer bg-gray">
-    <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-md-6 h-100 v-center">
-                <p class="font-weight-light footer-text">&copy; 2016 Pulpe, Inc.</p>
-            </div>
-            <div class="col-md-6 h-100 v-center justify-content-end">
-                <a class="font-weight-light icon pointer" href="https://github.com/neogenz/Pulpe.git"><i
-                        class="fa fa-github"></i></a>
+    <ng-sidebar-container>
+        <ng-sidebar [(opened)]="_opened" [mode]="'over'" [closeOnClickOutside]="true"
+                    [closeOnClickBackdrop]="true" [showBackdrop]="true"
+                    style="position: absolute;min-height: 100% !important;">
+            <pulpe-sidebar *ngIf="auth.authenticated()"></pulpe-sidebar>
+        </ng-sidebar>
+        <div class="container pb-footer">
+            <ng2-slim-loading-bar [height]="'4px'"></ng2-slim-loading-bar>
+            <router-outlet></router-outlet>
+            <!--<pulpe-footer></pulpe-footer>-->
+        </div>
+
+    </ng-sidebar-container>
+    <footer class="footer bg-gray" *ngIf="footerMustBeDisplayed()">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-md-6 h-100 v-center">
+                    <p class="font-weight-light footer-text">&copy; 2016 Pulpe, Inc.</p>
+                </div>
+                <div class="col-md-6 h-100 v-center justify-content-end">
+                    <a class="font-weight-light icon pointer" href="https://github.com/neogenz/Pulpe.git"><i
+                            class="fa fa-github"></i></a>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
-
+    </footer>
+</div>

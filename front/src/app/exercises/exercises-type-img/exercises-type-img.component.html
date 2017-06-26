@@ -1,0 +1,22 @@
+<div [ngSwitch]="exerciseTypeEnumLabel">
+    <img *ngSwitchCase="bodybuildingExerciseEnumLabel"
+         src="../../assets/img/exercise-types/strength-64.png"
+         class="rounded" [style.width]="width" alt="Type" mdTooltip="Prise de masse"
+         [mdTooltipPosition]="'above'">
+    <img *ngSwitchCase="cardioExerciseEnumLabel"
+         src="../../assets/img/exercise-types/cardiogram-64.png"
+         class="rounded" [style.width]="width" alt="Type" mdTooltip="Cardio"
+         [mdTooltipPosition]="'above'">
+    <img *ngSwitchCase="trainingExerciseEnumLabel"
+         src="../../assets/img/exercise-types/cardiogram-64.png"
+         class="rounded" [style.width]="width" alt="Type" mdTooltip="Échauffement"
+         [mdTooltipPosition]="'above'">
+    <img *ngSwitchCase="organizedExerciseEnumLabel"
+         src="../../assets/img/exercise-types/music-player-64.png"
+         class="rounded" [style.width]="width" alt="Type" mdTooltip="Cours sur écran"
+         [mdTooltipPosition]="'above'">
+    <img *ngSwitchCase="stretchingExerciseEnumLabel"
+         src="../../assets/img/exercise-types/dressing-room-64.png"
+         class="rounded" [style.width]="width" alt="Type" mdTooltip="Étirements"
+         [mdTooltipPosition]="'above'">
+</div>

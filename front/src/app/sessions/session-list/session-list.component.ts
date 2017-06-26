@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
-import {MassGainerExercise} from '../../_model/exercise/MassGainerExercise';
+import {BodybuildingExercise} from '../../_model/exercise/BodybuildingExercise';
 import {CardioExercise} from "../../_model/exercise/CardioExercise";
 import {OrganizedExercise} from "../../_model/exercise/OrganizedExercise";
 import {StretchingExercise} from "../../_model/exercise/StretchingExercise";
@@ -22,7 +22,7 @@ export class SessionListComponent implements OnInit {
     @Input() exerciseGroupRawCode: string;
 
     public isMassGainer(exercise: AbstractExercise): boolean {
-        return exercise instanceof MassGainerExercise;
+        return exercise instanceof BodybuildingExercise;
     }
 
     public isCardio(exercise: AbstractExercise): boolean {

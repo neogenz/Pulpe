@@ -6,13 +6,12 @@ export class OrganizedExercise extends AbstractExercise {
   musclesWorked: any[];
   approximateTime: number;
 
-  constructor(id: number, name: string, machines: any[]) {
-    super(id, name, machines);
+  constructor(id: number, name: string, machines: any[], type: string) {
+    super(id, name, machines, type);
   }
 
 
   initFromRawObject(rawObject: any): OrganizedExercise {
-    debugger;
     this.difficulty = new DifficultyConverter().convertThis(rawObject.difficulty);
     this.musclesWorked = rawObject.musclesWorked;
     this.approximateTime = rawObject.approximateTime;

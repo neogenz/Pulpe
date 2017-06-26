@@ -1,3 +1,4 @@
+import {DifficultyEnum} from "../_enums/DifficultyEnum";
 /**
  * Class used to convert raw difficulty to label in local langage
  */
@@ -13,5 +14,9 @@ export class DifficultyConverter {
 
   public convertThis(difficulty: string): string {
     return this.difficultyConverter.get(difficulty);
+  }
+
+  public convertThisEnum(difficulty: DifficultyEnum): string {
+    return this.difficultyConverter.get(DifficultyEnum[difficulty]);
   }
 }

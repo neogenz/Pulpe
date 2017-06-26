@@ -45,7 +45,7 @@ export class MuscleConverter {
 		return enumInstance;
 	}
 
-	public getNameFrom(labelToFind: string): MuscleEnum.Name {
+	public getEnumFrom(labelToFind: string): MuscleEnum.Name {
 		let nameLabelArray: Array<Array<string>> = Array.from(this.muscleLabelConverter.entries());
 		let name: string;
 		let label: string;

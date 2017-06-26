@@ -11,7 +11,7 @@ import {DeleteDialogComponent} from "../shared/dialogs/delete-dialog/delete-dial
 @Component({
 	selector: 'pulpe-machines',
 	templateUrl: './machines.component.html',
-	styleUrls: ['./machines.component.css'],
+	styleUrls: ['./machines.component.scss'],
 	animations: [Animations.fadeIn()]
 })
 export class MachinesComponent implements OnInit {
@@ -56,9 +56,6 @@ export class MachinesComponent implements OnInit {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((machineSaved) => {
 			if (machineSaved) {
-				machineSaved.workedMuscles.forEach((m) => {
-					m.name = this.muscleConverter.getEnumFromName(m.name);
-				});
 				if (mode === 'add') {
 					this.machines.push(machineSaved);
 				} else {

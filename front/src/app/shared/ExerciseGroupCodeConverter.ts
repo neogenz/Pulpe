@@ -2,6 +2,7 @@ import {AbstractExercise} from "../_model/exercise/AbstractExercise";
 import {ExerciseGroupTypeEnum} from "../_enums/ExerciseGroupTypeEnum";
 import {ExerciseFactory} from "../_model/exercise/ExerciseFactory";
 import {Injectable} from "@angular/core";
+import {ExercisesGroup} from "../_model/exercise/ExercisesGroup";
 
 /**
  * Class used to convert raw exercises group code to label
@@ -28,37 +29,50 @@ export class ExerciseGroupCodeConverter {
    * @param exercisesGroup
    * @returns {ExerciseGroupCode[]}
    */
-  public convertThis(exercisesGroup: Map<string, AbstractExercise[]>): ExerciseGroupCode[] {
+  public convertThis(exercisesGroups: ExercisesGroup[]): ExerciseGroupCode[] {
     let exercisesGroupLabel: ExerciseGroupCode[] = [];
 
-    exercisesGroup.forEach((exercises: AbstractExercise[], exersiseGroupLabel: string) => {
-      if (!this.exerciseGroupLabelConverter.has(exersiseGroupLabel)) {
-        throw new Error('No label finded for this exercise group label' + exersiseGroupLabel);
+    exercisesGroups.forEach(exercisesGroup => {
+      if (!this.exerciseGroupLabelConverter.has(exercisesGroup.groupType)) {
+        throw new Error('No label finded for this exercise group label' + exercisesGroup.groupType);
       }
-      exercisesGroupLabel.push(new ExerciseGroupCode(exersiseGroupLabel, this.exerciseGroupLabelConverter.get(exersiseGroupLabel)));
+      exercisesGroupLabel.push(new ExerciseGroupCode(exercisesGroup.groupType, this.exerciseGroupLabelConverter.get(exercisesGroup.groupType)));
     });
 
     return exercisesGroupLabel;
   }
 
+  /**
+   *
+   * @param rawExerciseGroupCode
+   * @returns {undefined|string}
+   */
   public getLabelOfThis(rawExerciseGroupCode: string) {
     Array.from(this.exerciseGroupLabelConverter.values());
     return this.exerciseGroupLabelConverter.get(rawExerciseGroupCode);
   }
 
-  public static createExercisesGroupsFrom(rawExecises: any[]): Map<string, AbstractExercise[]> {
-    let exercises: Map<string, AbstractExercise[]> = new Map<string, AbstractExercise[]>();
+  /**
+   *
+   * @param rawExecises
+   * @returns {ExercisesGroup[]}
+   */
+  public static createExercisesGroupsFrom(rawExecises: any[]): ExercisesGroup[] {
+    let exercisesGroups: ExercisesGroup[] = [];
     let groupTypeEnumValue = '';
     let groupTypeLabel = '';
+    let exercisesGroupAlreadyPresent: ExercisesGroup = null;
     rawExecises.forEach(rawExercise => {
       groupTypeEnumValue = ExerciseGroupTypeEnum[rawExercise.__t];
       groupTypeLabel = ExerciseGroupTypeEnum[groupTypeEnumValue];
-      if (!exercises.has(groupTypeLabel)) {
-        exercises.set(groupTypeLabel, []);
+      exercisesGroupAlreadyPresent = exercisesGroups.find(exercisesGroup => exercisesGroup.isGroupOf(groupTypeLabel));
+      if (!exercisesGroupAlreadyPresent) {
+        exercisesGroupAlreadyPresent = new ExercisesGroup(groupTypeLabel, []);
+        exercisesGroups.push(exercisesGroupAlreadyPresent);
       }
-      exercises.get(groupTypeLabel).push(ExerciseFactory.create(groupTypeLabel, rawExercise));
+      exercisesGroupAlreadyPresent.addOne(ExerciseFactory.create(groupTypeLabel, rawExercise));
     });
-    return exercises;
+    return exercisesGroups;
   }
 }
 

@@ -12,7 +12,6 @@ export class ProfileCompletedGuardService implements CanActivate {
   }
 
   canActivate() {
-    // debugger;
     const profileIsCompleted: boolean = this.profileService.profileIsCompleted();
     if (!profileIsCompleted) {
       const profileIsCoach: boolean = this.profileService.profileIsCoach();

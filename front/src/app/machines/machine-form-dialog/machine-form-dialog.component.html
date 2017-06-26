@@ -30,73 +30,23 @@
                         <hr>
                     </div>
 
-                    <form (ngSubmit)="addWorkedMuscle()" [formGroup]="workedMuscleForm">
-                        <div class="col-md-10 offset-md-1 pt-2">
-                            <div class="row">
-                                <md-select placeholder="Choisissez un muscle" class="col-md-12"
-                                           formControlName="workedMuscleName" required>
-                                    <md-option *ngFor="let muscle of workedMuscles" [value]="muscle">
-                                        {{muscle}}
-                                    </md-option>
-                                </md-select>
-                                <div class="col-md-12 pt-4">
-                                    <span class="text-light-weight">Intensité : </span>
-                                    <md-radio-group class="text-center pl-3" formControlName="intensity">
-                                        <md-radio-button checked="true" class="pl-1" value="easy">Faible
-                                        </md-radio-button>
-                                        <md-radio-button class="pl-4" value="medium">Moyen</md-radio-button>
-                                        <md-radio-button class="pl-4" value="hard">Fort</md-radio-button>
-                                    </md-radio-group>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 text-center pt-3">
-                            <button type="submit" class="text-accent" [disabled]="workedMuscleForm.invalid"
-                                    md-button>
-                                <i class="ion ion-ios-plus-outline"></i>
-                                <span class="pl-2">Ajouter ce muscle</span>
-                            </button>
-                        </div>
-                    </form>
+                    <div class="col-md-10 offset-md-1 pt-2">
+                        <pulpe-select-worked-muscle
+                                (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
+                    </div>
 
                     <div class="col-md-12 pt-4">
                         <div class="row">
                             <div class="col-md-6 text-w-300 titleWorkedMuscles">
                                 Liste des muscles travaillés
                             </div>
-                            <div class="col-md-6 my-auto font-italic font-weight-light legend">
-                                <span><i class="ion ion-record pr-1 hard"></i>Fort</span>
-                                <span class="pl-2"><i class="ion ion-record pr-1 medium"></i>Moyen</span>
-                                <span class="pl-2"><i class="ion ion-record pr-1 easy"></i>Faible</span>
-                            </div>
-
                         </div>
                         <hr>
                     </div>
+                    <pulpe-chips-removable-worked-muscle (workedMuscleDeleted)="deleteThis($event)"
+                                                         [workedMuscles]="workedMusclesTmp"></pulpe-chips-removable-worked-muscle>
 
-                    <md-chip-list class="mat-chip-selected col-md-12 pt-1">
-                        <div *ngFor="let workedMuscle of workedMusclesTmp" [ngSwitch]="workedMuscle.intensity"
-                             [@fadeIn]>
-                            <md-chip *ngSwitchCase="'hard'"
-                                     selected="true"
-                                     color="primary">
-                                {{workedMuscle | filterWorkedMuscle:workedMuscle}}
-                                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
-                            </md-chip>
-                            <md-chip *ngSwitchCase="'medium'"
-                                     selected="true"
-                                     color="accent">
-                                {{workedMuscle | filterWorkedMuscle:workedMuscle}}
-                                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
-                            </md-chip>
-                            <md-chip *ngSwitchCase="'easy'"
-                                     selected="true"
-                                     color="warn">
-                                {{workedMuscle | filterWorkedMuscle:workedMuscle}}
-                                <i class="ion ion-ios-close-outline pointer" (click)="deleteThis(workedMuscle)"></i>
-                            </md-chip>
-                        </div>
-                    </md-chip-list>
+
                 </div>
             </div>
 

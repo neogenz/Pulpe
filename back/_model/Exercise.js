@@ -41,7 +41,7 @@ ExerciseSchema.query.muscleWorkedBy = function (muscle, intensity) {
   });
 };
 
-ExerciseSchema.query.onThisGymId = function (gymId) {
+ExerciseSchema.query.inThisGymId = function (gymId) {
   return this.find({
     '_gym': gymId
   });

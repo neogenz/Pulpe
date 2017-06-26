@@ -57,7 +57,6 @@ export class Program {
   //   this.createdAt = new Date(rawProgramFromServer.createdAt);
   //   const exercisesGroup: any = this.filterExercisesByTypeFrom(rawProgramFromServer.sessions);
   //   this.exercisesGroups = this.createExercisesFrom(exercisesGroup);
-  //   debugger;
   //   this.sessions = this.fromRawSessionsToSessions(rawProgramFromServer.sessions);
   //   return this;
   // }
