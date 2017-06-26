@@ -87,6 +87,38 @@ class MemberService {
 	}
 
 	/**
+	 * Save a new member and send his password with his email.
+	 * @param member
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static createAndSendPassword(memberToSave) {
+		const member = new Member();
+		member.profileCompleted = false;
+		member.sessionFrequency = memberToSave.sessionFrequency;
+		member.birthDate = new Date(memberToSave.birthDate);
+		member.gym = memberToSave.gym._id;
+		member.firstName = memberToSave.firstName;
+		member.lastName = memberToSave.lastName;
+		member.email = memberToSave.email;
+		member.gender = GenderEnum.fromName(memberToSave.gender);
+		member.objective = ObjectiveEnum.fromCode(memberToSave.objective);
+		member.password = member.generateHash('password');
+
+		return member.save().then(
+			(member) => {
+				return member;
+			},
+			(error) => {
+				if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
+					throw new AlreadyExistMemberError('Cet email existe déja.');
+				}
+			}
+		).catch((error) => {
+			throw error;
+		})
+	}
+
+	/**
 	 * Add measurements for a member.
 	 * @param memberId
 	 * @param measurements

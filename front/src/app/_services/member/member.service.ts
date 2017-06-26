@@ -100,4 +100,25 @@ export class MemberService extends ObservableHelper {
 				.build();
 		}).catch(this.handleError);
 	}
+
+	public create(member: Member): Observable<Member> {
+		return this.http.post(`${environment.baseUrl()}/members`, {
+			member: member
+		}).map(response => {
+			const data: any = this.extractDataOf(response);
+			return Member.of()
+				.id(data.member._id)
+				.lastName(data.member.lastName)
+				.firstName(data.member.firstName)
+				.measurements(data.member.measurements)
+				.objective(data.member.objective)
+				.gender(data.member.gender)
+				.sessionFrequency(data.member.sessionFrequency)
+				.gym(data.member.gym)
+				.email(data.member.email)
+				.createdAt(data.member.createdAt.toLocaleString())
+				.birthDate(data.member.birthDate.toLocaleString())
+				.build();
+		}).catch(this.handleError);
+	}
 }

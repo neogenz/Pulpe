@@ -3,43 +3,60 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {Member} from "../../_model/Member";
 import {Animations} from "../../shared/Animations";
 import {DialogService} from "ng2-bootstrap-modal";
-import {ProfileMemberEditDialogComponent} from "./profile-member-edit-dialog/profile-member-edit-dialog.component";
+import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
 
 @Component({
-  selector: 'pulpe-profile',
-  templateUrl: 'profile.component.html',
-  styleUrls: ['profile.component.css'],
-  animations: [Animations.fadeIn()]
+	selector: 'pulpe-profile',
+	templateUrl: 'profile.component.html',
+	styleUrls: ['profile.component.css'],
+	animations: [Animations.fadeIn()]
 })
 export class ProfileComponent implements OnInit {
-  private member: Member;
-  objective: string;
+	private member: Member;
+	objective: string;
 
-  constructor(private route: ActivatedRoute, private dialogService: DialogService) {
-  }
+	constructor(private route: ActivatedRoute, private dialogService: DialogService) {
+	}
 
-  ngOnInit() {
-    this.member = this.route.snapshot.data['profile'];
-    switch (this.member.objective) {
-      case  'MassGainer':
-        this.objective = 'Prise de masse';
-        break;
-      case  'WeightLoss':
-        this.objective = 'Perte de poids';
-        break;
-      case  'GeneralForm':
-        this.objective = 'Forme générale';
-        break;
-    }
-  }
+	ngOnInit() {
+		this.member = this.route.snapshot.data['profile'];
+		this.setObjective();
+	}
 
-  openDialogEditMember() {
-    this.dialogService.addDialog(ProfileMemberEditDialogComponent, {member: this.member, title:'Edition de mon profil'}, {
-      backdropColor: 'rgba(0,0,0,0.5)'
-    }).subscribe((member) => {
-      if (member) {
-        this.member = member;
-      }
-    });
-  }
+	setObjective() {
+		switch (this.member.objective) {
+			case  'MassGainer':
+				this.objective = 'Prise de masse';
+				break;
+			case  'WeightLoss':
+				this.objective = 'Perte de poids';
+				break;
+			case  'GeneralForm':
+				this.objective = 'Forme générale';
+				break;
+		}
+	}
+
+	openMemberFormDialog(member: Member) {
+		const mode = MemberOpenMode.Add;
+		const title = `Edition de mon profil`;
+		const titleAction = 'Editer';
+		this.dialogService.addDialog(ProfileMemberFormDialogComponent, {
+			member: member,
+			mode: mode,
+			title: title,
+			titleAction: titleAction
+		}, {backdropColor: 'rgba(0,0,0,0.5)'})
+			.subscribe((memberSaved) => {
+				if (memberSaved) {
+					this.member = memberSaved;
+					this.setObjective();
+				}
+			});
+	}
+}
+
+enum MemberOpenMode {
+	Add,
+	Edit
 }

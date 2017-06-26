@@ -5,7 +5,7 @@
                 <h4 class="text-light-weight">{{title}}</h4>
             </div>
         </div>
-        <form (ngSubmit)="edit()" [formGroup]="memberForm">
+        <form (ngSubmit)="confirm()" [formGroup]="memberForm">
             <div class="modal-body">
                 <md-tab-group>
                     <md-tab label="Informations" class="row">
@@ -15,18 +15,12 @@
                                        placeholder="Votre Email"
                                        formControlName="email"
                                        required>
-                                <md-hint *ngIf="emailCtrl.dirty && emailCtrl.hasError('')"
-                                         class="form-control-feedback">Votre email est obligatoire
-                                </md-hint>
                             </md-input-container>
                             <md-input-container class="col-md-12" color="primary" ngxErrors="firstName">
                                 <input id="inputFirstname" mdInput type="text"
                                        placeholder="Votre prénom"
                                        formControlName="firstName"
                                        required>
-                                <md-hint *ngIf="firstNameCtrl.dirty && firstNameCtrl.hasError('')"
-                                         class="form-control-feedback">Votre prénom est obligatoire
-                                </md-hint>
                             </md-input-container>
                             <md-input-container class="col-md-12" color="primary" ngxErrors="lastName">
                                 <input id="inputLastname" mdInput type="text"
@@ -42,9 +36,6 @@
                                        placeholder="Votre date de naissance"
                                        formControlName="birthdate"
                                        required>
-                                <md-hint *ngIf="birthdateCtrl.dirty && birthdateCtrl.hasError('')"
-                                         class="form-control-feedback">Votre date de naissance est obligatoire
-                                </md-hint>
                             </md-input-container>
                             <md-radio-group formControlName="gender" class="col-md-12 pl-3">
                                 <i class="ion-ios-person-outline iconGender"></i>
@@ -86,30 +77,14 @@
                             <md-input-container class="col-md-12" required>
                                 <input id="inputFrequency" type="number" mdInput formControlName="frequency"
                                        placeholder="Saisissez la fréquence à votre salle de sport" required>
-                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('required')"
-                                         class="form-control-feedback">{{errorTranslations.frequency.required}}
-                                </md-hint>
-                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.frequency.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="frequencyCtrl.dirty && frequencyCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.frequency.minValue}}
-                                </md-hint>
                             </md-input-container>
                         </div>
                     </md-tab>
                 </md-tab-group>
-                <div class="row mt-4">
-                    <div *ngIf="isInError" class="col-md-12 col-12">
-                        <div class="alert alert-danger">
-                            {{errorMsg}}
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
-                <button class="btn btn-primary" type="submit" [disabled]="memberForm.invalid">Editer</button>
+                <button class="btn btn-primary" type="submit" [disabled]="memberForm.invalid">{{titleAction}}</button>
             </div>
         </form>
     </div>

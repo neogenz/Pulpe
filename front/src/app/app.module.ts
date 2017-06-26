@@ -71,7 +71,7 @@ import {EvolutionResolver} from "./member/evolution/evolution.resolver";
 import {ProfileCompletationCoachComponent} from './coach/profile/profile-completation-coach/profile-completation-coach.component';
 import {GymService} from "./_services/gym/gym.service";
 import {CoachService} from "./_services/coach/coach.service";
-import {ProfileMemberEditDialogComponent} from './member/profile/profile-member-edit-dialog/profile-member-edit-dialog.component';
+import {ProfileMemberFormDialogComponent} from './shared/profile/profile-member-form-dialog/profile-member-form-dialog.component';
 import {MembersComponent} from './coach/members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./coach/members/members.resolver";
@@ -127,7 +127,7 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
 		MeasurementsListComponent,
 		MeasurementsAddDialogComponent,
 		ProfileCompletationCoachComponent,
-		ProfileMemberEditDialogComponent,
+		ProfileMemberFormDialogComponent,
 		MembersComponent,
 		FilterMembers,
 		FilterMachines,
@@ -229,7 +229,7 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
 	],
 	entryComponents: [
 		MeasurementsAddDialogComponent,
-		ProfileMemberEditDialogComponent,
+		ProfileMemberFormDialogComponent,
 		ProfileCoachEditDialogComponent,
 		ExerciseFormDialogComponent,
 		MachineFormDialogComponent,

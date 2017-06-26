@@ -106,6 +106,26 @@ class MemberController {
 	}
 
 	/**
+	 * Create a new member and send his password with his email.
+	 * @param req
+	 * @param res
+	 */
+	static create(req, res) {
+		const member = req.body.member;
+
+		MemberService.createAndSendPassword(member)
+			.then(member => {
+				res.send({member: member});
+			})
+			.catch((error) => {
+				winston.log('error', error.stack);
+				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+				return res.status(httpError.code).send(httpError);
+			});
+	}
+
+
+	/**
 	 * Find all members of a coach linked by their gym.
 	 * @param req
 	 * @param res

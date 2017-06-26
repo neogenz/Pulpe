@@ -9,26 +9,26 @@ import {Observable} from "rxjs";
 import {GymService} from "../../../_services/gym/gym.service";
 import {Gym} from "../../../_model/Gym";
 import {CustomValidators} from "../../../_formValidators/CustomValidators";
-import {OnError} from "../../../_helpers/IUIErrorHandlerHelper";
-import {ProfileService} from "../profile.service";
 import {ToastrService} from "ngx-toastr";
+import {ProfileService} from "../../../member/profile/profile.service";
+import {AuthenticationProfile} from "../../../_model/AuthenticationProfile";
+import {AuthenticationService} from "../../../_services/authentication/authentication.service";
 
 @Component({
-	selector: 'pulpe-profile-member-edit-dialog',
-	templateUrl: 'profile-member-edit-dialog.component.html',
-	styleUrls: ['profile-member-edit-dialog.component.scss']
+	selector: 'pulpe-profile-member-form-dialog',
+	templateUrl: 'profile-member-form-dialog.component.html',
+	styleUrls: ['profile-member-form-dialog.component.scss']
 })
-export class ProfileMemberEditDialogComponent extends DialogComponent<IEditable, Member> implements IEditable, OnInit, OnError {
-
+export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Member> implements IForm, OnInit {
+	authenticationProfile: AuthenticationProfile;
 	title: string;
+	titleAction: string;
+	mode: MemberOpenMode;
 	memberRequest: Observable<Member> = new Observable();
-	isInError: boolean;
-	errorMsg: string;
-	private frequencyRange: any;
-	private maximumBirthdate: string;
-	member: any;
+	frequencyRange: any;
+	maximumBirthdate: string;
+	member: Member;
 	gyms: any;
-	errorTranslations: any;
 	memberForm: FormGroup;
 	frequencyCtrl: FormControl;
 	emailCtrl: FormControl;
@@ -65,24 +65,101 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<IEditable,
 							private memberService: MemberService,
 							private gymService: GymService,
 							private slimLoadingBarService: SlimLoadingBarService,
-							private toastrService: ToastrService) {
+							private toastrService: ToastrService,
+							private auth: AuthenticationService) {
 		super(dialogService);
 	}
 
-	edit() {
-		const editedMember = Member.of()
+	ngOnInit() {
+		const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
+		httpRequest.subscribe(gyms => {
+				this.gyms = gyms;
+			},
+			errorMsg => {
+				console.error(errorMsg);
+				this.toastrService.error(errorMsg, 'Erreur');
+			});
+
+		this.authenticationProfile = this.auth.getAuthenticationProfileInLocalStorage();
+
+		if (!this.member) {
+			this.member = new Member();
+		}
+		this.buildForm();
+	}
+
+	buildForm() {
+		this.frequencyRange = {
+			min: 1,
+			max: 25
+		};
+		this.emailCtrl = this.fb.control(this.member.email, Validators.required);
+		this.firstNameCtrl = this.fb.control(this.member.firstName, Validators.required);
+		this.lastNameCtrl = this.fb.control(this.member.lastName, Validators.required);
+		this.objectiveCtrl = this.fb.control('');
+		this.gymCtrl = this.fb.control('');
+		this.genderCtrl = this.fb.control(this.member.gender, Validators.required);
+		this.frequencyCtrl = this.fb.control(this.member.sessionFrequency, [Validators.required,
+			CustomValidators.minValue(this.frequencyRange.min),
+			CustomValidators.maxValue(this.frequencyRange.max)
+		]);
+		this.birthdateCtrl = this.fb.control(
+			moment(this.member.birthDate).format('YYYY-MM-DD'), Validators.required
+		);
+		switch (this.member.objective) {
+			case 'GeneralForm':
+				this.objectiveChoices[0].checked = true;
+				break;
+			case 'MassGainer':
+				this.objectiveChoices[1].checked = true;
+				break;
+			case 'WeightLoss':
+				this.objectiveChoices[2].checked = true;
+				break;
+			default :
+				this.objectiveChoices[1].checked = true;
+				break;
+		}
+		this.maximumBirthdate = this.buildToBeOldEnoughDate();
+		this.memberForm = this.fb.group({
+			email: this.emailCtrl,
+			firstName: this.firstNameCtrl,
+			lastName: this.lastNameCtrl,
+			birthdate: this.birthdateCtrl,
+			objective: this.objectiveCtrl,
+			frequency: this.frequencyCtrl,
+			gym: this.gymCtrl,
+			gender: this.genderCtrl
+		});
+	}
+
+	confirm() {
+		const member = Member.of()
 			.id(this.member._id)
 			.email(this.emailCtrl.value)
 			.lastName(this.lastNameCtrl.value)
 			.firstName(this.firstNameCtrl.value)
 			.sessionFrequency(this.frequencyCtrl.value)
 			.birthDate(new Date(this.birthdateCtrl.value))
-			.gym(this.member.gym._id)
 			.gender(this.genderCtrl.value)
 			.objective(this.getObjectiveValue())
 			.build();
 
-		this.memberRequest = this.memberService.update(editedMember);
+		switch (this.mode) {
+			case MemberOpenMode.Add:
+				member.gym = this.authenticationProfile.gym;
+				this.add(member);
+				break;
+			case MemberOpenMode.Edit:
+				member._id = this.member._id;
+				member.gym = this.member.gym;
+				this.edit(member);
+				break;
+		}
+	}
+
+	edit(member: Member) {
+		this.memberRequest = this.memberService.update(member);
 		this.slimLoadingBarService.start();
 		this.memberRequest
 			.finally(() => {
@@ -100,64 +177,23 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<IEditable,
 			);
 	}
 
-	ngOnInit() {
-		const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
-		httpRequest.subscribe(gyms => {
-				this.gyms = gyms;
-			},
-			errorMsg => {
-				console.error(errorMsg);
-				this.displayErrorMsg(errorMsg);
-			});
-
-		this.buildForm();
-	}
-
-	buildForm() {
-		this.frequencyRange = {
-			min: 1,
-			max: 25
-		};
-		this.errorTranslations = {
-			frequency: {
-				required: 'La fréquence à laquelle vous irais à la salle doit être renseignée.',
-				minValue: `Vous devez aller au moins une fois à la salle de sport.`,
-				maxValue: `Vous ne pouvez pas allez jusqu'à ${this.frequencyRange.max} fois à la salle.`,
-			}
-		};
-
-		this.emailCtrl = this.fb.control(this.member.email, Validators.required);
-		this.firstNameCtrl = this.fb.control(this.member.firstName, Validators.required);
-		this.lastNameCtrl = this.fb.control(this.member.lastName, Validators.required);
-		this.objectiveCtrl = this.fb.control('');
-		this.gymCtrl = this.fb.control('');
-		this.genderCtrl = this.fb.control(this.member.gender);
-		this.frequencyCtrl = this.fb.control(this.member.sessionFrequency, [Validators.required,
-			CustomValidators.minValue(this.frequencyRange.min),
-			CustomValidators.maxValue(this.frequencyRange.max)
-		]);
-		this.birthdateCtrl = this.fb.control(
-			moment(this.member.birthDate).format('YYYY-MM-DD'), Validators.required
-		);
-
-		if (this.member.objective === 'GeneralForm' || this.member.objective === 'GF') {
-			this.objectiveChoices[0].checked = true;
-		} else if (this.member.objective === 'MassGainer' || this.member.objective === 'MG') {
-			this.objectiveChoices[1].checked = true;
-		} else {
-			this.objectiveChoices[2].checked = true;
-		}
-		this.maximumBirthdate = this.buildToBeOldEnoughDate();
-		this.memberForm = this.fb.group({
-			email: this.emailCtrl,
-			firstName: this.firstNameCtrl,
-			lastName: this.lastNameCtrl,
-			birthdate: this.birthdateCtrl,
-			objective: this.objectiveCtrl,
-			frequency: this.frequencyCtrl,
-			gym: this.gymCtrl,
-			gender: this.genderCtrl
-		});
+	add(member: Member) {
+		this.memberRequest = this.memberService.create(member);
+		this.slimLoadingBarService.start();
+		this.memberRequest
+			.finally(() => {
+				this.slimLoadingBarService.complete();
+			})
+			.subscribe((member) => {
+					this.result = member;
+					this.close();
+					this.toastrService.success(`Un nouvel adhérent a été ajouté. Le mot de passe a été envoyé à : ${member.email}.`, 'Succès');
+				},
+				(errorMsg) => {
+					console.error(errorMsg);
+					this.toastrService.error(errorMsg, 'Erreur');
+				}
+			);
 	}
 
 	check(choice) {
@@ -176,16 +212,6 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<IEditable,
 		return value;
 	}
 
-	displayErrorMsg(errorMsg: string) {
-		this.isInError = true;
-		this.errorMsg = errorMsg;
-	}
-
-	hideErrorMsg() {
-		this.isInError = false;
-		this.errorMsg = '';
-	}
-
 	private buildToBeOldEnoughDate(): string {
 		const maxDate = new Date();
 		maxDate.setFullYear(maxDate.getFullYear() - 14);
@@ -198,9 +224,22 @@ export class ProfileMemberEditDialogComponent extends DialogComponent<IEditable,
 		this.objectiveChoices.forEach(objective => objective.checked = false);
 		this.objectiveCtrl.setValue('');
 	}
+
+	static passwordMatch(group: FormGroup) {
+		const password = group.get('password').value;
+		const confirm = group.get('confirmPassword').value;
+		return password === confirm ? null : {matchingError: true};
+	}
 }
 
-export interface IEditable {
-	member: any;
+export interface IForm {
+	member: Member;
 	title: string;
+	titleAction: string;
+	mode: MemberOpenMode;
+}
+
+enum MemberOpenMode{
+	Add,
+	Edit
 }
