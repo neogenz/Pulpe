@@ -1,0 +1,62 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="text-center">
+                <h4 class="text-light-weight">Edition de mon profil</h4>
+            </div>
+        </div>
+        <form (ngSubmit)="edit()" [formGroup]="coachForm">
+            <div class="modal-body">
+                <div label="Informations" class="row">
+                    <div class="overflow-hidden">
+                        <md-input-container class="col-md-12" color="primary" ngxErrors="email">
+                            <input id="inputMail" mdInput type="email"
+                                   placeholder="Votre Email"
+                                   formControlName="email"
+                                   required>
+                            <md-hint *ngIf="emailCtrl.dirty && emailCtrl.hasError('')"
+                                     class="form-control-feedback">Votre email est obligatoire
+                            </md-hint>
+                        </md-input-container>
+                        <md-input-container class="col-md-12" color="primary" ngxErrors="firstName">
+                            <input id="inputFirstname" mdInput type="text"
+                                   placeholder="Votre prénom"
+                                   formControlName="firstName"
+                                   required>
+                            <md-hint *ngIf="firstNameCtrl.dirty && firstNameCtrl.hasError('')"
+                                     class="form-control-feedback">Votre prénom est obligatoire
+                            </md-hint>
+                        </md-input-container>
+                        <md-input-container class="col-md-12" color="primary" ngxErrors="lastName">
+                            <input id="inputLastname" mdInput type="text"
+                                   placeholder="Votre nom"
+                                   formControlName="lastName"
+                                   required>
+                            <md-hint *ngIf="lastNameCtrl.dirty && lastNameCtrl.hasError('')"
+                                     class="form-control-feedback">Votre nom est obligatoire
+                            </md-hint>
+                        </md-input-container>
+                        <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
+                            <input id="inputBirthdate" mdInput type="date" [max]="maximumBirthdate"
+                                   placeholder="Votre date de naissance"
+                                   formControlName="birthdate"
+                                   required>
+                            <md-hint *ngIf="birthdateCtrl.dirty && birthdateCtrl.hasError('')"
+                                     class="form-control-feedback">Votre date de naissance est obligatoire
+                            </md-hint>
+                        </md-input-container>
+                        <md-radio-group formControlName="gender" class="col-md-12 pl-3">
+                            <i class="ion-ios-person-outline iconGender"></i>
+                            <md-radio-button value="Male">Homme</md-radio-button>
+                            <md-radio-button class="pl-4" value="Female">Femme</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
+                <button class="btn btn-primary" type="submit" [disabled]="coachForm.invalid">Editer</button>
+            </div>
+        </form>
+    </div>
+</div>

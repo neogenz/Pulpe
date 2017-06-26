@@ -70,7 +70,7 @@ class MemberService {
 	 * @param member
 	 * @returns {Promise.<Member>|Promise}
 	 */
-	static createMember(member) {
+	static create(member) {
 		member.password = member.generateHash(member.password);
 		return member.save().then(
 			(member) => {
@@ -162,7 +162,7 @@ class MemberService {
 	 * @param member
 	 * @returns {Promise.<Member>|Promise}
 	 */
-	static updateMember(member) {
+	static update(member) {
 		return this.findById(member._id)
 			.then(memberFinded => {
 				memberFinded.sessionFrequency = member.sessionFrequency;

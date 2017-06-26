@@ -7,7 +7,7 @@ export class Gym {
     return this;
   }
 
-  id: string;
+  _id: string;
   name: string;
   address: string;
   city: string;
@@ -25,7 +25,7 @@ class GymBuilder {
   private me: Gym = new Gym();
 
   public id(id: string): GymBuilder {
-    this.me.id = id;
+    this.me._id = id;
     return this;
   }
 

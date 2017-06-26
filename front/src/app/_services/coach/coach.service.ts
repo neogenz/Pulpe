@@ -32,4 +32,23 @@ export class CoachService extends ObservableHelper {
 					.build();
 			}).catch(this.handleError);
 	}
+
+	public update(coach: Coach): Observable<Coach> {
+		return this.http.put(`${environment.baseUrl()}/coachs`, {
+			coach: coach
+		}).map(response => {
+			const data: any = this.extractDataOf(response);
+			return Coach.of()
+				.id(data.coach._id)
+				.lastName(data.coach.lastName)
+				.firstName(data.coach.firstName)
+				.gender(data.coach.gender)
+				.gym(data.coach.gym)
+				.email(data.coach.email)
+				.profileCompleted(data.coach.profileIsCompleted)
+				.createdAt(data.coach.createdAt.toLocaleString())
+				.birthDate(data.coach.birthDate.toLocaleString())
+				.build();
+		}).catch(this.handleError);
+	}
 }

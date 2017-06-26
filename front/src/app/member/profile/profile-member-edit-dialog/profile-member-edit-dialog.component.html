@@ -75,7 +75,7 @@
                                 <div class="row">
                                     <md-select placeholder="Choisissez votre salle" formControlName="gym"
                                                class="col-md-12 form-group" [(ngModel)]="member.gym._id">
-                                        <md-option *ngFor="let gym of gyms" [value]="gym.id">
+                                        <md-option *ngFor="let gym of gyms" [value]="gym._id">
                                             {{gym.name}} - {{gym.city}}
                                         </md-option>
                                     </md-select>

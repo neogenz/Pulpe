@@ -6,6 +6,7 @@ const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GymService = require('../_services/gym.service');
+const GenderEnum = require('../_enums/GenderEnum');
 
 class AlreadyExistCoachError extends AlreadyExistError {
 }
@@ -70,7 +71,7 @@ class CoachService {
 	 * @param coach
 	 * @returns {Promise.<Coach>|Promise}
 	 */
-	static createCoach(coach) {
+	static create(coach) {
 		coach.password = coach.generateHash(coach.password);
 		return coach.save().then(
 			(coach) => {
@@ -84,6 +85,37 @@ class CoachService {
 		).catch((error) => {
 			throw error;
 		})
+	}
+
+	/**
+	 * Update a member.
+	 * @param member
+	 * @returns {Promise.<Coach>|Promise}
+	 */
+	static update(coach) {
+		return this.findById(coach._id)
+			.then(coachFinded => {
+				coachFinded.birthDate = new Date(coach.birthDate);
+				coachFinded.email = coach.email;
+				coachFinded.firstName = coach.firstName;
+				coachFinded.lastName = coach.lastName;
+				coachFinded.gender = GenderEnum.fromName(coach.gender);
+				coachFinded.gym = coach.gym;
+				return coachFinded.save();
+			})
+			.then(coach => {
+					return this.findById(coach._id)
+				}, (error) => {
+					throw new TechnicalError(error.message);
+				}
+			).then(coach => {
+				return coach;
+			}, (error) => {
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
 	}
 
 	/**

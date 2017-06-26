@@ -91,10 +91,10 @@ class MemberController {
 	 * @param req
 	 * @param res
 	 */
-	static updateMember(req, res) {
+	static update(req, res) {
 		const member = req.body.member;
 
-		MemberService.updateMember(member)
+		MemberService.update(member)
 			.then(member => {
 				res.send({member: member});
 			})

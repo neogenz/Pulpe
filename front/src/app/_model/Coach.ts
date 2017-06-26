@@ -8,7 +8,7 @@ export class Coach {
     return this;
   }
 
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   gender: string;
@@ -35,7 +35,7 @@ class CoachBuilder {
   private me: Coach = new Coach();
 
   public id(id: string): CoachBuilder {
-    this.me.id = id;
+    this.me._id = id;
     return this;
   }
 

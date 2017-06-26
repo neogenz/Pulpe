@@ -13,70 +13,70 @@ import {environment} from "../../../environments/environment";
 @Injectable()
 export class AuthenticationService extends ObservableHelper implements IAuthenticationService {
 
-  constructor(private http: Http, private localStorageService: LocalStorageService) {
-    super();
-  }
+	constructor(private http: Http, private localStorageService: LocalStorageService) {
+		super();
+	}
 
-  public signin(login: string, password: string): Observable<AuthenticationProfile | string> {
-    return this.http.post(`${environment.baseUrl()}/signin`, {
-      email: login,
-      password: password
-    }).map(response => {
-      const data: any = this.extractDataOf(response);
-      const rawProfile = this.jwtHelper.decodeToken(data.token);
-      const token: string = data.token;
-      this.localStorageService.set('token', token);
-      return AuthenticationProfile.of().token(data.token)
-        .login(rawProfile.email)
-        .id(rawProfile._id)
-        .profileCompleted(rawProfile.profileCompleted)
-        .firstName(rawProfile.firstName)
-        .isCoach(data.isCoach)
+	public signin(login: string, password: string): Observable<AuthenticationProfile | string> {
+		return this.http.post(`${environment.baseUrl()}/signin`, {
+			email: login,
+			password: password
+		}).map(response => {
+			const data: any = this.extractDataOf(response);
+			const rawProfile = this.jwtHelper.decodeToken(data.token);
+			const token: string = data.token;
+			this.localStorageService.set('token', token);
+			return AuthenticationProfile.of().token(data.token)
+				.login(rawProfile.email)
+				.id(rawProfile._id)
+				.profileCompleted(rawProfile.profileCompleted)
+				.firstName(rawProfile.firstName)
+				.isCoach(data.isCoach)
 				.gym(rawProfile.gym)
-        .lastName(rawProfile.lastName)
-        .password(password).build();
-    }).catch(this.handleError);
-  }
+				.lastName(rawProfile.lastName)
+				.password(password).build();
+		}).catch(this.handleError);
+	}
 
-  public signup(firstName: string, lastName: string, login: string, password: string, isCoach: boolean): Observable<AuthenticationProfile | string> {
-    return this.http.post(`${environment.baseUrl()}/signup`, {
-      email: login,
-      password: password,
-      lastname: lastName,
-      firstname: firstName,
-      isCoach: isCoach
-    }).map(response => {
-      const data: any = this.extractDataOf(response);
-      const rawProfile = this.jwtHelper.decodeToken(data.token);
-      this.localStorageService.set('token', data.token);
-      return AuthenticationProfile.of().token(data.token)
-        .id(rawProfile._id)
-        .login(rawProfile.email)
-        .firstName(rawProfile.firstName)
-        .profileCompleted(rawProfile.profileCompleted)
-        .isCoach(isCoach)
-        .gym(rawProfile.gym)
-        .lastName(rawProfile.lastName)
-        .password(password).build();
-    })
-      .catch(this.handleError);
-  }
+	public signup(firstName: string, lastName: string, login: string, password: string, isCoach: boolean): Observable<AuthenticationProfile | string> {
+		return this.http.post(`${environment.baseUrl()}/signup`, {
+			email: login,
+			password: password,
+			lastname: lastName,
+			firstname: firstName,
+			isCoach: isCoach
+		}).map(response => {
+			const data: any = this.extractDataOf(response);
+			const rawProfile = this.jwtHelper.decodeToken(data.token);
+			this.localStorageService.set('token', data.token);
+			return AuthenticationProfile.of().token(data.token)
+				.id(rawProfile._id)
+				.login(rawProfile.email)
+				.firstName(rawProfile.firstName)
+				.profileCompleted(rawProfile.profileCompleted)
+				.isCoach(isCoach)
+				.gym(rawProfile.gym)
+				.lastName(rawProfile.lastName)
+				.password(password).build();
+		})
+			.catch(this.handleError);
+	}
 
-  public signout(): void {
-    this.localStorageService.remove('token');
-    this.localStorageService.remove('program');
-  }
+	public signout(): void {
+		this.localStorageService.remove('token');
+		this.localStorageService.remove('program');
+	}
 
-  public authenticated(): boolean {
-    return tokenNotExpired();
-  }
+	public authenticated(): boolean {
+		return tokenNotExpired();
+	}
 
-  public getAuthenticationProfileInLocalStorage(): AuthenticationProfile {
-    let profileInLocalStorage: string = this.localStorageService.get<string>('profile');
-    if (profileInLocalStorage) {
-      let profile: AuthenticationProfile = JSON.parse(profileInLocalStorage);
-      return profile;
-    }
-    return null;
-  }
+	public getAuthenticationProfileInLocalStorage(): AuthenticationProfile {
+		let profileInLocalStorage: string = this.localStorageService.get<string>('profile');
+		if (profileInLocalStorage) {
+			let profile: AuthenticationProfile = JSON.parse(profileInLocalStorage);
+			return profile;
+		}
+		return null;
+	}
 }

@@ -73,7 +73,7 @@ class AuthenticationService {
 
 
 function _signupMember(member) {
-    return MemberService.createMember(member)
+    return MemberService.create(member)
         .then((memberCreated) => {
             return _generateToken(memberCreated);
         }, (error) => {
@@ -85,7 +85,7 @@ function _signupMember(member) {
 }
 
 function _signupCoach(coach) {
-    return CoachService.createCoach(coach)
+    return CoachService.create(coach)
         .then((coachCreated) => {
             return _generateToken(coachCreated);
         }, (error) => {

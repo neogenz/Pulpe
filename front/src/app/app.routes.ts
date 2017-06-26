@@ -56,7 +56,7 @@ export const ROUTES: Routes = [
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService]
 	},
 	{
-		path: 'evolution/:id',
+		path: 'evolution/:_id',
 		component: EvolutionComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
 		resolve: {
@@ -72,7 +72,7 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
-		path: 'profile/member/:id',
+		path: 'profile/member/:_id',
 		component: ProfileComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
 		resolve: {
@@ -80,7 +80,7 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
-		path: 'profile/coach/:id',
+		path: 'profile/coach/:_id',
 		component: ProfileCoachComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
 		resolve: {

@@ -12,7 +12,7 @@ export class EvolutionResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot): Observable<Member> | Promise<Member> | Member {
-        return this.memberService.findById(route.params['id']);
+        return this.memberService.findById(route.params['_id']);
 
         // TODO : Why doesn't work?
         // this.slimLoadingBarService.start();

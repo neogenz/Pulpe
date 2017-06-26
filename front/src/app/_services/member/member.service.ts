@@ -80,7 +80,7 @@ export class MemberService extends ObservableHelper {
 		}).catch(this.handleError);
 	}
 
-	public editProfile(member: Member): Observable<Member> {
+	public update(member: Member): Observable<Member> {
 		return this.http.put(`${environment.baseUrl()}/members`, {
 			member: member
 		}).map(response => {

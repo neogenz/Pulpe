@@ -99,6 +99,7 @@ import {HeaderListComponent} from './shared/lists/header-list/header-list.compon
 import {ProfileCoachComponent} from './coach/profile/profile-coach.component';
 import {ProfileInfosCoachComponent} from './coach/profile/profile-infos-coach/profile-infos-coach.component';
 import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
+import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edit-dialog/profile-coach-edit-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -142,7 +143,8 @@ import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
 		DeleteDialogComponent,
 		HeaderListComponent,
 		ProfileCoachComponent,
-		ProfileInfosCoachComponent
+		ProfileInfosCoachComponent,
+		ProfileCoachEditDialogComponent
 	],
 	imports: [
 		MdButtonModule,
@@ -228,6 +230,7 @@ import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
 	entryComponents: [
 		MeasurementsAddDialogComponent,
 		ProfileMemberEditDialogComponent,
+		ProfileCoachEditDialogComponent,
 		ExerciseFormDialogComponent,
 		MachineFormDialogComponent,
 		DeleteDialogComponent
