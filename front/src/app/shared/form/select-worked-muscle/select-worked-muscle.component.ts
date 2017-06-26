@@ -1,9 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MuscleConverter} from "../../MuscleConverter";
 import {DifficultyEnum} from "../../../_enums/DifficultyEnum";
 import {WorkedMuscle} from "../../../_model/WorkedMuscle";
 import {DifficultyConverter} from "../../DifficultyConverter";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'pulpe-select-worked-muscle',
@@ -14,8 +15,8 @@ export class SelectWorkedMuscleComponent implements OnInit {
 
   @Output() muscleAdded = new EventEmitter<WorkedMuscle>();
 
-  workedMuscleNameCtrl: FormControl;
   workedMuscleForm: FormGroup;
+  workedMuscleNameCtrl: FormControl;
   intensityCtrl: FormControl;
   workedMusclesLabels: string[];
   difficultyConverter: DifficultyConverter = new DifficultyConverter();
@@ -45,7 +46,7 @@ export class SelectWorkedMuscleComponent implements OnInit {
     this.buildForm();
   }
 
-  buildForm() {
+  buildForm(): void {
     this.intensityCtrl = this.fb.control(this.workedMuscle.intensity, Validators.required);
     this.workedMuscleNameCtrl = this.fb.control(this.workedMuscle.name, Validators.required);
     this.workedMuscleForm = this.fb.group({
@@ -54,7 +55,7 @@ export class SelectWorkedMuscleComponent implements OnInit {
     });
   }
 
-  add() {
+  add(): void {
     let workedMuscle = WorkedMuscle.of().name(this.muscleConverter.getEnumFrom(this.workedMuscleNameCtrl.value)).intensity(this.intensityCtrl.value).build();
     this.muscleAdded.emit(workedMuscle);
   }
@@ -70,3 +71,11 @@ interface DifficultiesSelectable {
   hard: DifficultySelectable;
 }
 
+export interface WorkedMuscleSelectable {
+  workedMusclesCtrl: FormArray;
+  errorTranslations: any;
+
+  _initWorkedMuscleControl(workedMuscle: WorkedMuscle): FormControl;
+  deleteWorkedMuscleAtThis(index: number): void;
+  addWorkedMuscle(workedMuscleToAdd: WorkedMuscle): void;
+}

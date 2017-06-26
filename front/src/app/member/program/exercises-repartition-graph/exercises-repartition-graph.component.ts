@@ -1,14 +1,14 @@
 import {Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
-import {Program} from "../../../_model/Program";
-import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
-import {ChartConfiguration} from "../../../shared/ChartConfiguration";
+import {Program} from "../../_model/Program";
+import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
+import {ChartConfiguration} from "../../shared/ChartConfiguration";
 import {BaseChartDirective} from "ng2-charts/index";
-import {Session} from "../../../_model/Session";
+import {Session} from "../../_model/Session";
 
 @Component({
   selector: 'pulpe-exercises-repartition-graph',
-  templateUrl: 'exercises-repartition-graph.component.html',
-  styleUrls: ['exercises-repartition-graph.component.css']
+  templateUrl: './exercises-repartition-graph.component.html',
+  styleUrls: ['./exercises-repartition-graph.component.css']
 })
 export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(BaseChartDirective) chartDirective = null;

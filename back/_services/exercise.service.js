@@ -121,7 +121,7 @@ class ExerciseService {
       .then(exercise => {
         return exercise.save();
       }, error => {
-        throw new TechnicalError(error.message);
+        throw error;
       })
       .catch(error => {
         throw error;
@@ -245,6 +245,7 @@ class ExerciseService {
       case ExerciseGroupTypeEnum.OrganizedExercise:
         return ExerciseService.generateOrganizedExercise(name, machines, exerciseProperties);
     }
+    return Promise.reject(new TechnicalError('Type of exercise not found'));
   }
 
 
@@ -255,7 +256,7 @@ class ExerciseService {
    * @param {Object} exerciseProperties
    * @param {ExerciseGroupTypeEnum} exerciseProperties.type
    * @param {Array<Exercise>} [exerciseProperties.workedMuscles]
-   * @param {number} [exerciseProperties.weight]
+   * @param {number} [exerciseProperties.km]
    * @param {number} [exerciseProperties.phase]
    * @param {number} [exerciseProperties.reference]
    * @param {Gym} [exerciseProperties.gym]
@@ -271,7 +272,7 @@ class ExerciseService {
           reference: exerciseProperties.reference ? exerciseProperties.reference : false,
           name: name,
           machines: machines,
-          km: exerciseReferenceInformation[0].km,
+          km: exerciseProperties.km ? exerciseProperties.km : exerciseReferenceInformation[0].km,
           calories: exerciseReferenceInformation[0].calories,
           speed: exerciseReferenceInformation[0].speed,
           recovery: exerciseReferenceInformation[0].recovery,

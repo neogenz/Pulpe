@@ -1,5 +1,5 @@
 import {Gym} from "./Gym";
-import {WorkedMuscle} from "./WorkedMuscle";
+import {ServerWorkedMuscle, WorkedMuscle} from "./WorkedMuscle";
 import {MuscleEnum} from "../_enums/MuscleEnum";
 import {DifficultyEnum} from "../_enums/DifficultyEnum";
 import {promise, Serializable} from "selenium-webdriver";
@@ -22,17 +22,17 @@ export class Machine implements Serializable<ServerMachine> {
   }
 
 
-  serialize(): promise.IThenable<ServerMachine> | ServerMachine {
+  serialize(): ServerMachine {
     let serverMachine = new ServerMachine();
-    let workedMuscleToServer: WorkedMuscle[] = [];
     serverMachine.name = this.name;
-    this.workedMuscles.forEach(workedMuscle => {
-      workedMuscleToServer.push(WorkedMuscle.of().name(MuscleEnum.Name[workedMuscle.name]).intensity(DifficultyEnum[workedMuscle.intensity]).build());
-    });
-    serverMachine.workedMuscles = workedMuscleToServer;
+    serverMachine.workedMuscles = this.workedMuscles.map(m => m.serialize());
     serverMachine.gym = this.gym;
     serverMachine._id = this._id;
     return serverMachine;
+  }
+
+  public isSame(machine: Machine): boolean {
+    return this.name === machine.name;
   }
 }
 
@@ -71,7 +71,7 @@ class MachineBuilder {
 export class ServerMachine {
   _id: string;
   name: string;
-  workedMuscles: WorkedMuscle[];
+  workedMuscles: ServerWorkedMuscle[];
   gym: Gym;
 
   constructor() {

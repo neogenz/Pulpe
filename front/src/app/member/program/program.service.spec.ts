@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
-import {ProgramService} from "./program.service";
 
+import { ProgramService } from './program.service.ts';
 
 describe('ProgramService', () => {
   beforeEach(() => {

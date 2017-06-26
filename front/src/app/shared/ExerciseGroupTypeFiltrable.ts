@@ -11,3 +11,13 @@ export abstract class ExerciseGroupTypeFiltrable {
   public abdominusExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise].toString();
   public organizedExerciseEnumLabel: string = ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise].toString();
 }
+
+export interface ExerciseGroupTypeFiltrable{
+  bodybuildingExerciseEnumLabel: string;
+  trainingExerciseEnumLabel: string;
+  stretchingExerciseEnumLabel: string;
+  cardioExerciseEnumLabel: string;
+  recuperationExerciseEnumLabel: string;
+  abdominusExerciseEnumLabel: string;
+  organizedExerciseEnumLabel: string;
+}

@@ -1,5 +1,5 @@
 <div class="row" md-line>
-    <pulpe-exercises-type-img [exerciseTypeEnumLabel]="exercisesGroupRawCode"></pulpe-exercises-type-img>
+    <pulpe-exercises-type-img [exerciseTypeEnum]="exercisesGroupRawCode"></pulpe-exercises-type-img>
 
     <div class="col-md-10">
         <h4 class="exerciseTitle">{{exercise.name}}
@@ -107,7 +107,7 @@
             <span mdTooltip="Difficulté"
                   [mdTooltipPosition]="'right'">
                 <i class="ion ion-ios-bolt"></i>
-                <span class="text-capitalize">{{exercise.difficulty}}</span>
+                <span class="text-capitalize">{{difficultyConverter.convertThisEnum(exercise.difficulty)}}</span>
             </span>
         </div>
         <div class="col-6 col-md-2 text-center">

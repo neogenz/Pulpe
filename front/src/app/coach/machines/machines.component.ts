@@ -1,45 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-import {Machine} from "../../_model/Machine";
+import {Machine} from "../_model/Machine";
 import {DialogService} from "ng2-bootstrap-modal";
 import {ActivatedRoute} from "@angular/router";
-import {Animations} from "../../shared/Animations";
+import {Animations} from "../shared/Animations";
 import {MachineFormDialogComponent} from "./machine-form-dialog/machine-form-dialog.component";
-import {MuscleConverter} from "../../shared/MuscleConverter";
-import {DeleteDialogComponent} from "../../shared/dialogs/delete-dialog/delete-dialog.component";
-import {Observable} from "rxjs";
-import {MachineService} from "../../_services/machine/machine.service";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {ToastrService} from "ngx-toastr";
+import {AuthenticationProfile} from "../_model/AuthenticationProfile";
+import {MuscleConverter} from "../shared/MuscleConverter";
+import {DeleteDialogComponent} from "../shared/dialogs/delete-dialog/delete-dialog.component";
 
 @Component({
 	selector: 'pulpe-machines',
-	templateUrl: 'machines.component.html',
-	styleUrls: ['machines.component.scss'],
+	templateUrl: './machines.component.html',
+	styleUrls: ['./machines.component.scss'],
 	animations: [Animations.fadeIn()]
 })
 export class MachinesComponent implements OnInit {
-	machineRequest: Observable<Machine> = new Observable();
+	private authenticationProfile: AuthenticationProfile;
 	private machines: Machine[];
 	filterArgs: string;
 
-	constructor(private route: ActivatedRoute,
-							private dialogService: DialogService,
-							private slimLoadingBarService: SlimLoadingBarService,
-							private muscleConverter: MuscleConverter,
-							private toastrService: ToastrService,
-							private machineService: MachineService) {
+	constructor(private route: ActivatedRoute, private dialogService: DialogService, private muscleConverter: MuscleConverter) {
 	}
 
 	ngOnInit() {
 		this.machines = this.route.snapshot.data['machines'];
 		this.filterArgs = '';
-	}
-
-	filterArgsChanged(filtersArgs: string) {
-		this.filterArgs = null;
-		if (filtersArgs !== '') {
-			this.filterArgs = filtersArgs;
-		}
 	}
 
 	openDeleteDialog(machine) {
@@ -50,22 +35,7 @@ export class MachinesComponent implements OnInit {
 		}, {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((id) => {
-			if (id) {
-				this.machineRequest = this.machineService.delete(machine);
-				this.slimLoadingBarService.start();
-				this.machineRequest.finally(() => {
-					this.slimLoadingBarService.complete();
-				})
-					.subscribe((machine) => {
-							this.toastrService.success('La machine a été supprimée.', 'Succès!');
-							this.machines = this.machines.filter(m => m._id !== machine._id);
-						},
-						(errorMsg) => {
-							console.error(errorMsg);
-							this.toastrService.error(errorMsg, 'Erreur');
-						}
-					);
-			}
+
 		});
 	}
 
