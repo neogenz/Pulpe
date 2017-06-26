@@ -106,7 +106,7 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
-		path: 'machines/:idCoach',
+		path: 'machines',
 		component: MachinesComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
 		resolve: {
