@@ -30,6 +30,13 @@ export class MembersComponent implements OnInit {
     this.filterArgs = '';
   }
 
+  filterArgsChanged(filtersArgs: string) {
+    this.filterArgs = null;
+    if (filtersArgs !== '') {
+      this.filterArgs = filtersArgs;
+    }
+  }
+
   public isMassGainer(objective: string): boolean {
     this.objectiveEnum = this.objectiveEnumService.getObjectiveFromName(objective);
     return ObjectiveEnum.MassGainer === this.objectiveEnum;

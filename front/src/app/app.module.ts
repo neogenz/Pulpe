@@ -95,6 +95,7 @@ import { SelectWorkedMuscleComponent } from './shared/form/select-worked-muscle/
 import { ChipsRemovableWorkedMuscleComponent } from './shared/form/chips-removable-worked-muscle/chips-removable-worked-muscle.component';
 import {TranslateWorkedMuscleName} from "./shared/pipes/workedMuscle.trad.filter.pipe";
 import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dialog.component';
+import { HeaderListComponent } from './shared/lists/header-list/header-list.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dia
     ExerciseFormDialogComponent,
     SelectWorkedMuscleComponent,
     ChipsRemovableWorkedMuscleComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    HeaderListComponent
   ],
   imports: [
     MdButtonModule,

@@ -1,0 +1,21 @@
+<div class="row">
+    <md-card class="col-md-12">
+        <div class="row">
+            <div class="col-md-2 text-center my-auto separatorVertical">
+                <span class="icon ${{icon}}"></span>
+                <div class="text-light-weight">
+                    <strong class="text-primary">{{nbElements}}</strong> {{title}}
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="float-md-right text-center">
+                    <span class="ion ion-ios-search actionsIcon"></span>
+                    <md-input-container class="searchPlaceHolder font-weight-light">
+                        <input mdInput placeholder="{{placeHolderTitle}}" (keydown)="change()"
+                               (keypress)="change()" [(ngModel)]="searchInput">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </md-card>
+</div>

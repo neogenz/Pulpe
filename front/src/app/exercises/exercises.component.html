@@ -3,26 +3,15 @@
             [title]="'Liste des exercises'">
     </pulpe-page-title>
 
-    <div class="row pb-3">
-        <md-card class="col-md-12">
-            <div class="row">
-                <div class="col-md-2 text-center my-auto separatorVertical">
-                    <span class="ion ion-podium machinesIcon"></span>
-                    <div class="text-light-weight">
-                        <strong class="text-primary">{{exercisesSizes}}</strong> Exercices
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="float-md-right text-center">
-                        <span class="ion ion-ios-search actionsIcon"></span>
-                        <md-input-container class="searchPlaceHolder font-weight-light">
-                            <input mdInput placeholder="Par nom" [(ngModel)]="filterArgs">
-                        </md-input-container>
-                    </div>
-                </div>
-            </div>
-        </md-card>
+    <div class="pb-3">
+        <pulpe-header-list [title]="'Exercices'"
+                           [icon]="'ion ion-podium'"
+                           [nbElements]="exercisesSizes"
+                           [placeHolderTitle]="'Par nom'"
+                           (filterArgs)="filterArgsChanged($event)">
+        </pulpe-header-list>
     </div>
+
     <pulpe-exercises-list [exercisesGroups]="exercisesGroups"></pulpe-exercises-list>
 
     <div class="row">

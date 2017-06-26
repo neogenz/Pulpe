@@ -36,6 +36,13 @@ export class MachinesComponent implements OnInit {
 		this.filterArgs = '';
 	}
 
+	filterArgsChanged(filtersArgs: string) {
+		this.filterArgs = null;
+		if (filtersArgs !== '') {
+			this.filterArgs = filtersArgs;
+		}
+	}
+
 	openDeleteDialog(machine) {
 		const title = `Supression d'une machine`;
 		const description = `Souhaitez-vous vraiment supprimer la machine : ${machine.name} ?`;
