@@ -1,0 +1,14 @@
+{
+  "development": {
+    "host": "smtp.gmail.com",
+    "port": "587",
+    "user": "pulpe.fit@gmail.com",
+    "password": "Esimed84"
+  },
+  "production": {
+    "host": "smtp.gmail.com",
+    "port": "587",
+    "user": "pulpe.fit@gmail.com",
+    "password": "Esimed84"
+  }
+}

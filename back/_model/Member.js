@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt-nodejs');
 const Measurement = require('./Measurement');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GenderEnum = require('../_enums/GenderEnum');
+const generator = require('generate-password');
+
 const MemberSchema = new Schema({
   firstName: String,
   lastName: String,
@@ -53,6 +55,13 @@ MemberSchema.methods.generateHash = function (password) {
 
 MemberSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
+};
+
+MemberSchema.methods.generateRandomPassword = function () {
+  return generator.generate({
+    length: 7,
+    numbers: true
+  });
 };
 
 

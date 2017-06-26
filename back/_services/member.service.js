@@ -8,6 +8,7 @@ const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GenderEnum = require('../_enums/GenderEnum');
 const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
+const EmailService = require('../_services/email.service');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -88,11 +89,11 @@ class MemberService {
 
 	/**
 	 * Save a new member and send his password with his email.
-	 * @param member
+	 * @param memberToSave
 	 * @returns {Promise.<Member>|Promise}
 	 */
 	static createAndSendPassword(memberToSave) {
-		const member = new Member();
+		let member = new Member();
 		member.profileCompleted = false;
 		member.sessionFrequency = memberToSave.sessionFrequency;
 		member.birthDate = new Date(memberToSave.birthDate);
@@ -102,20 +103,28 @@ class MemberService {
 		member.email = memberToSave.email;
 		member.gender = GenderEnum.fromName(memberToSave.gender);
 		member.objective = ObjectiveEnum.fromCode(memberToSave.objective);
-		member.password = member.generateHash('password');
 
-		return member.save().then(
-			(member) => {
-				return member;
-			},
-			(error) => {
-				if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
-					throw new AlreadyExistMemberError('Cet email existe déja.');
+		const passwordGenerated = member.generateRandomPassword();
+		member.password = member.generateHash(passwordGenerated);
+
+		return member.save()
+			.then((memberSaved) => {
+					member = memberSaved;
+					return EmailService.sendPasswordTo(member, passwordGenerated);
+				}, (error) => {
+					if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
+						throw new AlreadyExistMemberError('Cet email existe déja.');
+					}
 				}
-			}
-		).catch((error) => {
-			throw error;
-		})
+			)
+			.then(() => {
+				return member;
+			}, (error) => {
+				throw new error;
+			})
+			.catch((error) => {
+				throw error;
+			})
 	}
 
 	/**
