@@ -65,7 +65,7 @@ export class MachinesComponent implements OnInit {
 							this.toastrService.error(errorMsg, 'Erreur');
 						}
 					);
-			}
+			} 
 		});
 	}
 
