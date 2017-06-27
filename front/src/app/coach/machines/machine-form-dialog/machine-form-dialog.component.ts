@@ -16,7 +16,7 @@ import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/
 @Component({
   selector: 'pulpe-machine-form-dialog',
   templateUrl: 'machine-form-dialog.component.html',
-  styleUrls: ['machine-form-dialog.component.scss'],
+  styleUrls: ['machine-form-dialog.component.scss'], 
   animations: [Animations.fadeIn()]
 })
 export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> implements IForm, OnInit, WorkedMuscleSelectable {
