@@ -17,13 +17,43 @@ const _ = require('underscore');
 const DifficultyEnum = require('../_enums/DifficultyEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
 const OrganizedExercise = require('../_model/OrganizedExercise');
+const mongoose = require('mongoose');
 
 class ExerciseService {
   constructor() {
   }
 
-  static findAllByGymId(gymId) {
-    return Exercise.find().inThisGymId(gymId)
+
+  static findOneById(id) {
+    return Exercise.findOne({_id: id}).populate('machines')
+      .then(exercise => {
+        if (!exercise) {
+          throw new NotFoundError(`No exercise found with _id ${id}`);
+        }
+        return exercise;
+      }).catch(error => {
+        throw new TechnicalError(error.message);
+      });
+  }
+
+  /**
+   *
+   * @param {Exercise} exercise
+   * @returns {Promise|Promise.<Exercise>} updated
+   */
+  static async findAndUpdateThis(exercise) {
+    try {
+      const finded = await ExerciseService.findOneById(exercise._id);
+      await finded.update(exercise).populate('machines');
+      const updated = await ExerciseService.findOneById(exercise._id);
+      return updated;
+    } catch (error) {
+      throw new TechnicalError(error.message);
+    }
+  }
+
+  static findAllOfReferenceBy(gymId) {
+    return Exercise.find().isReference().inThisGymId(gymId).populate('machines')
       .then(exercises => {
         return exercises;
       }).catch(error => {
@@ -216,6 +246,35 @@ class ExerciseService {
       return muscleRepartitionAlreadyWorked.intensity === DifficultyEnum.HARD;
     });
     return musclesRepartitionAlreadyWorkedHard.includes({name: muscleName});
+  }
+
+
+  /**
+   * Generate an exercise from raw object.
+   * @param {object} rawObject
+   * @returns {Exercise|null}
+   */
+  static generateExerciseFrom(rawObject) {
+    let exercise = null;
+    switch (rawObject.type) {
+      case ExerciseGroupTypeEnum.CardioExercise:
+        exercise = new CardioExercise(rawObject);
+        break;
+      case ExerciseGroupTypeEnum.TrainingExercise:
+        exercise = new TrainingExercise(rawObject);
+        break;
+      case ExerciseGroupTypeEnum.BodybuildingExercise:
+        exercise = new BodybuildingExercise(rawObject);
+        break;
+      case ExerciseGroupTypeEnum.OrganizedExercise:
+        exercise = new OrganizedExercise(rawObject);
+        break;
+    }
+    // if (rawObject._id) {
+    //   exercise._id = mongoose.Types.ObjectId(rawObject._id);
+    //   exercise.isNew = false;
+    // }
+    return exercise;
   }
 
 

@@ -3,6 +3,7 @@ import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 import {promise} from "selenium-webdriver";
 import {DifficultyEnum} from "../../_enums/DifficultyEnum";
 import {DifficultyConverter} from "../../shared/DifficultyConverter";
+import {Machine} from "../Machine";
 
 export class CardioExercise extends AbstractExercise {
   times: number[];
@@ -12,7 +13,7 @@ export class CardioExercise extends AbstractExercise {
   recovery: number;
   difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: any[]) {
+  constructor(id: number, name: string, machines: Machine[]) {
     super(id, name, machines, ExerciseGroupTypeEnum.CardioExercise);
     this.times = [];
     this.km = 0;
@@ -24,6 +25,7 @@ export class CardioExercise extends AbstractExercise {
 
 
   initFromRawObject(rawObject: any): CardioExercise {
+    super.initFromRawObject(rawObject);
     this.times = rawObject.times ? rawObject.times : this.times;
     this.km = rawObject.km ? rawObject.km : this.km;
     this.calories = rawObject.calories ? rawObject.calories : this.calories;
@@ -54,7 +56,7 @@ export class CardioExercise extends AbstractExercise {
     serverExercise.speed = this.speed;
     serverExercise.recovery = this.recovery;
     serverExercise.difficulty = this.difficulty;
-    serverExercise.id = this.id;
+    serverExercise._id = this.id;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

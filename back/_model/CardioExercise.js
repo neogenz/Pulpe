@@ -6,11 +6,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const CardioExercise = Exercise.discriminator('CardioExercise',
   new Schema({
-    km: Number,
-    calories: Number,
-    speed: Number,
-    recovery: Number,
-    times: [Number]
+    km: {type: Number, required: true, default:0},
+    calories: {type: Number, required: true, default:0},
+    speed: {type: Number, required: true, default:0},
+    recovery: {type: Number, required: true, default:0},
+    times: {type: [Number], required: true, default:[0]}
   }), options
 );
 

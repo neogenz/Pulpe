@@ -15,10 +15,10 @@ import {ModeDialogEnum} from "../../../_enums/ModeDialogEnum";
 
 
 @Component({
-	selector: 'pulpe-machine-form-dialog',
-	templateUrl: 'machine-form-dialog.component.html',
-	styleUrls: ['machine-form-dialog.component.scss'],
-	animations: [Animations.fadeIn()]
+  selector: 'pulpe-machine-form-dialog',
+  templateUrl: 'machine-form-dialog.component.html',
+  styleUrls: ['machine-form-dialog.component.scss'],
+  animations: [Animations.fadeIn()]
 })
 export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> implements IForm, OnInit, WorkedMuscleSelectable {
 	machineRequest: Observable<Machine> = new Observable();

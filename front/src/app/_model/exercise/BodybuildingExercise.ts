@@ -1,6 +1,7 @@
 import {AbstractExercise, ServerAbstractExercise} from "./AbstractExercise";
 import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 import {promise} from "selenium-webdriver";
+import {Machine} from "../Machine";
 
 export class BodybuildingExercise extends AbstractExercise {
   repetitions: number;
@@ -11,7 +12,7 @@ export class BodybuildingExercise extends AbstractExercise {
   approximateTimeBySeries: number;
 
 
-  constructor(id: number, name: string, machines: any[]) {
+  constructor(id: number, name: string, machines: Machine[]) {
     super(id, name, machines, ExerciseGroupTypeEnum.BodybuildingExercise);
     this.repetitions = 0;
     this.series = 0;
@@ -22,10 +23,10 @@ export class BodybuildingExercise extends AbstractExercise {
   }
 
   initFromRawObject(rawObject: any): BodybuildingExercise {
+    super.initFromRawObject(rawObject);
     this.repetitions = rawObject.repetitions ? rawObject.repetitions : this.repetitions;
     this.series = rawObject.series ? rawObject.series : this.series;
     this.weight = rawObject.weight ? rawObject.weight : this.weight;
-    this.workedMuscles = rawObject.musclesWorked ? rawObject.musclesWorked : this.workedMuscles;
     this.recoveryTimesBetweenEachSeries = rawObject.recoveryTimesBetweenEachSeries ? rawObject.recoveryTimesBetweenEachSeries : this.recoveryTimesBetweenEachSeries;
     this.finalRecoveryTimes = rawObject.finalRecoveryTimes ? rawObject.finalRecoveryTimes : this.finalRecoveryTimes;
     this.approximateTimeBySeries = rawObject.approximateTimeBySeries ? rawObject.approximateTimeBySeries : this.approximateTimeBySeries;
@@ -52,7 +53,7 @@ export class BodybuildingExercise extends AbstractExercise {
     serverExercise.finalRecoveryTimes = this.finalRecoveryTimes;
     serverExercise.recoveryTimesBetweenEachSeries = this.recoveryTimesBetweenEachSeries;
     serverExercise.series = this.series;
-    serverExercise.id = this.id;
+    serverExercise._id = this.id;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

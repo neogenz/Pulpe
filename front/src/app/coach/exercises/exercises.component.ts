@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
 import {Animations} from "../../shared/Animations";
 import {ActivatedRoute} from "@angular/router";
@@ -18,12 +18,11 @@ import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 export class ExercisesComponent implements OnInit {
 
   exercises: AbstractExercise[];
-  exercisesSizes: number = 0;
   exerciseFormConfiguration: ExerciseFormConfigurable;
   openableMode: any = ExerciseOpenMode;
   filterArgs: string;
 
-  constructor(public route: ActivatedRoute, private dialogService: DialogService) {
+  constructor(public route: ActivatedRoute, private dialogService: DialogService, private cdRef: ChangeDetectorRef) {
     this.exercises = [];
   }
 
@@ -32,17 +31,16 @@ export class ExercisesComponent implements OnInit {
     exercisesGroups.forEach(exercisesGroup => {
       this.exercises = this.exercises.concat(exercisesGroup.exercises);
     });
-    this.exercisesSizes = this.exercises.length;
   }
 
 
-  public openExerciseFormDialogOnMode(mode: ExerciseOpenMode) {
+  public openExerciseFormDialogOnMode(mode: ExerciseOpenMode, exercise?: AbstractExercise) {
     switch (mode) {
       case ExerciseOpenMode.Add:
         this._setExerciseFormConfigurationToAdd();
         break;
       case ExerciseOpenMode.Edit:
-        this._setExerciseFormConfigurationToEdit();
+        this._setExerciseFormConfigurationToEdit(exercise);
         break;
       default:
         throw new Error('Open mode to exercise form is unknown.');
@@ -58,10 +56,10 @@ export class ExercisesComponent implements OnInit {
     };
   }
 
-  private _setExerciseFormConfigurationToEdit(): void {
+  private _setExerciseFormConfigurationToEdit(exercise: AbstractExercise): void {
     this.exerciseFormConfiguration = {
       title: 'Modifier un exercice',
-      exercise: null,
+      exercise: exercise,
       mode: ExerciseOpenMode.Edit
     };
   }
@@ -71,7 +69,18 @@ export class ExercisesComponent implements OnInit {
     this.dialogService.addDialog(ExerciseFormDialogComponent, this.exerciseFormConfiguration, {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((exerciseAdded) => {
-      this.exercises.push(exerciseAdded);
+      if (exerciseAdded) {
+        if (this.exerciseFormConfiguration.mode == ExerciseOpenMode.Add) {
+          const newExercisesArray = this.exercises.slice(0);
+          newExercisesArray.push(exerciseAdded);
+          this.exercises = newExercisesArray;
+        } else {
+          const indexFinded = this.exercises.findIndex(e => e.id == exerciseAdded.id);
+          const newExercisesArray = this.exercises.slice(0);
+          newExercisesArray[indexFinded] = exerciseAdded;
+          this.exercises = newExercisesArray;
+        }
+      }
     });
   }
 

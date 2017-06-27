@@ -9,7 +9,10 @@
                        [placeHolderTitle]="'Par nom'"
                        (filterArgs)="filterArgsChanged($event)">
     </pulpe-header-list>
-    <pulpe-exercises-list [exercises]="exercises" [filterArgs]="filterArgs"></pulpe-exercises-list>
+    <div class="mt-3">
+        <pulpe-exercises-list [exercises]="exercises" [filterArgs]="filterArgs"
+                              (exerciseMustBeEdited)="openExerciseFormDialogOnMode(openableMode.Edit, $event)"></pulpe-exercises-list>
+    </div>
 
     <div class="row">
         <div class="col-md-12 pt-2 pb-2 btnBottomRight">

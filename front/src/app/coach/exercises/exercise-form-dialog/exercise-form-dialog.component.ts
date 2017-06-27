@@ -169,7 +169,28 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
   }
 
   edit(): void {
-
+    const exercise: AbstractExercise = ExerciseFactory.create(ExerciseGroupTypeEnum[this.exercise.type], this.exercise);
+    exercise.workedMuscles = this.workedMusclesCtrl.value;
+    exercise.machines = this.usedMachinesCtrl.value;
+    exercise.name = this.nameCtrl.value;
+    exercise.type = this.typeCtrl.value;
+    this._setSpecificFieldsOn(exercise);
+    this.exerciseSaveRequest = this.exerciseService.update(exercise);
+    this.slimLoadingBarService.start();
+    this.exerciseSaveRequest
+      .finally(() => {
+        this.slimLoadingBarService.complete();
+      })
+      .subscribe((exercise) => {
+          this.result = exercise;
+          this.toastrService.success('Un nouvel exercice a été ajouté', 'Succès!');
+          this.close();
+        },
+        (errorMsg) => {
+          console.error(errorMsg);
+          this.toastrService.error(errorMsg, 'Erreur');
+        }
+      );
   }
 
   private _setSpecificFieldsOn(exercise: AbstractExercise) {

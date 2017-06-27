@@ -11,13 +11,15 @@ const OrganizedExercise = Exercise.discriminator(discriminator,
   new Schema({
     difficulty: {
       type: String,
+      required: true,
       enum: [
         DifficultyEnum.HARD.name,
         DifficultyEnum.MEDIUM.name,
         DifficultyEnum.EASY.name
-      ]
+      ],
+      default: DifficultyEnum.EASY.name
     },
-    approximateTime: Number
+    approximateTime: {type: Number, required: true, default: 0}
   }), options
 );
 

@@ -14,7 +14,7 @@ class ExerciseController {
   }
 
   static findAllByGymOfAuthenticatedCoach(req, res) {
-    ExerciseService.findAllByGymId(req.user.gym._id)
+    ExerciseService.findAllOfReferenceBy(req.user.gym._id)
       .then(exercises => {
         return res.send(exercises);
       }, error => {
@@ -37,7 +37,29 @@ class ExerciseController {
       reference: true
     })
       .then(exercise => {
-        res.send(exercise);
+        return ExerciseService.findOneById(exercise._id);
+      }, error => {
+        throw error;
+      })
+      .then(exercise => {
+        return res.send(exercise);
+      }, error => {
+        throw error;
+      })
+      .catch(error => {
+        winston.log('error', error.stack);
+        let httpError = HttpErrorHelper.buildHttpErrorByError(error);
+        return res.status(httpError.code).send(httpError);
+      });
+  }
+
+
+  static update(req, res) {
+    // exercise.type = ExerciseGroupTypeEnum.fromName(exercise.type);
+    // exercise = ExerciseService.generateExerciseFrom(exercise);
+    return ExerciseService.findAndUpdateThis(req.body.exercise)
+      .then(exercise => {
+        return res.send(exercise);
       }, error => {
         throw error;
       })

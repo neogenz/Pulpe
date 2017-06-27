@@ -9,30 +9,28 @@ import {TrainingExercise} from "./TrainingExercise";
 export class ExerciseFactory {
 
   public static create(type: string, initObject: any): AbstractExercise {
-
     let exercise: AbstractExercise;
     switch (type) {
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise]:
-        exercise = new CardioExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
-        exercise.approximateTime = exercise.calculApproximateTime();
-        return exercise;
+        exercise = new CardioExercise(initObject.id ? initObject.id : initObject._id, initObject.name, initObject.machines);
+        break;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise]:
-        exercise = new BodybuildingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
-        exercise.approximateTime = exercise.calculApproximateTime();
-        return exercise;
+        exercise = new BodybuildingExercise(initObject.id ? initObject.id : initObject._id, initObject.name, initObject.machines);
+        break;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise]:
-        exercise = new StretchingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
-        exercise.approximateTime = exercise.calculApproximateTime();
-        return exercise;
+        exercise = new StretchingExercise(initObject.id ? initObject.id : initObject._id, initObject.name, initObject.machines);
+        break;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise]:
-        exercise = new OrganizedExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
-        exercise.approximateTime = exercise.calculApproximateTime();
-        return exercise;
+        exercise = new OrganizedExercise(initObject.id ? initObject.id : initObject._id, initObject.name, initObject.machines);
+        break;
       case ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.TrainingExercise]:
-        exercise = new TrainingExercise(initObject.id, initObject.name, initObject.machines).initFromRawObject(initObject);
-        exercise.approximateTime = exercise.calculApproximateTime();
-        return exercise;
+        exercise = new TrainingExercise(initObject.id ? initObject.id : initObject._id, initObject.name, initObject.machines);
+        break;
+      default:
+        throw new Error(`The type ${type} is unknown.`);
     }
-    throw new Error(`The type ${type} is unknown.`);
+    exercise.initFromRawObject(initObject);
+    exercise.approximateTime = exercise.calculApproximateTime();
+    return exercise;
   }
 }

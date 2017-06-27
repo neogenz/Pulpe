@@ -2,6 +2,8 @@ import {ServerWorkedMuscle, WorkedMuscle} from "../WorkedMuscle";
 import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 import {promise, Serializable} from "selenium-webdriver";
 import {Machine, ServerMachine} from "../Machine";
+import {MuscleConverter} from "../../shared/MuscleConverter";
+import {MuscleEnum} from "../../_enums/MuscleEnum";
 export abstract class AbstractExercise implements Serializable<ServerAbstractExercise> {
 
   id: number;
@@ -20,7 +22,30 @@ export abstract class AbstractExercise implements Serializable<ServerAbstractExe
     this.approximateTime = 0;
   }
 
-  abstract initFromRawObject(rawObject: any): AbstractExercise;
+  initFromRawObject(rawObject: any): AbstractExercise {
+    let muscleConverter: MuscleConverter = new MuscleConverter();
+    if (rawObject.workedMuscles) {
+      this.workedMuscles = rawObject.workedMuscles.map(muscle => WorkedMuscle.of()
+        .name(muscleConverter.getEnumFromName(muscle.name))
+        .intensityFromServer(muscle.intensity)
+        .build());
+    }
+    if (rawObject.machines) {
+      this.machines = [];
+      rawObject.machines.forEach(machine => {
+        this.machines.push(Machine.of()
+          .id(machine._id)
+          .name(machine.name)
+          .workedMuscles(rawObject.workedMuscles.map(muscle => WorkedMuscle.of()
+            .name(muscleConverter.getEnumFromName(muscle.name))
+            .intensityFromServer(muscle.intensity)
+            .build()))
+          .gym(machine.gym)
+          .build());
+      });
+    }
+    return this;
+  }
 
   abstract calculApproximateTime(): number;
 
@@ -29,7 +54,7 @@ export abstract class AbstractExercise implements Serializable<ServerAbstractExe
 }
 
 export abstract class ServerAbstractExercise {
-  id: number;
+  _id: number;
   name: string;
   machines: ServerMachine[];
   workedMuscles: ServerWorkedMuscle[];

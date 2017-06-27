@@ -8,12 +8,12 @@ const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
 const discriminator = ExerciseGroupTypeEnum.BodybuildingExercise.name;
 const BodybuildingExercise = Exercise.discriminator(discriminator,
   new Schema({
-    repetitions: {type: Number},
-    series: {type: Number},
-    weight: {type: Number},
-    recoveryTimesBetweenEachSeries: {type: Number},
-    finalRecoveryTimes: {type: Number},
-    approximateTimeBySeries: {type: Number, default: 1.30}
+    repetitions: {type: Number, required:true, default:0},
+    series: {type: Number, required:true, default:0},
+    weight: {type: Number, required:true, default:0},
+    recoveryTimesBetweenEachSeries: {type: Number, required:true, default:0},
+    finalRecoveryTimes: {type: Number, required:true, default:0},
+    approximateTimeBySeries: {type: Number, default: 1.30, required:true}
   }), options
 );
 

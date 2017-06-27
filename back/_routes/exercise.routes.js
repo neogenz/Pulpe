@@ -10,6 +10,7 @@ class ExerciseRouter {
   constructor(provider) {
     provider.get('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.findAllByGymOfAuthenticatedCoach);
     provider.post('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.createExercise);
+    provider.put('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.update);
   }
 }
 

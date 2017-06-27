@@ -10,7 +10,7 @@ import {ExerciseGroupTypeFiltrable} from "../../../shared/ExerciseGroupTypeFiltr
 export class ExercisesTypeImgComponent extends ExerciseGroupTypeFiltrable implements OnInit {
 
   @Input()
-  exerciseTypeEnum: string;
+  exerciseTypeEnum: ExerciseGroupTypeEnum;
   @Input()
   width: string;
   ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;

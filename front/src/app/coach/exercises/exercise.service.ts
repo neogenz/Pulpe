@@ -35,4 +35,14 @@ export class ExerciseService extends ObservableHelper {
       .catch(this.handleError);
   }
 
+  public update(exercise: AbstractExercise): Observable<AbstractExercise> {
+    return this._http.put(`${environment.baseUrl()}/exercises`, {
+      exercise: exercise.serialize()
+    })
+      .map(res => {
+        let data: any = this.extractDataOf(res);
+        return ExerciseFactory.create(data.__t, data);
+      })
+      .catch(this.handleError);
+  }
 }

@@ -6,11 +6,12 @@ import {BodybuildingExercise} from "../../../_model/exercise/BodybuildingExercis
 import {TrainingExercise} from "../../../_model/exercise/TrainingExercise";
 import {CardioExercise} from "../../../_model/exercise/CardioExercise";
 import {OrganizedExercise} from "../../../_model/exercise/OrganizedExercise";
+import {DifficultyConverter} from "../../../shared/DifficultyConverter";
 
 @Injectable()
 export class SpecificExerciseFormBuilderService {
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private difficultyConverter: DifficultyConverter) {
   }
 
   public getFormGroupByExercise(exercise: AbstractExercise): FormGroup {
@@ -46,8 +47,9 @@ export class SpecificExerciseFormBuilderService {
   }
 
   private _getFormGroupToOrganizedExerciseBy(exercise: OrganizedExercise): FormGroup {
+    const difficulty = this.difficultyConverter.convertThisEnum(exercise.difficulty);
     return this.fb.group({
-      difficulty: this.fb.control(exercise.difficulty, [Validators.required ])
+      difficulty: this.fb.control(difficulty, [Validators.required])
     });
   }
 }
