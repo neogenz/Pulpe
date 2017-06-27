@@ -7,7 +7,6 @@ import {
   ExerciseFormDialogComponent
 } from "./exercise-form-dialog/exercise-form-dialog.component";
 import {DialogService} from "ng2-bootstrap-modal";
-import {ExerciseGroupTypeEnum} from "../../_enums/ExerciseGroupTypeEnum";
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 
 @Component({
@@ -29,7 +28,7 @@ export class ExercisesComponent implements OnInit {
   }
 
   ngOnInit() {
-    const exercisesGroups:ExercisesGroup[] = this.route.snapshot.data['exercisesGroups'];
+    const exercisesGroups: ExercisesGroup[] = this.route.snapshot.data['exercisesGroups'];
     exercisesGroups.forEach(exercisesGroup => {
       this.exercises = this.exercises.concat(exercisesGroup.exercises);
     });
