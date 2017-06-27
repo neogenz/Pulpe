@@ -32,7 +32,7 @@ class MachineController {
   static save(req, res) {
     const machine = req.body.machine;
 
-    MachineService.create(machine.name, machine.workedMuscles, machine.gym._id)
+    MachineService.create(machine)
       .then(machineSaved => {
         res.send({machine: machineSaved});
       })

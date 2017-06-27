@@ -5,6 +5,7 @@ const DifficultyEnum = require('../_enums/DifficultyEnum');
 const Schema = mongoose.Schema;
 const MachineSchema = new Schema({
   name: String,
+	comment: String,
   workedMuscles: [{
     intensity: {
       type: String,

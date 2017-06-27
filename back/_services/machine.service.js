@@ -30,13 +30,14 @@ class MachineService {
       });
   }
 
-  static create(name, workedMuscles, gym) {
-    let machine = new Machine({
-      name: name,
-      workedMuscles: workedMuscles,
-      gym: gym
+  static create(machine) {
+    let machineToSave = new Machine({
+      name: machine.name,
+      workedMuscles: machine.workedMuscles,
+      comment: machine.comment,
+      gym: machine.gym._id
     });
-    return MachineService.save(machine);
+    return MachineService.save(machineToSave);
   }
 
   /**
@@ -49,6 +50,7 @@ class MachineService {
       .then(machineFinded => {
         machineFinded.workedMuscles = machine.workedMuscles;
         machineFinded.name = machine.name;
+				machineFinded.comment = machine.comment;
         return this.save(machineFinded);
       }, (error) => {
         throw error;

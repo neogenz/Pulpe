@@ -14,6 +14,7 @@ export class Machine implements Serializable<ServerMachine> {
 
   _id: string;
   name: string;
+  comment: string;
   workedMuscles: WorkedMuscle[];
   gym: Gym;
 
@@ -27,6 +28,7 @@ export class Machine implements Serializable<ServerMachine> {
     serverMachine.name = this.name;
     serverMachine.workedMuscles = this.workedMuscles.map(m => m.serialize());
     serverMachine.gym = this.gym;
+    serverMachine.comment = this.comment;
     serverMachine._id = this._id;
     return serverMachine;
   }
@@ -52,6 +54,11 @@ class MachineBuilder {
     return this;
   }
 
+  public comment(comment: string): MachineBuilder {
+    this.me.comment = comment;
+    return this;
+  }
+
   public workedMuscles(workedMuscles: WorkedMuscle[]): MachineBuilder {
     this.me.workedMuscles = workedMuscles;
     return this;
@@ -71,6 +78,7 @@ class MachineBuilder {
 export class ServerMachine {
   _id: string;
   name: string;
+  comment: string;
   workedMuscles: ServerWorkedMuscle[];
   gym: Gym;
 

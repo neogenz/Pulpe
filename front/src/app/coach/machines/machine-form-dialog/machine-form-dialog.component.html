@@ -15,12 +15,16 @@
                         </span>
                         <hr>
                     </div>
-
                     <md-input-container class="col-md-10 offset-md-1" color="primary">
                         <input id="inputName" mdInput type="text" minlength="5" maxlength="30"
                                placeholder="Nom de la machine"
                                formControlName="name"
                                required>
+                    </md-input-container>
+                    <md-input-container class="col-md-10 offset-md-1" color="primary">
+                        <textarea id="inputComment" formControlName="comment" mdInput minlength="10" maxlength="255"
+                                  placeholder="Ajoutez un commentaire">
+                        </textarea>
                     </md-input-container>
                 </div>
                 <div class="col-md-12 pt-2">
@@ -30,8 +34,8 @@
                     <hr>
                 </div>
 
-                <pulpe-select-worked-muscle
-                        (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
+                <pulpe-select-worked-muscle (muscleAdded)="addWorkedMuscle($event)">
+                </pulpe-select-worked-muscle>
 
                 <div class="col-md-12 pt-4">
                     <div class="row">
@@ -42,8 +46,8 @@
                     <hr>
                 </div>
                 <pulpe-chips-removable-worked-muscle (workedMuscleDeletedAtThisIndex)="deleteWorkedMuscleAtThis($event)"
-                                                     [workedMuscles]="workedMusclesCtrl.value"></pulpe-chips-removable-worked-muscle>
-
+                                                     [workedMuscles]="workedMusclesCtrl.value">
+                </pulpe-chips-removable-worked-muscle>
             </div>
 
             <div class="modal-footer">

@@ -14,139 +14,152 @@ import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/
 
 
 @Component({
-  selector: 'pulpe-machine-form-dialog',
-  templateUrl: 'machine-form-dialog.component.html',
-  styleUrls: ['machine-form-dialog.component.scss'], 
-  animations: [Animations.fadeIn()]
+	selector: 'pulpe-machine-form-dialog',
+	templateUrl: 'machine-form-dialog.component.html',
+	styleUrls: ['machine-form-dialog.component.scss'],
+	animations: [Animations.fadeIn()]
 })
 export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> implements IForm, OnInit, WorkedMuscleSelectable {
-  machineRequest: Observable<Machine> = new Observable();
-  machine: Machine;
-  mode: string;
-  machineForm: FormGroup;
-  nameCtrl: FormControl;
-  workedMusclesCtrl: FormArray;
-  workedMuscles: string[];
-  errorTranslations: any;
-  titleConfirm: string;
-  title: string;
+	machineRequest: Observable<Machine> = new Observable();
+	machine: Machine;
+	mode: MemberOpenMode;
+	machineForm: FormGroup;
+	nameCtrl: FormControl;
+	commentCtrl: FormControl;
+	workedMusclesCtrl: FormArray;
+	workedMuscles: string[];
+	errorTranslations: any;
+	titleConfirm: string;
+	title: string;
 
-  constructor(private machineService: MachineService, dialogService: DialogService,
-              private auth: AuthenticationService,
-              private slimLoadingBarService: SlimLoadingBarService,
-              private muscleConverter: MuscleConverter,
-              private fb: FormBuilder,
-              private toastrService: ToastrService) {
-    super(dialogService);
-    this.errorTranslations = {
-      workedMuscle: {
-        alreadyExist: 'Ce muscle est déjà présent pour cette machine.'
-      }
-    }
-  }
+	constructor(private machineService: MachineService, dialogService: DialogService,
+							private auth: AuthenticationService,
+							private slimLoadingBarService: SlimLoadingBarService,
+							private muscleConverter: MuscleConverter,
+							private fb: FormBuilder,
+							private toastrService: ToastrService) {
+		super(dialogService);
+		this.errorTranslations = {
+			workedMuscle: {
+				alreadyExist: 'Ce muscle est déjà présent pour cette machine.'
+			}
+		}
+	}
 
-  ngOnInit() {
-    if (!this.machine) {
-      this.machine = Machine.of()
-        .name('')
-        .workedMuscles([])
-        .build();
-    }
-    this.buildForm();
-    this.machine.workedMuscles.forEach(muscle => this.addWorkedMuscle(muscle));
-  }
+	ngOnInit() {
+		if (!this.machine) {
+			this.machine = Machine.of()
+				.name('')
+				.workedMuscles([])
+				.build();
+		}
+		this.buildForm();
+		this.machine.workedMuscles.forEach(muscle => this.addWorkedMuscle(muscle));
+	}
 
-  buildForm() {
-    this.workedMuscles = this.muscleConverter.toLabelArray();
-    this.workedMusclesCtrl = this.fb.array([], Validators.compose([Validators.required]));
-    this.nameCtrl = this.fb.control(this.machine.name, Validators.required);
-    this.machineForm = this.fb.group({
-      name: this.nameCtrl,
-      workedMuscle: this.workedMusclesCtrl
-    });
-  }
+	buildForm() {
+		this.workedMuscles = this.muscleConverter.toLabelArray();
+		this.workedMusclesCtrl = this.fb.array([], Validators.compose([Validators.required]));
+		this.nameCtrl = this.fb.control(this.machine.name, Validators.required);
+		this.commentCtrl = this.fb.control(this.machine.comment);
+		this.machineForm = this.fb.group({
+			name: this.nameCtrl,
+			workedMuscle: this.workedMusclesCtrl,
+			comment: this.commentCtrl
+		});
+	}
 
-  addWorkedMuscle(workedMuscleToAdd: WorkedMuscle) {
-    let isOnError = false;
-    for (let i = 0; i < this.workedMusclesCtrl.value.length; i++) {
-      if (this.workedMusclesCtrl.value[i].isSame(workedMuscleToAdd)) {
-        this.toastrService.error(this.errorTranslations.workedMuscle.alreadyExist, 'Erreur');
-        isOnError = true;
-      }
-    }
-    if (!isOnError) {
-      this.workedMusclesCtrl.push(this._initWorkedMuscleControl(workedMuscleToAdd));
-    }
-  }
+	addWorkedMuscle(workedMuscleToAdd: WorkedMuscle) {
+		let isOnError = false;
+		for (let i = 0; i < this.workedMusclesCtrl.value.length; i++) {
+			if (this.workedMusclesCtrl.value[i].isSame(workedMuscleToAdd)) {
+				this.toastrService.error(this.errorTranslations.workedMuscle.alreadyExist, 'Erreur');
+				isOnError = true;
+			}
+		}
+		if (!isOnError) {
+			this.workedMusclesCtrl.push(this._initWorkedMuscleControl(workedMuscleToAdd));
+		}
+	}
 
-  _initWorkedMuscleControl(workedMuscle: WorkedMuscle): FormControl {
-    return this.fb.control(workedMuscle, Validators.required)
-  }
+	_initWorkedMuscleControl(workedMuscle: WorkedMuscle): FormControl {
+		return this.fb.control(workedMuscle, Validators.required)
+	}
 
-  deleteWorkedMuscleAtThis(index: number): void {
-    this.workedMusclesCtrl.removeAt(index);
-  }
+	deleteWorkedMuscleAtThis(index: number): void {
+		this.workedMusclesCtrl.removeAt(index);
+	}
 
-  confirm() {
-    if (this.mode === 'add') {
-      this.add();
-    } else {
-      this.edit();
-    }
-  }
+	confirm() {
+		switch (this.mode) {
+			case MemberOpenMode.Add:
+				this.add();
+				break;
+			case MemberOpenMode.Edit:
+				this.edit();
+				break;
+		}
+	}
 
-  add() {
-    const authProfile = this.auth.getAuthenticationProfileInLocalStorage();
-    const machine = Machine
-      .of()
-      .name(this.nameCtrl.value)
-      .workedMuscles(this.workedMusclesCtrl.value)
-      .gym(authProfile.gym)
-      .build();
+	add() {
+		const authProfile = this.auth.getAuthenticationProfileInLocalStorage();
+		const machine = Machine
+			.of()
+			.name(this.nameCtrl.value)
+			.comment(this.commentCtrl.value)
+			.workedMuscles(this.workedMusclesCtrl.value)
+			.gym(authProfile.gym)
+			.build();
 
-    this.machineRequest = this.machineService.save(machine);
-    this.slimLoadingBarService.start();
-    this.machineRequest
-      .finally(() => {
-        this.slimLoadingBarService.complete();
-      })
-      .subscribe((machine) => {
-          this.result = machine;
-          this.toastrService.success('Une nouvelle machine a été ajouté', 'Succès!');
-          this.close();
-        },
-        (errorMsg) => {
-          console.error(errorMsg);
-          this.toastrService.error(errorMsg, 'Erreur');
-        }
-      );
-  }
+		this.machineRequest = this.machineService.save(machine);
+		this.slimLoadingBarService.start();
+		this.machineRequest
+			.finally(() => {
+				this.slimLoadingBarService.complete();
+			})
+			.subscribe((machine) => {
+					this.result = machine;
+					this.toastrService.success('Une nouvelle machine a été ajoutée', 'Succès!');
+					this.close();
+				},
+				(errorMsg) => {
+					console.error(errorMsg);
+					this.toastrService.error(errorMsg, 'Erreur');
+				}
+			);
+	}
 
-  edit() {
-    this.machine.name = this.nameCtrl.value;
-    this.machine.workedMuscles = this.workedMusclesCtrl.value;
-    this.machineRequest = this.machineService.update(this.machine);
-    this.slimLoadingBarService.start();
-    this.machineRequest
-      .finally(() => {
-        this.slimLoadingBarService.complete();
-      })
-      .subscribe((machine) => {
-          this.result = machine;
-          this.toastrService.success('La machine a été mis à jour', 'Succès!');
-          this.close();
-        },
-        (errorMsg) => {
-          console.error(errorMsg);
-          this.toastrService.error(errorMsg, 'Erreur');
-        }
-      );
-  }
+	edit() {
+		this.machine.name = this.nameCtrl.value;
+		this.machine.comment = this.commentCtrl.value;
+		this.machine.workedMuscles = this.workedMusclesCtrl.value;
+		this.machineRequest = this.machineService.update(this.machine);
+		this.slimLoadingBarService.start();
+		this.machineRequest
+			.finally(() => {
+				this.slimLoadingBarService.complete();
+			})
+			.subscribe((machine) => {
+					this.result = machine;
+					this.toastrService.success('La machine a été mise à jour', 'Succès!');
+					this.close();
+				},
+				(errorMsg) => {
+					console.error(errorMsg);
+					this.toastrService.error(errorMsg, 'Erreur');
+				}
+			);
+	}
 }
 
 export interface IForm {
-  machine: any;
-  mode: any;
-  title: any;
-  titleConfirm: any;
+	machine: any;
+	mode: any;
+	title: any;
+	titleConfirm: any;
+}
+
+enum MemberOpenMode{
+	Add,
+	Edit
 }
