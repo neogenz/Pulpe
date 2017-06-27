@@ -102,146 +102,149 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
 import {SelectMachinesComponent} from "./shared/form/select-machines/select-machines.component";
 import {SpecificExerciseFormBuilderService} from "./coach/exercises/exercise-form-dialog/specific-exercise-form-builder.service";
 import {ProfileMemberFormDialogComponent} from "./shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
-import { FilterExercisesPipe } from './coach/exercises/filter-exercises.pipe';
+import {FilterExercisesPipe} from './coach/exercises/filter-exercises.pipe';
+import {MachineDetailsDialogComponent} from './coach/machines/machine-details-dialog/machine-details-dialog.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SigninComponent,
-    SignupComponent,
-    ProfileCompletationComponent,
-    HomeComponent,
-    ProgramComponent,
-    ExercisePreviewComponent,
-    SessionsComponent,
-    PageTitleComponent,
-    SimpleCounterWithIconComponent,
-    ExercisesRepartitionGraphComponent,
-    SessionObjectiveComponent,
-    WelcomeComponent,
-    SessionListComponent,
-    EvolutionComponent,
-    EfficientLineGraphComponent,
-    ProfileComponent,
-    ProfilePhotoComponent,
-    ProfileInfosComponent,
-    SidebarComponent,
-    FooterComponent,
-    MeasurementsListComponent,
-    MeasurementsAddDialogComponent,
-    ProfileCompletationCoachComponent,
-    ProfileCoachEditDialogComponent,
-    MembersComponent,
-    FilterMembers,
-    FilterMachines,
-    TranslateWorkedMuscleName,
-    MachinesComponent,
-    MachineFormDialogComponent,
-    ExercisesComponent,
-    ExercisesListComponent,
-    ExercisesTypeImgComponent,
-    ExerciseFormDialogComponent,
-    SelectWorkedMuscleComponent,
-    ChipsRemovableWorkedMuscleComponent,
-    DeleteDialogComponent,
-    SelectMachinesComponent,
-    ProfileCoachComponent,
-    HeaderListComponent,
-    ProfileInfosCoachComponent,
-    ProfileMemberFormDialogComponent,
-    FilterExercisesPipe
-  ],
-  imports: [
-    MdButtonModule,
-    MdChipsModule,
-    MdTooltipModule,
-    MdInputModule,
-    MdSelectModule,
-    MdProgressSpinnerModule,
-    MdRadioModule,
-    MdCheckboxModule,
-    MdTabsModule,
-    MdCardModule,
-    BrowserModule,
-    FormsModule,
-    MdCheckboxModule,
-    HttpModule,
-    BrowserAnimationsModule,
-    ChartsModule,
-    ReactiveFormsModule,
-    NgxErrorsModule,
-    BootstrapModalModule,
-    RouterModule.forRoot(ROUTES),
-    SlimLoadingBarModule.forRoot(),
-    SidebarModule.forRoot(),
-    ToastrModule.forRoot(),
-    LocalStorageModule.withConfig({
-      prefix: '',
-      storageType: 'localStorage'
-    })
-  ],
-  //Merry, look 'Become ninja Angular 2' to understand this :p
-  providers: [
-    {
-      provide: APP_BASE_HREF, useValue: '/'
-    },
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions, LocalStorageService]
-    },
-    {
-      provide: 'IS_PROD', useValue: true
-    },
-    {
-      provide: MemberService,
-      useFactory: memberServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, AuthHttp]
-    },
-    {
-      provide: ProgramService,
-      useFactory: programServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, AuthHttp]
-    },
-    {
-      provide: AuthenticationService,
-      useFactory: authenticationServiceFactory,
-      deps: ['IS_PROD', LocalStorageService, Http]
-    },
-    SessionsService,
-    ExerciseGroupCodeConverter,
-    DifficultyConverter,
-    MuscleConverter,
-    ProgramResolver,
-    SessionsResolver,
-    ProfileCoachResolver,
-    EvolutionResolver,
-    ProfileResolver,
-    ProfileService,
-    MembersResolver,
-    ExerciseResolver,
-    ExerciseService,
-    MachinesResolver,
-    AuthenticationGuard,
-    ProfileCompletedGuardService,
-    ProfileIsMemberGuardService,
-    ProfileIsCoachGuardService,
-    MeasurementEnumService,
-    ObjectiveEnumService,
-    MachineService,
-    GymService,
-    CoachService,
-    SpecificExerciseFormBuilderService
-  ],
-  entryComponents: [
-    MeasurementsAddDialogComponent,
-    ProfileMemberFormDialogComponent,
-    ExerciseFormDialogComponent,
-    MachineFormDialogComponent,
-    DeleteDialogComponent,
-    ProfileCoachEditDialogComponent
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		SigninComponent,
+		SignupComponent,
+		ProfileCompletationComponent,
+		HomeComponent,
+		ProgramComponent,
+		ExercisePreviewComponent,
+		SessionsComponent,
+		PageTitleComponent,
+		SimpleCounterWithIconComponent,
+		ExercisesRepartitionGraphComponent,
+		SessionObjectiveComponent,
+		WelcomeComponent,
+		SessionListComponent,
+		EvolutionComponent,
+		EfficientLineGraphComponent,
+		ProfileComponent,
+		ProfilePhotoComponent,
+		ProfileInfosComponent,
+		SidebarComponent,
+		FooterComponent,
+		MeasurementsListComponent,
+		MeasurementsAddDialogComponent,
+		ProfileCompletationCoachComponent,
+		ProfileCoachEditDialogComponent,
+		MembersComponent,
+		FilterMembers,
+		FilterMachines,
+		TranslateWorkedMuscleName,
+		MachinesComponent,
+		MachineFormDialogComponent,
+		ExercisesComponent,
+		ExercisesListComponent,
+		ExercisesTypeImgComponent,
+		ExerciseFormDialogComponent,
+		SelectWorkedMuscleComponent,
+		ChipsRemovableWorkedMuscleComponent,
+		DeleteDialogComponent,
+		SelectMachinesComponent,
+		ProfileCoachComponent,
+		HeaderListComponent,
+		ProfileInfosCoachComponent,
+		ProfileMemberFormDialogComponent,
+		FilterExercisesPipe,
+		MachineDetailsDialogComponent
+	],
+	imports: [
+		MdButtonModule,
+		MdChipsModule,
+		MdTooltipModule,
+		MdInputModule,
+		MdSelectModule,
+		MdProgressSpinnerModule,
+		MdRadioModule,
+		MdCheckboxModule,
+		MdTabsModule,
+		MdCardModule,
+		BrowserModule,
+		FormsModule,
+		MdCheckboxModule,
+		HttpModule,
+		BrowserAnimationsModule,
+		ChartsModule,
+		ReactiveFormsModule,
+		NgxErrorsModule,
+		BootstrapModalModule,
+		RouterModule.forRoot(ROUTES),
+		SlimLoadingBarModule.forRoot(),
+		SidebarModule.forRoot(),
+		ToastrModule.forRoot(),
+		LocalStorageModule.withConfig({
+			prefix: '',
+			storageType: 'localStorage'
+		})
+	],
+	//Merry, look 'Become ninja Angular 2' to understand this :p
+	providers: [
+		{
+			provide: APP_BASE_HREF, useValue: '/'
+		},
+		{
+			provide: AuthHttp,
+			useFactory: authHttpServiceFactory,
+			deps: [Http, RequestOptions, LocalStorageService]
+		},
+		{
+			provide: 'IS_PROD', useValue: true
+		},
+		{
+			provide: MemberService,
+			useFactory: memberServiceFactory,
+			deps: ['IS_PROD', LocalStorageService, AuthHttp]
+		},
+		{
+			provide: ProgramService,
+			useFactory: programServiceFactory,
+			deps: ['IS_PROD', LocalStorageService, AuthHttp]
+		},
+		{
+			provide: AuthenticationService,
+			useFactory: authenticationServiceFactory,
+			deps: ['IS_PROD', LocalStorageService, Http]
+		},
+		SessionsService,
+		ExerciseGroupCodeConverter,
+		DifficultyConverter,
+		MuscleConverter,
+		ProgramResolver,
+		SessionsResolver,
+		ProfileCoachResolver,
+		EvolutionResolver,
+		ProfileResolver,
+		ProfileService,
+		MembersResolver,
+		ExerciseResolver,
+		ExerciseService,
+		MachinesResolver,
+		AuthenticationGuard,
+		ProfileCompletedGuardService,
+		ProfileIsMemberGuardService,
+		ProfileIsCoachGuardService,
+		MeasurementEnumService,
+		ObjectiveEnumService,
+		MachineService,
+		GymService,
+		CoachService,
+		SpecificExerciseFormBuilderService
+	],
+	entryComponents: [
+		MeasurementsAddDialogComponent,
+		ProfileMemberFormDialogComponent,
+		ExerciseFormDialogComponent,
+		MachineFormDialogComponent,
+		DeleteDialogComponent,
+		ProfileCoachEditDialogComponent,
+		MachineDetailsDialogComponent
+	],
+	bootstrap: [AppComponent]
 })
 
 export class AppModule {

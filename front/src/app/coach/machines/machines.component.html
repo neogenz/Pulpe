@@ -33,12 +33,18 @@
             <thead>
             <tr>
                 <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
+                <th class="text-white text-center text-light-weight text-uppercase">Commentaire</th>
                 <th class="text-white text-center text-light-weight text-uppercase"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let machine of machines | filterMachines: filterArgs" class="my-auto text-center">
                 <td>{{machine.name}}</td>
+                <td><i *ngIf="machine.comment && machine.comment !== '' " class="ion ion-eye text-accent pointer"
+                       [mdTooltipPosition]="'right'"
+                       mdTooltip="Voir le commentaire"
+                       (click)="openDetailsDialog(machine)"></i>
+                </td>
                 <td>
                     <div class="row iconsList pull-right">
                         <div class="col-md-6">

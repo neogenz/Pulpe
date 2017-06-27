@@ -11,6 +11,7 @@ import {Observable} from "rxjs";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {AuthenticationService} from "../../../_services/authentication/authentication.service";
 import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/select-worked-muscle.component";
+import {ModeDialogEnum} from "../../../_enums/ModeDialogEnum";
 
 
 @Component({
@@ -22,7 +23,7 @@ import {WorkedMuscleSelectable} from "../../../shared/form/select-worked-muscle/
 export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> implements IForm, OnInit, WorkedMuscleSelectable {
 	machineRequest: Observable<Machine> = new Observable();
 	machine: Machine;
-	mode: MemberOpenMode;
+	mode: ModeDialogEnum;
 	machineForm: FormGroup;
 	nameCtrl: FormControl;
 	commentCtrl: FormControl;
@@ -92,10 +93,10 @@ export class MachineFormDialogComponent extends DialogComponent<IForm, Machine> 
 
 	confirm() {
 		switch (this.mode) {
-			case MemberOpenMode.Add:
+			case ModeDialogEnum.Add:
 				this.add();
 				break;
-			case MemberOpenMode.Edit:
+			case ModeDialogEnum.Edit:
 				this.edit();
 				break;
 		}

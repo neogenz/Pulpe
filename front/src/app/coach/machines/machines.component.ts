@@ -10,6 +10,8 @@ import {Observable} from "rxjs";
 import {MachineService} from "../../_services/machine/machine.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
+import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
+import {MachineDetailsDialogComponent} from "./machine-details-dialog/machine-details-dialog.component";
 
 @Component({
 	selector: 'pulpe-machines',
@@ -19,7 +21,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class MachinesComponent implements OnInit {
 	machineRequest: Observable<Machine> = new Observable();
-	private machines: Machine[];
+	machines: Machine[];
 	filterArgs: string;
 
 	constructor(private route: ActivatedRoute,
@@ -40,6 +42,13 @@ export class MachinesComponent implements OnInit {
 		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
 		}
+	}
+
+	openDetailsDialog(machine: Machine) {
+		this.dialogService.addDialog(MachineDetailsDialogComponent, {machine: machine}, {
+			backdropColor: 'rgba(0,0,0,0.5)'
+		}).subscribe(() => {
+		});
 	}
 
 	openDeleteDialog(machine) {
@@ -70,15 +79,15 @@ export class MachinesComponent implements OnInit {
 	}
 
 	openMachineFormDialog(machine: Machine) {
-		const mode = machine === undefined ? MemberOpenMode.Add : MemberOpenMode.Edit;
+		const mode = machine === undefined ? ModeDialogEnum.Add : ModeDialogEnum.Edit;
 		let title: string;
 		let titleConfirm: string;
 		switch (mode) {
-			case MemberOpenMode.Add:
+			case ModeDialogEnum.Add:
 				title = `Ajout d'une machine`;
 				titleConfirm = 'Ajouter';
 				break;
-			case MemberOpenMode.Edit:
+			case ModeDialogEnum.Edit:
 				title = `Edition d'une machine`;
 				titleConfirm = 'Editer';
 				break;
@@ -90,7 +99,7 @@ export class MachinesComponent implements OnInit {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((machineSaved) => {
 			if (machineSaved) {
-				if (mode === MemberOpenMode.Add) {
+				if (mode === ModeDialogEnum.Add) {
 					this.machines.push(machineSaved);
 				} else {
 					const indexFinded = this.machines.findIndex(m => m._id == machine._id);
@@ -99,9 +108,4 @@ export class MachinesComponent implements OnInit {
 			}
 		});
 	}
-}
-
-enum MemberOpenMode{
-	Add,
-	Edit
 }

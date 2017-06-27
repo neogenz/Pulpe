@@ -1,0 +1,26 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="text-center">
+        <h4 class="text-light-weight">Commentaire de la machine : {{machine.name}}</h4>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="row pt-3">
+        <div class="col-md-12 text-center">
+          <i class="ion ion-ios-chatbubble-outline"></i>
+        </div>
+      </div>
+      <div class="row pt-3">
+        <div class="col-md-12 text-center text-light-weight word-wrap">
+                    <span>
+                        {{machine.comment}}
+                    </span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Fermer</button>
+    </div>
+  </div>
+</div>
