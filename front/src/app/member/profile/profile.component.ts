@@ -4,6 +4,7 @@ import {Member} from "../../_model/Member";
 import {Animations} from "../../shared/Animations";
 import {DialogService} from "ng2-bootstrap-modal";
 import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
+import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
 
 @Component({
 	selector: 'pulpe-profile',
@@ -38,7 +39,7 @@ export class ProfileComponent implements OnInit {
 	}
 
 	openMemberFormDialog(member: Member) {
-		const mode = MemberOpenMode.Add;
+		const mode = ModeDialogEnum.Add;
 		const title = `Edition de mon profil`;
 		const titleAction = 'Editer';
 		this.dialogService.addDialog(ProfileMemberFormDialogComponent, {
@@ -54,9 +55,4 @@ export class ProfileComponent implements OnInit {
 				}
 			});
 	}
-}
-
-enum MemberOpenMode {
-	Add,
-	Edit
 }
