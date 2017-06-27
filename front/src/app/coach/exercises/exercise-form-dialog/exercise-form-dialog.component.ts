@@ -183,7 +183,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
       })
       .subscribe((exercise) => {
           this.result = exercise;
-          this.toastrService.success('Un nouvel exercice a été ajouté', 'Succès!');
+          this.toastrService.success('Modification effectuée.', 'Succès!');
           this.close();
         },
         (errorMsg) => {

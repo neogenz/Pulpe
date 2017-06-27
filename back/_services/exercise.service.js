@@ -52,6 +52,11 @@ class ExerciseService {
     }
   }
 
+  /**
+   *
+   * @param gymId
+   * @returns {Promise|Promise.<Exercise>}
+   */
   static findAllOfReferenceBy(gymId) {
     return Exercise.find().isReference().inThisGymId(gymId).populate('machines')
       .then(exercises => {
@@ -59,6 +64,21 @@ class ExerciseService {
       }).catch(error => {
         throw new TechnicalError(error.message);
       })
+  }
+
+  /**
+   *
+   * @param id Id of exercise to delete
+   * @returns {Promise.<*>}
+   */
+  static async deleteBy(id) {
+    try {
+      const toDelete = await ExerciseService.findOneById(id);
+      await Exercise.remove({_id: id});
+      return toDelete;
+    } catch (error) {
+      throw new TechnicalError(error.message);
+    }
   }
 
   /**

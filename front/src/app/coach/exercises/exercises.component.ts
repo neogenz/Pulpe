@@ -8,6 +8,10 @@ import {
 } from "./exercise-form-dialog/exercise-form-dialog.component";
 import {DialogService} from "ng2-bootstrap-modal";
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
+import {DeleteDialogComponent} from "../../shared/dialogs/delete-dialog/delete-dialog.component";
+import {ExerciseService} from "./exercise.service";
+import {ToastrService} from "ngx-toastr";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'pulpe-exercises',
@@ -22,7 +26,7 @@ export class ExercisesComponent implements OnInit {
   openableMode: any = ExerciseOpenMode;
   filterArgs: string;
 
-  constructor(public route: ActivatedRoute, private dialogService: DialogService, private cdRef: ChangeDetectorRef) {
+  constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService) {
     this.exercises = [];
   }
 
@@ -31,6 +35,30 @@ export class ExercisesComponent implements OnInit {
     exercisesGroups.forEach(exercisesGroup => {
       this.exercises = this.exercises.concat(exercisesGroup.exercises);
     });
+  }
+
+
+  public deleteExercise(exercise: AbstractExercise) {
+    this.dialogService.addDialog(DeleteDialogComponent, {
+      id: exercise.id,
+      title: 'Confirmation',
+      description: `Êtes vous sur de vouloir supprimer l'exercice ${exercise.name} ?`
+    }, {
+      backdropColor: 'rgba(0,0,0,0.5)'
+    }).flatMap((confirmed) => {
+      if (confirmed) {
+        return this.exerciseService.deleteThis(exercise);
+      }
+      return Observable.of(null);
+    }).subscribe(deleted => {
+      if (deleted) {
+        this.toastrService.success('Suppression effectuée.', 'Succès!');
+        this.exercises = this.exercises.filter(exercise => exercise.id !== deleted.id);
+      }
+    }, (errorMsg) => {
+      console.error(errorMsg);
+      this.toastrService.error(errorMsg, 'Erreur');
+    })
   }
 
 

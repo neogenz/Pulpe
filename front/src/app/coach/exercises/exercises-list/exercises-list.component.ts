@@ -14,7 +14,8 @@ export class ExercisesListComponent extends ExerciseGroupTypeFiltrable implement
 
   @Input() exercises: AbstractExercise[];
   @Input() filterArgs: string;
-  @Output() exerciseMustBeEdited: EventEmitter<AbstractExercise> = new EventEmitter<AbstractExercise>();
+  @Output() editClick: EventEmitter<AbstractExercise> = new EventEmitter<AbstractExercise>();
+  @Output() removeClick: EventEmitter<AbstractExercise> = new EventEmitter<AbstractExercise>();
   ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 
   constructor(public difficultyConverter: DifficultyConverter) {
@@ -25,7 +26,11 @@ export class ExercisesListComponent extends ExerciseGroupTypeFiltrable implement
   }
 
   openExerciseFormDialogToEdit(exercise: AbstractExercise): void {
-    this.exerciseMustBeEdited.emit(exercise);
+    this.editClick.emit(exercise);
+  }
+
+  deleteThis(exercise: AbstractExercise): void {
+    this.removeClick.emit(exercise);
   }
 
 }

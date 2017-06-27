@@ -11,7 +11,7 @@
     </pulpe-header-list>
     <div class="mt-3">
         <pulpe-exercises-list [exercises]="exercises" [filterArgs]="filterArgs"
-                              (exerciseMustBeEdited)="openExerciseFormDialogOnMode(openableMode.Edit, $event)"></pulpe-exercises-list>
+                              (editClick)="openExerciseFormDialogOnMode(openableMode.Edit, $event)" (removeClick)="deleteExercise($event)"></pulpe-exercises-list>
     </div>
 
     <div class="row">
