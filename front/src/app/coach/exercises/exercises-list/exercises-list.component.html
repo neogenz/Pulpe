@@ -13,7 +13,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let exercise of exercises | filterMembers: filterArgs" class="my-auto text-center">
+            <tr *ngFor="let exercise of exercises | filterExercises: filterArgs" class="my-auto text-center">
                 <td>
                     <pulpe-exercises-type-img [width]="'2rem'"
                                               [exerciseTypeEnum]="exercise.type"></pulpe-exercises-type-img>

@@ -102,6 +102,7 @@ import {ProfileCoachEditDialogComponent} from './coach/profile/profile-coach-edi
 import {SelectMachinesComponent} from "./shared/form/select-machines/select-machines.component";
 import {SpecificExerciseFormBuilderService} from "./coach/exercises/exercise-form-dialog/specific-exercise-form-builder.service";
 import {ProfileMemberFormDialogComponent} from "./shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
+import { FilterExercisesPipe } from './coach/exercises/filter-exercises.pipe';
 
 @NgModule({
   declarations: [
@@ -147,7 +148,8 @@ import {ProfileMemberFormDialogComponent} from "./shared/profile/profile-member-
     ProfileCoachComponent,
     HeaderListComponent,
     ProfileInfosCoachComponent,
-    ProfileMemberFormDialogComponent
+    ProfileMemberFormDialogComponent,
+    FilterExercisesPipe
   ],
   imports: [
     MdButtonModule,

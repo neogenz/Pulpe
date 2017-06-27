@@ -22,6 +22,7 @@ export class ExercisesComponent implements OnInit {
   exercisesSizes: number = 0;
   exerciseFormConfiguration: ExerciseFormConfigurable;
   openableMode: any = ExerciseOpenMode;
+  filterArgs: string;
 
   constructor(public route: ActivatedRoute, private dialogService: DialogService) {
     this.exercises = [];
@@ -73,6 +74,13 @@ export class ExercisesComponent implements OnInit {
     }).subscribe((exerciseAdded) => {
       this.exercises.push(exerciseAdded);
     });
+  }
+
+  filterArgsChanged(filtersArgs: string) {
+    this.filterArgs = null;
+    if (filtersArgs !== '') {
+      this.filterArgs = filtersArgs;
+    }
   }
 }
 

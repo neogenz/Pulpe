@@ -13,6 +13,7 @@ import {DifficultyConverter} from "../../../shared/DifficultyConverter";
 export class ExercisesListComponent extends ExerciseGroupTypeFiltrable implements OnInit {
 
   @Input() exercises: AbstractExercise[];
+  @Input() filterArgs:string;
   exercisesSizes: number = 0;
   ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 
