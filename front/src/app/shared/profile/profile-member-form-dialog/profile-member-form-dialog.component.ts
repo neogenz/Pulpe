@@ -13,6 +13,7 @@ import {ToastrService} from "ngx-toastr";
 import {ProfileService} from "../../../member/profile/profile.service";
 import {AuthenticationProfile} from "../../../_model/AuthenticationProfile";
 import {AuthenticationService} from "../../../_services/authentication/authentication.service";
+import {ModeDialogEnum} from "../../../_enums/ModeDialogEnum";
 
 @Component({
 	selector: 'pulpe-profile-member-form-dialog',
@@ -23,7 +24,7 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 	authenticationProfile: AuthenticationProfile;
 	title: string;
 	titleAction: string;
-	mode: MemberOpenMode;
+	mode: ModeDialogEnum;
 	memberRequest: Observable<Member> = new Observable();
 	frequencyRange: any;
 	maximumBirthdate: string;
@@ -146,11 +147,11 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 			.build();
 
 		switch (this.mode) {
-			case MemberOpenMode.Add:
+			case ModeDialogEnum.Add:
 				member.gym = this.authenticationProfile.gym;
 				this.add(member);
 				break;
-			case MemberOpenMode.Edit:
+			case ModeDialogEnum.Edit:
 				member._id = this.member._id;
 				member.gym = this.member.gym;
 				this.edit(member);
@@ -236,10 +237,5 @@ export interface IForm {
 	member: Member;
 	title: string;
 	titleAction: string;
-	mode: MemberOpenMode;
-}
-
-enum MemberOpenMode{
-	Add,
-	Edit
+	mode: ModeDialogEnum;
 }

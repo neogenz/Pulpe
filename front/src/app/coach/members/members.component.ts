@@ -9,6 +9,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ObjectiveEnum} from "../../_enums/ObjectiveEnum";
 import {ObjectiveEnumService} from "../../_services/objective-enum.service";
 import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component"
+import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
 
 @Component({
 	selector: 'pulpe-members',
@@ -53,10 +54,10 @@ export class MembersComponent implements OnInit {
 	}
 
 	openMemberFormDialog(member: Member) {
-		const mode = member === undefined ? MemberOpenMode.Add : MemberOpenMode.Edit;
+		const mode = member === undefined ? ModeDialogEnum.Add : ModeDialogEnum.Edit;
 		let title: string;
 		let titleAction: string;
-		if (mode === MemberOpenMode.Add) {
+		if (mode === ModeDialogEnum.Add) {
 			title = `Ajout d'un adhérent`;
 			titleAction = 'Ajouter';
 		} else {
@@ -72,7 +73,7 @@ export class MembersComponent implements OnInit {
 		}, {backdropColor: 'rgba(0,0,0,0.5)'})
 			.subscribe((memberSaved) => {
 				if (memberSaved) {
-					if (mode === MemberOpenMode.Add) {
+					if (mode === ModeDialogEnum.Add) {
 						this.members.push(memberSaved);
 					} else {
 						const indexFinded = this.members.findIndex(m => m._id == member._id);
@@ -81,9 +82,4 @@ export class MembersComponent implements OnInit {
 				}
 			});
 	}
-}
-
-enum MemberOpenMode {
-	Add,
-	Edit
 }
