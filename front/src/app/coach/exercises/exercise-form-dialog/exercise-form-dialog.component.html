@@ -11,7 +11,7 @@
                 <!--<pre>form value: <br>{{exerciseForm.value | json}}</pre>-->
                 <md-tab-group>
                     <md-tab label="Informations générales" class="row">
-                        <div class="row pt-2 form-group">
+                        <div class="pt-2 form-group">
                             <div class="col-md-12">
                                 <span class="text-w-300 titleWorkedMuscles">
                                 Information de l'exercice
@@ -25,7 +25,7 @@
                                        required>
                             </md-input-container>
                         </div>
-                        <div class="row form-group">
+                        <div class="form-group">
                             <md-select placeholder="Choisissez un type d'exercice" class="col-md-12"
                                        formControlName="type" required
                                        (change)="refreshSpecificPropertiesOnChangeExerciseType()">

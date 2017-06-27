@@ -16,7 +16,7 @@ export abstract class AbstractExercise implements Serializable<ServerAbstractExe
   constructor(id: number, name: string, machines: Machine[], type: ExerciseGroupTypeEnum) {
     this.id = id;
     this.name = name;
-    this.machines = machines;
+    this.machines = machines ? machines : [];
     this.type = type;
     this.workedMuscles = [];
     this.approximateTime = 0;

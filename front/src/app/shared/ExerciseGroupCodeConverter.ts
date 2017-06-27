@@ -17,7 +17,6 @@ export class ExerciseGroupCodeConverter {
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise], 'Étirements');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise], 'Cardio');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.BodybuildingExercise], 'Musculation');
-    this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], 'Abdominaux');
     this.exerciseGroupLabelConverter.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], 'Cours organisés');
   }
 

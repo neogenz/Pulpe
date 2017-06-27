@@ -31,20 +31,12 @@ export class ChartConfiguration {
       this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.StretchingExercise]),
       new ColorConfiguration('rgba(118,255,3,0.4)', 'rgba(118,255,3,1)')));
 
-    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise], new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.RecuperationExercise]),
-      new ColorConfiguration('rgba(29,233,182,0.4)', 'rgba(29,233,182,1)')));
-
     this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise], new ChartConfigurationData(
       this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.CardioExercise]),
       new ColorConfiguration('rgba(213,0,249,0.4)', 'rgba(213,0,249,1)')));
 
     this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise], new ChartConfigurationData(
       this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.OrganizedExercise]),
-      new ColorConfiguration('rgba(213,0,249,0.4)', 'rgba(213,0,249,1)')));
-
-    this.configurations.set(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise], new ChartConfigurationData(
-      this.exerciseGroupCodeConverter.getLabelOfThis(ExerciseGroupTypeEnum[ExerciseGroupTypeEnum.AbdominusExercise]),
       new ColorConfiguration('rgba(255,234,0,0.4)', 'rgba(255,234,0,1)')));
   }
 

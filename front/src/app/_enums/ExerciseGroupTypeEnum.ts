@@ -7,7 +7,5 @@ export enum ExerciseGroupTypeEnum {
   StretchingExercise,
   BodybuildingExercise,
   CardioExercise,
-  TrainingExercise,
-  RecuperationExercise,
-  AbdominusExercise
+  TrainingExercise
 }

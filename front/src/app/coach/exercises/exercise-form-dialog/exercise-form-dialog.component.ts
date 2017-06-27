@@ -65,7 +65,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
 
   ngOnInit() {
     if (!this.exercise) {
-      this.exercise = new BodybuildingExercise(null, '', []);
+      this.exercise = ExerciseFactory.create(ExerciseGroupTypeEnum.BodybuildingExercise, {});
       this.exercise.workedMuscles = [];
     }
     this.buildForm();
