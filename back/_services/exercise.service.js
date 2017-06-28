@@ -37,11 +37,11 @@ class ExerciseService {
   }
 
   static async findOneOfReferenceById(id) {
-    const finded = await Exercise.findOne({_id: id}).isReference().populate('machines')
-    if (!finded) {
+    const findeds = await Exercise.findOne({_id: id}).isReference().populate('machines');
+    if (!findeds) {
       throw new NotFoundError(`No exercise found with _id ${id}`);
     }
-    return exercise;
+    return findeds[0];
   }
 
   /**

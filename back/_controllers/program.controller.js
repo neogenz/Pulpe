@@ -27,31 +27,23 @@ class ProgramController {
       });
   }
 
-  static createProgram(req, res) {
-    const memberId = req.body.memberId;
-    return MemberService.findById(memberId)
-      .then(member => {
-        const programGenerationContext = new ProgramGenerationContext({member: member, isActive: true});
-        return ProgramService.generateProgramBy(programGenerationContext);
-      }, error => {
-        if (error instanceof SessionError) {
-          throw new TechnicalError(error.message);
-        }
-        throw error;
-      })
-      .then(program => {
-        return ProgramService.saveProgram(program);
-      })
-      .then(programSaved => {
-        res.send(programSaved);
-      }, error => {
-        throw error;
-      })
-      .catch(error => {
-        winston.log('error', error.stack);
-        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-        return res.status(httpError.code).send(httpError);
-      })
+  static async createProgram(req, res) {
+    try {
+      const memberId = req.body.memberId;
+      const mustBeActive = req.body.isActive;
+      const member = await MemberService.findById(memberId);
+      if (mustBeActive) {
+        await ProgramService.disableAllBy(member);
+      }
+      const programGenerationContext = new ProgramGenerationContext({member: member, isActive: mustBeActive});
+      const program = await ProgramService.generateProgramBy(programGenerationContext);
+      const programSaved = await ProgramService.saveProgram(program);
+      return res.send(programSaved);
+    } catch (error) {
+      winston.log('error', error.stack);
+      const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
   }
 
   /**

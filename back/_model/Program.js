@@ -29,6 +29,10 @@ ProgramSchema.pre('save', function (next) {
   next();
 });
 
+ProgramSchema.query.ofThisMember = function (member) {
+  return this.find({member: member});
+};
+
 const Program = mongoose.model('Program', ProgramSchema, 'Programs');
 
 Program.of = () => {
