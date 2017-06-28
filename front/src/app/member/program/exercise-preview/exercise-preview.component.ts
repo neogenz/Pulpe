@@ -46,8 +46,10 @@ export class ExercisePreviewComponent implements OnInit, OnChanges {
     this.dialogService.addDialog(ExerciseSpecificPropertiesFormDialogComponent, this.exerciseFormConfiguration, {
       backdropColor: 'rgba(0,0,0,0.5)'
     }).subscribe((updated) => {
-      this.exercise = updated;
-      this.exerciseUpdated.emit(updated);
+      if (updated) {
+        this.exercise = updated;
+        this.exerciseUpdated.emit(updated);
+      }
     });
   }
 

@@ -16,6 +16,7 @@ import {SessionsService} from "../sessions/sessions.service";
 import {MdSelectChange, MdTabChangeEvent, MdTabGroup} from "@angular/material";
 import {LocalStorageService} from "angular-2-local-storage";
 import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
+import {ObjectiveEnum} from "../../_enums/ObjectiveEnum";
 
 @Component({
   selector: 'pulpe-program',
@@ -32,12 +33,22 @@ export class ProgramComponent implements OnInit {
   public exerciseGroupLabels: ExerciseGroupCode[] = [];
   public focusedSession: Session;
   public focusedExercisesGroup: ExercisesGroup;
+  public objectivesEnumProperties: any = {};
 
   constructor(private programService: ProgramService,
               private exerciseGroupCodeConverter: ExerciseGroupCodeConverter,
               private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
               private sessionService: SessionsService) {
+    this.objectivesEnumProperties[ObjectiveEnum[ObjectiveEnum.MassGainer]] = {
+      pictureLink: '../../assets/img/exercise-types/strength-64.png'
+    };
+    this.objectivesEnumProperties[ObjectiveEnum[ObjectiveEnum.GeneralForm]] = {
+      pictureLink: '../../assets/img/exercise-types/stationary-bike-64.png'
+    };
+    this.objectivesEnumProperties[ObjectiveEnum[ObjectiveEnum.WeightLoss]] = {
+      pictureLink: '../../assets/img/exercise-types/weight-64.png'
+    };
   }
 
 

@@ -169,12 +169,15 @@ class ExerciseService {
       ));
       alreadyWorkedMusclesRepartition = alreadyWorkedMusclesRepartition.concat([muscleRepartition]);
     });
-    return Promise.all(exercisesPromises).then(exercisesFinded => {
-      let exercises = _.flatten(exercisesFinded);
-      let validReferenceExercises = exercises.filter(exercise => exercise !== null && exercise !== undefined);
-      winston.log('debug', `This session need ${nbTotalOfExercisesToThisSession} exercises, ${validReferenceExercises.length} references exercises finded.`)
-      return validReferenceExercises;
-    });
+    return Promise.all(exercisesPromises)
+      .then(exercisesFinded => {
+        let exercises = _.flatten(exercisesFinded);
+        let validReferenceExercises = exercises.filter(exercise => exercise !== null && exercise !== undefined);
+        winston.log('debug', `This session need ${nbTotalOfExercisesToThisSession} exercises, ${validReferenceExercises.length} references exercises finded.`)
+        return validReferenceExercises;
+      }).catch(error => {
+        throw error;
+      });
   }
 
   /**
@@ -187,6 +190,7 @@ class ExerciseService {
    * @param {number} [exerciseProperties.weight]
    * @param {number} [exerciseProperties.phase]
    * @param {boolean} [exerciseProperties.reference]
+   * @param {boolean} [exerciseProperties.priorityInProgramAutoGeneration]
    * @param {Gym} [exerciseProperties.gym]
    * @returns {Promise|Promise.<Exercise>}
    */
@@ -227,6 +231,7 @@ class ExerciseService {
 
 
   /**
+   * To one session
    * @param {{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}} muscleRepartition
    * @param {Array<{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}>} alreadyWorkedMuscles
    * @param {Gym} gym
@@ -239,8 +244,10 @@ class ExerciseService {
       .muscleWorkedBy(muscleRepartition.muscle.toString(), muscleRepartition.intensity.toString())
       .inThisGymId(gym._id)
       .isReference()
+      .excludeThisWorkedMuscles(muscleRepartition.excludesThisWorkedMuscles)
       .populate('machines')
       .limit(muscleRepartition.nbOfExercises)
+      .sort({priorityInProgramAutoGeneration: -1})
       .then(
         exercises => {
           winston.log('debug', `To ${criterias}, ${exercises.length} exercices finded.`);
@@ -248,12 +255,15 @@ class ExerciseService {
             return [];
           }
           filteredExercises = exercises.filter(exercise => {
-            return ExerciseService._filterExerciseAlreadyWorkedHard(exercise, alreadyWorkedMuscles)
+            if (exercise.__t !== ExerciseGroupTypeEnum.CardioExercise.name) {
+              return ExerciseService._filterExerciseAlreadyWorkedHard(exercise, alreadyWorkedMuscles)
+            }
+            return true;
           });
           return filteredExercises;
         },
         error => {
-          throw TechnicalError(error.message);
+          throw new TechnicalError(error.message);
         })
       .catch(error => {
         throw error;
@@ -434,6 +444,9 @@ class ExerciseService {
           times: exerciseReferenceInformation[0].times,
           _gym: exerciseProperties.gym
         });
+        if (exerciseProperties.priorityInProgramAutoGeneration !== undefined && exerciseProperties.priorityInProgramAutoGeneration !== null) {
+          exercise.priorityInProgramAutoGeneration = exerciseProperties.priorityInProgramAutoGeneration;
+        }
         return exercise;
       })
       .catch(error => {
@@ -475,6 +488,9 @@ class ExerciseService {
           times: exerciseReferenceInformation[0].times[0],
           _gym: exerciseProperties.gym
         });
+        if (exerciseProperties.priorityInProgramAutoGeneration !== undefined && exerciseProperties.priorityInProgramAutoGeneration !== null) {
+          exercise.priorityInProgramAutoGeneration = exerciseProperties.priorityInProgramAutoGeneration;
+        }
         return exercise;
       })
       .catch(error => {
@@ -520,7 +536,9 @@ class ExerciseService {
         weight: exerciseProperties.weight,
         _gym: exerciseProperties.gym
       });
-
+      if (exerciseProperties.priorityInProgramAutoGeneration !== undefined && exerciseProperties.priorityInProgramAutoGeneration !== null) {
+        exercise.priorityInProgramAutoGeneration = exerciseProperties.priorityInProgramAutoGeneration;
+      }
       return exercise;
     }).catch(error => {
       throw error;
@@ -554,6 +572,9 @@ class ExerciseService {
           difficulty: exerciseReferenceInformation[0].difficulty,
           _gym: exerciseProperties.gym
         });
+        if (exerciseProperties.priorityInProgramAutoGeneration !== undefined && exerciseProperties.priorityInProgramAutoGeneration !== null) {
+          exercise.priorityInProgramAutoGeneration = exerciseProperties.priorityInProgramAutoGeneration;
+        }
         return exercise;
       })
       .catch(error => {

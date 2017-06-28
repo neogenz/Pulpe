@@ -74,7 +74,6 @@ import {CoachService} from "./_services/coach/coach.service";
 import {MembersComponent} from './coach/members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./coach/members/members.resolver";
-import {ObjectiveEnumService} from "./_services/objective-enum.service";
 import {FilterMembers} from "./coach/members/members.filter.pipe";
 import {MachinesComponent} from './coach/machines/machines.component';
 import {MachinesResolver} from "./coach/machines/machines.resolver";
@@ -106,6 +105,8 @@ import {FilterExercisesPipe} from './coach/exercises/filter-exercises.pipe';
 import {MachineDetailsDialogComponent} from './coach/machines/machine-details-dialog/machine-details-dialog.component';
 import {ExerciseSpecificPropertiesFormDialogComponent} from './member/exercise/exercise-specific-properties-form-dialog/exercise-specific-properties-form-dialog.component';
 import {SpecificExercisePropertiesFormBuilderService} from "./member/exercise/exercise-specific-properties-form-dialog/specific-exercise-properties-form-builder.service";
+import {TranslateObjectiveNamePipe} from "./shared/pipes/translateObjectiveName.filter.pipe";
+import {ObjectiveConveter} from "./shared/ObjectiveConverter";
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import {SpecificExercisePropertiesFormBuilderService} from "./member/exercise/ex
     ProfileInfosCoachComponent,
     ProfileMemberFormDialogComponent,
     FilterExercisesPipe,
+    TranslateObjectiveNamePipe,
     MachineDetailsDialogComponent,
     ExerciseSpecificPropertiesFormDialogComponent
   ],
@@ -216,6 +218,7 @@ import {SpecificExercisePropertiesFormBuilderService} from "./member/exercise/ex
     SessionsService,
     ExerciseGroupCodeConverter,
     DifficultyConverter,
+    ObjectiveConveter,
     MuscleConverter,
     ProgramResolver,
     SessionsResolver,
@@ -232,7 +235,6 @@ import {SpecificExercisePropertiesFormBuilderService} from "./member/exercise/ex
     ProfileIsMemberGuardService,
     ProfileIsCoachGuardService,
     MeasurementEnumService,
-    ObjectiveEnumService,
     MachineService,
     GymService,
     CoachService,

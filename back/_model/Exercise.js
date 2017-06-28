@@ -19,7 +19,8 @@ const ExerciseSchema = new Schema({
   reference: {type: Boolean, default: false},
   _gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
-  createdAt: Date
+  createdAt: Date,
+  priorityInProgramAutoGeneration: {type: Boolean, default: false}
 });
 
 ExerciseSchema.pre('save', function (next) {
@@ -51,6 +52,18 @@ ExerciseSchema.query.isReference = function () {
   return this.find({
     'reference': true
   })
+};
+
+ExerciseSchema.query.excludeThisWorkedMuscles = function (workedMusclesToExcludes) {
+  let workedMuscles = [];
+  if (workedMusclesToExcludes) {
+    workedMuscles = workedMusclesToExcludes.map(m => m.name);
+  }
+  return this.find({
+    'workedMuscles.name': {
+      '$nin': workedMuscles
+    }
+  });
 };
 
 const Exercise = mongoose.model('Exercise', ExerciseSchema, 'Exercises');
