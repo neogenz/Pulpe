@@ -84,7 +84,7 @@
 <section>
     <div class="row">
         <div class="col-md-12">
-            <md-tab-group>
+            <md-tab-group (selectChange)="refreshFocusedExercisesGroupBy($event)" >
                 <md-tab *ngFor="let exercisesGroupLabel of exerciseGroupLabels"
                         label="{{exercisesGroupLabel.label}}">
                     <md-card>
@@ -93,9 +93,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <md-list-item
-                                                *ngFor="let exercise of focusedSession.getExercisesByType(exercisesGroupLabel.rawCode); let last = last">
-                                            <pulpe-exercise-preview [exercise]="exercise"
-                                                                    [exercisesGroupRawCode]="exercisesGroupLabel.rawCode"></pulpe-exercise-preview>
+                                                *ngFor="let exercise of focusedExercisesGroup.exercises; let last = last">
+                                            <pulpe-exercise-preview [exercise]="exercise" (exerciseUpdated)="refreshProgramByExercise($event)"></pulpe-exercise-preview>
                                             <hr *ngIf="!last" class="white">
                                         </md-list-item>
                                     </div>

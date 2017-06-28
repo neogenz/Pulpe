@@ -13,7 +13,9 @@ import {BaseChartDirective} from "ng2-charts/index";
 import {Animations} from "../../shared/Animations";
 import {Session} from "../../_model/Session";
 import {SessionsService} from "../sessions/sessions.service";
-import {MdSelectChange} from "@angular/material";
+import {MdSelectChange, MdTabChangeEvent} from "@angular/material";
+import {LocalStorageService} from "angular-2-local-storage";
+import {ExercisesGroup} from "../../_model/exercise/ExercisesGroup";
 
 @Component({
   selector: 'pulpe-program',
@@ -29,11 +31,12 @@ export class ProgramComponent implements OnInit {
   public program: Program;
   public exerciseGroupLabels: ExerciseGroupCode[] = [];
   public focusedSession: Session;
-
+  public focusedExercisesGroup: ExercisesGroup;
 
   constructor(private programService: ProgramService,
               private exerciseGroupCodeConverter: ExerciseGroupCodeConverter,
               private route: ActivatedRoute,
+              private localStorageService: LocalStorageService,
               private sessionService: SessionsService) {
   }
 
@@ -61,9 +64,21 @@ export class ProgramComponent implements OnInit {
     this.totalTimeOfFocusedSession = this.convertNumberToStrHour(this.sessionService.getTotalTimeOf(session));
     this.exerciseGroupLabels = this.exerciseGroupCodeConverter.convertThis(session.exercisesGroups);
     this.createdAt = session.createdAt.toLocaleDateString();
+    this.focusedExercisesGroup = session.exercisesGroups[0];
   }
 
-  public focusedSessionChanged(newValue: MdSelectChange) {
+  public focusedSessionChanged(newValue: MdSelectChange): void {
     this.refreshConfigBy(newValue.value);
+  }
+
+  public refreshFocusedExercisesGroupBy(change: MdTabChangeEvent): void {
+    this.focusedExercisesGroup = this.focusedSession.exercisesGroups[change.index];
+  }
+
+  public refreshProgramByExercise(exercise: AbstractExercise): void {
+    let indexFinded;
+    indexFinded = this.focusedExercisesGroup.exercises.findIndex(e => e.id == exercise.id);
+    this.focusedExercisesGroup.exercises[indexFinded] = exercise;
+    this.localStorageService.set('program', JSON.stringify(this.program));
   }
 }

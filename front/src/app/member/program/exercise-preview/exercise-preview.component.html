@@ -1,15 +1,17 @@
-<div class="row" md-line>
-    <pulpe-exercises-type-img [exerciseTypeEnum]="exercise.type"></pulpe-exercises-type-img>
-
-    <div class="col-md-10">
+<div class="row relative" md-line>
+    <i (click)="openDialogToEditThis(exercise)" class="fa fa-pencil text-accent pointer top-right"></i>
+    <div class="col-md-2 col-12 text-center text-md-left">
+        <pulpe-exercises-type-img [exerciseTypeEnum]="exercise.type"></pulpe-exercises-type-img>
+    </div>
+    <div class="col-md-6 col-7">
         <h4 class="exerciseTitle">{{exercise.name}}
             <small class="exerciseMachineName">- {{exercise.machines[0].name}}</small>
         </h4>
     </div>
 </div>
 
-<div [ngSwitch]="exercisesGroupRawCode">
-    <div *ngSwitchCase="bodybuildingExerciseEnumLabel" class="row exerciseDetails" md-line>
+<div [ngSwitch]="exercise.type">
+    <div *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise" class="row exerciseDetails" md-line>
         <div class="col-6 offset-md-2 offset-sm-0 col-md-2 text-center">
             <span mdTooltip="Séries"
                   [mdTooltipPosition]="'right'">
@@ -32,7 +34,7 @@
             </span>
         </div>
         <div class="col-6 col-md-2 text-center">
-            <span mdTooltip="Temps de repos entre chaque séries"
+            <span mdTooltip="Temps de repos entre chaque série"
                   [mdTooltipPosition]="'right'">
                 <i class="ion-ios-timer-outline"></i>
                 <span>{{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min </span>
@@ -40,7 +42,8 @@
         </div>
     </div>
 
-    <div *ngSwitchCase="cardioExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
+    <div *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise" class="row exerciseDetails justify-content-center"
+         md-line>
         <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
             <span mdTooltip="Nombre de fois x Durée"
                   [mdTooltipPosition]="'right'">
@@ -71,7 +74,8 @@
         </div>
     </div>
 
-    <div *ngSwitchCase="trainingExerciseEnumLabel" class="row exerciseDetails justify-content-center" md-line>
+    <div *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise" class="row exerciseDetails justify-content-center"
+         md-line>
         <div class="col-6 offset-sm-0 col-md-2 text-center" *ngIf="exercise.times">
             <span mdTooltip="Durée"
                   [mdTooltipPosition]="'right'">
@@ -102,7 +106,7 @@
         </div>
     </div>
 
-    <div *ngSwitchCase="organizedExerciseEnumLabel" class="row exerciseDetails" md-line>
+    <div *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise" class="row exerciseDetails" md-line>
         <div class="col-6 col-md-2 offset-md-4 text-center">
             <span mdTooltip="Difficulté"
                   [mdTooltipPosition]="'right'">
@@ -119,7 +123,7 @@
         </div>
     </div>
 
-    <div *ngSwitchCase="stretchingExerciseEnumLabel" class="row exerciseDetails" md-line>
+    <div *ngSwitchCase="ExerciseGroupTypeEnum.StretchingExercise" class="row exerciseDetails" md-line>
         <div class="col-12 text-center">
             <span mdTooltip="Durée"
                   [mdTooltipPosition]="'right'">

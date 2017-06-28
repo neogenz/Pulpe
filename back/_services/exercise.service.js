@@ -36,9 +36,17 @@ class ExerciseService {
       });
   }
 
+  static async findOneOfReferenceById(id) {
+    const finded = await Exercise.findOne({_id: id}).isReference().populate('machines')
+    if (!finded) {
+      throw new NotFoundError(`No exercise found with _id ${id}`);
+    }
+    return exercise;
+  }
+
   /**
    *
-   * @param {Exercise} exercise
+   * @param {Exercise|object} exercise
    * @returns {Promise|Promise.<Exercise>} updated
    */
   static async findAndUpdateThis(exercise) {
@@ -46,6 +54,23 @@ class ExerciseService {
       const finded = await ExerciseService.findOneById(exercise._id);
       await finded.update(exercise).populate('machines');
       const updated = await ExerciseService.findOneById(exercise._id);
+      return updated;
+    } catch (error) {
+      throw new TechnicalError(error.message);
+    }
+  }
+
+
+  /**
+   *
+   * @param {Exercise|object} exercise
+   * @returns {Promise|Promise.<Exercise>} updated
+   */
+  static async findOneOfReferenceAndUpdateThis(exercise) {
+    try {
+      const finded = await ExerciseService.findOneOfReferenceById(exercise._id);
+      await finded.update(exercise).populate('machines');
+      const updated = await ExerciseService.findOneOfReferenceById(exercise._id);
       return updated;
     } catch (error) {
       throw new TechnicalError(error.message);
@@ -294,6 +319,57 @@ class ExerciseService {
     //   exercise._id = mongoose.Types.ObjectId(rawObject._id);
     //   exercise.isNew = false;
     // }
+    return exercise;
+  }
+
+
+  /**
+   * Get an raw object with properties updatable by members.
+   * @param {Exercise|object} rawObject Represent an exercise
+   * @param {string} rawObject.type
+   * @returns {object|null}
+   */
+  static getPropertiesUpdatableByMemberOn(rawObject) {
+    let exercise = null;
+    const type = rawObject.type || rawObject.__t;
+    switch (type) {
+      case ExerciseGroupTypeEnum.CardioExercise:
+      case ExerciseGroupTypeEnum.CardioExercise.name:
+        exercise = {
+          km: rawObject.km,
+          calories: rawObject.calories,
+          speed: rawObject.speed,
+          recovery: rawObject.recovery,
+          times: rawObject.times,
+        };
+        break;
+      case ExerciseGroupTypeEnum.TrainingExercise:
+      case ExerciseGroupTypeEnum.TrainingExercise.name:
+        exercise = {
+          km: rawObject.km,
+          calories: rawObject.calories,
+          speed: rawObject.speed,
+          recovery: rawObject.recovery,
+          times: rawObject.times
+        };
+        break;
+      case ExerciseGroupTypeEnum.BodybuildingExercise:
+      case ExerciseGroupTypeEnum.BodybuildingExercise.name:
+        exercise = {
+          repetitions: rawObject.repetitions,
+          series: rawObject.series,
+          weight: rawObject.weight,
+          recoveryTimesBetweenEachSeries: rawObject.recoveryTimesBetweenEachSeries
+        };
+        break;
+      case ExerciseGroupTypeEnum.OrganizedExercise:
+      case ExerciseGroupTypeEnum.OrganizedExercise.name:
+        exercise = {
+          difficulty: rawObject.difficulty,
+          approximateTime: rawObject.approximateTime
+        };
+        break;
+    }
     return exercise;
   }
 

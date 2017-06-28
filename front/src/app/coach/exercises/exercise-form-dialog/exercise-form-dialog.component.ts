@@ -19,6 +19,8 @@ import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {CardioExercise} from "../../../_model/exercise/CardioExercise";
 import {DifficultyConverter} from "../../../shared/DifficultyConverter";
+import {OrganizedExercise} from "../../../_model/exercise/OrganizedExercise";
+import {TrainingExercise} from "../../../_model/exercise/TrainingExercise";
 
 @Component({
   selector: 'pulpe-exercise-form-dialog',
@@ -202,10 +204,10 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
         (exercise as CardioExercise).km = this.exerciseForm.get('specifics').get('km').value;
         break;
       case ExerciseGroupTypeEnum.TrainingExercise:
-        (exercise as CardioExercise).km = this.exerciseForm.get('specifics').get('km').value;
+        (exercise as TrainingExercise).km = this.exerciseForm.get('specifics').get('km').value;
         break;
       case ExerciseGroupTypeEnum.OrganizedExercise:
-        (exercise as CardioExercise).difficulty =
+        (exercise as OrganizedExercise).difficulty =
           this.difficultyConverter.getEnumFromName(this.exerciseForm.get('specifics').get('difficulty').value);
         break;
     }
