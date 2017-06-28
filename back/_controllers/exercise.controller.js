@@ -55,9 +55,7 @@ class ExerciseController {
 
 
   static update(req, res) {
-    // exercise.type = ExerciseGroupTypeEnum.fromName(exercise.type);
-    // exercise = ExerciseService.generateExerciseFrom(exercise);
-    return ExerciseService.findAndUpdateThis(req.body.exercise)
+    return ExerciseService.findOneOfReferenceAndUpdateThis(req.body.exercise)
       .then(exercise => {
         return res.send(exercise);
       }, error => {
@@ -68,6 +66,31 @@ class ExerciseController {
         let httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       });
+  }
+
+
+  static async updateExerciseOfMember(req, res) {
+    try {
+      const exercisePropertiesToUpdate = ExerciseService.getPropertiesUpdatableByMemberOn(req.body.exercise);
+      exercisePropertiesToUpdate._id = req.body.exercise._id;
+      const updated = await ExerciseService.findAndUpdateThis(exercisePropertiesToUpdate);
+      return res.send(updated);
+    } catch (error) {
+      winston.log('error', error.stack);
+      let httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
+  }
+
+  static async delete(req, res) {
+    try {
+      const deleted = await ExerciseService.deleteBy(req.params.id);
+      return res.send(deleted);
+    } catch (error) {
+      winston.log('error', error.stack);
+      let httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
   }
 }
 

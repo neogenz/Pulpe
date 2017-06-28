@@ -89,6 +89,22 @@ class ProgramBuilder {
     return this;
   }
 
+  sessionsFromRaw(objects: any[]): ProgramBuilder {
+    let session = null;
+    objects.forEach(rawSession => {
+      session = Session.of()
+        .objective(rawSession.objective)
+        .exercisesGroupsFromRaw(rawSession.exercisesGroups)
+        .needTraining(rawSession.training)
+        .doneCounter(rawSession.doneCounter)
+        .createdAt(rawSession.createdAt)
+        .mainMusclesGroup(rawSession.mainMusclesGroup)
+        .build();
+      this.me.sessions.push(session);
+    });
+    return this;
+  }
+
   sessionsFromServer(rawSessions: any[]): ProgramBuilder {
     let session = null;
     rawSessions.forEach(rawSession => {

@@ -7,7 +7,7 @@
   color: $accent-color;
 }
 
-.exerciseMachineName{
+.exerciseMachineName {
   font-size: 0.85rem;
   font-weight: 400;
   font-style: italic;
@@ -19,4 +19,14 @@
   font-size: 1rem;
   font-weight: 400;
   font-style: italic;
+}
+
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.relative {
+  position: relative;
 }

@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment'
 import {Program} from "../../_model/Program";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {ObservableHelper} from "../../_helpers/ObservableHelper";
+import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
@@ -25,7 +26,7 @@ export class ProgramService extends ObservableHelper {
     if (programLocallyStored) {
       let rawProgram = JSON.parse(programLocallyStored);
       return Observable.of(Program.of()
-        .sessionsFromServer(rawProgram.sessions)
+        .sessionsFromRaw(rawProgram.sessions)
         .createdAt(rawProgram.createdAt)
         .objective(rawProgram.objective)
         .level(rawProgram.level).build());
@@ -33,14 +34,16 @@ export class ProgramService extends ObservableHelper {
       return this._http.get(`${environment.baseUrl()}/programs/active`)
         .map(res => {
           let data: any = this.extractDataOf(res);
-          this.localStorageService.set('program', JSON.stringify(data.program));
-          return Program.of()
+          const program: Program = Program.of()
             .sessionsFromServer(data.program.sessions)
             .createdAt(data.program.createdAt)
             .objective(data.program.objective)
             .level(data.program.level).build();
+          this.localStorageService.set('program', JSON.stringify(program));
+          return program;
         })
         .catch(this.handleError);
     }
   }
+
 }

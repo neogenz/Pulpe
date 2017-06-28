@@ -83,6 +83,11 @@ class ProgramService {
       })
   }
 
+
+  static async disableAllBy(member){
+    await Program.find().ofThisMember(member).update({isActive:false});
+  }
+
   /**
    * Find all sessions populated of active program by member id.
    * @param {number} memberId

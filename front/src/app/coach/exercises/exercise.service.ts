@@ -45,4 +45,29 @@ export class ExerciseService extends ObservableHelper {
       })
       .catch(this.handleError);
   }
+
+  public updateOneOfMember(exercise: AbstractExercise): Observable<AbstractExercise> {
+    return this._http.put(`${environment.baseUrl()}/members/programs/exercises`, {
+      exercise: exercise.serialize()
+    })
+      .map(res => {
+        let data: any = this.extractDataOf(res);
+        return ExerciseFactory.create(data.__t, data);
+      })
+      .catch(this.handleError);
+  }
+
+  /**
+   *
+   * @param exercise
+   * @returns {Observable<R|AbstractExercise>} deleted
+   */
+  public deleteThis(exercise: AbstractExercise): Observable<AbstractExercise> {
+    return this._http.delete(`${environment.baseUrl()}/exercises/${exercise.id}`)
+      .map(res => {
+        const data: any = this.extractDataOf(res);
+        return ExerciseFactory.create(data.__t, data);
+      })
+      .catch(this.handleError);
+  }
 }

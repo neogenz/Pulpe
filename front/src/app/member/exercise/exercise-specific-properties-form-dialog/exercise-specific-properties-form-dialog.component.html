@@ -1,0 +1,269 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="text-center">
+                <h4 class="text-light-weight">{{title}}</h4>
+            </div>
+        </div>
+        <form (ngSubmit)="confirm()" [formGroup]="exerciseForm">
+            <div class="modal-body pt-0">
+                <div class="pt-2 form-group">
+                    <div class="col-md-12">
+              <span class="text-w-300 titleWorkedMuscles">
+                  Nom de l'exercice : <span class="font-italic">{{exercise.name}}</span>
+              </span>
+                        <hr>
+                    </div>
+                </div>
+                <div [ngSwitch]="exercise.type" formGroupName="specifics" class="form-group">
+                    <div *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise">
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x icon-weight prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputWeight" mdInput type="number"
+                                       placeholder="Poids"
+                                       formControlName="weight"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('weight').dirty && exerciseForm.get('specifics').get('weight').hasError('required')"
+                                        class="form-control-feedback">Poids obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('weight').dirty && exerciseForm.get('specifics').get('weight').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('weight').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('weight').dirty && exerciseForm.get('specifics').get('weight').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('weight').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-refresh prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputSeries" mdInput type="number"
+                                       placeholder="Séries"
+                                       formControlName="series"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('series').dirty && exerciseForm.get('specifics').get('series').hasError('required')"
+                                        class="form-control-feedback">Séries obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('series').dirty && exerciseForm.get('specifics').get('series').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('series').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('series').dirty && exerciseForm.get('specifics').get('series').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('series').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x icon-althere prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputRepetitions" mdInput type="number"
+                                       placeholder="Répétitions"
+                                       formControlName="repetitions"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('repetitions').dirty && exerciseForm.get('specifics').get('repetitions').hasError('required')"
+                                        class="form-control-feedback">Répétitions obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('repetitions').dirty && exerciseForm.get('specifics').get('repetitions').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('repetitions').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('repetitions').dirty && exerciseForm.get('specifics').get('repetitions').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('repetitions').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-ios-timer-outline prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputRecoveryBetweenEachSeries" mdInput type="number"
+                                       placeholder="Temps de repos entre chaque série"
+                                       formControlName="recoveryBetweenEachSeries"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('recoveryBetweenEachSeries').dirty && exerciseForm.get('specifics').get('recoveryBetweenEachSeries').hasError('required')"
+                                        class="form-control-feedback">Répétitions obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('recoveryBetweenEachSeries').dirty && exerciseForm.get('specifics').get('recoveryBetweenEachSeries').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum
+                                    {{exerciseForm.get('specifics').get('recoveryBetweenEachSeries').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('recoveryBetweenEachSeries').dirty && exerciseForm.get('specifics').get('recoveryBetweenEachSeries').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('recoveryBetweenEachSeries').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise">
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x icon-weight prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputSpeedCardio" mdInput type="number"
+                                       placeholder="Temps"
+                                       formControlName="times"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('required')"
+                                        class="form-control-feedback">Temps obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('times').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('times').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-refresh prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputTimesCardio" mdInput type="number"
+                                       placeholder="Vitesse"
+                                       formControlName="speed"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('required')"
+                                        class="form-control-feedback">Vitesse obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('speed').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('speed').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise">
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-repeat prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputSpeedTraining" mdInput type="number"
+                                       placeholder="Temps"
+                                       formControlName="times"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('required')"
+                                        class="form-control-feedback">Temps obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('times').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('times').dirty && exerciseForm.get('specifics').get('times').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('times').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-speedometer prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputTimesTraining" mdInput type="number"
+                                       placeholder="Vitesse"
+                                       formControlName="speed"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('required')"
+                                        class="form-control-feedback">Vitesse obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('speed').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('speed').dirty && exerciseForm.get('specifics').get('speed').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('speed').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise">
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-hourglass-half prefix my-auto pr-0"></i>
+                            <md-input-container class="col-7 col-md-8">
+                                <input id="inputAproximateTime" mdInput type="number"
+                                       placeholder="Temps approximation"
+                                       formControlName="approximateTime"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('approximateTime').dirty && exerciseForm.get('specifics').get('approximateTime').hasError('required')"
+                                        class="form-control-feedback">Temps obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('approximateTime').dirty && exerciseForm.get('specifics').get('approximateTime').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum
+                                    {{exerciseForm.get('specifics').get('approximateTime').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('approximateTime').dirty && exerciseForm.get('specifics').get('approximateTime').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('approximateTime').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="form-group">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-ios-bolt prefix my-auto pr-0"></i>
+                            <md-select placeholder="Difficulté du cours" class="col-7 col-md-8"
+                                       formControlName="difficulty" required>
+                                <md-option *ngFor="let difficultyLabel of difficultyLabels"
+                                           [value]="difficultyLabel">
+                                    {{difficultyLabel}}
+                                </md-option>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('difficulty').dirty && exerciseForm.get('specifics').get('difficulty').hasError('required')"
+                                        class="form-control-feedback">Difficulté obligatoire.
+                                </md-hint>
+                            </md-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" [disabled]="exerciseForm.invalid">
+                    Sauvegarder
+                </button>
+                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>

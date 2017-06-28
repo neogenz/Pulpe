@@ -10,16 +10,16 @@ import {APP_BASE_HREF} from '@angular/common';
 import {ChartsModule} from 'ng2-charts';
 import {LocalStorageModule, LocalStorageService} from 'angular-2-local-storage';
 import {
-	MdInputModule,
-	MdCheckboxModule,
-	MdSelectModule,
-	MdCardModule,
-	MdProgressSpinnerModule,
-	MdTabsModule,
-	MdRadioModule,
-	MdTooltipModule,
-	MdChipsModule,
-	MdButtonModule
+  MdInputModule,
+  MdCheckboxModule,
+  MdSelectModule,
+  MdCardModule,
+  MdProgressSpinnerModule,
+  MdTabsModule,
+  MdRadioModule,
+  MdTooltipModule,
+  MdChipsModule,
+  MdButtonModule
 } from '@angular/material';
 
 
@@ -104,177 +104,182 @@ import {SpecificExerciseFormBuilderService} from "./coach/exercises/exercise-for
 import {ProfileMemberFormDialogComponent} from "./shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
 import {FilterExercisesPipe} from './coach/exercises/filter-exercises.pipe';
 import {MachineDetailsDialogComponent} from './coach/machines/machine-details-dialog/machine-details-dialog.component';
+import {ExerciseSpecificPropertiesFormDialogComponent} from './member/exercise/exercise-specific-properties-form-dialog/exercise-specific-properties-form-dialog.component';
+import {SpecificExercisePropertiesFormBuilderService} from "./member/exercise/exercise-specific-properties-form-dialog/specific-exercise-properties-form-builder.service";
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		SigninComponent,
-		SignupComponent,
-		ProfileCompletationComponent,
-		HomeComponent,
-		ProgramComponent,
-		ExercisePreviewComponent,
-		SessionsComponent,
-		PageTitleComponent,
-		SimpleCounterWithIconComponent,
-		ExercisesRepartitionGraphComponent,
-		SessionObjectiveComponent,
-		WelcomeComponent,
-		SessionListComponent,
-		EvolutionComponent,
-		EfficientLineGraphComponent,
-		ProfileComponent,
-		ProfilePhotoComponent,
-		ProfileInfosComponent,
-		SidebarComponent,
-		FooterComponent,
-		MeasurementsListComponent,
-		MeasurementsAddDialogComponent,
-		ProfileCompletationCoachComponent,
-		ProfileCoachEditDialogComponent,
-		MembersComponent,
-		FilterMembers,
-		FilterMachines,
-		TranslateWorkedMuscleName,
-		MachinesComponent,
-		MachineFormDialogComponent,
-		ExercisesComponent,
-		ExercisesListComponent,
-		ExercisesTypeImgComponent,
-		ExerciseFormDialogComponent,
-		SelectWorkedMuscleComponent,
-		ChipsRemovableWorkedMuscleComponent,
-		DeleteDialogComponent,
-		SelectMachinesComponent,
-		ProfileCoachComponent,
-		HeaderListComponent,
-		ProfileInfosCoachComponent,
-		ProfileMemberFormDialogComponent,
-		FilterExercisesPipe,
-		MachineDetailsDialogComponent
-	],
-	imports: [
-		MdButtonModule,
-		MdChipsModule,
-		MdTooltipModule,
-		MdInputModule,
-		MdSelectModule,
-		MdProgressSpinnerModule,
-		MdRadioModule,
-		MdCheckboxModule,
-		MdTabsModule,
-		MdCardModule,
-		BrowserModule,
-		FormsModule,
-		MdCheckboxModule,
-		HttpModule,
-		BrowserAnimationsModule,
-		ChartsModule,
-		ReactiveFormsModule,
-		NgxErrorsModule,
-		BootstrapModalModule,
-		RouterModule.forRoot(ROUTES),
-		SlimLoadingBarModule.forRoot(),
-		SidebarModule.forRoot(),
-		ToastrModule.forRoot(),
-		LocalStorageModule.withConfig({
-			prefix: '',
-			storageType: 'localStorage'
-		})
-	],
-	//Merry, look 'Become ninja Angular 2' to understand this :p
-	providers: [
-		{
-			provide: APP_BASE_HREF, useValue: '/'
-		},
-		{
-			provide: AuthHttp,
-			useFactory: authHttpServiceFactory,
-			deps: [Http, RequestOptions, LocalStorageService]
-		},
-		{
-			provide: 'IS_PROD', useValue: true
-		},
-		{
-			provide: MemberService,
-			useFactory: memberServiceFactory,
-			deps: ['IS_PROD', LocalStorageService, AuthHttp]
-		},
-		{
-			provide: ProgramService,
-			useFactory: programServiceFactory,
-			deps: ['IS_PROD', LocalStorageService, AuthHttp]
-		},
-		{
-			provide: AuthenticationService,
-			useFactory: authenticationServiceFactory,
-			deps: ['IS_PROD', LocalStorageService, Http]
-		},
-		SessionsService,
-		ExerciseGroupCodeConverter,
-		DifficultyConverter,
-		MuscleConverter,
-		ProgramResolver,
-		SessionsResolver,
-		ProfileCoachResolver,
-		EvolutionResolver,
-		ProfileResolver,
-		ProfileService,
-		MembersResolver,
-		ExerciseResolver,
-		ExerciseService,
-		MachinesResolver,
-		AuthenticationGuard,
-		ProfileCompletedGuardService,
-		ProfileIsMemberGuardService,
-		ProfileIsCoachGuardService,
-		MeasurementEnumService,
-		ObjectiveEnumService,
-		MachineService,
-		GymService,
-		CoachService,
-		SpecificExerciseFormBuilderService
-	],
-	entryComponents: [
-		MeasurementsAddDialogComponent,
-		ProfileMemberFormDialogComponent,
-		ExerciseFormDialogComponent,
-		MachineFormDialogComponent,
-		DeleteDialogComponent,
-		ProfileCoachEditDialogComponent,
-		MachineDetailsDialogComponent
-	],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    SigninComponent,
+    SignupComponent,
+    ProfileCompletationComponent,
+    HomeComponent,
+    ProgramComponent,
+    ExercisePreviewComponent,
+    SessionsComponent,
+    PageTitleComponent,
+    SimpleCounterWithIconComponent,
+    ExercisesRepartitionGraphComponent,
+    SessionObjectiveComponent,
+    WelcomeComponent,
+    SessionListComponent,
+    EvolutionComponent,
+    EfficientLineGraphComponent,
+    ProfileComponent,
+    ProfilePhotoComponent,
+    ProfileInfosComponent,
+    SidebarComponent,
+    FooterComponent,
+    MeasurementsListComponent,
+    MeasurementsAddDialogComponent,
+    ProfileCompletationCoachComponent,
+    ProfileCoachEditDialogComponent,
+    MembersComponent,
+    FilterMembers,
+    FilterMachines,
+    TranslateWorkedMuscleName,
+    MachinesComponent,
+    MachineFormDialogComponent,
+    ExercisesComponent,
+    ExercisesListComponent,
+    ExercisesTypeImgComponent,
+    ExerciseFormDialogComponent,
+    SelectWorkedMuscleComponent,
+    ChipsRemovableWorkedMuscleComponent,
+    DeleteDialogComponent,
+    SelectMachinesComponent,
+    ProfileCoachComponent,
+    HeaderListComponent,
+    ProfileInfosCoachComponent,
+    ProfileMemberFormDialogComponent,
+    FilterExercisesPipe,
+    MachineDetailsDialogComponent,
+    ExerciseSpecificPropertiesFormDialogComponent
+  ],
+  imports: [
+    MdButtonModule,
+    MdChipsModule,
+    MdTooltipModule,
+    MdInputModule,
+    MdSelectModule,
+    MdProgressSpinnerModule,
+    MdRadioModule,
+    MdCheckboxModule,
+    MdTabsModule,
+    MdCardModule,
+    BrowserModule,
+    FormsModule,
+    MdCheckboxModule,
+    HttpModule,
+    BrowserAnimationsModule,
+    ChartsModule,
+    ReactiveFormsModule,
+    NgxErrorsModule,
+    BootstrapModalModule,
+    RouterModule.forRoot(ROUTES),
+    SlimLoadingBarModule.forRoot(),
+    SidebarModule.forRoot(),
+    ToastrModule.forRoot(),
+    LocalStorageModule.withConfig({
+      prefix: '',
+      storageType: 'localStorage'
+    })
+  ],
+  //Merry, look 'Become ninja Angular 2' to understand this :p
+  providers: [
+    {
+      provide: APP_BASE_HREF, useValue: '/'
+    },
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions, LocalStorageService]
+    },
+    {
+      provide: 'IS_PROD', useValue: true
+    },
+    {
+      provide: MemberService,
+      useFactory: memberServiceFactory,
+      deps: ['IS_PROD', LocalStorageService, AuthHttp]
+    },
+    {
+      provide: ProgramService,
+      useFactory: programServiceFactory,
+      deps: ['IS_PROD', LocalStorageService, AuthHttp]
+    },
+    {
+      provide: AuthenticationService,
+      useFactory: authenticationServiceFactory,
+      deps: ['IS_PROD', LocalStorageService, Http]
+    },
+    SessionsService,
+    ExerciseGroupCodeConverter,
+    DifficultyConverter,
+    MuscleConverter,
+    ProgramResolver,
+    SessionsResolver,
+    ProfileCoachResolver,
+    EvolutionResolver,
+    ProfileResolver,
+    ProfileService,
+    MembersResolver,
+    ExerciseResolver,
+    ExerciseService,
+    MachinesResolver,
+    AuthenticationGuard,
+    ProfileCompletedGuardService,
+    ProfileIsMemberGuardService,
+    ProfileIsCoachGuardService,
+    MeasurementEnumService,
+    ObjectiveEnumService,
+    MachineService,
+    GymService,
+    CoachService,
+    SpecificExerciseFormBuilderService,
+    SpecificExercisePropertiesFormBuilderService
+  ],
+  entryComponents: [
+    MeasurementsAddDialogComponent,
+    ProfileMemberFormDialogComponent,
+    ExerciseFormDialogComponent,
+    MachineFormDialogComponent,
+    DeleteDialogComponent,
+    ProfileCoachEditDialogComponent,
+    MachineDetailsDialogComponent,
+    ExerciseSpecificPropertiesFormDialogComponent
+  ],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule {
 }
 
 export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, authHttp: AuthHttp): any {
-	if (IS_PROD) {
-		return new ProgramService(authHttp, localStorage)
-	}
-	return new ProgramMockService();
+  if (IS_PROD) {
+    return new ProgramService(authHttp, localStorage)
+  }
+  return new ProgramMockService();
 }
 
 export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
-	//if (IS_PROD) {
-	return new MemberService(http, localStorage);
-	//}
-	//return new MemberMockService(localStorage);
+  //if (IS_PROD) {
+  return new MemberService(http, localStorage);
+  //}
+  //return new MemberMockService(localStorage);
 }
 
 export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
-	//if (IS_PROD) {
-	return new AuthenticationService(http, localStorage);
-	//}
-	//return new AuthenticationMockService(localStorage);
+  //if (IS_PROD) {
+  return new AuthenticationService(http, localStorage);
+  //}
+  //return new AuthenticationMockService(localStorage);
 }
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, localStorage: LocalStorageService) {
-	return new AuthHttp(new AuthConfig({
-		tokenName: 'token',
-		tokenGetter: (() => localStorage.get('token').toString()),
-		globalHeaders: [{'Content-Type': 'application/json'}],
-	}), http, options);
+  return new AuthHttp(new AuthConfig({
+    tokenName: 'token',
+    tokenGetter: (() => localStorage.get('token').toString()),
+    globalHeaders: [{'Content-Type': 'application/json'}],
+  }), http, options);
 }

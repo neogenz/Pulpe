@@ -1,13 +1,15 @@
 import {AbstractExercise} from "./exercise/AbstractExercise";
 import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
 import {ExercisesGroup} from "./exercise/ExercisesGroup";
+import {ExerciseFactory} from "./exercise/ExerciseFactory";
 
+//todo refacto to enum for objective and musclegroup ?
 export class Session {
   objective: string;
   exercisesGroups: ExercisesGroup[];
   createdAt: Date;
   mainMusclesGroup: string[];
-  doneCounter: boolean;
+  doneCounter: number;
   needTraining: boolean;
 
 
@@ -54,6 +56,18 @@ class SessionBuilder {
     return this;
   }
 
+  exercisesGroupsFromRaw(objects: any[]): SessionBuilder {
+    let exercises: AbstractExercise[] = [];
+    objects.forEach(rawExercisesGroup => {
+      exercises = [];
+      rawExercisesGroup.exercises.forEach(exercise => {
+        exercises.push(ExerciseFactory.create(exercise.type, exercise));
+      });
+      this.me.exercisesGroups.push(new ExercisesGroup(rawExercisesGroup.groupType, exercises));
+    });
+    return this;
+  }
+
   exercisesGroupsFromServer(rawExercises: Object[]): SessionBuilder {
     this.me.exercisesGroups = ExerciseGroupCodeConverter.createExercisesGroupsFrom(rawExercises);
     return this;
@@ -73,7 +87,7 @@ class SessionBuilder {
     return this;
   }
 
-  doneCounter(doneCounter: boolean): SessionBuilder {
+  doneCounter(doneCounter: number): SessionBuilder {
     this.me.doneCounter = doneCounter;
     return this;
   }
