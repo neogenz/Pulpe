@@ -18,11 +18,13 @@ class MeasurementService {
 		let measurementsPromises = [];
 		let archivedMeasurement;
 		measurements.forEach(mes => {
-			archivedMeasurement = new ArchivedMeasurement();
-			archivedMeasurement.member_id = memberId;
-			archivedMeasurement.name = mes.name;
-			archivedMeasurement.unit = mes.unit;
-			archivedMeasurement.value = mes.value;
+			if (MeasurementEnum[mes.name] !== MeasurementEnum.IMC) {
+				archivedMeasurement = new ArchivedMeasurement();
+				archivedMeasurement.member_id = memberId;
+				archivedMeasurement.name = mes.name;
+				archivedMeasurement.unit = mes.unit;
+				archivedMeasurement.value = mes.value;
+			}
 			measurementsPromises.push(archivedMeasurement.save());
 		});
 		return Promise.all(measurementsPromises)
@@ -35,11 +37,11 @@ class MeasurementService {
 	}
 
 	/**
-	 * Find all archived measurements.
+	 * Find all archived measurements of a member.
 	 * @returns {Promise.<ArchivedMeasurement>|Promise}
 	 */
-	static findAllArchivedMeasurements() {
-		return ArchivedMeasurement.find()
+	static findAllArchivedMeasurementsBy(member) {
+		return ArchivedMeasurement.find({'member_id': member._id})
 			.then(
 				archivedMeasurements => {
 					return archivedMeasurements;
@@ -68,15 +70,21 @@ class MeasurementService {
 		return measurement;
 	}
 
+
 	/**
 	 * Return IMC of a member.
-	 * @param member
+	 * @param weightMeasurement
+	 * @param sizeMeasurement
+	 * @returns {number}
 	 */
-	static getIMCOf(member) {
-		let weightMeasurement = this.findMeasurementIn(member.measurements, MeasurementEnum.WEIGHT);
-		let sizeMeasurement = this.findMeasurementIn(member.measurements, MeasurementEnum.SIZE);
+	static getIMCBy(weightMeasurement, sizeMeasurement) {
+		if (!weightMeasurement || !sizeMeasurement) {
+			throw new Error(`IMC Can't be generate`);
+		}
+		let weight = weightMeasurement.value;
+		let size = sizeMeasurement.value;
 
-		return (weightMeasurement.value / (sizeMeasurement.value * sizeMeasurement.value)) * 10000;
+		return (weight / (size * size)) * 10000;
 	}
 
 	/**

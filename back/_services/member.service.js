@@ -11,6 +11,8 @@ const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
 const EmailService = require('../_services/email.service');
 const winston = require('winston');
+const moment = require('moment');
+const _ = require('underscore');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
@@ -146,10 +148,12 @@ class MemberService {
 	 */
 	static addMeasurements(memberId, measurements) {
 		let member;
+		let imcMeasurement;
 		return this.findById(memberId)
 			.then(memberFinded => {
 				member = memberFinded;
 				const measurementsToArchive = member.measurements;
+				imcMeasurement = MeasurementService.findMeasurementIn(measurementsToArchive, MeasurementEnum.IMC);
 				return MeasurementService.createArchivedMeasurements(memberId, measurementsToArchive);
 			})
 			.then(() => {
@@ -157,10 +161,6 @@ class MemberService {
 				measurements.forEach(mes => {
 					member.measurements.push(mes);
 				});
-
-				const imcMeasurement = new Measurement();
-				imcMeasurement.value = MeasurementService.getIMCOf(member);
-				imcMeasurement.name = MeasurementEnum.IMC.toString();
 				member.measurements.push(imcMeasurement);
 
 				return member.save();
@@ -188,9 +188,6 @@ class MemberService {
 	static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum, gender) {
 		return this.findById(memberId)
 			.then(member => {
-				measurements.forEach(mes => {
-					member.measurements.push(mes);
-				});
 				member.profileCompleted = true;
 				member.sessionFrequency = sessionFrequency;
 				member.birthDate = new Date(birthDate);
@@ -198,8 +195,20 @@ class MemberService {
 				member.gym = gymId;
 				member.gender = gender;
 
+				let weightMeasurement;
+				let sizeMeasurement;
+				measurements.forEach(mes => {
+					member.measurements.push(mes);
+					if (MeasurementEnum[mes.name] === MeasurementEnum.WEIGHT) {
+						weightMeasurement = mes;
+					}
+					if (MeasurementEnum[mes.name] === MeasurementEnum.SIZE) {
+						sizeMeasurement = mes;
+					}
+				});
+
 				const imcMeasurement = new Measurement();
-				imcMeasurement.value = MeasurementService.getIMCOf(member);
+				imcMeasurement.value = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
 				imcMeasurement.name = MeasurementEnum.IMC.toString();
 				member.measurements.push(imcMeasurement);
 				return member.save();
@@ -311,22 +320,39 @@ class MemberService {
 		if (!imcMeasurement) {
 			throw new Error('No IMC measurement found');
 		}
-
 		const objective = ObjectiveEnum.fromName(member.objective);
 		const initialIMC = imcMeasurement.value;
 		const idealIMC = MeasurementService.getIdealIMCBy(initialIMC, objective);
-
 		const previsions = [];
 		let prevision = {};
-		return MeasurementService.findAllArchivedMeasurements()
+
+		return MeasurementService.findAllArchivedMeasurementsBy(member)
 			.then((archivedMeasurements) => {
-				const archivedAndActualMeasurements = member.measurements.concat(archivedMeasurements);
-				archivedAndActualMeasurements.forEach((measurement) => {
-					prevision = generatePrevisionBy(measurement, initialIMC, idealIMC);
-					previsions.push(prevision);
-				});
-				return previsions;
-			});
+					const archivedAndActualMeasurements = archivedMeasurements.concat(member.measurements);
+					let weightMeasurement;
+					let sizeMeasurement;
+					archivedAndActualMeasurements.forEach((measurement) => {
+						if (MeasurementEnum[measurement.name] === MeasurementEnum.WEIGHT) {
+							weightMeasurement = measurement;
+						}
+						if (MeasurementEnum[measurement.name] === MeasurementEnum.SIZE) {
+							sizeMeasurement = measurement;
+						}
+						if (weightMeasurement && sizeMeasurement) {
+							prevision = generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealIMC);
+							previsions.push(prevision);
+							weightMeasurement = null;
+							sizeMeasurement = null;
+						}
+					});
+					//
+					previsions.push({
+						date: moment(imcMeasurement.createdAt).add(1, 'Y').format('DD-MM-YYYY'),
+						percentage: 100
+					});
+					return previsions;
+				}
+			);
 	}
 
 }
@@ -334,11 +360,13 @@ class MemberService {
 module.exports = MemberService;
 
 
-function generatePrevisionBy(measurement, initialIMC, idealImc) {
-	let percentage = 0;
+function generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealImc) {
+	const newIMC = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
+	const percentage = (newIMC - initialIMC) * 100 / (idealImc - initialIMC);
+	const date = moment(weightMeasurement.createdAt).format('DD-MM-YYYY');
 
 	return {
-		date: measurement.createdAt,
-		percentage: percentage
+		date: date,
+		percentage: (percentage > 100 ? 100 : percentage)
 	};
 }

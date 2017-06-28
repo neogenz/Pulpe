@@ -43,6 +43,13 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (this.initialized) {
+			this.lineChartData = [];
+			this.lineChartLabels = [];
+			this.previsionsPoints.forEach((point) => {
+				this.lineChartData.push(point.percentage);
+				this.lineChartLabels.push(point.date);
+			});
+			this.chartDirective.updateChartData(this.lineChartData);
 			this.chartDirective.chart.update();
 		}
 	}
@@ -52,7 +59,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
 			this.lineChartData.push(point.percentage);
 			this.lineChartLabels.push(point.date);
 		});
-		//this.chartDirective.updateChartData(this.lineChartData);
+		this.chartDirective.updateChartData(this.lineChartData);
 		this.chartDirective.chart.update();
 	}
 
