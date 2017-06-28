@@ -39,7 +39,6 @@ export class EvolutionComponent implements OnInit {
 				this.slimLoadingBarService.complete();
 			})
 			.subscribe((previsionsPoints) => {
-					debugger;
 					this.previsionsPoints = previsionsPoints;
 				},
 				(errorMsg) => {

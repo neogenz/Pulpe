@@ -49,7 +49,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
 				this.lineChartData.push(point.percentage);
 				this.lineChartLabels.push(point.date);
 			});
-			this.chartDirective.updateChartData(this.lineChartData);
+			//this.chartDirective.updateChartData(this.lineChartData);
 			this.chartDirective.chart.update();
 		}
 	}
@@ -59,7 +59,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
 			this.lineChartData.push(point.percentage);
 			this.lineChartLabels.push(point.date);
 		});
-		this.chartDirective.updateChartData(this.lineChartData);
+		//this.chartDirective.updateChartData(this.lineChartData);
 		this.chartDirective.chart.update();
 	}
 

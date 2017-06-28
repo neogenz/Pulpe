@@ -108,31 +108,44 @@ class MeasurementService {
 }
 module.exports = MeasurementService;
 
-
 function determineIdealIMCForMassGainer(corpulence) {
 	switch (corpulence) {
 		case CorpulenceEnum.Maigreur:
 			return 21.5;
 		case CorpulenceEnum.Normal:
 			return 27;
+		case CorpulenceEnum.Surpoids:
+			return 33;
+		case CorpulenceEnum.Obesite:
+			return 39;
 	}
 }
 
 function determineIdealIMCForWeightLoss(corpulence) {
 	switch (corpulence) {
 		case CorpulenceEnum.Maigreur:
-			return 21.5;
+			return 20;
 		case CorpulenceEnum.Normal:
-			return 27;
+			return 24;
+		case CorpulenceEnum.Surpoids:
+			return 28;
+		case CorpulenceEnum.Obesite:
+			return 32;
 	}
 }
 
 function determineIdealIMCForGeneralForm(corpulence) {
 	switch (corpulence) {
 		case CorpulenceEnum.Maigreur:
-			return 21.5;
+			return 18;
 		case CorpulenceEnum.Normal:
+			return 21.5;
+		case CorpulenceEnum.Surpoids:
 			return 27;
+		case CorpulenceEnum.Obesite:
+			return 33;
 	}
 }
+
+
 
