@@ -1,18 +1,18 @@
 export class Point {
 
-	constructor() {
-	}
+  constructor() {
+  }
 
-	public initFromRawObject(rawInitObject: any) {
-		return this;
-	}
+  public initFromRawObject(rawInitObject: any) {
+    return this;
+  }
 
-	date: Date;
-	percentage: number;
+  date: string;
+  percentage: number;
 
-	public static of(): PointBuilder {
-		return new PointBuilder();
-	}
+  public static of(): PointBuilder {
+    return new PointBuilder();
+  }
 }
 
 
@@ -20,19 +20,19 @@ export class Point {
  * Class used to implement Builder pattern.
  */
 class PointBuilder {
-	private me: Point = new Point();
+  private me: Point = new Point();
 
-	public date(date: Date): PointBuilder {
-		this.me.date = date;
-		return this;
-	}
+  public date(date: string): PointBuilder {
+    this.me.date = date;
+    return this;
+  }
 
-	public percentage(percentage: number): PointBuilder {
-		this.me.percentage = percentage;
-		return this;
-	}
+  public percentage(percentage: number): PointBuilder {
+    this.me.percentage = percentage;
+    return this;
+  }
 
-	public build(): Point {
-		return this.me;
-	}
+  public build(): Point {
+    return this.me;
+  }
 }

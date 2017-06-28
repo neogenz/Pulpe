@@ -57,11 +57,11 @@ mongoose.connection.on('connected', function () {
     }, error => {
       return mongoose.connection.collections['Exercises'].drop();
     })
-    .then(() => {
-      return mongoose.connection.collections['Programs'].drop();
-    }, error => {
-      return mongoose.connection.collections['Programs'].drop();
-    })
+    // .then(() => {
+    //   return mongoose.connection.collections['Programs'].drop();
+    // }, error => {
+    //   return mongoose.connection.collections['Programs'].drop();
+    // })
     .then(() => {
       return mongoose.connection.collections['Sessions'].drop();
     }, error => {
