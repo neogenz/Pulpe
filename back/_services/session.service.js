@@ -109,7 +109,7 @@ class SessionService {
         sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
         break;
       case ObjectiveEnum.WeightLoss:
-        sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
+        sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToWeightLossBy(nbSeance);
         break;
       case ObjectiveEnum.MassGainer:
         sessionsRepartition = SessionService.getMuscularGroupSessionRepartitionToMassGainerBy(nbSeance);
@@ -128,59 +128,60 @@ class SessionService {
    *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
    * }>}
    */
-  //todo pass this to db ?
   static getMuscularGroupSessionRepartitionToMassGainerBy(nbSessions) {
     let muscularsGroupsSession = [];
     if (nbSessions >= 1 && nbSessions <= 2) {
       muscularsGroupsSession = [
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          musclesRepartition: [{
-            muscle: MuscleEnum.Pecs,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.Biceps,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.Deltoid,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.Lumbar,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.RectusAbdominus,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }],
+          muscles: [
+            {
+              muscle: MuscleEnum.Pecs,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.Biceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.Deltoid,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.Lumbar,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
           training: true
         },
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
-          musclesRepartition: [{
-            muscle: MuscleEnum.ThighBiceps,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.ThighQuadriceps,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.GluteusMaximus,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.GluteusMedius,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }, {
-            muscle: MuscleEnum.RectusAbdominus,
-            intensity: DifficultyEnum.HARD,
-            nbOfExercises: 1
-          }],
+          muscles: [
+            {
+              muscle: MuscleEnum.ThighBiceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.ThighQuadriceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.GluteusMaximus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.GluteusMedius,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
           training: true
         }
       ];
@@ -397,6 +398,195 @@ class SessionService {
             intensity: DifficultyEnum.HARD,
             nbOfExercises: 1
           }],
+          training: true
+        }
+      ];
+    }
+    return muscularsGroupsSession;
+  }
+
+
+  /**
+   * todo : Store this informations in database and use them
+   * @param nbSessions
+   * @returns {Array<{
+   *    sessionType:ExerciseGroupTypeEnum,
+   *    training:boolean,
+   *    musclesRepartition:[{muscle: MuscleEnum, intensity:DifficultyEnum, nbOfExercises:number}]
+   * }>}
+   */
+  static getMuscularGroupSessionRepartitionToWeightLossBy(nbSessions) {
+    let muscularsGroupsSession = [];
+    if (nbSessions >= 1 && nbSessions <= 2) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Cardio.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.MEDIUM,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.ThighQuadriceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2,
+              excludesThisWorkedMuscles: [
+                MuscleEnum.Cardiovascular
+              ]
+            }, {
+              muscle: MuscleEnum.LatissimusDorsi,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        }
+      ];
+    }
+    if (nbSessions >= 3 && nbSessions <= 4) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Cardio.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.MEDIUM,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.ThighQuadriceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2,
+              excludesThisWorkedMuscles: [
+                MuscleEnum.Cardiovascular
+              ]
+            }, {
+              muscle: MuscleEnum.LatissimusDorsi,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        }
+      ];
+    }
+    if (nbSessions === 5) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Cardio.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.MEDIUM,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.ThighQuadriceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2,
+              excludesThisWorkedMuscles: [
+                MuscleEnum.Cardiovascular
+              ]
+            }, {
+              muscle: MuscleEnum.LatissimusDorsi,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            },
+            {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        }
+      ];
+    }
+//todo make an session to 6 or more frequency, because it's same than 5 for the moment
+    if (nbSessions > 6) {
+      muscularsGroupsSession = [
+        {
+          sessionType: SessionTypeEnum.Cardio.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.Cardiovascular,
+              intensity: DifficultyEnum.MEDIUM,
+              nbOfExercises: 1
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
+          training: true
+        },
+        {
+          sessionType: SessionTypeEnum.Bodybuilding.name,
+          muscles: [
+            {
+              muscle: MuscleEnum.ThighQuadriceps,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2,
+              excludesThisWorkedMuscles: [
+                MuscleEnum.Cardiovascular
+              ]
+            }, {
+              muscle: MuscleEnum.LatissimusDorsi,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 2
+            }, {
+              muscle: MuscleEnum.RectusAbdominus,
+              intensity: DifficultyEnum.HARD,
+              nbOfExercises: 1
+            }],
           training: true
         }
       ];

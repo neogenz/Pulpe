@@ -33,6 +33,10 @@ ProgramSchema.query.ofThisMember = function (member) {
   return this.find({member: member});
 };
 
+ProgramSchema.query.isActive = function () {
+  return this.where({isActive: true});
+};
+
 const Program = mongoose.model('Program', ProgramSchema, 'Programs');
 
 Program.of = () => {

@@ -29,12 +29,12 @@ class ProgramService {
         model: 'Machine'
       }
     };
-    return Program.findOne({'member': memberId}).populate(populationGraph)
-      .then((program) => {
-        if (!program) {
+    return Program.find().ofThisMember(memberId).isActive().populate(populationGraph)
+      .then((programs) => {
+        if (!programs) {
           throw new NotFoundError("Programme introuvable pour l'adhérent : " + memberId);
         }
-        return program;
+        return programs[0];
       })
       .catch(function (err) {
         throw err;
@@ -84,8 +84,8 @@ class ProgramService {
   }
 
 
-  static async disableAllBy(member){
-    await Program.find().ofThisMember(member).update({isActive:false});
+  static async disableAllBy(member) {
+    await Program.update({member:member}, {isActive: false}, {multi: true});
   }
 
   /**

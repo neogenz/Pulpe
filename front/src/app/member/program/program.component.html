@@ -46,8 +46,9 @@
                 <hr class="w-100">
                 <div class="row">
                     <div class="col-md-12 text-center mt-md-4">
-                        <p class="lead text-center mb-0 text-white text-w-400">{{program.objective}}</p>
-                        <img src="../../assets/img/exercise-types/strength-64.png" alt="Type">
+                        <p class="lead text-center mb-0 text-white text-w-400">{{program.objective |
+                            translateObjectiveName:program.objective}}</p>
+                        <img [src]="objectivesEnumProperties[program.objective].pictureLink" alt="Type">
                     </div>
                 </div>
             </md-card>
@@ -94,7 +95,8 @@
                                     <div class="col-md-12">
                                         <md-list-item
                                                 *ngFor="let exercise of focusedExercisesGroup.exercises; let last = last">
-                                            <pulpe-exercise-preview [exercise]="exercise" (exerciseUpdated)="refreshProgramByExercise($event)"></pulpe-exercise-preview>
+                                            <pulpe-exercise-preview [exercise]="exercise"
+                                                                    (exerciseUpdated)="refreshProgramByExercise($event)"></pulpe-exercise-preview>
                                             <hr *ngIf="!last" class="white">
                                         </md-list-item>
                                     </div>

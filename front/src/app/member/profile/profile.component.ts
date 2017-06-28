@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
 	}
 
 	openMemberFormDialog(member: Member) {
-		const mode = ModeDialogEnum.Add;
+		const mode = ModeDialogEnum.Edit;
 		const title = `Edition de mon profil`;
 		const titleAction = 'Editer';
 		this.dialogService.addDialog(ProfileMemberFormDialogComponent, {
