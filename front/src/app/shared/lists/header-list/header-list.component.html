@@ -11,8 +11,8 @@
                 <div class="float-md-right text-center">
                     <span class="ion ion-ios-search actionsIcon"></span>
                     <md-input-container class="searchPlaceHolder font-weight-light">
-                        <input mdInput placeholder="{{placeHolderTitle}}" (keydown)="change()"
-                               (keypress)="change()" [(ngModel)]="searchInput">
+                        <input mdInput placeholder="{{placeHolderTitle}}"
+                             (input)="change()" [(ngModel)]="searchInput">
                     </md-input-container>
                 </div>
             </div>

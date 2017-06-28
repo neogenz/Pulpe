@@ -3,26 +3,12 @@
             [title]="'Liste des machines'">
     </pulpe-page-title>
 
-    <div class="row">
-        <md-card class="col-md-12">
-            <div class="row">
-                <div class="col-md-2 text-center my-auto separatorVertical">
-                    <span class="ion ion-podium machinesIcon"></span>
-                    <div class="text-light-weight">
-                        <strong class="text-primary">{{machines.length}}</strong> Machines
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="float-md-right text-center">
-                        <span class="ion ion-ios-search actionsIcon"></span>
-                        <md-input-container class="searchPlaceHolder font-weight-light">
-                            <input mdInput placeholder="Par nom" [(ngModel)]="filterArgs">
-                        </md-input-container>
-                    </div>
-                </div>
-            </div>
-        </md-card>
-    </div>
+    <pulpe-header-list [title]="'Machines'"
+                       [icon]="'ion ion-podium'"
+                       [nbElements]="machines.length"
+                       [placeHolderTitle]="'Par nom'"
+                       (filterArgs)="filterArgsChanged($event)">
+    </pulpe-header-list>
 
     <div class="row pt-3">
         <md-card class="col-md-12 my-auto text-center" *ngIf="machines.length === 0">
@@ -46,7 +32,7 @@
                        (click)="openDetailsDialog(machine)"></i>
                 </td>
                 <td>
-                    <div class="row iconsList pull-right">
+                    <div class="row pull-right">
                         <div class="col-md-6">
                             <button class="ion ion-edit pointer" md-mini-fab
                                     (click)="openMachineFormDialog(machine)"
@@ -55,7 +41,7 @@
                             </button>
                         </div>
                         <div class="col-md-6">
-                            <button class="ion ion-trash-b pointer bg-primary" md-mini-fab
+                            <button class="ion ion-trash-b pointer bg-danger" md-mini-fab
                                     mdTooltip="Supprimer cette machine"
                                     (click)="openDeleteDialog(machine)"
                                     [mdTooltipPosition]="'right'">

@@ -12,7 +12,6 @@ const CoachService = require('../_services/coach.service');
 const EmailService = require('../_services/email.service');
 const winston = require('winston');
 const moment = require('moment');
-const _ = require('underscore');
 
 class AlreadyExistMemberError extends AlreadyExistError {
 }
