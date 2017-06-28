@@ -143,6 +143,33 @@ class MemberController {
 				return res.status(httpError.code).send(httpError);
 			});
 	}
+
+	/**
+	 * Find efficient previsions for a member.
+	 * @param req
+	 * @param res
+	 */
+	static findEfficientPrevisions(req, res) {
+		const id = req.params.id;
+
+		MemberService.findById(id)
+			.then((memberFinded) => {
+				return MemberService.findEfficientPrevisions(memberFinded)
+			}, (error) => {
+				winston.log('error', error.stack);
+				throw new error;
+			})
+			.then(efficientPrevisions => {
+				res.send({efficientsPrevisions: efficientPrevisions});
+			}, (error) => {
+				winston.log('error', error.stack);
+				throw new error;
+			})
+			.catch((error) => {
+				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+				return res.status(httpError.code).send(httpError);
+			});
+	}
 }
 
 module.exports = MemberController;

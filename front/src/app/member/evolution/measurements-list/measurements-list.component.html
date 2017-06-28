@@ -3,7 +3,7 @@
 </md-card>
 <div class="row mt-4" [@fadeIn]>
     <div class="col-md-12">
-        <md-list-item *ngFor="let measurement of measurements; let last = last">
+        <md-list-item *ngFor="let measurement of member.measurements; let last = last">
             <div class="row">
                 <div class="col-md-6 text-center">
                     <div [ngSwitch]="measurement.name">
@@ -45,7 +45,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-md-6 text-center">
+                <div *ngIf="measurement.name !== 'IMC'" class="col-md-6 text-center">
                     <div>
                         <span class="text-black-primary text-muted">
                             {{measurement.value}} {{measurement.unit}}

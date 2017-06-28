@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {Member} from "../../_model/Member";
 import {LocalStorageService} from "angular-2-local-storage";
 import {environment} from '../../../environments/environment'
+import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
+import {Point} from "../../_model/Point";
 
 @Injectable()
 export class MemberService extends ObservableHelper {
@@ -120,5 +122,24 @@ export class MemberService extends ObservableHelper {
 				.birthDate(data.member.birthDate.toLocaleString())
 				.build();
 		}).catch(this.handleError);
+	}
+
+	public findEfficientPrevisions(memberId: string): Observable<Point[]> {
+		return this.http.get(`${environment.baseUrl()}/members/${memberId}/efficientPrevisions`)
+			.map(response => {
+				const data: any = this.extractDataOf(response);
+				const efficientPrevisions = data.efficientsPrevisions;
+				const points = [];
+				efficientPrevisions.forEach((prevision) => {
+					points.push(
+						Point.of()
+							.date(prevision.date)
+							.percentage(prevision.percentage)
+							.build()
+					);
+				});
+				return points;
+			})
+			.catch(this.handleError);
 	}
 }

@@ -10,7 +10,7 @@ class MachineRouter {
       AuthenticationController.mustBeCoach, MachineController.findAllByCoach);
     provider.post('/machines',
       AuthenticationController.ensureAuthorized,
-      AuthenticationController.mustBeCoach, MachineController.save);
+      AuthenticationController.mustBeCoach, MachineController.create);
     provider.put('/machines',
       AuthenticationController.ensureAuthorized,
       AuthenticationController.mustBeCoach, MachineController.update);

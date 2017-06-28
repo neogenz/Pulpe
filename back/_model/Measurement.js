@@ -18,7 +18,8 @@ const MeasurementSchema = new Schema({
       'LEFT_THIGH',
       'RIGHT_THIGH',
       'WEIGHT',
-      'SIZE'
+      'SIZE',
+			'IMC'
     ]
   },
   unit: {

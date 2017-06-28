@@ -6,6 +6,7 @@ const NotFoundError = require('../_model/Errors').NotFoundError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const GenderEnum = require('../_enums/GenderEnum');
+const MeasurementEnum = require('../_enums/MeasurementEnum');
 const MeasurementService = require('../_services/measurement.service');
 const CoachService = require('../_services/coach.service');
 const EmailService = require('../_services/email.service');
@@ -116,7 +117,7 @@ class MemberService {
 					if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
 						throw new AlreadyExistMemberError('Cet email existe déja.');
 					}
-					member.delete()
+					Member.findByIdAndRemove(member._id)
 						.catch((error) => {
 							winston.log('error', error.stack);
 						});
@@ -126,7 +127,10 @@ class MemberService {
 			.then(() => {
 				return member;
 			}, (error) => {
-				winston.log('error', error.stack);
+				Member.findByIdAndRemove(member._id)
+					.catch((error) => {
+						winston.log('error', error.stack);
+					});
 				throw error;
 			})
 			.catch((error) => {
@@ -153,6 +157,12 @@ class MemberService {
 				measurements.forEach(mes => {
 					member.measurements.push(mes);
 				});
+
+				const imcMeasurement = new Measurement();
+				imcMeasurement.value = MeasurementService.getIMCOf(member);
+				imcMeasurement.name = MeasurementEnum.IMC.toString();
+				member.measurements.push(imcMeasurement);
+
 				return member.save();
 			})
 			.then(member => {
@@ -187,6 +197,11 @@ class MemberService {
 				member.objective = ObjectiveEnum.MassGainer;
 				member.gym = gymId;
 				member.gender = gender;
+
+				const imcMeasurement = new Measurement();
+				imcMeasurement.value = MeasurementService.getIMCOf(member);
+				imcMeasurement.name = MeasurementEnum.IMC.toString();
+				member.measurements.push(imcMeasurement);
 				return member.save();
 			})
 			.then(memberSaved => {
@@ -284,6 +299,46 @@ class MemberService {
 				throw error;
 			});
 	}
+
+
+	/**
+	 * Find previsions for a member.
+	 * @param member
+	 * @returns {Promise.<Array<Object>>|Promise}
+	 */
+	static findEfficientPrevisions(member) {
+		const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.IMC);
+		if (!imcMeasurement) {
+			throw new Error('No IMC measurement found');
+		}
+
+		const objective = ObjectiveEnum.fromName(member.objective);
+		const initialIMC = imcMeasurement.value;
+		const idealIMC = MeasurementService.getIdealIMCBy(initialIMC, objective);
+
+		const previsions = [];
+		let prevision = {};
+		return MeasurementService.findAllArchivedMeasurements()
+			.then((archivedMeasurements) => {
+				const archivedAndActualMeasurements = member.measurements.concat(archivedMeasurements);
+				archivedAndActualMeasurements.forEach((measurement) => {
+					prevision = generatePrevisionBy(measurement, initialIMC, idealIMC);
+					previsions.push(prevision);
+				});
+				return previsions;
+			});
+	}
+
 }
 
 module.exports = MemberService;
+
+
+function generatePrevisionBy(measurement, initialIMC, idealImc) {
+	let percentage = 0;
+
+	return {
+		date: measurement.createdAt,
+		percentage: percentage
+	};
+}

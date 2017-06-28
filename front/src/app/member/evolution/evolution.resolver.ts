@@ -5,27 +5,14 @@ import {Program} from "../../_model/Program";
 import {Member} from "../../_model/Member";
 import {MemberService} from "../../_services/member/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {Point} from "../../_model/Point";
 
 @Injectable()
 export class EvolutionResolver implements Resolve<any> {
     constructor(private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService) {
     }
 
-    resolve(route: ActivatedRouteSnapshot): Observable<Member> | Promise<Member> | Member {
-        return this.memberService.findById(route.params['id']);
-
-        // TODO : Why doesn't work?
-        // this.slimLoadingBarService.start();
-        // return this.memberRequest
-        //     .finally(() => {
-        //         this.slimLoadingBarService.complete();
-        //     })
-        //     .subscribe((member) => {
-        //              return member;
-        //         },
-        //         (errorMsg) => {
-        //             console.error(errorMsg);
-        //         }
-        //     );
+    resolve(route: ActivatedRouteSnapshot): Observable<Point[]> | Promise<Point[]> | Point[] {
+        return this.memberService.findEfficientPrevisions(route.params['id']);
     }
 }

@@ -7,11 +7,11 @@
             <md-card class="pt-0 white">
                 <div class="row">
                     <div class="col-md-4">
-                        <pulpe-measurements-list [measurements]="member.measurements">
+                        <pulpe-measurements-list [member]="member" (measurementsAdded)="findPrevisionsPoints()">
                         </pulpe-measurements-list>
                     </div>
                     <div class="col-md-8">
-                        <pulpe-efficient-line-graph>
+                        <pulpe-efficient-line-graph [member]="member" [previsionsPoints]="previsionsPoints">
                         </pulpe-efficient-line-graph>
                     </div>
                 </div>

@@ -60,7 +60,8 @@ export const ROUTES: Routes = [
 		component: EvolutionComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService],
 		resolve: {
-			evolution: EvolutionResolver
+			member: ProfileResolver,
+			efficientPrevisions: EvolutionResolver
 		}
 	},
 	{

@@ -29,7 +29,7 @@ class MachineController {
    * @param req
    * @param res
    */
-  static save(req, res) {
+  static create(req, res) {
     const machine = req.body.machine;
 
     MachineService.create(machine)
