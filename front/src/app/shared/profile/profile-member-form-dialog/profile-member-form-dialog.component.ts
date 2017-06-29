@@ -27,7 +27,7 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 	mode: ModeDialogEnum;
 	memberRequest: Observable<Member> = new Observable();
 	frequencyRange: any;
-	maximumBirthdate: string;
+	private maximumBirthdate: Date;
 	member: Member;
 	gyms: any;
 	memberForm: FormGroup;
@@ -69,6 +69,7 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 							private toastrService: ToastrService,
 							private auth: AuthenticationService) {
 		super(dialogService);
+		this.maximumBirthdate = this.buildToBeOldEnoughDate();
 	}
 
 	ngOnInit() {
@@ -105,7 +106,7 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 			CustomValidators.maxValue(this.frequencyRange.max)
 		]);
 		this.birthdateCtrl = this.fb.control(
-			moment(this.member.birthDate).format('YYYY-MM-DD'), Validators.required
+			moment(this.member.birthDate).toDate(), Validators.required
 		);
 		switch (this.member.objective) {
 			case 'GeneralForm':
@@ -121,7 +122,6 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 				this.objectiveChoices[1].checked = true;
 				break;
 		}
-		this.maximumBirthdate = this.buildToBeOldEnoughDate();
 		this.memberForm = this.fb.group({
 			email: this.emailCtrl,
 			firstName: this.firstNameCtrl,
@@ -213,12 +213,12 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 		return value;
 	}
 
-	private buildToBeOldEnoughDate(): string {
+	private buildToBeOldEnoughDate(): Date {
 		const maxDate = new Date();
 		maxDate.setFullYear(maxDate.getFullYear() - 14);
 		maxDate.setMonth(0);
 		maxDate.setDate(1);
-		return moment(maxDate).format('YYYY-MM-DD');
+		return moment(maxDate).toDate();
 	}
 
 	private resetChoices(): void {

@@ -31,12 +31,12 @@
                                          class="form-control-feedback">Votre nom est obligatoire
                                 </md-hint>
                             </md-input-container>
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
-                                <input id="inputBirthdate" mdInput type="date" [max]="maximumBirthdate"
-                                       placeholder="Votre date de naissance"
-                                       formControlName="birthdate"
-                                       required>
+                            <md-input-container class="col-md-12" color="primary">
+                                <input mdInput [mdDatepicker]="picker" formControlName="birthdate"
+                                       placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
+                                <button mdSuffix [mdDatepickerToggle]="picker"></button>
                             </md-input-container>
+                            <md-datepicker #picker></md-datepicker>
                             <md-radio-group formControlName="gender" class="col-md-12 pl-3">
                                 <i class="ion-ios-person-outline iconGender"></i>
                                 <md-radio-button value="Male">Homme</md-radio-button>

@@ -19,7 +19,7 @@ import {
 	MdRadioModule,
 	MdTooltipModule,
 	MdChipsModule,
-	MdButtonModule
+	MdButtonModule, MdDatepickerModule, MdNativeDateModule
 } from '@angular/material';
 
 
@@ -174,8 +174,10 @@ import {EvolutionService} from "./member/evolution/evolution.service";
 		MdTabsModule,
 		MdCardModule,
 		BrowserModule,
+		MdNativeDateModule,
 		FormsModule,
 		MdCheckboxModule,
+		MdDatepickerModule,
 		HttpModule,
 		BrowserAnimationsModule,
 		ChartsModule,

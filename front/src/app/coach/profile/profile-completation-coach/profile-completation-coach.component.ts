@@ -19,7 +19,7 @@ import {ProfileService} from "../../../member/profile/profile.service";
 })
 export class ProfileCompletationCoachComponent implements OnInit, OnError {
 	profileCompleteForm: FormGroup;
-	private maximumBirthdate: string;
+	private maximumBirthdate: Date;
 	birthdateCtrl: FormControl;
 	nameGymCtrl: FormControl;
 	addressGymCtrl: FormControl;
@@ -120,12 +120,12 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
 		});
 	}
 
-	private buildToBeOldEnoughDate(): string {
+	private buildToBeOldEnoughDate(): Date {
 		const maxDate = new Date();
 		maxDate.setFullYear(maxDate.getFullYear() - 14);
 		maxDate.setMonth(0);
 		maxDate.setDate(1);
-		return moment(maxDate).format('YYYY-MM-DD');
+		return moment(maxDate).toDate();
 	}
 
 	displayErrorMsg(errorMsg: string) {

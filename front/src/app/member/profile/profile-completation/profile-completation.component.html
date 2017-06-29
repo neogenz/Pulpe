@@ -51,9 +51,11 @@
                         </div>
                     </div>
                     <md-input-container class="col-md-8 offset-md-2 form-group">
-                        <input id="inputDateOfBirth" type="date" mdInput formControlName="birthdate"
+                        <input mdInput [mdDatepicker]="picker" formControlName="birthdate"
                                placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
+                        <button mdSuffix [mdDatepickerToggle]="picker"></button>
                     </md-input-container>
+                    <md-datepicker #picker></md-datepicker>
                     <pre class="col-md-8 offset-md-2" *ngIf="debug">{{birthdateCtrl.errors | json}}</pre>
 
                     <div class="col-md-12 text-center">

@@ -16,7 +16,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ProfileCoachEditDialogComponent extends DialogComponent<IEditable, Coach> implements IEditable, OnInit {
 	coachRequest: Observable<Coach> = new Observable();
-	maximumBirthdate: string;
+	maximumBirthdate: Date;
 	coach: Coach;
 	coachForm: FormGroup;
 	emailCtrl: FormControl;
@@ -42,10 +42,7 @@ export class ProfileCoachEditDialogComponent extends DialogComponent<IEditable, 
 		this.firstNameCtrl = this.fb.control(this.coach.firstName, Validators.required);
 		this.lastNameCtrl = this.fb.control(this.coach.lastName, Validators.required);
 		this.genderCtrl = this.fb.control(this.coach.gender);
-		this.birthdateCtrl = this.fb.control(
-			moment(this.coach.birthDate).format('YYYY-MM-DD'), Validators.required
-		);
-
+		this.birthdateCtrl = this.fb.control(moment(this.coach.birthDate).toDate(), Validators.required);
 		this.maximumBirthdate = this.buildToBeOldEnoughDate();
 		this.coachForm = this.fb.group({
 			email: this.emailCtrl,
@@ -85,12 +82,12 @@ export class ProfileCoachEditDialogComponent extends DialogComponent<IEditable, 
 			);
 	}
 
-	private buildToBeOldEnoughDate(): string {
+	private buildToBeOldEnoughDate(): Date {
 		const maxDate = new Date();
 		maxDate.setFullYear(maxDate.getFullYear() - 14);
 		maxDate.setMonth(0);
 		maxDate.setDate(1);
-		return moment(maxDate).format('YYYY-MM-DD');
+		return moment(maxDate).toDate();
 	}
 }
 

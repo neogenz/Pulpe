@@ -32,7 +32,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
   errorTranslations: any;
   private sizesRange: any;
   private frequencyRange: any;
-  private maximumBirthdate: string;
+  private maximumBirthdate: Date;
   private weightRange: any;
   debug: boolean;
   gyms: any;
@@ -180,11 +180,11 @@ export class ProfileCompletationComponent implements OnInit, OnError {
     this.errorMsg = '';
   }
 
-  private buildToBeOldEnoughDate(): string {
+  private buildToBeOldEnoughDate(): Date {
     const maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() - 14);
     maxDate.setMonth(0);
     maxDate.setDate(1);
-    return moment(maxDate).format('YYYY-MM-DD');
+    return moment(maxDate).toDate();
   }
 }

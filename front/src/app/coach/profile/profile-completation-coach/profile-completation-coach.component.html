@@ -21,14 +21,15 @@
                 <div class="row pt-5">
                     <div class="col-md-8 offset-md-2 form-group">
                         <div class="row">
-                            <md-input-container class="col-md-8 offset-md-2 form-group">
-                                <input id="inputDateOfBirth" type="date" mdInput formControlName="birthdate"
-                                       placeholder="Saisissez votre date de naissance" required
-                                       [max]="maximumBirthdate">
+                            <md-input-container class="col-md-8 offset-md-2 form-group" ngxErrors="birthdate">
+                                <input mdInput [mdDatepicker]="picker" formControlName="birthdate"
+                                       placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
+                                <button mdSuffix [mdDatepickerToggle]="picker"></button>
                                 <md-hint *ngIf="birthdateCtrl.dirty && birthdateCtrl.hasError('')"
                                          class="form-control-feedback">{{errorTranslations.birthdate.required}}
                                 </md-hint>
                             </md-input-container>
+
                             <div class="col-md-12 text-center">
                                 <i class="ion-ios-person-outline iconGender"></i>
                                 <md-radio-group formControlName="gender" class="col-7 col-md-8">
