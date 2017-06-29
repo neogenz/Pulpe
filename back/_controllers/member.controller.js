@@ -91,18 +91,22 @@ class MemberController {
    * @param req
    * @param res
    */
-  static update(req, res) {
-    const member = req.body.member;
-
-    MemberService.update(member)
-      .then(member => {
-        res.send({member: member});
-      })
-      .catch((error) => {
-        winston.log('error', error.stack);
-        const httpError = HttpErrorHelper.buildHttpErrorByError(error);
-        return res.status(httpError.code).send(httpError);
-      });
+  static async update(req, res) {
+    try {
+      const member = req.body.member;
+      const updated = await MemberService.update(member);
+      if (updated.objective !== req.body.member.obective) {
+        await ProgramService.disableAllBy(member);
+        const programGenerationContext = new ProgramGenerationContext({member: updated, isActive: true});
+        const program = await ProgramService.generateProgramBy(programGenerationContext);
+        const programSaved = await ProgramService.saveProgram(program);
+      }
+      return res.send(updated);
+    } catch (error) {
+      winston.log('error', error.stack);
+      const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
   }
 
   /**

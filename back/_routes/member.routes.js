@@ -9,7 +9,7 @@ class MemberRouter {
     provider.put('/members/:id/measurements', MemberController.addMeasurements);
     provider.post('/members/:id/profile/completed', MemberController.completeProfile);
     provider.get('/efficientPrevisions/members', AuthenticationController.ensureAuthorized, MemberController.findEfficientPrevisions);
-    provider.put('/members', MemberController.update);
+    provider.put('/members', AuthenticationController.ensureAuthorized, MemberController.update);
     provider.post('/members', MemberController.create);
 
   }
