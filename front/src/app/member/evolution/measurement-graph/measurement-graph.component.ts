@@ -92,9 +92,15 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 		}
 	}
 
+
 	public getLineChartOptions() {
-		const minTick = this.evolutionMeasurementPoints[0].value;
-		const maxTick = this.evolutionMeasurementPoints[this.evolutionMeasurementPoints.length - 1].value;
+		const pointValues = [];
+		this.evolutionMeasurementPoints.forEach((point) => {
+			pointValues.push(point.value);
+		});
+
+		const minTick = Math.min.apply(null, pointValues);
+		const maxTick = Math.max.apply(null, pointValues);
 
 		return {
 			responsive: true,
