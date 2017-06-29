@@ -110,6 +110,9 @@ import {ObjectiveConveter} from "./shared/ObjectiveConverter";
 import {MeasurementGraphComponent} from './member/evolution/measurement-graph/measurement-graph.component';
 import {MeasurementConverter} from "./shared/MeasurementConverter";
 import {EvolutionService} from "./member/evolution/evolution.service";
+import { HomeCoachComponent } from './coach/home-coach/home-coach.component';
+import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
+import {HomeCoachService} from "./coach/home-coach/home-coach.service";
 
 @NgModule({
 	declarations: [
@@ -160,7 +163,8 @@ import {EvolutionService} from "./member/evolution/evolution.service";
 		TranslateObjectiveNamePipe,
 		MachineDetailsDialogComponent,
 		ExerciseSpecificPropertiesFormDialogComponent,
-		MeasurementGraphComponent
+		MeasurementGraphComponent,
+		HomeCoachComponent
 	],
 	imports: [
 		MdButtonModule,
@@ -225,6 +229,7 @@ import {EvolutionService} from "./member/evolution/evolution.service";
 		ExerciseGroupCodeConverter,
 		DifficultyConverter,
 		ObjectiveConveter,
+		HomeCoachResolver,
 		MeasurementConverter,
 		MuscleConverter,
 		ProgramResolver,
@@ -232,6 +237,7 @@ import {EvolutionService} from "./member/evolution/evolution.service";
 		ProfileCoachResolver,
 		EvolutionResolver,
 		ProfileResolver,
+		HomeCoachService,
 		ProfileService,
 		EvolutionService,
 		MembersResolver,

@@ -17,362 +17,382 @@ class AlreadyExistMemberError extends AlreadyExistError {
 }
 
 class MemberService {
-  constructor() {
-  }
+	constructor() {
+	}
 
-  /**
-   * Find a member by an id.
-   * @param id
-   * @returns {Promise|Promise.<Member>}
-   */
-  static findById(id) {
-    const populationGraph = {
-      path: 'gym',
-      model: 'Gym'
-    };
-    return Member.findOne({'_id': id})
-      .populate(populationGraph)
-      .then((member) => {
-        if (!member) {
-          throw new NotFoundError('Adhérent introuvable.');
-        }
-        return member;
-      })
-      .catch(err => {
-        throw new TechnicalError(err.message);
-      });
-  }
+	/**
+	 * Find a member by an id.
+	 * @param id
+	 * @returns {Promise|Promise.<Member>}
+	 */
+	static findById(id) {
+		const populationGraph = {
+			path: 'gym',
+			model: 'Gym'
+		};
+		return Member.findOne({'_id': id})
+			.populate(populationGraph)
+			.then((member) => {
+				if (!member) {
+					throw new NotFoundError('Adhérent introuvable.');
+				}
+				return member;
+			})
+			.catch(err => {
+				throw new TechnicalError(err.message);
+			});
+	}
 
-  /**
-   * Find a member by his mail and his password.
-   * Password is checked by validation method.
-   * @param email
-   * @param password
-   * @returns {Promise.<Member>|Promise}
-   */
-  static findBy(email, password) {
-    const populationGraph = {
-      path: 'gym',
-      model: 'Gym'
-    };
-    return Member.findOne({'email': email}).populate(populationGraph)
-      .then((member) => {
-        if (!member) {
-          throw new NotFoundError('Utilisateur introuvable.');
-        }
-        if (!member.validPassword(password)) {
-          throw new NotFoundError('Email ou mot de passe invalide.');
-        }
-        return member;
-      }).catch(err => {
-        throw err;
-      });
-  }
+	/**
+	 * Count number of members in a gym.
+	 * @param gym
+	 * @returns {Promise.<Number>|Promise}
+	 */
+	static countBy(gym) {
+		const populationGraph = {
+			path: 'gym',
+			model: 'Gym'
+		};
+		return Member.find({'gym': gym._id})
+			.populate(populationGraph).count()
+			.then((nbMembers) => {
+				return nbMembers;
+			})
+			.catch(err => {
+				throw new TechnicalError(err.message);
+			});
+	}
 
-  /**
-   * Hash the password of a member and save them.
-   * @param member
-   * @returns {Promise.<Member>|Promise}
-   */
-  static create(member) {
-    member.password = member.generateHash(member.password);
-    return member.save().then(
-      (member) => {
-        return member;
-      },
-      (error) => {
-        if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
-          throw new AlreadyExistMemberError('Cet email existe déja.');
-        }
-      }
-    ).catch((error) => {
-      throw error;
-    })
-  }
+	/**
+	 * Find a member by his mail and his password.
+	 * Password is checked by validation method.
+	 * @param email
+	 * @param password
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static findBy(email, password) {
+		const populationGraph = {
+			path: 'gym',
+			model: 'Gym'
+		};
+		return Member.findOne({'email': email}).populate(populationGraph)
+			.then((member) => {
+				if (!member) {
+					throw new NotFoundError('Utilisateur introuvable.');
+				}
+				if (!member.validPassword(password)) {
+					throw new NotFoundError('Email ou mot de passe invalide.');
+				}
+				return member;
+			}).catch(err => {
+				throw err;
+			});
+	}
 
-  /**
-   * Save a new member and send his password with his email.
-   * @param memberToSave
-   * @returns {Promise.<Member>|Promise}
-   */
-  static createAndSendPassword(memberToSave) {
-    let member = new Member();
-    member.profileCompleted = false;
-    member.sessionFrequency = memberToSave.sessionFrequency;
-    member.birthDate = new Date(memberToSave.birthDate);
-    member.gym = memberToSave.gym._id;
-    member.firstName = memberToSave.firstName;
-    member.lastName = memberToSave.lastName;
-    member.email = memberToSave.email;
-    member.gender = GenderEnum.fromName(memberToSave.gender);
-    member.objective = ObjectiveEnum.fromCode(memberToSave.objective);
+	/**
+	 * Hash the password of a member and save them.
+	 * @param member
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static create(member) {
+		member.password = member.generateHash(member.password);
+		return member.save().then(
+			(member) => {
+				return member;
+			},
+			(error) => {
+				if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
+					throw new AlreadyExistMemberError('Cet email existe déja.');
+				}
+			}
+		).catch((error) => {
+			throw error;
+		})
+	}
 
-    const passwordGenerated = member.generateRandomPassword();
-    member.password = member.generateHash(passwordGenerated);
+	/**
+	 * Save a new member and send his password with his email.
+	 * @param memberToSave
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static createAndSendPassword(memberToSave) {
+		let member = new Member();
+		member.profileCompleted = false;
+		member.sessionFrequency = memberToSave.sessionFrequency;
+		member.birthDate = new Date(memberToSave.birthDate);
+		member.gym = memberToSave.gym._id;
+		member.firstName = memberToSave.firstName;
+		member.lastName = memberToSave.lastName;
+		member.email = memberToSave.email;
+		member.gender = GenderEnum.fromName(memberToSave.gender);
+		member.objective = ObjectiveEnum.fromCode(memberToSave.objective);
 
-    return member.save()
-      .then((memberSaved) => {
-          member = memberSaved;
-          return EmailService.sendPasswordTo(member, passwordGenerated);
-        }, (error) => {
-          if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
-            throw new AlreadyExistMemberError('Cet email existe déja.');
-          }
-          Member.findByIdAndRemove(member._id)
-            .catch((error) => {
-              winston.log('error', error.stack);
-            });
-          throw error;
-        }
-      )
-      .then(() => {
-        return member;
-      }, (error) => {
-        Member.findByIdAndRemove(member._id)
-          .catch((error) => {
-            winston.log('error', error.stack);
-          });
-        throw error;
-      })
-      .catch((error) => {
-        throw error;
-      })
-  }
+		const passwordGenerated = member.generateRandomPassword();
+		member.password = member.generateHash(passwordGenerated);
 
-  /**
-   * Add measurements for a member.
-   * @param memberId
-   * @param measurements
-   * @returns {Promise.<Member>|Promise}
-   */
-  static addMeasurements(memberId, measurements) {
-    let member;
-    let imcMeasurement;
-    return this.findById(memberId)
-      .then(memberFinded => {
-        member = memberFinded;
-        const measurementsToArchive = member.measurements;
-        imcMeasurement = MeasurementService.findMeasurementIn(measurementsToArchive, MeasurementEnum.IMC);
-        return MeasurementService.createArchivedMeasurements(memberId, measurementsToArchive);
-      })
-      .then(() => {
-        member.measurements = [];
-        measurements.forEach(mes => {
-          member.measurements.push(mes);
-        });
-        member.measurements.push(imcMeasurement);
+		return member.save()
+			.then((memberSaved) => {
+					member = memberSaved;
+					return EmailService.sendPasswordTo(member, passwordGenerated);
+				}, (error) => {
+					if (error.code && error.code === MongoError.DUPPLICATE_KEY.code) {
+						throw new AlreadyExistMemberError('Cet email existe déja.');
+					}
+					Member.findByIdAndRemove(member._id)
+						.catch((error) => {
+							winston.log('error', error.stack);
+						});
+					throw error;
+				}
+			)
+			.then(() => {
+				return member;
+			}, (error) => {
+				Member.findByIdAndRemove(member._id)
+					.catch((error) => {
+						winston.log('error', error.stack);
+					});
+				throw error;
+			})
+			.catch((error) => {
+				throw error;
+			})
+	}
 
-        return member.save();
-      })
-      .then(member => {
-          return member;
-        }, (error) => {
-          throw new TechnicalError(error.message);
-        }
-      ).catch((error) => {
-        throw error;
-      });
-  }
+	/**
+	 * Add measurements for a member.
+	 * @param memberId
+	 * @param measurements
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static addMeasurements(memberId, measurements) {
+		let member;
+		let imcMeasurement;
+		return this.findById(memberId)
+			.then(memberFinded => {
+				member = memberFinded;
+				const measurementsToArchive = member.measurements;
+				imcMeasurement = MeasurementService.findMeasurementIn(measurementsToArchive, MeasurementEnum.IMC);
+				return MeasurementService.createArchivedMeasurements(memberId, measurementsToArchive);
+			})
+			.then(() => {
+				member.measurements = [];
+				measurements.forEach(mes => {
+					member.measurements.push(mes);
+				});
+				member.measurements.push(imcMeasurement);
 
-  /**
-   * Add measurements for a member and complete his profile.
-   * @param gymId
-   * @param memberId
-   * @param measurements
-   * @param sessionFrequency
-   * @param birthDate
-   * @param {ObjectiveEnum} objectiveEnum
-   * @returns {Promise.<Member>|Promise}
-   */
-  static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum, gender) {
-    return this.findById(memberId)
-      .then(member => {
-        member.profileCompleted = true;
-        member.sessionFrequency = sessionFrequency;
-        member.birthDate = new Date(birthDate);
-        member.objective = ObjectiveEnum.MassGainer;
-        member.gym = gymId;
-        member.gender = gender;
+				return member.save();
+			})
+			.then(member => {
+					return member;
+				}, (error) => {
+					throw new TechnicalError(error.message);
+				}
+			).catch((error) => {
+				throw error;
+			});
+	}
 
-        let weightMeasurement;
-        let sizeMeasurement;
-        measurements.forEach(mes => {
-          member.measurements.push(mes);
-          if (MeasurementEnum[mes.name] === MeasurementEnum.WEIGHT) {
-            weightMeasurement = mes;
-          }
-          if (MeasurementEnum[mes.name] === MeasurementEnum.SIZE) {
-            sizeMeasurement = mes;
-          }
-        });
+	/**
+	 * Add measurements for a member and complete his profile.
+	 * @param gymId
+	 * @param memberId
+	 * @param measurements
+	 * @param sessionFrequency
+	 * @param birthDate
+	 * @param {ObjectiveEnum} objectiveEnum
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static completeProfile(gymId, memberId, measurements, sessionFrequency, birthDate, objectiveEnum, gender) {
+		return this.findById(memberId)
+			.then(member => {
+				member.profileCompleted = true;
+				member.sessionFrequency = sessionFrequency;
+				member.birthDate = new Date(birthDate);
+				member.objective = ObjectiveEnum.MassGainer;
+				member.gym = gymId;
+				member.gender = gender;
 
-        const imcMeasurement = new Measurement();
-        imcMeasurement.value = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
-        imcMeasurement.name = MeasurementEnum.IMC.toString();
-        member.measurements.push(imcMeasurement);
-        return member.save();
-      })
-      .then(memberSaved => {
-          return this.findById(memberSaved._id)
-        }, (error) => {
-          throw new TechnicalError(error.message);
-        }
-      )
-      .then((memberFinded) => {
-        return memberFinded;
-      }, (error) => {
-        throw new TechnicalError(error.message);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+				let weightMeasurement;
+				let sizeMeasurement;
+				measurements.forEach(mes => {
+					member.measurements.push(mes);
+					if (MeasurementEnum[mes.name] === MeasurementEnum.WEIGHT) {
+						weightMeasurement = mes;
+					}
+					if (MeasurementEnum[mes.name] === MeasurementEnum.SIZE) {
+						sizeMeasurement = mes;
+					}
+				});
 
-  /**
-   * Update a member.
-   * @param member
-   * @returns {Promise.<Member>|Promise}
-   */
-  static update(member) {
-    return this.findById(member._id)
-      .then(memberFinded => {
-        memberFinded.sessionFrequency = member.sessionFrequency;
-        memberFinded.birthDate = new Date(member.birthDate);
-        memberFinded.objective = ObjectiveEnum.fromCode(member.objective);
-        memberFinded.email = member.email;
-        memberFinded.firstName = member.firstName;
-        memberFinded.lastName = member.lastName;
-        memberFinded.gender = GenderEnum.fromName(member.gender);
-        memberFinded.gym = member.gym;
-        return memberFinded.save();
-      })
-      .then(member => {
-          return this.findById(member._id)
-        }, (error) => {
-          throw new TechnicalError(error.message);
-        }
-      ).then(member => {
-        return member;
-      }, (error) => {
-        throw new TechnicalError(error.message);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+				const imcMeasurement = new Measurement();
+				imcMeasurement.value = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
+				imcMeasurement.name = MeasurementEnum.IMC.toString();
+				member.measurements.push(imcMeasurement);
+				return member.save();
+			})
+			.then(memberSaved => {
+					return this.findById(memberSaved._id)
+				}, (error) => {
+					throw new TechnicalError(error.message);
+				}
+			)
+			.then((memberFinded) => {
+				return memberFinded;
+			}, (error) => {
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
+	}
 
-  /**
-   * Find all members of a coach linked by their gym.
-   * @param id of coach
-   * @returns {Promise.<Member[]>|Promise}
-   */
-  static findAllByCoach(id) {
-    return CoachService.findById(id)
-      .then(coachFinded => {
-        return this.findAllByGym(coachFinded.gym._id);
-      }, (error) => {
-        console.error(error.stack);
-        throw new TechnicalError(error.message);
-      })
-      .then(members => {
-        return members;
-      }, (error) => {
-        console.error(error.stack);
-        throw new TechnicalError(error.message);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+	/**
+	 * Update a member.
+	 * @param member
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static update(member) {
+		return this.findById(member._id)
+			.then(memberFinded => {
+				memberFinded.sessionFrequency = member.sessionFrequency;
+				memberFinded.birthDate = new Date(member.birthDate);
+				memberFinded.objective = ObjectiveEnum.fromCode(member.objective);
+				memberFinded.email = member.email;
+				memberFinded.firstName = member.firstName;
+				memberFinded.lastName = member.lastName;
+				memberFinded.gender = GenderEnum.fromName(member.gender);
+				memberFinded.gym = member.gym;
+				return memberFinded.save();
+			})
+			.then(member => {
+					return this.findById(member._id)
+				}, (error) => {
+					throw new TechnicalError(error.message);
+				}
+			).then(member => {
+				return member;
+			}, (error) => {
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
+	}
 
-  /**
-   * Find all members of a gym.
-   * @param id
-   * @returns {Promise.<Member[]>|Promise}
-   */
-  static findAllByGym(id) {
-    const populationGraph = {
-      path: 'gym',
-      model: 'Gym'
-    };
-    return Member.find({'gym': id})
-      .populate(populationGraph)
-      .then(members => {
-        return members;
-      }, (error) => {
-        console.error(error.stack);
-        throw new TechnicalError(error.message);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+	/**
+	 * Find all members of a coach linked by their gym.
+	 * @param id of coach
+	 * @returns {Promise.<Member[]>|Promise}
+	 */
+	static findAllByCoach(id) {
+		return CoachService.findById(id)
+			.then(coachFinded => {
+				return this.findAllByGym(coachFinded.gym._id);
+			}, (error) => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.then(members => {
+				return members;
+			}, (error) => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
+	}
+
+	/**
+	 * Find all members of a gym.
+	 * @param id
+	 * @returns {Promise.<Member[]>|Promise}
+	 */
+	static findAllByGym(id) {
+		const populationGraph = {
+			path: 'gym',
+			model: 'Gym'
+		};
+		return Member.find({'gym': id})
+			.populate(populationGraph)
+			.then(members => {
+				return members;
+			}, (error) => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.catch((error) => {
+				throw error;
+			});
+	}
 
 
-  /**
-   * Find previsions for a member.
-   * @param member
-   * @returns {Promise.<Array<Object>>|Promise}
-   */
-  //todo refactor
-  static findEfficientPrevisions(member) {
-    const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.IMC);
-    if (!imcMeasurement) {
-      throw new Error('No IMC measurement found');
-    }
-    const objective = ObjectiveEnum.fromName(member.objective);
-    const initialIMC = imcMeasurement.value;
-    const idealIMC = MeasurementService.getIdealIMCBy(initialIMC, objective);
-    const previsions = [];
-    let prevision = {};
-    const weightMeasurements = [];
-    let memberHaveArchivedMeasurements = false;
-    const achievedObjective = {
-      date: null,
-      value: 100
-    };
+	/**
+	 * Find previsions for a member.
+	 * @param member
+	 * @returns {Promise.<Array<Object>>|Promise}
+	 */
+	//todo refactor
+	static findEfficientPrevisions(member) {
+		const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.IMC);
+		if (!imcMeasurement) {
+			throw new Error('No IMC measurement found');
+		}
+		const objective = ObjectiveEnum.fromName(member.objective);
+		const initialIMC = imcMeasurement.value;
+		const idealIMC = MeasurementService.getIdealIMCBy(initialIMC, objective);
+		const previsions = [];
+		let prevision = {};
+		const weightMeasurements = [];
+		let memberHaveArchivedMeasurements = false;
+		const achievedObjective = {
+			date: null,
+			value: 100
+		};
 
-    return MeasurementService.findAllArchivedMeasurementsBy(member)
-      .then((archivedMeasurements) => {
-          memberHaveArchivedMeasurements = archivedMeasurements.length > 0;
-          const archivedAndActualMeasurements = archivedMeasurements.concat(member.measurements);
-          const measurementsUsedToPrevisions = archivedAndActualMeasurements.filter(archivedMeasurement => {
-            return archivedMeasurement.name === MeasurementEnum.WEIGHT.name;
-          });
-          let weightMeasurement;
-          let sizeMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.SIZE);
-          measurementsUsedToPrevisions.forEach((measurement) => {
-            if (measurement.name === MeasurementEnum.WEIGHT.name) {
-              weightMeasurement = measurement;
-              weightMeasurements.push(measurement);
-            }
-            if (weightMeasurement && sizeMeasurement) {
-              prevision = generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealIMC);
-              previsions.push(prevision);
-              weightMeasurement = null;
-            }
-          });
-          const firstMeasurement = imcMeasurement;
-          const currentMeasurement = weightMeasurements[weightMeasurements.length - 1];
-          const currentPercentageAchieved = previsions[previsions.length - 1].percentage;
-          const ms = moment(currentMeasurement.createdAt).diff(moment(firstMeasurement.createdAt));
-          const daysToAchieveTheCurrentImc = moment.duration(ms).asDays();
-          const daysToAchieveIdealImc = (100 * daysToAchieveTheCurrentImc) / currentPercentageAchieved;
-          const dateToAchieveIdealImc = moment(firstMeasurement.createdAt).add(daysToAchieveIdealImc, 'days').format('DD/MM/YYYY');
-          if (previsions.length > 1) {
-            previsions[0].date = moment(imcMeasurement.createdAt).format('DD/MM/YYYY');
-          }
-          if (!memberHaveArchivedMeasurements || moment(firstMeasurement.createdAt).date() == moment(currentMeasurement.createdAt).date()) {
-            achievedObjective.date = moment(imcMeasurement.createdAt).add(1, 'Y').format('DD/MM/YYYY');
-          } else {
-            achievedObjective.date = dateToAchieveIdealImc;
-          }
-          previsions.push(achievedObjective);
+		return MeasurementService.findAllArchivedMeasurementsBy(member)
+			.then((archivedMeasurements) => {
+					memberHaveArchivedMeasurements = archivedMeasurements.length > 0;
+					const archivedAndActualMeasurements = archivedMeasurements.concat(member.measurements);
+					const measurementsUsedToPrevisions = archivedAndActualMeasurements.filter(archivedMeasurement => {
+						return archivedMeasurement.name === MeasurementEnum.WEIGHT.name;
+					});
+					let weightMeasurement;
+					let sizeMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.SIZE);
+					measurementsUsedToPrevisions.forEach((measurement) => {
+						if (measurement.name === MeasurementEnum.WEIGHT.name) {
+							weightMeasurement = measurement;
+							weightMeasurements.push(measurement);
+						}
+						if (weightMeasurement && sizeMeasurement) {
+							prevision = generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealIMC);
+							previsions.push(prevision);
+							weightMeasurement = null;
+						}
+					});
+					const firstMeasurement = imcMeasurement;
+					const currentMeasurement = weightMeasurements[weightMeasurements.length - 1];
+					const currentPercentageAchieved = previsions[previsions.length - 1].percentage;
+					const ms = moment(currentMeasurement.createdAt).diff(moment(firstMeasurement.createdAt));
+					const daysToAchieveTheCurrentImc = moment.duration(ms).asDays();
+					const daysToAchieveIdealImc = (100 * daysToAchieveTheCurrentImc) / currentPercentageAchieved;
+					const dateToAchieveIdealImc = moment(firstMeasurement.createdAt).add(daysToAchieveIdealImc, 'days').format('DD/MM/YYYY');
+					if (previsions.length > 1) {
+						previsions[0].date = moment(imcMeasurement.createdAt).format('DD/MM/YYYY');
+					}
+					if (!memberHaveArchivedMeasurements || moment(firstMeasurement.createdAt).date() == moment(currentMeasurement.createdAt).date()) {
+						achievedObjective.date = moment(imcMeasurement.createdAt).add(1, 'Y').format('DD/MM/YYYY');
+					} else {
+						achievedObjective.date = dateToAchieveIdealImc;
+					}
+					previsions.push(achievedObjective);
 
-          return previsions;
-        }
-      );
-  }
+					return previsions;
+				}
+			);
+	}
 
 }
 
@@ -380,18 +400,18 @@ module.exports = MemberService;
 
 
 function generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealImc) {
-  const newIMC = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
-  const evolutionOfImc = (newIMC - initialIMC);
-  let percentage = 0;
-  if (evolutionOfImc === 0) {
-    percentage = 0
-  } else {
-    percentage = Math.round(evolutionOfImc * 100 / (idealImc - initialIMC));
-  }
-  const date = moment(weightMeasurement.createdAt).format('DD/MM/YYYY');
+	const newIMC = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
+	const evolutionOfImc = (newIMC - initialIMC);
+	let percentage = 0;
+	if (evolutionOfImc === 0) {
+		percentage = 0
+	} else {
+		percentage = Math.round(evolutionOfImc * 100 / (idealImc - initialIMC));
+	}
+	const date = moment(weightMeasurement.createdAt).format('DD/MM/YYYY');
 
-  return {
-    date: date,
-    value: (percentage > 100 ? 100 : percentage)
-  };
+	return {
+		date: date,
+		value: (percentage > 100 ? 100 : percentage)
+	};
 }

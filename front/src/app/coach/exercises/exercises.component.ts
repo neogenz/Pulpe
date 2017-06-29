@@ -26,7 +26,7 @@ export class ExercisesComponent implements OnInit {
 	openableMode: any = ExerciseOpenMode;
 	filterArgs: string;
 
-	constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService) {
+		constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService) {
 		this.exercises = [];
 	}
 

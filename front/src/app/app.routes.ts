@@ -25,6 +25,8 @@ import {ExercisesComponent} from "./coach/exercises/exercises.component";
 import {ExerciseResolver} from "./coach/exercises/exercises.resolver";
 import {ProfileCoachComponent} from "./coach/profile/profile-coach.component";
 import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
+import {HomeCoachComponent} from "./coach/home-coach/home-coach.component";
+import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
 
 
 // Route Configuration
@@ -38,6 +40,14 @@ export const ROUTES: Routes = [
 		path: 'accueil',
 		component: HomeComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService]
+	},
+	{
+		path: 'accueil/coach',
+		component: HomeCoachComponent,
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
+		resolve: {
+			dashboard: HomeCoachResolver,
+		}
 	},
 	{
 		path: 'inscription',
