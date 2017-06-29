@@ -325,7 +325,7 @@ class MemberService {
 		const previsions = [];
 		let prevision = {};
 
-		return MeasurementService.findAllArchivedMeasurementsBy(member)
+		return MeasurementService.findArchivedMeasurementsOf(member)
 			.then((archivedMeasurements) => {
 					const archivedAndActualMeasurements = archivedMeasurements.concat(member.measurements);
 					let weightMeasurement;

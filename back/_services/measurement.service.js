@@ -3,6 +3,7 @@ const ArchivedMeasurement = require('../_model/ArchivedMeasurement');
 const MeasurementEnum = require('../_enums/MeasurementEnum');
 const CorpulenceEnum = require('../_enums/CorpulenceEnum');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const moment = require('moment');
 
 class MeasurementService {
 	constructor() {
@@ -37,10 +38,47 @@ class MeasurementService {
 	}
 
 	/**
+	 * Find evolution of a measurement
+	 * @param measurements list of measurements with same name.
+	 * @returns {Array}
+	 */
+	static findEvolutionOf(measurements) {
+		const evolution = [];
+		measurements.forEach((measurement) => {
+			evolution.push({
+				date: moment(measurement.createdAt).format('DD-MM-YYYY'),
+				value: measurement.value
+			})
+		});
+		return evolution;
+	}
+
+	/**
+	 * Find all archived measurements of a member and name of measurement.
+	 * @returns {Promise.<ArchivedMeasurement>|Promise}
+	 */
+	static findArchivedMeasurementsBy(member, measurementName) {
+		return ArchivedMeasurement.find({
+			'member_id': member._id,
+			'name': measurementName
+		})
+			.sort({'createdAt': 1})
+			.then(
+				archivedMeasurements => {
+					return archivedMeasurements;
+				})
+			.catch(
+				error => {
+					throw error;
+				}
+			);
+	}
+
+	/**
 	 * Find all archived measurements of a member.
 	 * @returns {Promise.<ArchivedMeasurement>|Promise}
 	 */
-	static findAllArchivedMeasurementsBy(member) {
+	static findArchivedMeasurementsOf(member) {
 		return ArchivedMeasurement.find({'member_id': member._id})
 			.then(
 				archivedMeasurements => {
@@ -51,7 +89,6 @@ class MeasurementService {
 					throw error;
 				}
 			);
-
 	}
 
 	/**
