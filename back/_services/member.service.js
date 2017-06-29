@@ -362,7 +362,7 @@ class MemberService {
           if (previsions.length > 1) {
             previsions[0].date = moment(imcMeasurement.createdAt).format('DD/MM/YYYY');
           }
-          if (!memberHaveArchivedMeasurements) {
+          if (!memberHaveArchivedMeasurements || moment(firstMeasurement.createdAt).date() == moment(currentMeasurement.createdAt).date()) {
             achievedObjective.date = moment(imcMeasurement.createdAt).add(1, 'Y').format('DD/MM/YYYY');
           } else {
             achievedObjective.date = dateToAchieveIdealImc;
@@ -380,9 +380,8 @@ module.exports = MemberService;
 
 
 function generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, idealImc) {
-  const newIMC = Math.round(MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement) * 100) / 100;
-  const _initialImc = Math.round(initialIMC * 100) / 100;
-  const evolutionOfImc = (newIMC - _initialImc);
+  const newIMC = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
+  const evolutionOfImc = (newIMC - initialIMC);
   let percentage = 0;
   if (evolutionOfImc === 0) {
     percentage = 0
