@@ -1,23 +1,13 @@
-<div class="row card-cascade-parent" [@fadeIn]>
-    <div class="col-md-12">
-        <md-card class="pt-0 white">
-            <div class="row">
-                <div class="col-md-12">
-                    <md-card class="card-cascade graph-height" [ngClass]="backgroundColor">
-                        <div>
-                            <h4 class="text-center text-light-weight text-white">{{measurementName}}</h4>
-                            <canvas baseChart
-                                    [datasets]="lineChartData"
-                                    [labels]="lineChartLabels"
-                                    [options]="lineChartOptions"
-                                    [chartType]="chartType"
-                                    (chartHover)="chartHovered($event)"
-                                    (chartClick)="chartClicked($event)">
-                            </canvas>
-                        </div>
-                    </md-card>
-                </div>
-            </div>
-        </md-card>
-    </div>
+<div class="row" [@fadeIn]>
+    <md-card class="col-md-12 card-cascade mb-3" [ngClass]="backgroundColor">
+        <h4 class="text-center text-light-weight text-white">{{measurementName}}</h4>
+        <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [chartType]="chartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </md-card>
 </div>

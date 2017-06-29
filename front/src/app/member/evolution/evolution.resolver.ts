@@ -13,6 +13,6 @@ export class EvolutionResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot): Observable<Point[]> | Promise<Point[]> | Point[] {
-        return this.memberService.findEfficientPrevisions(route.params['id']);
+        return this.memberService.findEfficientPrevisions();
     }
 }

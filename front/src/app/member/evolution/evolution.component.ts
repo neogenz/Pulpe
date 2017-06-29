@@ -41,24 +41,24 @@ export class EvolutionComponent implements OnInit {
 		this.measurementsLabel = this.measurementConverter.toLabelArray();
 	}
 
-  findPrevisionsPoints() {
-    if (this.member.createdAt) {
-      this.memberRequest = this.memberService.findEfficientPrevisions(this.member._id);
-      this.slimLoadingBarService.start();
-      this.memberRequest
-        .finally(() => {
-          this.slimLoadingBarService.complete();
-        })
-        .subscribe((previsionsPoints) => {
-            this.previsionsPoints = previsionsPoints;
-          },
-          (errorMsg) => {
-            console.error(errorMsg);
-            this.toastrService.error(errorMsg, 'Erreur');
-          }
-        );
-    }
-  }
+	findPrevisionsPoints() {
+		if (this.member.createdAt) {
+			this.memberRequest = this.memberService.findEfficientPrevisions();
+			this.slimLoadingBarService.start();
+			this.memberRequest
+				.finally(() => {
+					this.slimLoadingBarService.complete();
+				})
+				.subscribe((previsionsPoints) => {
+						this.previsionsPoints = previsionsPoints;
+					},
+					(errorMsg) => {
+						console.error(errorMsg);
+						this.toastrService.error(errorMsg, 'Erreur');
+					}
+				);
+		}
+	}
 
 	findEvolutionOfMeasurement() {
 		let measurementName: string;

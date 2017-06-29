@@ -98,7 +98,7 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 
 		return {
 			responsive: true,
-			maintainAspectRatio: false,
+			//maintainAspectRatio: true,
 			legend: {
 				display: false,
 				labels: {

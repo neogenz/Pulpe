@@ -124,8 +124,8 @@ export class MemberService extends ObservableHelper {
 		}).catch(this.handleError);
 	}
 
-	public findEfficientPrevisions(memberId: string): Observable<Point[]> {
-		return this.http.get(`${environment.baseUrl()}/members/${memberId}/efficientPrevisions`)
+	public findEfficientPrevisions(): Observable<Point[]> {
+		return this.http.get(`${environment.baseUrl()}/efficientPrevisions/members`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				const efficientPrevisions = data.efficientsPrevisions;
