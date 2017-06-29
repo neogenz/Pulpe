@@ -1,13 +1,9 @@
 import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Animations} from "../../../shared/Animations";
-import {MemberService} from "../../../_services/member/member.service";
 import {Member} from "../../../_model/Member";
-import {Observable} from "rxjs/Observable";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {ToastrService} from "ngx-toastr";
 import {Point} from "../../../_model/Point";
 import {BaseChartDirective} from "ng2-charts";
-import {Session} from "../../../_model/Session";
+import * as moment from "moment";
 
 @Component({
   selector: 'pulpe-efficient-line-graph',
@@ -61,9 +57,11 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
     console.log(e);
   }
 
-  buildChartLabelsFromThis(points: Point []): string[] {
-    let chartLabels: string[] = [];
-    points.forEach(p => chartLabels.push(p.date));
+  buildChartLabelsFromThis(points: Point []): Date[] {
+    let chartLabels: Date[] = [];
+    points.forEach(p => {
+      chartLabels.push(moment(p.date, 'DD/MM/YYYY').toDate())
+    });
     return chartLabels;
   }
 
@@ -79,7 +77,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
 
   getLineChartOptions(): any {
     return {
-      // responsive: true,
+      responsive: true,
       // maintainAspectRatio: false,
       legend: {
         display: false,
@@ -98,6 +96,12 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
           ticks: {
             fontColor: "#fff", // this here
           },
+          type: 'time',
+          time: {
+            tooltipFormat: "DD/MM/YYYY",
+            unit: 'month',
+            unitStepSize: '1'
+          }
         }],
         yAxes: [{
           scaleLabel: {

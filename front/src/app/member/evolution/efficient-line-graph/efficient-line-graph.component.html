@@ -2,16 +2,14 @@
     <div class="col-md-12">
         <md-card class="bg-secondary card-cascade efficient-line">
             <h4 class="text-center text-light-weight text-white">Mon Efficient Line</h4>
-            <div class="w-100" style="max-height: 20vh;">
-                <canvas baseChart
-                        [datasets]="lineChartData"
-                        [labels]="lineChartLabels"
-                        [options]="lineChartOptions"
-                        [chartType]="chartType"
-                        (chartHover)="chartHovered($event)"
-                        (chartClick)="chartClicked($event)">
-                </canvas>
-            </div>
+            <canvas baseChart
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [chartType]="chartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+            </canvas>
         </md-card>
     </div>
 </div>

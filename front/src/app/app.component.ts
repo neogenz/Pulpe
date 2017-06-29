@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {ProfileService} from "./member/profile/profile.service";
 import {LocalStorageService} from "angular-2-local-storage";
 import {AuthenticationProfile} from "./_model/AuthenticationProfile";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent implements OnInit {
   public authenticationProfile: AuthenticationProfile;
 
   constructor(public auth: AuthenticationService, public profileService: ProfileService, public localStorage: LocalStorageService, private _router: Router) {
+    moment.locale('fr');
+    console.log(moment.locale());
   }
 
   ngOnInit(): void {

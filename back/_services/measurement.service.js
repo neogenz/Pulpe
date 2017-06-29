@@ -78,8 +78,8 @@ class MeasurementService {
 	 * Find all archived measurements of a member.
 	 * @returns {Promise.<ArchivedMeasurement>|Promise}
 	 */
-	static findArchivedMeasurementsOf(member) {
-		return ArchivedMeasurement.find({'member_id': member._id})
+	static findAllArchivedMeasurementsBy(member) {
+		return ArchivedMeasurement.find({'member_id': member._id}).sort({createdAt:1})
 			.then(
 				archivedMeasurements => {
 					return archivedMeasurements;
