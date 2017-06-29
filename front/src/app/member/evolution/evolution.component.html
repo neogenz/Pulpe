@@ -18,4 +18,35 @@
             </md-card>
         </div>
     </div>
+
+    <div class="row pt-4">
+        <div class="col-md-6">
+            <h3 class="text-left text-black-primary text-w-300">
+                Mensuration
+            </h3>
+        </div>
+        <div class="col-md-6 my-auto">
+            <md-select placeholder="Selectionnez une mensuration" class="pull-right"
+                       (change)="findEvolutionOfMeasurement($event)" [(ngModel)]="focusedMeasurement">
+                <md-option *ngFor="let measurement of measurementsLabel;" [value]="measurement">
+                    {{measurement}}
+                </md-option>
+            </md-select>
+            <h3 class="my-auto"><i class="mr-2 pull-right fa fa-filter text-secondary"></i></h3>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row pt-3" *ngIf="evolutionMeasurementPoints && evolutionMeasurementPoints.length > 0; else empty">
+        <div class="col-md-12">
+            <pulpe-measurement-graph [measurementName]="focusedMeasurement"
+                                     [evolutionMeasurementPoints]="evolutionMeasurementPoints">
+            </pulpe-measurement-graph>
+        </div>
+    </div>
+    <ng-template #empty>
+        <div class="col-md-12 pt-2 text-center">
+            <p>Aucune donnée</p>
+        </div>
+    </ng-template>
 </div>

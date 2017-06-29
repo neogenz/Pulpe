@@ -15,7 +15,7 @@ class MeasurementController {
 	 * @param res
 	 */
 	static findEvolutionOfMeasurement(req, res) {
-		const memberId = req.params.id;
+		const memberId = req.user._id;
 		const measurementName = req.params.name;
 		let measurement;
 		let member;

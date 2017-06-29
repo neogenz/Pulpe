@@ -8,7 +8,7 @@ export class Point {
   }
 
   date: string;
-  percentage: number;
+  value: number;
 
   public static of(): PointBuilder {
     return new PointBuilder();
@@ -27,8 +27,8 @@ class PointBuilder {
     return this;
   }
 
-  public percentage(percentage: number): PointBuilder {
-    this.me.percentage = percentage;
+  public value(percentage: number): PointBuilder {
+    this.me.value = percentage;
     return this;
   }
 

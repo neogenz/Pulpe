@@ -69,7 +69,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
     let newData: number[] = [];
 
     points.forEach(p => {
-      newData.push(p.percentage);
+      newData.push(p.value);
     });
 
     return newData;

@@ -329,7 +329,7 @@ class MemberService {
     let memberHaveArchivedMeasurements = false;
     const achievedObjective = {
       date: null,
-      percentage: 100
+      value: 100
     };
 
     return MeasurementService.findAllArchivedMeasurementsBy(member)
@@ -392,6 +392,6 @@ function generatePrevisionBy(weightMeasurement, sizeMeasurement, initialIMC, ide
 
   return {
     date: date,
-    percentage: (percentage > 100 ? 100 : percentage)
+    value: (percentage > 100 ? 100 : percentage)
   };
 }
