@@ -162,7 +162,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
     httpRequest.subscribe(
       authProfile => {
         this.localStorageService.set('profile', JSON.stringify(authProfile));
-        this.router.navigateByUrl('/accueil');
+        this.router.navigateByUrl('/programme');
       },
       errorMsg => {
         this.displayErrorMsg(errorMsg);

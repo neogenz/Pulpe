@@ -66,7 +66,7 @@ export class SigninComponent implements OnInit, OnError, OnDestroy {
 					if (authProfile.isCoach) {
 						this.router.navigateByUrl('/accueil/coach');
 					} else {
-						this.router.navigateByUrl('/accueil');
+						this.router.navigateByUrl('/programme');
 					}
 					authProfile.rememberMe = this.signinForm.get('rememberMe').value;
 					this.localStorage.set('profile', JSON.stringify(authProfile));
