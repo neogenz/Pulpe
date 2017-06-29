@@ -91,7 +91,7 @@ export class ExerciseSpecificPropertiesFormDialogComponent extends DialogCompone
         break;
       case ExerciseGroupTypeEnum.OrganizedExercise:
         exerciseUpdated = (exercise as OrganizedExercise);
-        exerciseUpdated.difficulty = this.difficultyConverter.getEnumFromName(this.exerciseForm.get('specifics').get('difficulty').value);
+        exerciseUpdated.difficulty = this.difficultyConverter.getEnumFromLabel(this.exerciseForm.get('specifics').get('difficulty').value);
         exerciseUpdated.approximateTime = this.exerciseForm.get('specifics').get('approximateTime').value;
         break;
     }
