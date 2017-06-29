@@ -29,8 +29,10 @@ class MeasurementController {
 				throw new error;
 			})
 			.then((measurements) => {
-				measurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum[measurementName]);
-				measurements.push(measurement);
+				measurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum[measurementName.toUpperCase()]);
+				if (measurement) {
+					measurements.push(measurement);
+				}
 				return MeasurementService.findEvolutionOf(measurements);
 			}, (error) => {
 				winston.log('error', error.stack);
