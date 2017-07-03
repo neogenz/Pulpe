@@ -6,16 +6,22 @@ import {Document} from "../_model/Document";
 import {LocalStorageService} from "angular-2-local-storage";
 import {environment} from '../../environments/environment'
 import {AuthHttp} from "angular2-jwt";
+import {CategoryDocument} from "../_enums/CategoryDocument";
+import {CategoryDocumentConverter} from "../shared/CategoryDocumentConverter";
 
 @Injectable()
 export class DocumentService extends ObservableHelper {
 
-	constructor(private http: AuthHttp, private localStorageService: LocalStorageService) {
+	constructor(private http: AuthHttp,
+							private localStorageService: LocalStorageService,
+							private categoryDocumentConverter: CategoryDocumentConverter) {
 		super();
 	}
 
-	public findPictureCoachProfile(): Observable<Document> {
-		return this.http.get(`${environment.baseUrl()}/documents/coachs/profile`)
+	public findDocumentCoachBy(categoryDocument: CategoryDocument): Observable<Document> {
+		let category: string;
+		category = this.categoryDocumentConverter.convertThis(categoryDocument).toLowerCase();
+		return this.http.get(`${environment.baseUrl()}/documents/coachs/category/${category}`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				if (data.document) {
@@ -30,8 +36,10 @@ export class DocumentService extends ObservableHelper {
 			}).catch(this.handleError);
 	}
 
-	public findPictureMemberProfile(): Observable<Document> {
-		return this.http.get(`${environment.baseUrl()}/documents/members/profile`)
+	public findDocumentMemberBy(categoryDocument: CategoryDocument): Observable<Document> {
+		let category: string;
+		category = this.categoryDocumentConverter.convertThis(categoryDocument).toLowerCase();
+		return this.http.get(`${environment.baseUrl()}/documents/members/category/profile`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				if (data.document) {

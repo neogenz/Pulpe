@@ -11,6 +11,7 @@ import {ToastrService} from "ngx-toastr";
 import {Observable} from "rxjs/Observable";
 import {AuthenticationService} from "../../../_services/authentication/authentication.service";
 import {AuthenticationProfile} from "../../../_model/AuthenticationProfile";
+import {CategoryDocument} from "../../../_enums/CategoryDocument";
 
 const DEFAULT_PHOTO = '../../../../assets/profile/profile.png';
 
@@ -44,9 +45,9 @@ export class ProfilePhotoComponent implements OnInit {
 	getPictureProfile() {
 		this.authenticationProfile = this.auth.getAuthenticationProfileInLocalStorage();
 		if (this.authenticationProfile.isCoach) {
-			this.documentRequest = this.documentService.findPictureCoachProfile();
+			this.documentRequest = this.documentService.findDocumentCoachBy(CategoryDocument.Profile);
 		} else {
-			this.documentRequest = this.documentService.findPictureMemberProfile();
+			this.documentRequest = this.documentService.findDocumentMemberBy(CategoryDocument.Profile);
 		}
 		this.documentRequest
 			.finally(() => {

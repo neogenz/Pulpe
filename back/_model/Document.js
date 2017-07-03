@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const Member = require('./Member');
 const Coach = require('./Coach');
 const DocumentType = require('../_enums/DocumentType');
+const CategoryDocument = require('../_enums/CategoryDocument');
 
 const DocumentSchema = new Schema({
 	data: String,
@@ -14,6 +15,10 @@ const DocumentSchema = new Schema({
 		type: String,
 		enum: [DocumentType.PNG.name, DocumentType.JPG.name, DocumentType.PDF.name],
 		default: DocumentType.PNG.name
+	},
+	category: {
+		type: String,
+		enum: [CategoryDocument.Profile.name]
 	},
 	updatedAt: Date,
 	createdAt: Date

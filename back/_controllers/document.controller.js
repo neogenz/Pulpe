@@ -1,6 +1,5 @@
 const DocumentService = require('../_services/document.service');
-const MemberService = require('../_services/member.service');
-const CoachService = require('../_services/coach.service');
+const CategoryDocument = require('../_enums/CategoryDocument');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const winston = require('winston');
 
@@ -15,10 +14,12 @@ class DocumentController {
 	 * @param res
 	 * @returns {Promise.<Document>}
 	 */
-	static async findPictureMemberProfile(req, res) {
+	static async findDocumentMemberByCategory(req, res) {
 		try {
 			const user = req.user;
-			const documentFinded = await DocumentService.findByMember(user._id);
+			const category = req.params.category;
+			const categoryEnum = CategoryDocument.fromName(capitalizeFirstLetter(category));
+			const documentFinded = await DocumentService.findByMemberAndCategory(user._id, categoryEnum);
 			return res.send({document: documentFinded});
 		} catch (error) {
 			winston.log('error', error.stack);
@@ -33,10 +34,13 @@ class DocumentController {
 	 * @param res
 	 * @returns {Promise.<Document>}
 	 */
-	static async findPictureCoachProfile(req, res) {
+	static async findDocumentCoachByCategory(req, res) {
 		try {
 			const user = req.user;
-			const documentFinded = await DocumentService.findByCoach(user._id);
+			const category = req.params.category;
+			const categoryEnum = CategoryDocument.fromName(capitalizeFirstLetter(category));
+
+			const documentFinded = await DocumentService.findByCoachAndCategory(user._id, categoryEnum);
 			return res.send({document: documentFinded});
 		} catch (error) {
 			winston.log('error', error.stack);
@@ -62,6 +66,10 @@ class DocumentController {
 			return res.status(httpError.code).send(httpError);
 		}
 	}
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 module.exports = DocumentController;

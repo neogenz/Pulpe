@@ -5,8 +5,8 @@ const DocumentController = require('../_controllers/document.controller');
 class DocumentRouter {
 	constructor(provider) {
 		provider.put('/documents', AuthenticationController.ensureAuthorized, DocumentController.save);
-		provider.get('/documents/coachs/profile', AuthenticationController.ensureAuthorized, DocumentController.findPictureCoachProfile);
-		provider.get('/documents/members/profile', AuthenticationController.ensureAuthorized, DocumentController.findPictureMemberProfile);
+		provider.get('/documents/coachs/category/:category', AuthenticationController.ensureAuthorized, DocumentController.findDocumentCoachByCategory);
+		provider.get('/documents/members/category/:category', AuthenticationController.ensureAuthorized, DocumentController.findDocumentMemberByCategory);
 	}
 }
 

@@ -8,6 +8,8 @@ import {Document} from "../../../../_model/Document";
 import {DocumentService} from "../../../../_services/document.service";
 import {AuthenticationService} from "../../../../_services/authentication/authentication.service";
 import {AuthenticationProfile} from "../../../../_model/AuthenticationProfile";
+import {CategoryDocument} from "../../../../_enums/CategoryDocument";
+import {CategoryDocumentConverter} from "../../../CategoryDocumentConverter";
 
 const BASE_64 = 'data:image/jpg;base64, ';
 
@@ -27,13 +29,14 @@ export class PhotoFormDialogComponent extends DialogComponent<IForm, Document> i
 							private toastrService: ToastrService,
 							private sanitizer: DomSanitizer,
 							private documentService: DocumentService,
-							private auth: AuthenticationService) {
+							private auth: AuthenticationService,
+							private categoryDocumentConverter: CategoryDocumentConverter) {
 		super(dialogService);
 	}
 
 	ngOnInit() {
 		if (!this.document) {
-			this.dataPicture = '../../../../assets/profile/profile.png'
+			this.dataPicture = '../../../../assets/profile/profile.png';
 			this.sanitizer.bypassSecurityTrustUrl(this.dataPicture);
 		} else {
 			this.dataPicture = this.document.data;
@@ -58,7 +61,9 @@ export class PhotoFormDialogComponent extends DialogComponent<IForm, Document> i
 			.id(this.document._id)
 			.format(this.document.format)
 			.data(this.dataPicture)
+			.category(this.categoryDocumentConverter.convertThis(CategoryDocument.Profile))
 			.build();
+		debugger;
 		if (this.authenticationProfile.isCoach) {
 			document.coachId = this.authenticationProfile.id;
 		} else {

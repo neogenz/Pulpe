@@ -1,4 +1,5 @@
 const Document = require('../_model/Document');
+const CategoryDocument = require('../_enums/CategoryDocument');
 const AlreadyExistError = require('../_model/Errors').AlreadyExistError;
 const TechnicalError = require('../_model/Errors').TechnicalError;
 
@@ -24,12 +25,13 @@ class DocumentService {
 	}
 
 	/**
-	 * Find a picture by id of coach.
+	 * Find a document by id of member and type category of document.
 	 * @param id
+	 * @param category
 	 * @returns {Promise|Promise.<Document>}
 	 */
-	static findByCoach(id) {
-		return Document.findOne({'coach': id})
+	static findByCoachAndCategory(id, category) {
+		return Document.findOne({'coach': id, 'category': category})
 			.then((document) => {
 				return document;
 			}, (error) => {
@@ -41,12 +43,13 @@ class DocumentService {
 	}
 
 	/**
-	 * Find a picture by id of member.
-	 * @param id
+	 * Find a document by id of member and type category of document.
+	 * @param memberId
+	 * @param category
 	 * @returns {Promise|Promise.<Document>}
 	 */
-	static findByMember(id) {
-		return Document.findOne({'member': id})
+	static findByMemberAndCategory(memberId, category) {
+		return Document.findOne({'member': memberId, 'category': category})
 			.then((document) => {
 				return document;
 			}, (error) => {
@@ -83,6 +86,7 @@ class DocumentService {
 			document.format = documentToSave.format;
 			document.coach = documentToSave.coachId;
 			document.member = documentToSave.memberId;
+			document.category = CategoryDocument.getName(documentToSave.category);
 			return document.save()
 				.then(document => {
 					return document;

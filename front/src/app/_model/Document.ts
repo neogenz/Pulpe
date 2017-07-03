@@ -12,6 +12,7 @@ export class Document {
 	format: string;
 	memberId: string;
 	coachId: string;
+	category: string;
 
 	public static of(): DocumentBuilder {
 		return new DocumentBuilder();
@@ -47,6 +48,11 @@ class DocumentBuilder {
 
 	public coachId(coachId: string): DocumentBuilder {
 		this.me.coachId = coachId;
+		return this;
+	}
+
+	public category(category: string): DocumentBuilder {
+		this.me.category = category;
 		return this;
 	}
 

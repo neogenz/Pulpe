@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   subdomain: '',
-  domain: '172.20.10.2',
+  domain: 'localhost',
   port: '5000',
   protocol: 'http',
   baseUrl() {
