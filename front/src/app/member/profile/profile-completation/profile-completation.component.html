@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <md-input-container class="col-md-8 offset-md-2 form-group">
-                        <input mdInput [mdDatepicker]="picker" formControlName="birthdate"
+                        <input mdInput [mdDatepicker]="picker" readonly="true" formControlName="birthdate"
                                placeholder="Saisissez votre date de naissance" required [max]="maximumBirthdate">
                         <button mdSuffix [mdDatepickerToggle]="picker"></button>
                     </md-input-container>

@@ -3,58 +3,60 @@
 </md-card>
 <div class="row mt-4" [@fadeIn]>
     <div class="col-md-12">
-        <md-list-item *ngFor="let measurement of member.measurements; let last = last">
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <div [ngSwitch]="measurement.name">
+        <div class="measurements-list">
+            <md-list-item *ngFor="let measurement of member.measurements; let last = last">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <div [ngSwitch]="measurement.name">
                         <span *ngSwitchCase="'SIZE'" class="text-black-primary text-muted">
                             Taille
                         </span>
-                        <span *ngSwitchCase="'WEIGHT'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'WEIGHT'" class="text-black-primary text-muted">
                             Poids
                         </span>
-                        <span *ngSwitchCase="'HIP'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'HIP'" class="text-black-primary text-muted">
                             Tour de Hanche
                         </span>
-                        <span *ngSwitchCase="'WAIST'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'WAIST'" class="text-black-primary text-muted">
                             Tour de taille
                         </span>
-                        <span *ngSwitchCase="'CHEST'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'CHEST'" class="text-black-primary text-muted">
                             Tour de poitrine
                         </span>
-                        <span *ngSwitchCase="'SHOULDERS'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'SHOULDERS'" class="text-black-primary text-muted">
                             Epaules
                         </span>
-                        <span *ngSwitchCase="'RIGHT_ARM'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'RIGHT_ARM'" class="text-black-primary text-muted">
                             Bras droit
                         </span>
-                        <span *ngSwitchCase="'LEFT_ARM'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'LEFT_ARM'" class="text-black-primary text-muted">
                             Bras gauche
                         </span>
-                        <span *ngSwitchCase="'RIGHT_CALF'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'RIGHT_CALF'" class="text-black-primary text-muted">
                             Mollet droite
                         </span>
-                        <span *ngSwitchCase="'LEFT_CALF'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'LEFT_CALF'" class="text-black-primary text-muted">
                             Mollet gauche
                         </span>
-                        <span *ngSwitchCase="'RIGHT_THIGH'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'RIGHT_THIGH'" class="text-black-primary text-muted">
                             Cuisse droite
                         </span>
-                        <span *ngSwitchCase="'LEFT_THIGH'" class="text-black-primary text-muted">
+                            <span *ngSwitchCase="'LEFT_THIGH'" class="text-black-primary text-muted">
                             Cuisse gauche
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div *ngIf="measurement.name !== 'IMC'" class="col-md-6 text-center">
-                    <div>
+                    <div *ngIf="measurement.name !== 'IMC'" class="col-md-6 text-center">
+                        <div>
                         <span class="text-black-primary text-muted">
                             {{measurement.value}} {{measurement.unit}}
                         </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr *ngIf="!last">
-        </md-list-item>
+                <hr *ngIf="!last">
+            </md-list-item>
+        </div>
         <div class="pt-5 pb-5">
             <button type="button" (click)="openDialogAddMeasurement()"
                     class="btn btn-lg btn-secondary text-white w-100 text-center"
