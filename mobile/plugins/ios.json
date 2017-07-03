@@ -8,22 +8,22 @@
     },
     "installed_plugins": {
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "io.ionic.starter"
+            "PACKAGE_NAME": "pulpe"
         }
     },
     "dependent_plugins": {}
