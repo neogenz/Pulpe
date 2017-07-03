@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleCha
 import {BaseChartDirective} from "ng2-charts";
 import {Point} from "../../../_model/Point";
 import {Animations} from "../../../shared/Animations";
+import * as moment from "moment";
 
 @Component({
 	selector: 'pulpe-measurement-graph',
@@ -59,9 +60,11 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 	}
 
 
-	buildChartLabelsFromThis(points: Point []): string[] {
-		let chartLabels: string[] = [];
-		points.forEach(p => chartLabels.push(p.date));
+	buildChartLabelsFromThis(points: Point []): Date[] {
+		let chartLabels: Date[] = [];
+		points.forEach(p =>
+			chartLabels.push(moment(p.date, 'DD/MM/YYYY').toDate())
+		);
 		return chartLabels;
 	}
 
@@ -98,10 +101,16 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 		this.evolutionMeasurementPoints.forEach((point) => {
 			pointValues.push(point.value);
 		});
+		const pointDates = [];
+		this.evolutionMeasurementPoints.forEach((point) => {
+			pointDates.push(moment(point.date, 'DD/MM/YYYY'));
 
-		const minTick = Math.min.apply(null, pointValues);
-		const maxTick = Math.max.apply(null, pointValues);
+		});
+		const maxTickX = pointDates[pointDates.length - 1];
+		const minTickY = Math.min.apply(null, pointValues);
+		const maxTickY = Math.max.apply(null, pointValues);
 
+		debugger;
 		return {
 			responsive: true,
 			//maintainAspectRatio: true,
@@ -121,6 +130,13 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 					fontColor: "#fff",
 					ticks: {
 						fontColor: "#fff", // this here
+					},
+					type: 'time',
+					time: {
+						max: maxTickX,
+						tooltipFormat: "DD/MM/YYYY",
+						unit: 'month',
+						unitStepSize: '1'
 					}
 				}],
 				yAxes: [{
@@ -134,8 +150,8 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 						color: "rgba(255,255,255,0.3)"
 					},
 					ticks: {
-						max: maxTick,
-						min: minTick,
+						max: maxTickY,
+						min: minTickY,
 						fontColor: "#fff", // this here
 					},
 				}],
