@@ -37,7 +37,7 @@
                             </md-hint>
                         </md-input-container>
                         <md-input-container class="col-md-12" color="primary" ngxErrors="birthdate">
-                            <input mdInput [mdDatepicker]="picker" formControlName="birthdate"
+                            <input mdInput [mdDatepicker]="picker" readonly='true' formControlName="birthdate"
                                    placeholder="Votre date de naissance" required [max]="maximumBirthdate">
                             <button mdSuffix [mdDatepickerToggle]="picker"></button>
                             <md-hint *ngIf="birthdateCtrl.dirty && birthdateCtrl.hasError('')"
