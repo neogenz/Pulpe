@@ -3,7 +3,7 @@ import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Member} from "../../_model/Member";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {MemberService} from "../../_services/member/member.service";
+import {MemberService} from "../../_services/member.service";
 
 @Injectable()
 export class MembersResolver implements Resolve<any> {

@@ -4,7 +4,7 @@ import {Coach} from "../../../_model/Coach";
 import {FormGroup, FormControl, FormBuilder, Validators} from "@angular/forms";
 import {DialogService, DialogComponent} from "ng2-bootstrap-modal";
 import {ProfileService} from "../../../member/profile/profile.service";
-import {CoachService} from "../../../_services/coach/coach.service";
+import {CoachService} from "../../../_services/coach.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import * as moment from "moment/moment";
 import {ToastrService} from "ngx-toastr";

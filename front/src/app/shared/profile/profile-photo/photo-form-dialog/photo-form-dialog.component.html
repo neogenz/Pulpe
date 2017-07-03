@@ -1,0 +1,28 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="text-center">
+                <h4 class="text-light-weight">Votre photo</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 pt-3 text-center">
+                    <img md-card-image class="rounded-photo-corners"
+                         [src]="sanitizer.bypassSecurityTrustUrl(dataPicture)">
+                </div>
+                <div class="col-md-12 text-center text-light-weight">
+                    <label for="inputPicture" class="custom-file-upload">
+                        Choisissez un fichier
+                    </label>
+                    <input id="inputPicture" type="file" (change)="handleFileSelect($event)"
+                           accept="image/jpeg, image/png"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" (click)="confirm()">Modifier</button>
+            <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+        </div>
+    </div>
+</div>

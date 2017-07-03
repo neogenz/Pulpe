@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {ObservableHelper} from "../../_helpers/ObservableHelper";
+import {ObservableHelper} from "../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
-import {Member} from "../../_model/Member";
+import {Member} from "../_model/Member";
 import {LocalStorageService} from "angular-2-local-storage";
-import {environment} from '../../../environments/environment'
-import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
-import {Point} from "../../_model/Point";
+import {environment} from '../../environments/environment'
+import {AuthenticationProfile} from "../_model/AuthenticationProfile";
+import {Point} from "../_model/Point";
 
 @Injectable()
 export class MemberService extends ObservableHelper {

@@ -7,7 +7,7 @@ import {Point} from "../../_model/Point";
 import {Observable} from "rxjs/Observable";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
-import {MemberService} from "../../_services/member/member.service";
+import {MemberService} from "../../_services/member.service";
 import {MeasurementConverter} from "../../shared/MeasurementConverter";
 import {EvolutionService} from "./evolution.service";
 

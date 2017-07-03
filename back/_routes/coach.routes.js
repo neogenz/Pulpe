@@ -1,5 +1,6 @@
 'use strict';
 
+const AuthenticationController = require('../_controllers/authentication.controller');
 const CoachController = require('../_controllers/coach.controller');
 
 class CoachRouter {

@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {ObservableHelper} from "../../_helpers/ObservableHelper";
+import {ObservableHelper} from "../_helpers/ObservableHelper";
 import {Observable} from "rxjs";
-import {Coach} from "../../_model/Coach";
+import {Coach} from "../_model/Coach";
 import {LocalStorageService} from "angular-2-local-storage";
-import {environment} from '../../../environments/environment'
+import {environment} from '../../environments/environment'
 
 @Injectable()
 export class CoachService extends ObservableHelper {

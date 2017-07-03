@@ -3,7 +3,7 @@ import {DialogComponent, DialogService, DialogOptions} from "ng2-bootstrap-modal
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Measurement} from "../../../_model/Measurement";
 import {MeasurementEnum} from "../../../_enums/MeasurementEnum";
-import {MemberService} from "../../../_services/member/member.service";
+import {MemberService} from "../../../_services/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Observable} from "rxjs";
 import {Router, Params, ActivatedRouteSnapshot, ActivatedRoute} from "@angular/router";

@@ -62,7 +62,7 @@ import {SidebarComponent} from './shared/sidebar/sidebar.component';
 import {NgxErrorsModule} from '@ultimate/ngxerrors';
 import {SidebarModule} from 'ng-sidebar';
 import {FooterComponent} from './shared/footer/footer.component';
-import {MemberService} from "./_services/member/member.service";
+import {MemberService} from "./_services/member.service";
 import {ProfileResolver} from "./member/profile/profile.resolver";
 import {MeasurementsListComponent} from './member/evolution/measurements-list/measurements-list.component';
 import {MeasurementsAddDialogComponent} from './member/evolution/measurements-add-dialog/measurements-add-dialog.component';
@@ -70,7 +70,7 @@ import {BootstrapModalModule} from "ng2-bootstrap-modal";
 import {EvolutionResolver} from "./member/evolution/evolution.resolver";
 import {ProfileCompletationCoachComponent} from './coach/profile/profile-completation-coach/profile-completation-coach.component';
 import {GymService} from "./_services/gym/gym.service";
-import {CoachService} from "./_services/coach/coach.service";
+import {CoachService} from "./_services/coach.service";
 import {MembersComponent} from './coach/members/members.component';
 import {ProfileIsCoachGuardService} from "./_guards/profile-is-coach-guard.service";
 import {MembersResolver} from "./coach/members/members.resolver";
@@ -110,10 +110,12 @@ import {ObjectiveConveter} from "./shared/ObjectiveConverter";
 import {MeasurementGraphComponent} from './member/evolution/measurement-graph/measurement-graph.component';
 import {MeasurementConverter} from "./shared/MeasurementConverter";
 import {EvolutionService} from "./member/evolution/evolution.service";
-import { HomeCoachComponent } from './coach/home-coach/home-coach.component';
+import {HomeCoachComponent} from './coach/home-coach/home-coach.component';
 import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
 import {HomeCoachService} from "./coach/home-coach/home-coach.service";
-import { SessionExecutionStateComponent } from './member/sessions/session-execution-state/session-execution-state.component';
+import {PhotoFormDialogComponent} from './shared/profile/profile-photo/photo-form-dialog/photo-form-dialog.component';
+import {FileUploader, FileUploadModule} from "ng2-file-upload";
+import {DocumentService} from "./_services/document.service";
 
 @NgModule({
 	declarations: [
@@ -165,7 +167,8 @@ import { SessionExecutionStateComponent } from './member/sessions/session-execut
 		MachineDetailsDialogComponent,
 		ExerciseSpecificPropertiesFormDialogComponent,
 		MeasurementGraphComponent,
-		HomeCoachComponent
+		HomeCoachComponent,
+		PhotoFormDialogComponent
 	],
 	imports: [
 		MdButtonModule,
@@ -189,6 +192,7 @@ import { SessionExecutionStateComponent } from './member/sessions/session-execut
 		ReactiveFormsModule,
 		NgxErrorsModule,
 		BootstrapModalModule,
+		FileUploadModule,
 		RouterModule.forRoot(ROUTES),
 		SlimLoadingBarModule.forRoot(),
 		SidebarModule.forRoot(),
@@ -238,6 +242,7 @@ import { SessionExecutionStateComponent } from './member/sessions/session-execut
 		ProfileCoachResolver,
 		EvolutionResolver,
 		ProfileResolver,
+		DocumentService,
 		HomeCoachService,
 		ProfileService,
 		EvolutionService,
@@ -264,7 +269,8 @@ import { SessionExecutionStateComponent } from './member/sessions/session-execut
 		DeleteDialogComponent,
 		ProfileCoachEditDialogComponent,
 		MachineDetailsDialogComponent,
-		ExerciseSpecificPropertiesFormDialogComponent
+		ExerciseSpecificPropertiesFormDialogComponent,
+		PhotoFormDialogComponent
 	],
 	bootstrap: [AppComponent]
 })

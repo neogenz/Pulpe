@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
 import {Member} from "../../../_model/Member";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MemberService} from "../../../_services/member/member.service";
+import {MemberService} from "../../../_services/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import * as moment from "moment/moment";
 import {Observable} from "rxjs";

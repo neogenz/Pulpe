@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Member} from "../../_model/Member";
-import {MemberService} from "../../_services/member/member.service";
+import {MemberService} from "../../_services/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @Injectable()

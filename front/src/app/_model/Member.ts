@@ -123,6 +123,7 @@ class MemberBuilder {
     return this;
   }
 
+
   public build(): Member {
     return this.me;
   }

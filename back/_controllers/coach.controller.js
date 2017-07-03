@@ -66,6 +66,23 @@ class CoachController {
 			});
 	}
 
+	/**
+	 * Update picture of coach.
+	 * @param req
+	 * @param res
+	 */
+	static async updatePicture(req, res) {
+		try {
+			const coachId = req.user._id;
+			let picture = req.body.picture;
+			picture = await CoachService.updatePicture(coachId, picture);
+			return res.send({picture: picture});
+		} catch (error) {
+			winston.log('error', error.stack);
+			const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+			return res.status(httpError.code).send(httpError);
+		}
+	}
 }
 
 module.exports = CoachController;

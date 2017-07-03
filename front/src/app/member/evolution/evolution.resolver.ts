@@ -3,7 +3,7 @@ import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Program} from "../../_model/Program";
 import {Member} from "../../_model/Member";
-import {MemberService} from "../../_services/member/member.service";
+import {MemberService} from "../../_services/member.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Point} from "../../_model/Point";
 
