@@ -15,8 +15,7 @@
         <md-card class="pt-0 pb-0 white">
             <div class="row">
                 <div class="col-md-8">
-                    <pulpe-session-objective
-                            [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
+                    <pulpe-session-objective [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
                 </div>
                 <div class="col-md-4">
                     <md-card class="bg-primary card-cascade">
@@ -32,8 +31,4 @@
             </div>
         </md-card>
     </div>
-</div>
-
-<div [@isVisibleChanged]="sessionStarted">
-    <pulpe-session-execution-state></pulpe-session-execution-state>
 </div>

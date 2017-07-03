@@ -10,6 +10,7 @@ export class SessionExecutionContext {
   private _session: Session;
   private _state: SessionExecutionStateEnum;
   private _exerciseExecutionContext: ExerciseExecutionContext;
+  private _nextExerciseExecutionContext: ExerciseExecutionContext;
   private _exercises: AbstractExercise[];
   private _currentExerciseIndex: number;
 
@@ -19,6 +20,7 @@ export class SessionExecutionContext {
     this._session = session;
     this._exercises = this._session.getExercises();
     this._exerciseExecutionContext = new ExerciseExecutionContext(this._getCurrentExercise());
+    this._nextExerciseExecutionContext = new ExerciseExecutionContext(this._getNextExercise());
   }
 
   public start() {
@@ -62,6 +64,11 @@ export class SessionExecutionContext {
     return this._exercises[this._currentExerciseIndex];
   }
 
+  private _getNextExercise(): AbstractExercise {
+    return this._exercises[this._currentExerciseIndex + 1];
+  }
+
+
   public isDone(): boolean {
     return this._state === SessionExecutionStateEnum.Done;
   }
@@ -69,10 +76,15 @@ export class SessionExecutionContext {
   public nextExercise() {
     this._currentExerciseIndex++;
     this._exerciseExecutionContext.setExercise(this._exercises[this._currentExerciseIndex]);
+    this._nextExerciseExecutionContext.setExercise(this._exercises[this._currentExerciseIndex + 1]);
   }
 
   public getExerciseExecutionContext(): ExerciseExecutionContext {
     return this._exerciseExecutionContext;
+  }
+
+  public getNextExerciseExecutionContext(): ExerciseExecutionContext {
+    return this._nextExerciseExecutionContext;
   }
 
 }

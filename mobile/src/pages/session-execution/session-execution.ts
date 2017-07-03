@@ -5,6 +5,7 @@ import {SessionExecutionContext} from "../../models/SessionExecutionContext";
 import {AbstractExercise} from "../../models/exercise/AbstractExercise";
 import {ExerciseExecutionContext} from "../../models/ExerciceExecutionContext";
 import {ExerciseExecutionComponent} from "../../components/exercise-execution/exercise-execution";
+import {SessionPage} from "../session/session";
 
 /**
  * Generated class for the SessionExecutionPage page.
@@ -48,7 +49,38 @@ export class SessionExecutionPage {
     let alert = this.alertCtrl.create({
       title: 'Bravo !',
       subTitle: 'Yes ! Un pas de plus vers ton objectif !',
-      buttons: ['Ma séance']
+
+      buttons: [
+        {
+          text: 'Ma séance',
+          handler: () => {
+            this.navCtrl.pop()
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  abortSession() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Voulez-vous abandonner votre séance ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Confirmer',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
+      ]
     });
     alert.present();
   }

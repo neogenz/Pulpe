@@ -41,5 +41,7 @@
   "NEXT_EXERCISE": "Exercice suivant",
   "EXERCISE_DONE": "Exercice terminée",
   "SERIE_DONE": "Série terminée",
-  "SESSION_TITLE": "Ma séance"
+  "SESSION_TITLE": "Ma séance",
+  "CLOSE_BUTTON": "Fermer",
+  "CURRENT_SESSION": "Séance en cours"
 }

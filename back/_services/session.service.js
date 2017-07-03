@@ -2,6 +2,7 @@
 
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const Session = require('../_model/Session');
+const SessionExecuted = require('../_model/SessionExecuted');
 const Exercise = require('../_model/Exercise');
 const DifficultyEnum = require('../_enums/DifficultyEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
@@ -30,6 +31,19 @@ class SessionService {
       .then((sessionsGenerationContext) => {
         return sessionsGenerationContext.map(sessionGenerationContext => sessionGenerationContext.session);
       });
+  }
+
+
+  static async doneThisSessionBy(session, program) {
+    try {
+      const sessionExecuted = new SessionExecuted({
+        _session: session,
+        _program:program,
+        dayOfExecution:moment().date.format('dddd')
+      })
+    } catch (error) {
+      throw error;
+    }
   }
 
 
@@ -326,7 +340,7 @@ class SessionService {
       ];
     }
 //todo make an session to 6 or more frequency, because it's same than 5 for the moment
-    if (nbSessions > 6) {
+    if (nbSessions >= 6) {
       muscularsGroupsSession = [
         {
           sessionType: SessionTypeEnum.Bodybuilding.name,
@@ -647,36 +661,51 @@ module.exports = SessionService;
  * @param {function(currentFirst:L, currentSecond:M)} mergingCallback
  */
 function merge(first, second, mergingCallback) {
-  let firstAndSecondAreInversed = false;
-  let smaller = [];
-  let bigger = [];
-  if (first.length < second.length) {
-    smaller = first;
-    bigger = second;
-  } else if (first.length > second.length) {
-    firstAndSecondAreInversed = true;
-    smaller = second;
-    bigger = first;
-  } else if (first.length === second.length) {
-    smaller = first;
-    bigger = second;
-  }
-  _merge(smaller, bigger, 0, 0, mergingCallback, firstAndSecondAreInversed);
+  // let firstAndSecondAreInversed = false;
+  // let smaller = [];
+  // let bigger = [];
+  // if (first.length < second.length) {
+  //   smaller = first;
+  //   bigger = second;
+  // } else if (first.length > second.length) {
+  //   firstAndSecondAreInversed = true;
+  //   smaller = second;
+  //   bigger = first;
+  // } else if (first.length === second.length) {
+  //   smaller = first;
+  //   bigger = second;
+  // }
+  // _merge(smaller, bigger, 0, 0, mergingCallback, firstAndSecondAreInversed);
+  //
+  // function _merge(smaller, bigger, smallerIndex, biggerIndex, mergingCallback, firstAndSecondAreInversed) {
+  //   while (smallerIndex < smaller.length && biggerIndex < bigger.length) {
+  //     if (firstAndSecondAreInversed) {
+  //       mergingCallback(bigger[biggerIndex], smaller[smallerIndex]);
+  //     } else {
+  //       mergingCallback(smaller[smallerIndex], bigger[biggerIndex]);
+  //     }
+  //     smallerIndex++;
+  //     biggerIndex++;
+  //   }
+  //
+  //   if (smallerIndex < bigger.length && biggerIndex < bigger.length) {
+  //     _merge(smaller, bigger, 0, biggerIndex, mergingCallback, firstAndSecondAreInversed);
+  //   }
+  // }
 
-  function _merge(smaller, bigger, smallerIndex, biggerIndex, mergingCallback, firstAndSecondAreInversed) {
-    while (smallerIndex < smaller.length && biggerIndex < bigger.length) {
-      if (firstAndSecondAreInversed) {
-        mergingCallback(bigger[biggerIndex], smaller[smallerIndex]);
-      } else {
-        mergingCallback(smaller[smallerIndex], bigger[biggerIndex]);
-      }
-      smallerIndex++;
-      biggerIndex++;
-    }
-
-    if (smallerIndex < bigger.length && biggerIndex < bigger.length) {
-      _merge(smaller, bigger, 0, biggerIndex, mergingCallback, firstAndSecondAreInversed);
-    }
+  if (first.length >= second.length) {
+    let tmp = first;
+    first = second;
+    second = tmp;
   }
+  let res = [];
+  let i = 0;
+  let size = first.length;
+  second.forEach(n => {
+    var obj = {};
+    obj[first[i]] = n;
+    mergingCallback(second[i], first[i]);
+    i = (++i >= size) ? 0 : i;
+  });
 }
 

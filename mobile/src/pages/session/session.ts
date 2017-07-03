@@ -6,6 +6,7 @@ import {AbstractExercise} from "../../models/exercise/AbstractExercise";
 import {TranslateService} from "@ngx-translate/core";
 import {SessionExecutionContext} from "../../models/SessionExecutionContext";
 import {SessionExecutionPage} from "../session-execution/session-execution";
+import {Observable} from "rxjs/Observable";
 
 /**
  * Generated class for the SessionPage page.
@@ -20,25 +21,28 @@ import {SessionExecutionPage} from "../session-execution/session-execution";
 })
 export class SessionPage {
 
-  public session: Session;
-  public exercises: AbstractExercise[];
+  public session: Session = null;
+  public exercises: AbstractExercise[] = [];
   private loader: Loading;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private sessionService: SessionService,
               private loadingCtrl: LoadingController,
-              public translateService: TranslateService, private viewCtrl: ViewController) {
+              public translateService: TranslateService,
+              private viewCtrl: ViewController) {
   }
 
   ionViewDidLoad() {
-    this.loadExercisesOfActiveSession();
+    console.debug('session.ts => ionViewDidLoad');
+    // this.viewCtrl.showBackButton(false);
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.showBackButton(false);
+    console.debug('session.ts => ionViewWillEnter');
     if (!this.session) {
       this.presentLoading(this.translateService.instant('LOADING_ACTIVE_SESSION'));
+      this.loadExercisesOfActiveSession();
     }
   }
 
@@ -48,12 +52,12 @@ export class SessionPage {
   }
 
   loadExercisesOfActiveSession() {
-    debugger;
-    this.sessionService.findSessionTodo().subscribe(session => {
-      this.session = session;
-      this.exercises = session.getExercises();
-      this.loader.dismiss();
-    });
+    this.sessionService.findSessionTodo()
+      .subscribe(session => {
+        this.session = session;
+        this.exercises = session.getExercises();
+        this.loader.dismiss();
+      });
   }
 
   startSession() {

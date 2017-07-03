@@ -6,15 +6,42 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <ion-title>SessionExecution</ion-title>
+    <ion-navbar hideBackButton="true">
+        <ion-title>{{ 'CURRENT_SESSION' | translate }}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="abortSession()" color="danger">
+                <ion-icon name="close-circle"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <exercise-execution *ngIf="!sessionExecutionContext.isDone()"
-                        [exerciseExecutionContext]="currentExerciseExecutionContext"
-                        (finished)="nextExercise()"></exercise-execution>
+    <ion-row>
+        <ion-col>
+            <exercise-execution *ngIf="!sessionExecutionContext.isDone()"
+                                [exerciseExecutionContext]="currentExerciseExecutionContext"
+                                (finished)="nextExercise()"></exercise-execution>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="sessionExecutionContext.getNextExerciseExecutionContext().getExercise()" text-center>
+        <ion-col>
+            <hr>
+            <h3 ion-text color="primary" class="italic">
+                <small>Exercice suivant</small>
+            </h3>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <exercise-preview
+                    *ngIf="sessionExecutionContext.getNextExerciseExecutionContext().getExercise(); else noExerciseComing"
+                    [exercise]="sessionExecutionContext.getNextExerciseExecutionContext().getExercise()"></exercise-preview>
+            <ng-template #noExerciseComing>
+                <p>C'est votre dernière exercice ! Courage !</p>
+            </ng-template>
+        </ion-col>
+    </ion-row>
 </ion-content>

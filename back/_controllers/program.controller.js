@@ -5,6 +5,7 @@ const winston = require('winston');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
+const SessionService = require('../_services/session.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const SessionError = require('../_model/Errors').SessionError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
@@ -71,8 +72,9 @@ class ProgramController {
   static async doneCurrentSession(req, res) {
     try {
       const memberId = req.user._id;
-      const member = await MemberService.findById(memberId);
-      const currentSession = ProgramService.findCurrentSessionByMember(member);
+      const program = await ProgramService.findByMemberId(memberId);
+      const sessionToMarkDone = await ProgramService.findSessionTodoBy(memberId);
+      SessionService.doneThisSessionBy(sessionToMarkDone, program);
     } catch (error) {
       console.error(error.stack);
       const httpError = HttpErrorHelper.buildHttpErrorByError(error);

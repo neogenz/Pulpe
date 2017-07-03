@@ -1,28 +1,31 @@
 <ion-header>
-
     <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
         <ion-title>{{ 'SESSION_TITLE' | translate }}</ion-title>
     </ion-navbar>
-
 </ion-header>
-
-
-<ion-header>
-
-    <ion-navbar>
-        <ion-title>{{ 'SESSION_TITLE' | translate }}</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
 
 <ion-content>
-    <ion-row>
+    <ion-row *ngIf="session">
         <ion-col text-center>
-            <button ion-button round (click)="startSession()">Démarrer ma séance</button>
+            <h3><span class="w-300">Ma prochaine séance est ce</span> <span class="primary">{{session.dayInWeek}}</span></h3>
         </ion-col>
     </ion-row>
-    <div *ngFor="let exercise of exercises">
-        <exercise-preview [exercise]="exercise"></exercise-preview>
+    <ion-row>
+        <ion-col text-center>
+            <button ion-button round (click)="startSession()" color="secondary">Démarrer ma séance</button>
+        </ion-col>
+    </ion-row>
+    <div *ngIf="exercises.length>0;else empty">
+        <exercise-preview *ngFor="let exercise of exercises" [exercise]="exercise"></exercise-preview>
     </div>
+    <ng-template #empty>
+        <ion-row>
+            <ion-col text-center>
+                <p>Aucun exercice dans cette séance.</p>
+            </ion-col>
+        </ion-row>
+    </ng-template>
 </ion-content>

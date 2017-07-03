@@ -47,8 +47,8 @@
 
 <ion-row>
     <ion-col text-center>
-        <button ion-button round [disabled]="!delayIsFinished" (click)="terminate()">{{'EXERCISE_DONE' | translate}}
+        <button ion-button round [disabled]="!delayIsFinished" (click)="terminate()" color="secondary">{{'EXERCISE_DONE' | translate}}
         </button>
+        <timer [timeInSeconds]="2" [autoStart]="true" (finished)="terminateDelay()"></timer>
     </ion-col>
 </ion-row>
-<timer [timeInSeconds]="2" [autoStart]="true" (finished)="terminateDelay()"></timer>

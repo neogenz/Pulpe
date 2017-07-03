@@ -14,6 +14,7 @@ import {ExerciseExecutionContext} from "../../models/ExerciceExecutionContext";
 })
 export class ExerciseTrainingExecutionComponent implements OnInit {
 
+
   @Input() exerciseExecutionContext: ExerciseExecutionContext;
   @Output() finished: EventEmitter<ExerciseExecutionContext> = new EventEmitter<ExerciseExecutionContext>();
   delayIsFinished: boolean = false;

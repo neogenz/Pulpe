@@ -13,10 +13,8 @@ import {ItemDetailPage} from '../pages/item-detail/item-detail';
 import {ListMasterPage} from '../pages/list-master/list-master';
 import {LoginPage} from '../pages/login/login';
 import {MapPage} from '../pages/map/map';
-import {MenuPage} from '../pages/menu/menu';
 import {SearchPage} from '../pages/search/search';
 import {SettingsPage} from '../pages/settings/settings';
-import {SignupPage} from '../pages/signup/signup';
 import {TabsPage} from '../pages/tabs/tabs';
 import {TutorialPage} from '../pages/tutorial/tutorial';
 import {WelcomePage} from '../pages/welcome/welcome';
@@ -51,6 +49,7 @@ import { ExerciseBodybuildingExecutionComponent } from '../components/exercise-b
 import { ExerciseOrganizedExecutionComponent } from '../components/exercise-organized-execution/exercise-organized-execution';
 import {TranslateObjectiveNamePipe} from "../shared/pipes/translateObjectiveName.filter.pipe";
 import {TranslateWorkedMuscleName} from "../shared/pipes/workedMuscle.trad.filter.pipe";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -83,10 +82,8 @@ export function provideSettings(storage: Storage) {
     ListMasterPage,
     LoginPage,
     MapPage,
-    MenuPage,
     SearchPage,
     SettingsPage,
-    SignupPage,
     TabsPage,
     TutorialPage,
     WelcomePage,
@@ -105,6 +102,7 @@ export function provideSettings(storage: Storage) {
     BrowserModule,
     HttpModule,
     TimerComponentModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -125,10 +123,8 @@ export function provideSettings(storage: Storage) {
     ListMasterPage,
     LoginPage,
     MapPage,
-    MenuPage,
     SearchPage,
     SettingsPage,
-    SignupPage,
     TabsPage,
     TutorialPage,
     WelcomePage,

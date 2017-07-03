@@ -5,8 +5,7 @@ import {WelcomePage} from '../welcome/welcome';
 
 import {TranslateService} from '@ngx-translate/core';
 import {User} from "../../providers/providers";
-import {ListMasterPage} from "../list-master/list-master";
-import {SessionPage} from "../session/session";
+import {Storage} from "@ionic/storage";
 
 
 export interface Slide {
@@ -23,7 +22,7 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, private user: User) {
+  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService, private user: User, private storage: Storage) {
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
       "TUTORIAL_SLIDE2_TITLE",
@@ -53,19 +52,20 @@ export class TutorialPage {
       });
   }
 
+  ionViewDidLoad() {
+    console.debug('tutorial.ts => ionViewDidLoad');
+  }
+
+  ionViewWillEnter() {
+    console.debug('tutorial.ts => ionViewWillEnter');
+  }
+
   async startApp() {
-    let authenticated = await this.user.authenticated();
-    if (authenticated) {
-      this.navCtrl.setRoot(SessionPage, {}, {
-        animate: true,
-        direction: 'forward'
-      });
-    } else {
-      this.navCtrl.setRoot(WelcomePage, {}, {
-        animate: true,
-        direction: 'forward'
-      });
-    }
+    this.storage.set('tutorialShown', true);
+    this.navCtrl.setRoot(WelcomePage, {}, {
+      animate: true,
+      direction: 'forward'
+    });
   }
 
   onSlideChangeStart(slider) {
@@ -74,7 +74,7 @@ export class TutorialPage {
 
   ionViewDidEnter() {
     // the root left menu should be disabled on the tutorial page
-    this.menu.enable(false);
+    //this.menu.enable(false);
   }
 
   ionViewWillLeave() {

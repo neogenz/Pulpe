@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
 import {LoginPage} from '../login/login';
-import {SignupPage} from '../signup/signup';
 import {User} from "../../providers/user";
 import {SessionPage} from "../session/session";
 
@@ -21,18 +20,18 @@ export class WelcomePage {
   constructor(public navCtrl: NavController, private user: User) {
   }
 
-  async ionViewWillEnter() {
-    let authenticated = await this.user.authenticated();
-    if (authenticated) {
-      this.navCtrl.push(SessionPage);
-    }
+  ionViewWillEnter() {
+    this.user.authenticated().then(auth => {
+      if (auth) {
+        this.navCtrl.setRoot(SessionPage, {}, {
+          animate: true,
+          direction: 'forward'
+        });
+      }
+    });
   }
 
   login() {
     this.navCtrl.push(LoginPage);
-  }
-
-  signup() {
-    this.navCtrl.push(SignupPage);
   }
 }

@@ -12,7 +12,7 @@
         <h3>
             <ion-note>
                 <ion-icon name="refresh"></ion-icon>
-                {{exerciseExecutionContext.getSeriesTodo() | number}}
+                <ion-badge [@alertRefresh]="actualized" (@alertRefresh.done)="alertRefreshDone($event)">{{exerciseExecutionContext.getSeriesTodo() | number}}</ion-badge>
             </ion-note>
         </h3>
     </ion-col>
@@ -45,11 +45,12 @@
 </ion-row>
 <ion-row>
     <ion-col text-center>
-        <button ion-button round [disabled]="exerciseExecutionContext.isInRecovery()" (click)="terminateCurrentSerie()">
+        <button ion-button round [disabled]="exerciseExecutionContext.isInRecovery()" color="secondary"
+                (click)="terminateCurrentSerie()">
             {{(exerciseExecutionContext.isLastSerie() ? 'EXERCISE_DONE' : 'SERIE_DONE') | translate}}
         </button>
+        <timer *ngIf="exerciseExecutionContext.isInRecovery()"
+               [timeInSeconds]="1" [autoStart]="true"
+               (finished)="startNextSerie()"></timer>
     </ion-col>
 </ion-row>
-<timer *ngIf="exerciseExecutionContext.isInRecovery()"
-       [timeInSeconds]="1" [autoStart]="true"
-       (finished)="startNextSerie()"></timer>

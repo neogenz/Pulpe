@@ -18,11 +18,11 @@ export class LoginPage implements OnInit {
   // The account fields for the login form.
   // If you're using the username field with or without email, make
   // sure to add it to the type
-  account: { email: string, password: string } = {
+  account: { email: string, password: string, rememberMe: boolean } = {
     email: '',
-    password: ''
+    password: '',
+    rememberMe: false
   };
-  rememberMe: boolean = false;
 
   // Our translated text strings
   private loginErrorString: string;
@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
   async ngOnInit() {
     let authProfile = await this.storage.get('rememberedLoginForm');
     if (authProfile) {
-      this.rememberMe = true;
+      this.account.rememberMe = true;
       this.account.email = authProfile.email;
       this.account.password = authProfile.password;
     }
@@ -49,18 +49,24 @@ export class LoginPage implements OnInit {
 
   // Attempt to login in through our User service
   signin() {
-    if (this.rememberMe) {
+    if (this.account.rememberMe) {
       this.storage.set('rememberedLoginForm', this.account);
     }
-    this.user.signin(this.account).subscribe((resp) => {
-      this.navCtrl.push(SessionPage);
-    }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
-        duration: 3000,
-        position: 'top'
+    this.user.signin(this.account)
+      .subscribe(() => {
+        this.navCtrl.setRoot(SessionPage, {}, {
+          animate: true,
+          direction: 'forward'
+        });
+      }, () => {
+        let toast = this.toastCtrl.create({
+          message: this.loginErrorString,
+          duration: 3000,
+          position: 'bottom',
+          showCloseButton: true,
+          closeButtonText: this.translateService.instant('CLOSE_BUTTON')
+        });
+        toast.present();
       });
-      toast.present();
-    });
   }
 }

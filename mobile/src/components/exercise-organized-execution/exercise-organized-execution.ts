@@ -15,6 +15,7 @@ import {IOrganizedExerciseExecutableComponent} from "../IExerciseExecutableCompo
   templateUrl: 'exercise-organized-execution.html'
 })
 export class ExerciseOrganizedExecutionComponent implements OnInit, IOrganizedExerciseExecutableComponent {
+
   @Input() exerciseExecutionContext: ExerciseExecutionContext;
   @Output() finished: EventEmitter<ExerciseExecutionContext> = new EventEmitter<ExerciseExecutionContext>();
 

@@ -1,5 +1,13 @@
 page-session {
-    .center{
-        text-align:center;
-    }
+  .center {
+    text-align: center;
+  }
+
+  .primary {
+    color: color($colors, primary);
+  }
+
+  .w-300{
+    font-weight: 300;
+  }
 }

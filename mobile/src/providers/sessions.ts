@@ -52,6 +52,7 @@ export class SessionService {
           .needTraining(rawSession.training)
           .doneCounter(rawSession.doneCounter)
           .createdAt(rawSession.createdAt)
+          .dayInWeek(rawSession.dayInWeek)
           .mainMusclesGroup(rawSession.mainMusclesGroup)
           .build();
         return session;

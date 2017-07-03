@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ExerciseGroupCodeConverter} from "../../shared/ExerciseGroupCodeConverter";
-import {ExerciseGroupCode} from "../../shared/ExerciseGroupCodeConverter";
-import {Session} from "../../_model/Session";
-import {SessionExecutionContext} from '../../_model/SessionExecutionContext';
-import {Animations} from "../../shared/Animations";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ExerciseGroupCodeConverter } from "../../shared/ExerciseGroupCodeConverter";
+import { ExerciseGroupCode } from "../../shared/ExerciseGroupCodeConverter";
+import { Session } from "../../_model/Session";
+import { Animations } from "../../shared/Animations";
 
 @Component({
   selector: 'pulpe-sessions',
@@ -19,7 +18,6 @@ export class SessionsComponent implements OnInit {
   public exerciseGroupLabelsDictionary: ExerciseGroupCode[] = [];
   public filterSeances: string;
   public filters: string[];
-  private _sessionExercutionContext: SessionExecutionContext;
   public sessionStarted: boolean = false;
 
   constructor(private exerciseGroupCodeConverter: ExerciseGroupCodeConverter, private route: ActivatedRoute) {
@@ -34,14 +32,10 @@ export class SessionsComponent implements OnInit {
   }
 
   startSession() {
-    this._sessionExercutionContext = new SessionExecutionContext(null);
-    this._sessionExercutionContext.start();
     this.sessionStarted = true;
   }
 
-  stopSession(){
-    this._sessionExercutionContext = new SessionExecutionContext(null);
-    this._sessionExercutionContext.stop();
+  stopSession() {
     this.sessionStarted = false;
   }
 }
