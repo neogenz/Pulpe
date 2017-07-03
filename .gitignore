@@ -86,3 +86,5 @@ mobile/\.idea/
 mobile/platforms/
 
 mobile/www/
+
+delete-data-indexdb\.js
