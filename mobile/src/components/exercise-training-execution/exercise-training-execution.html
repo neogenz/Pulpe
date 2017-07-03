@@ -1,0 +1,54 @@
+<div padding text-center>
+    <h2>{{exerciseExecutionContext.getExercise().name}}</h2>
+    <h2>
+        <small>
+            <ion-note>{{exerciseExecutionContext.getExercise().machines[0].name}}</ion-note>
+        </small>
+    </h2>
+    <exercise-type-img [exerciseTypeEnum]="exerciseExecutionContext.getExercise().type"></exercise-type-img>
+</div>
+<ion-row>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().speed">
+        <h3>
+            <ion-note>
+                <ion-icon name="speedometer"></ion-icon>
+                {{exerciseExecutionContext.getExercise().speed | number}} km/h
+            </ion-note>
+        </h3>
+    </ion-col>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().km">
+        <h3>
+            <ion-note>
+                <ion-icon class="fa fa-road"></ion-icon>
+                {{exerciseExecutionContext.getExercise().km | number}} km
+            </ion-note>
+        </h3>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().times">
+        <h3>
+            <ion-note>
+                <ion-icon name="refresh"></ion-icon>
+                {{exerciseExecutionContext.getExercise().times | number:'1.2-2'}} min
+            </ion-note>
+        </h3>
+    </ion-col>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().calories">
+        <h3>
+            <ion-note>
+                <ion-icon class='fit-balance'></ion-icon>
+                {{exerciseExecutionContext.getExercise().calories | number}} kcal
+            </ion-note>
+        </h3>
+    </ion-col>
+</ion-row>
+<!--<timer [timeInSeconds]="exercise.times*60" [autoStart]="true"></timer>-->
+
+<ion-row>
+    <ion-col text-center>
+        <button ion-button round [disabled]="!delayIsFinished" (click)="terminate()">{{'EXERCISE_DONE' | translate}}
+        </button>
+    </ion-col>
+</ion-row>
+<timer [timeInSeconds]="2" [autoStart]="true" (finished)="terminateDelay()"></timer>

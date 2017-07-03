@@ -1,0 +1,28 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{ 'SESSION_TITLE' | translate }}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{ 'SESSION_TITLE' | translate }}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-row>
+        <ion-col text-center>
+            <button ion-button round (click)="startSession()">Démarrer ma séance</button>
+        </ion-col>
+    </ion-row>
+    <div *ngFor="let exercise of exercises">
+        <exercise-preview [exercise]="exercise"></exercise-preview>
+    </div>
+</ion-content>

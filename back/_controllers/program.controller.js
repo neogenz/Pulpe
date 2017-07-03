@@ -7,6 +7,7 @@ const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGener
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const SessionError = require('../_model/Errors').SessionError;
+const NotFoundError = require('../_model/Errors').NotFoundError;
 
 
 class ProgramController {
@@ -65,6 +66,34 @@ class ProgramController {
         const httpError = HttpErrorHelper.buildHttpErrorByError(error);
         return res.status(httpError.code).send(httpError);
       })
+  }
+
+  static async doneCurrentSession(req, res) {
+    try {
+      const memberId = req.user._id;
+      const member = await MemberService.findById(memberId);
+      const currentSession = ProgramService.findCurrentSessionByMember(member);
+    } catch (error) {
+      console.error(error.stack);
+      const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
+  }
+
+  static async findSessionTodo(req, res) {
+    try {
+      const memberId = req.user._id;
+      const member = await MemberService.findById(memberId);
+      const currentSession = await ProgramService.findSessionTodoBy(member);
+      return res.send(currentSession);
+    } catch (error) {
+      console.error(error.stack);
+      if (error instanceof NotFoundError) {
+        error.message = 'Aucune session à venir n\'a été trouvée.';
+      }
+      const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+      return res.status(httpError.code).send(httpError);
+    }
   }
 }
 

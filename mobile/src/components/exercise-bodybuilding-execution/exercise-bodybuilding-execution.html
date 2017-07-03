@@ -1,0 +1,55 @@
+<div padding text-center>
+    <h2>{{exerciseExecutionContext.getExercise().name}}</h2>
+    <h2>
+        <small>
+            <ion-note>{{exerciseExecutionContext.getExercise().machines[0].name}}</ion-note>
+        </small>
+    </h2>
+    <exercise-type-img [exerciseTypeEnum]="exerciseExecutionContext.getExercise().type"></exercise-type-img>
+</div>
+<ion-row>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().series">
+        <h3>
+            <ion-note>
+                <ion-icon name="refresh"></ion-icon>
+                {{exerciseExecutionContext.getSeriesTodo() | number}}
+            </ion-note>
+        </h3>
+    </ion-col>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().repetitions">
+        <h3>
+            <ion-note>
+                <ion-icon class='fit-althere'></ion-icon>
+                {{exerciseExecutionContext.getExercise().repetitions}}
+            </ion-note>
+        </h3>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().weight">
+        <h3>
+            <ion-note>
+                <ion-icon class='fit-weight'></ion-icon>
+                {{exerciseExecutionContext.getExercise().weight | number:'1.1'}} kg
+            </ion-note>
+        </h3>
+    </ion-col>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().recoveryTimesBetweenEachSeries">
+        <h3>
+            <ion-note>
+                <ion-icon name='timer'></ion-icon>
+                {{exerciseExecutionContext.getExercise().recoveryTimesBetweenEachSeries | number:'1.2-2'}} min
+            </ion-note>
+        </h3>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col text-center>
+        <button ion-button round [disabled]="exerciseExecutionContext.isInRecovery()" (click)="terminateCurrentSerie()">
+            {{(exerciseExecutionContext.isLastSerie() ? 'EXERCISE_DONE' : 'SERIE_DONE') | translate}}
+        </button>
+    </ion-col>
+</ion-row>
+<timer *ngIf="exerciseExecutionContext.isInRecovery()"
+       [timeInSeconds]="1" [autoStart]="true"
+       (finished)="startNextSerie()"></timer>

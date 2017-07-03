@@ -78,3 +78,11 @@ front/\.sass-cache/
 taches-realisees\.txt
 
 node_modules copie\.zip
+
+mobile/node_modules/
+
+mobile/\.idea/
+
+mobile/platforms/
+
+mobile/www/

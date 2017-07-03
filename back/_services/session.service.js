@@ -52,7 +52,7 @@ class SessionService {
       sessionsGenerationContextWithoutExercises.push(
         new SessionGenerationContext(
           new Session({
-            day: day,
+            dayInWeek: day,
             sessionType: sessionGenerationConfig.sessionType,
             mainMusclesGroup: sessionGenerationConfig.muscles.map(muscle => muscle.muscle),
             training: sessionGenerationConfig.training

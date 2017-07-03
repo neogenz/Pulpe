@@ -1,0 +1,109 @@
+<ion-card>
+    <ion-item>
+        <ion-avatar item-start>
+            <exercise-type-img [exerciseTypeEnum]="exercise.type"></exercise-type-img>
+        </ion-avatar>
+        <h2>{{exercise.name}}</h2>
+        <p>{{exercise.machines[0].name}}</p>
+    </ion-item>
+
+    <!--<img [src]="item.image">-->
+    <div [ngSwitch]="exercise.type">
+        <ion-row *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise">
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon name="refresh"></ion-icon>
+                    {{exercise.series}}
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon class='fit-althere'></ion-icon>
+                    {{exercise.repetitions}}
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon class='fit-weight'></ion-icon>
+                    {{exercise.weight | number:'1.1'}} kg
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon name='timer'></ion-icon>
+                    {{exercise.recoveryTimesBetweenEachSeries | number:'1.2-2'}} min
+                </ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise">
+            <ion-col center text-center *ngIf="exercise.times">
+                <ion-note>
+                    <ion-icon name='refresh'></ion-icon>
+                    {{exercise.times.length}} x {{exercise.times[0] | number:'1.2-2'}} min
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.km">
+                <ion-note>
+                    <ion-icon class='fa fa-road'></ion-icon>
+                    {{exercise.km | number}} km
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.calories">
+                <ion-note>
+                    <ion-icon class='fit-balance'></ion-icon>
+                    {{exercise.calories | number}} kcal
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.speed">
+                <ion-note>
+                    <ion-icon name='speedometer'></ion-icon>
+                    {{exercise.speed | number}} km/h
+                </ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise">
+            <ion-col center text-center *ngIf="exercise.times">
+                <ion-note>
+                    <ion-icon name='refresh'></ion-icon>
+                    {{exercise.times | number:'1.2-2'}} min
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.km">
+                <ion-note>
+                    <ion-icon class='fa fa-road'></ion-icon>
+                    {{exercise.km | number}} km
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.calories">
+                <ion-note>
+                    <ion-icon class="fit-balance"></ion-icon>
+                    {{exercise.calories | number}} kcal
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center *ngIf="exercise.speed">
+                <ion-note>
+                    <ion-icon name='timer'></ion-icon>
+                    {{exercise.speed | number}} km/h
+                </ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise">
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon class='fa fa-bolt'></ion-icon>
+                    {{difficultyConverter.convertThisEnum(exercise.difficulty)}}
+                </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+                <ion-note>
+                    <ion-icon class="fa fa-hourglass-half"></ion-icon>
+                    {{exercise.approximateTime | number:'1.2-2'}} min
+                </ion-note>
+
+            </ion-col>
+        </ion-row>
+    </div>
+</ion-card>

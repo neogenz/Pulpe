@@ -18,7 +18,8 @@ const ProgramSchema = new Schema({
   },
   isActive: {type: Boolean, default: false, required: true},
   updatedAt: Date,
-  createdAt: Date
+  createdAt: Date,
+  _sessionTodo: {type: mongoose.Schema.Types.ObjectId, ref: 'Session'}
 });
 
 ProgramSchema.pre('save', function (next) {
@@ -34,7 +35,7 @@ ProgramSchema.query.ofThisMember = function (member) {
 };
 
 ProgramSchema.query.isActive = function () {
-  return this.where({isActive: true});
+  return this.find({isActive: true});
 };
 
 const Program = mongoose.model('Program', ProgramSchema, 'Programs');
@@ -65,6 +66,11 @@ class ProgramBuilder {
 
   isActive(isActive) {
     this.me.isActive = isActive;
+    return this;
+  }
+
+  sessionTodo(session) {
+    this.me._sessionTodo = session;
     return this;
   }
 

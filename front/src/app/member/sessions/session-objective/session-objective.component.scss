@@ -3,9 +3,11 @@
 .blockTitlePrimaryBackground {
   background-color: $primary-color;
   color: white !important;
+  padding-bottom: 2.5rem !important;
   //margin-bottom: 0;
   hr {
     color: white;
     background-color: white;
   }
+
 }

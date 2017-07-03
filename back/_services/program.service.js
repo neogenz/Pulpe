@@ -10,9 +10,37 @@ const Session = require('../_model/Session');
 const moment = require('moment');
 const SessionService = require('../_services/session.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
+const SessionError = require('../_model/Errors').SessionError;
 
 class ProgramService {
   constructor() {
+  }
+
+
+  static async findSessionTodoBy(memberId) {
+    try {
+      const populationGraph = {
+        path: 'sessions.exercises',
+        model: 'Exercise',
+        populate: {
+          path: 'machines',
+          model: 'Machine'
+        }
+      };
+      let programs = await Program.find().ofThisMember(memberId).isActive().populate(populationGraph);
+      const programActive = programs[0];
+      for (let i = 0; i < programActive.sessions.length; i++) {
+        if (programActive.sessions[i]._id.equals(programActive._sessionTodo)) {
+          return programActive.sessions[i];
+        }
+      }
+      throw new NotFoundError('This user don\'t have current session.');
+    }
+    catch (error) {
+      if (!(error instanceof NotFoundError)) {
+        throw new TechnicalError(error.message);
+      }
+    }
   }
 
   /**
@@ -31,8 +59,8 @@ class ProgramService {
     };
     return Program.find().ofThisMember(memberId).isActive().populate(populationGraph)
       .then((programs) => {
-        if (!programs) {
-          throw new NotFoundError("Programme introuvable pour l'adhérent : " + memberId);
+        if (!programs || programs.length <= 0) {
+          throw new NotFoundError(`Program can\'t be found to member : ${memberId}`);
         }
         return programs[0];
       })
@@ -56,6 +84,7 @@ class ProgramService {
           .sessions(sessions)
           .objective(programGenerationContext.objective.name)
           .isActive(programGenerationContext.isActive)
+          .sessionTodo(sessions[0])
           .build();
         return program;
       })
@@ -85,7 +114,7 @@ class ProgramService {
 
 
   static async disableAllBy(member) {
-    await Program.update({member:member}, {isActive: false}, {multi: true});
+    await Program.update({member: member}, {isActive: false}, {multi: true});
   }
 
   /**
@@ -94,24 +123,18 @@ class ProgramService {
    * @returns {Promise|Promise.<Session>}
    */
   static findAllSessionsOfActiveProgramByMemberId(memberId) {
-    const populationGraph = {
-      path: 'sessions.exercises',
-      model: 'Exercise'
-    };
-    //todo use member service to verify integrity of member
-    return Program.findOne({
-      'member': memberId
-    }).populate(populationGraph).then((finded) => {
-      if (finded) {
-        return finded.sessions;
-      }
-      throw new NotFoundError(`Programme introuvable pour l'adhérent ${memberId}`);
-    }, error => {
-      console.error(error.stack);
-      throw new TechnicalError(error.message);
-    }).catch(error => {
-      throw error;
-    });
+    return ProgramService.findByMemberId(memberId)
+      .then((finded) => {
+        if (finded) {
+          return finded.sessions;
+        }
+        throw new NotFoundError(`Programme introuvable pour l'adhérent ${memberId}`);
+      }, error => {
+        console.error(error.stack);
+        throw new TechnicalError(error.message);
+      }).catch(error => {
+        throw error;
+      });
   }
 }
 

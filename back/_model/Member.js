@@ -13,10 +13,10 @@ const MemberSchema = new Schema({
   lastName: String,
   gender: {
     type: String,
-      enum: [
-        GenderEnum.Female.name,
-        GenderEnum.Male.name
-      ]
+    enum: [
+      GenderEnum.Female.name,
+      GenderEnum.Male.name
+    ]
   },
   birthDate: Date,
   sessionFrequency: Number,

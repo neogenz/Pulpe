@@ -1,0 +1,32 @@
+<div padding text-center>
+    <h2>{{exerciseExecutionContext.getExercise().name}}</h2>
+    <h2>
+        <small>
+            <ion-note>{{exerciseExecutionContext.getExercise().machines[0].name}}</ion-note>
+        </small>
+    </h2>
+    <exercise-type-img [exerciseTypeEnum]="exerciseExecutionContext.getExercise().type"></exercise-type-img>
+</div>
+<ion-row>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().difficulty">
+        <h3>
+            <ion-note>
+                <ion-icon class='fa fa-bolt'></ion-icon>
+                {{difficultyConverter.convertThisEnum(exerciseExecutionContext.getExercise().difficulty)}}
+            </ion-note>
+        </h3>
+    </ion-col>
+    <ion-col text-center *ngIf="exerciseExecutionContext.getExercise().approximateTime">
+        <h3>
+            <ion-note>
+                <ion-icon class="fa fa-hourglass-half"></ion-icon>
+                {{exerciseExecutionContext.getExercise().approximateTime | number:'1.2-2'}} min
+            </ion-note>
+        </h3>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col text-center>
+        <button ion-button round (click)="terminate()">{{'EXERCISE_DONE' | translate}}</button>
+    </ion-col>
+</ion-row>

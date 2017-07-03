@@ -1,71 +1,39 @@
 <pulpe-page-title [title]="'Vos séances'"></pulpe-page-title>
 <div class="row mb-4">
     <div class="offset-md-4 col-md-4">
-        <button class="btn btn-lg btn-primary w-100">Démarrer ma séance</button>
+        <button class="btn btn-lg btn-primary w-100" (click)="startSession()" *ngIf="!sessionStarted">Démarrer ma
+            séance
+        </button>
+        <button class="btn btn-lg btn-primary w-100" (click)="stopSession()" *ngIf="sessionStarted">Arrêter ma séance
+        </button>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4 mb-2">
-        <md-card class="blockTitlePrimaryBackground h-100">
-            <p class="lead text-light-weight text-center mb-0">Prochaine séance</p>
-            <hr class="w-100">
+
+
+<div class="row card-cascade-parent" [@isVisibleChanged]="!sessionStarted">
+    <div class="col-md-12">
+        <md-card class="pt-0 pb-0 white">
             <div class="row">
-                <div class="col-md-12 text-center mt-0">
-                    <h1 class="p-0"><i class="ion-ios-calendar-outline"></i></h1>
-                    <p class="lead text-center mb-0 text-light-primary text-w-400">Ce jeudi</p>
+                <div class="col-md-8">
+                    <pulpe-session-objective
+                            [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
+                </div>
+                <div class="col-md-4">
+                    <md-card class="bg-primary card-cascade">
+                        <h4 class="text-light-weight text-white">Prochaine séance</h4>
+                    </md-card>
+                    <div class="row mt-5">
+                        <div class="col-md-12 text-center text-primary">
+                            <h1 class="p-0"><i class="ion-ios-calendar-outline"></i></h1>
+                            <p class="lead text-center mb-0 text-w-400">Ce jeudi</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </md-card>
     </div>
-    <div class="col-md-8 mb-2">
-        <pulpe-session-objective [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
-    </div>
 </div>
 
-<section>
-    <div class="row">
-        <div class="col-md-12">
-            <md-card class="blockTitlePrimaryBackground h-100">
-                <div class="text-center">
-                    <h1><i class="ion-ios-search"></i></h1>
-                    <md-radio-group class="example-radio-group" [(ngModel)]="filterSeances">
-                        <md-radio-button class="example-radio-button pl-3" *ngFor="let filter of filters"
-                                         [value]="filter">
-                            {{filter}}
-                        </md-radio-button>
-                    </md-radio-group>
-                </div>
-            </md-card>
-        </div>
-    </div>
-</section>
-
-<section>
-    <div class="row">
-        <div class="col-md-12">
-            <md-tab-group>
-                <md-tab *ngFor="let exerciseGroupLabelDictionary of exerciseGroupLabelsDictionary"
-                        label="{{exerciseGroupLabelDictionary.label}}">
-                    <md-card>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row mt-4">
-                                    <div class="col-md-12">
-                                        <md-list-item
-                                                *ngFor="let exercise of session.getExercisesByType(exerciseGroupLabelDictionary.rawCode); let last = last">
-                                            <pulpe-session-list
-                                                    [exercise]="exercise"
-                                                    [exerciseGroupRawCode]="exerciseGroupLabelDictionary.rawCode">
-                                            </pulpe-session-list>
-                                            <hr *ngIf="!last" class="white">
-                                        </md-list-item>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </md-card>
-                </md-tab>
-            </md-tab-group>
-        </div>
-    </div>
-</section>
+<div [@isVisibleChanged]="sessionStarted">
+    <pulpe-session-execution-state></pulpe-session-execution-state>
+</div>

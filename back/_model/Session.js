@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const Exercise = require('./Exercise');
 const SessionTypeEnum = require("../_enums/SessionTypeEnum");
 const SessionSchema = new Schema({
-  day: Date,
+  dayInWeek: String,
   state: {
     type: String,
     enum: ['UNSTARTED', 'STARTED', 'IN_PROGRESS', 'FINISHED', 'TO_SYNCHRONIZE'],

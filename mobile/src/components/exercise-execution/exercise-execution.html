@@ -1,0 +1,13 @@
+<div [ngSwitch]="exerciseExecutionContext.getExercise().type">
+    <exercise-training-execution [exerciseExecutionContext]="exerciseExecutionContext"
+                                 *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise"
+                                 (finished)="terminate()"></exercise-training-execution>
+
+    <exercise-bodybuilding-execution [exerciseExecutionContext]="exerciseExecutionContext"
+                                     *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise"
+                                     (finished)="terminate()"></exercise-bodybuilding-execution>
+
+    <exercise-organized-execution [exerciseExecutionContext]="exerciseExecutionContext"
+                                  *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise"
+                                  (finished)="terminate()"></exercise-organized-execution>
+</div>
