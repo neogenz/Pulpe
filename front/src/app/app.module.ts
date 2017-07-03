@@ -114,7 +114,6 @@ import {HomeCoachComponent} from './coach/home-coach/home-coach.component';
 import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
 import {HomeCoachService} from "./coach/home-coach/home-coach.service";
 import {DocumentService} from "./_services/document.service";
-import {FileUploader, FileUploadModule} from "ng2-file-upload";
 import {PhotoFormDialogComponent} from './shared/profile/profile-photo/photo-form-dialog/photo-form-dialog.component';
 import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 
@@ -193,7 +192,6 @@ import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 		ReactiveFormsModule,
 		NgxErrorsModule,
 		BootstrapModalModule,
-		FileUploadModule,
 		RouterModule.forRoot(ROUTES),
 		SlimLoadingBarModule.forRoot(),
 		SidebarModule.forRoot(),
