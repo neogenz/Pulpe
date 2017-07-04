@@ -40,7 +40,8 @@ export class SpecificExercisePropertiesFormBuilderService {
   private _getFormGroupToCardioExerciseBy(exercise: CardioExercise): FormGroup {
     return this.fb.group({
       speed: this.fb.control(exercise.speed, [Validators.required, Validators.min(1), Validators.max(80)]),
-      times: this.fb.control(exercise.times, [Validators.required, Validators.min(1), Validators.max(240)])
+      times: this.fb.control(exercise.times, [Validators.required, Validators.min(1), Validators.max(240)]),
+      numberOfTimes: this.fb.control(exercise.times? exercise.times.length:1, [Validators.required, Validators.min(1), Validators.max(10)]),
     });
   }
 

@@ -117,8 +117,32 @@
                     </div>
                     <div *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise">
                         <div class="form-group">
-                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x icon-weight prefix my-auto pr-0"></i>
-                            <md-input-container class="col-7 col-md-8">
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-repeat prefix my-auto pr-0"></i>
+                            <md-input-container class="col-6 col-md-3">
+                                <input id="inputNumberOfTimes" mdInput type="number"
+                                       placeholder="Nb de fois"
+                                       formControlName="numberOfTimes"
+                                       required>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('numberOfTimes').dirty && exerciseForm.get('specifics').get('numberOfTimes').hasError('required')"
+                                        class="form-control-feedback">Nombre de fois obligatoire.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('numberOfTimes').dirty && exerciseForm.get('specifics').get('numberOfTimes').hasError('min')"
+                                        class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('specifics').get('numberOfTimes').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint
+                                        *ngIf="exerciseForm.get('specifics').get('numberOfTimes').dirty && exerciseForm.get('specifics').get('numberOfTimes').hasError('max')"
+                                        class="form-control-feedback">
+                                    Maximum
+                                    {{exerciseForm.get('specifics').get('numberOfTimes').getError('max')['max']}}.
+                                </md-hint>
+                            </md-input-container>
+                            <span class="col-md-1 col-2 text-center">
+                                x
+                            </span>
+                            <md-input-container class="col-6 offset-3 offset-md-0 col-md-4">
                                 <input id="inputSpeedCardio" mdInput type="number"
                                        placeholder="Temps"
                                        formControlName="times"
@@ -141,7 +165,7 @@
                             </md-input-container>
                         </div>
                         <div class="form-group">
-                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-refresh prefix my-auto pr-0"></i>
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-speedometer prefix my-auto pr-0"></i>
                             <md-input-container class="col-7 col-md-8">
                                 <input id="inputTimesCardio" mdInput type="number"
                                        placeholder="Vitesse"
@@ -167,7 +191,7 @@
                     </div>
                     <div *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise">
                         <div class="form-group">
-                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x fa-repeat prefix my-auto pr-0"></i>
+                            <i class="col-md-1 offset-1 col-2 text-center fa fa-2x ion-ios-timer-outline prefix my-auto pr-0"></i>
                             <md-input-container class="col-7 col-md-8">
                                 <input id="inputSpeedTraining" mdInput type="number"
                                        placeholder="Temps"

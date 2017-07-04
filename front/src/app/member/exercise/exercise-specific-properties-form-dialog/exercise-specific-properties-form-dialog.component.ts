@@ -81,8 +81,14 @@ export class ExerciseSpecificPropertiesFormDialogComponent extends DialogCompone
         exerciseUpdated.recoveryBetweenEachSeries = this.exerciseForm.get('specifics').get('recoveryBetweenEachSeries').value;
         break;
       case ExerciseGroupTypeEnum.CardioExercise:
-        //todo implement
-        (exercise as CardioExercise).km = this.exerciseForm.get('specifics').get('km').value;
+        exerciseUpdated = (exercise as CardioExercise);
+        exerciseUpdated.speed = this.exerciseForm.get('specifics').get('speed').value;
+        exerciseUpdated.times = []
+        let nbOfTimes = this.exerciseForm.get('specifics').get('numberOfTimes').value;
+        const time = this.exerciseForm.get('specifics').get('times').value;
+        for(let i = 0; i < nbOfTimes; i++){
+          exerciseUpdated.times.push(time);
+        }
         break;
       case ExerciseGroupTypeEnum.TrainingExercise:
         exerciseUpdated = (exercise as TrainingExercise);
