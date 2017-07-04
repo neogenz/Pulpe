@@ -78,6 +78,7 @@ export class MachinesComponent implements OnInit {
 					.subscribe((machine) => {
 							this.toastrService.success('La machine a été supprimée.', 'Succès!');
 							this.machines = this.machines.filter(m => m._id !== machine._id);
+							this.doFilterMachines(this.filterArgs);
 						},
 						(errorMsg) => {
 							console.error(errorMsg);
@@ -115,6 +116,7 @@ export class MachinesComponent implements OnInit {
 					const indexFinded = this.machines.findIndex(m => m._id == machine._id);
 					this.machines[indexFinded] = machineSaved;
 				}
+				this.doFilterMachines(this.filterArgs);
 			}
 		});
 	}

@@ -5,12 +5,12 @@
 
     <pulpe-header-list [title]="'Exercices'"
                        [icon]="'ion ion-person-stalker'"
-                       [nbElements]="exercises.length"
+                       [nbElements]="filteredExercises.length"
                        [placeHolderTitle]="'Par nom'"
-                       (filterArgs)="filterArgsChanged($event)">
+                       (filterArgs)="doFilterExercises($event)">
     </pulpe-header-list>
     <div class="mt-3">
-        <pulpe-exercises-list [exercises]="exercises" [filterArgs]="filterArgs"
+        <pulpe-exercises-list [exercises]="filteredExercises"
                               (editClick)="openExerciseFormDialogOnMode(openableMode.Edit, $event)" (removeClick)="deleteExercise($event)"></pulpe-exercises-list>
     </div>
 

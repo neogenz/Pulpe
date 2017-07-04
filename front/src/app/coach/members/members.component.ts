@@ -9,29 +9,36 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ObjectiveEnum} from "../../_enums/ObjectiveEnum";
 import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component"
 import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
+import { FilterMembers } from "./members.filter.pipe";
 
 @Component({
   selector: 'pulpe-members',
   templateUrl: 'members.component.html',
   styleUrls: ['members.component.scss'],
-  animations: [Animations.fadeIn()]
+  animations: [Animations.fadeIn()],
+  providers:[FilterMembers]
 })
 export class MembersComponent implements OnInit {
   private members: Member[];
+  filteredMembers:Member[];
   filterArgs: string;
 
-  constructor(private route: ActivatedRoute, private dialogService: DialogService) {
+  constructor(private route: ActivatedRoute, private dialogService: DialogService, private filterMembers:FilterMembers) {
   }
 
   ngOnInit() {
     this.members = this.route.snapshot.data['members'];
     this.filterArgs = '';
+    this.filteredMembers = this.members;
   }
 
-  filterArgsChanged(filtersArgs: string) {
+  doFilterMembers(filtersArgs: string) {
     this.filterArgs = null;
     if (filtersArgs !== '') {
       this.filterArgs = filtersArgs;
+      this.filteredMembers = this.filterMembers.transform(this.members, filtersArgs);
+    }else{
+      this.filteredMembers = this.members;
     }
   }
 
@@ -73,6 +80,7 @@ export class MembersComponent implements OnInit {
             const indexFinded = this.members.findIndex(m => m._id == member._id);
             this.members[indexFinded] = memberSaved;
           }
+          this.doFilterMembers(this.filterArgs);
         }
       });
   }

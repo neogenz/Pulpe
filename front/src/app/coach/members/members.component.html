@@ -5,18 +5,18 @@
 
     <pulpe-header-list [title]="'Adhérents'"
                        [icon]="'ion ion-person-stalker'"
-                       [nbElements]="members.length"
+                       [nbElements]="filteredMembers.length"
                        [placeHolderTitle]="'Par nom, prénom'"
-                       (filterArgs)="filterArgsChanged($event)">
+                       (filterArgs)="doFilterMembers($event)">
     </pulpe-header-list>
 
 
     <div class="row pt-3">
-        <md-card class="col-md-12 my-auto text-center" *ngIf="members.length === 0">
+        <md-card class="col-md-12 my-auto text-center" *ngIf="filteredMembers.length === 0">
             <div>Aucun adhérent</div>
         </md-card>
 
-        <table class="col-md-12 table table-striped bg-secondary" *ngIf="members.length > 0">
+        <table class="col-md-12 table table-striped bg-secondary" *ngIf="filteredMembers.length > 0">
             <thead>
             <tr>
                 <th class="text-white text-center text-light-weight text-uppercase">Sexe</th>
@@ -29,7 +29,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="my-auto text-center" *ngFor="let member of members | filterMembers: filterArgs">
+            <tr class="my-auto text-center" *ngFor="let member of filteredMembers">
                 <td [ngSwitch]="member.gender">
                     <i *ngSwitchCase="'Male'" class="ion ion-male femaleIcon"></i>
                     <i *ngSwitchCase="'Female'" class="ion ion-female maleIcon"></i>
