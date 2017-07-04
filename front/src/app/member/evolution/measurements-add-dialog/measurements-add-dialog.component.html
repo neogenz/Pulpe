@@ -73,6 +73,19 @@
                             </md-input-container>
                         </div>
                         <div class="row pt-2">
+                            <md-input-container class="col-md-12" color="primary" ngxErrors="hip">
+                                <input id="inputHip" mdInput type="number"
+                                       placeholder="Tour de hanche (cm)"
+                                       formControlName="waist">
+                                <md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('maxValue')"
+                                         class="form-control-feedback">{{errorTranslations.hip.maxValue}}
+                                </md-hint>
+                                <md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('minValue')"
+                                         class="form-control-feedback">{{errorTranslations.hip.minValue}}
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="row pt-2">
                             <md-input-container class="col-md-12" color="primary" ngxErrors="shoulders">
                                 <input id="inputShoulders" mdInput type="number"
                                        placeholder="Epaules (cm)"
