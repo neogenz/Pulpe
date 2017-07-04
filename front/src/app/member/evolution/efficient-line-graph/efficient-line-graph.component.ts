@@ -115,7 +115,7 @@ export class EfficientLineGraphComponent implements OnInit, OnChanges, AfterView
           },
           ticks: {
             max: 100,
-            min: 0,
+            min: -100,
             fontColor: "#fff", // this here
           },
         }],

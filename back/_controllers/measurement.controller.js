@@ -20,7 +20,7 @@ class MeasurementController {
 		let measurement;
 		let member;
 
-		MemberService.findById(memberId)
+		return MemberService.findById(memberId)
 			.then((memberFinded) => {
 				member = memberFinded;
 				return MeasurementService.findArchivedMeasurementsBy(memberFinded, measurementName.toUpperCase());

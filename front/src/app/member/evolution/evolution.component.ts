@@ -51,6 +51,9 @@ export class EvolutionComponent implements OnInit {
 				})
 				.subscribe((previsionsPoints) => {
 						this.previsionsPoints = previsionsPoints;
+						this.evolutionMeasurementPoints = null;
+						const lastFocused = this.focusedMeasurement;
+						this.focusedMeasurement = null;
 					},
 					(errorMsg) => {
 						console.error(errorMsg);

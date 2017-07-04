@@ -16,8 +16,8 @@ const ArchivedMeasurementsSchema = new Schema({
                 'LEFT_ARM',
                 'RIGHT_CALF',
                 'LEFT_CALF',
-                'THIGH_LEFT',
-                'THIGH_RIGHT',
+                'LEFT_THIGH',
+                'RIGHT_THIGH',
                 'WEIGHT',
                 'SIZE'
             ]
