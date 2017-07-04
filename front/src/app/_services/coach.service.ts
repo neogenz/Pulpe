@@ -5,16 +5,17 @@ import {Observable} from "rxjs";
 import {Coach} from "../_model/Coach";
 import {LocalStorageService} from "angular-2-local-storage";
 import {environment} from '../../environments/environment'
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class CoachService extends ObservableHelper {
 
-	constructor(private http: Http, private localStorageService: LocalStorageService) {
+	constructor(private http: AuthHttp, private localStorageService: LocalStorageService) {
 		super();
 	}
 
-	public findById(id: string): Observable<Coach | string> {
-		return this.http.get(`${environment.baseUrl()}/coachs/${id}`)
+	public findAuthenticated(): Observable<Coach | string> {
+		return this.http.get(`${environment.baseUrl()}/coachs`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				return Coach.of()

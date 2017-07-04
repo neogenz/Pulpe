@@ -5,11 +5,12 @@ import {Observable} from "rxjs";
 import {LocalStorageService} from "angular-2-local-storage";
 import {Gym} from "../../_model/Gym";
 import {environment} from '../../../environments/environment'
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class GymService extends ObservableHelper {
 
-  constructor(private http: Http, private localStorageService: LocalStorageService) {
+  constructor(private http: AuthHttp, private localStorageService: LocalStorageService) {
     super();
   }
 

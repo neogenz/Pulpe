@@ -1,19 +1,5 @@
 @import "../../../assets/style/colors";
 
-.exerciseTitle {
-  font-size: 1.15rem;
-  font-weight: 400;
-  //background-color: @accent-color;
-  color: $accent-color;
-}
-
-.exerciseDetails {
-  color: rgba(0, 0, 0, .54);
-  font-size: 1rem;
-  font-weight: 400;
-  font-style: italic;
-}
-
 .goals {
   background-color: $accent-color;
   color: white !important;

@@ -66,7 +66,7 @@
                 </ul>
                 <ul class="mynav" *ngIf="profileService.profileIsCoach()">
                     <li class="sidebar-link pt-2 pb-3" [routerLinkActive]="['active']"
-                        [routerLink]="['profile/coach/', authenticationProfile.id]"
+                        [routerLink]="['profile/coach/']"
                         *ngIf="profileService.profileIsCompleted()">
                         <a>
                             <i class="material-icons">person</i>

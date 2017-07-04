@@ -11,6 +11,26 @@ class MemberController {
 	constructor() {
 	}
 
+
+	/**
+	 * Find authenticated member
+	 * @param {*} req 
+	 * @param {*} res 
+	 */
+	static findAuthenticated(req, res){
+		const id = req.user._id;
+
+		MemberService.findById(id)
+			.then(member => {
+				res.send({member: member});
+			})
+			.catch((error) => {
+				winston.log('error', error);
+				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+				return res.status(httpError.code).send(httpError);
+			});
+	}
+
 	/**
 	 * Find a member by an id.
 	 * @param req
@@ -36,7 +56,7 @@ class MemberController {
 	 * @param res
 	 */
 	static addMeasurements(req, res) {
-		const memberId = req.params.id;
+		const memberId = req.user._id;
 		const measurements = req.body.measurements;
 
 		MemberService.addMeasurements(memberId, measurements)
@@ -55,7 +75,7 @@ class MemberController {
 	 * @param res
 	 */
 	static completeProfile(req, res) {
-		const memberId = req.params.id,
+		const memberId = req.user._id,
 			measurements = req.body.measurements,
 			gymId = req.body.gymId,
 			sessionFrequency = req.body.sessionFrequency,
@@ -134,8 +154,8 @@ class MemberController {
 	 * @param req
 	 * @param res
 	 */
-	static findAllByCoach(req, res) {
-		const id = req.params.id;
+	static findAllByAuthenticatedCoach(req, res) {
+		const id = req.user._id;
 
 		MemberService.findAllByCoach(id)
 			.then(members => {

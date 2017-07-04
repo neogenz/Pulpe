@@ -91,7 +91,7 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
-		path: 'profile/coach/:id',
+		path: 'profile/coach',
 		component: ProfileCoachComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService],
 		resolve: {

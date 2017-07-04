@@ -11,6 +11,6 @@ export class MembersResolver implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Member[]> | Promise<Member[]> | Member[] {
-    return this.memberService.findAllByCoach(route.params['idCoach']);
+    return this.memberService.findAllByAuthenticatedCoach();
   }
 }

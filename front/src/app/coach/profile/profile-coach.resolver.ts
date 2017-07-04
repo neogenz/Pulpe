@@ -11,6 +11,6 @@ export class ProfileCoachResolver implements Resolve<any> {
 	}
 
 	resolve(route: ActivatedRouteSnapshot): Observable<Coach> | Promise<Coach> | Coach {
-		return this.coachService.findById(route.params['id']);
+		return this.coachService.findAuthenticated();
 	}
 }

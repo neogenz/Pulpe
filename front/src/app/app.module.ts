@@ -285,7 +285,7 @@ export function programServiceFactory(IS_PROD: boolean, localStorage: LocalStora
 	return new ProgramMockService();
 }
 
-export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
+export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: AuthHttp) {
 	//if (IS_PROD) {
 	return new MemberService(http, localStorage);
 	//}

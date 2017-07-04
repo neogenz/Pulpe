@@ -4,13 +4,13 @@ const MemberController = require('../_controllers/member.controller');
 
 class MemberRouter {
 	constructor(provider) {
-		provider.get('/members/:id', MemberController.findById);
-		provider.get('/members/coachs/:id', MemberController.findAllByCoach);
-		provider.put('/members/:id/measurements', MemberController.addMeasurements);
-		provider.post('/members/:id/profile/completed', MemberController.completeProfile);
+		provider.get('/members', AuthenticationController.ensureAuthorized, MemberController.findAuthenticated);
+		provider.get('/members/coachs', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, MemberController.findAllByAuthenticatedCoach);
+		provider.put('/members/measurements', AuthenticationController.ensureAuthorized, MemberController.addMeasurements);
+		provider.post('/members/profile/complete',AuthenticationController.ensureAuthorized, MemberController.completeProfile);
 		provider.get('/efficientPrevisions/members', AuthenticationController.ensureAuthorized, MemberController.findEfficientPrevisions);
 		provider.put('/members', AuthenticationController.ensureAuthorized, MemberController.update);
-		provider.post('/members', MemberController.create);
+		provider.post('/members', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, MemberController.create);
 	}
 }
 

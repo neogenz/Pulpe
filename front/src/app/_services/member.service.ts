@@ -7,16 +7,17 @@ import {LocalStorageService} from "angular-2-local-storage";
 import {environment} from '../../environments/environment'
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {Point} from "../_model/Point";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class MemberService extends ObservableHelper {
 
-	constructor(private http: Http, private localStorageService: LocalStorageService) {
+	constructor(private http: AuthHttp, private localStorageService: LocalStorageService) {
 		super();
 	}
 
-	public findAllByCoach(id: string): Observable<Member[]> {
-		return this.http.get(`${environment.baseUrl()}/members/coachs/${id}`)
+	public findAllByAuthenticatedCoach(): Observable<Member[]> {
+		return this.http.get(`${environment.baseUrl()}/members/coachs`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				const members = [];
@@ -42,7 +43,7 @@ export class MemberService extends ObservableHelper {
 	}
 
 	public findById(id: string): Observable<Member | string> {
-		return this.http.get(`${environment.baseUrl()}/members/${id}`)
+		return this.http.get(`${environment.baseUrl()}/members`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				return Member.of()
@@ -61,8 +62,8 @@ export class MemberService extends ObservableHelper {
 			}).catch(this.handleError);
 	}
 
-	public addMeasurements(memberId: string, measurements: any): Observable<Member | string> {
-		return this.http.put(`${environment.baseUrl()}/members/${memberId}/measurements`, {
+	public addMeasurementsOnAuthenticatedMember(measurements: any): Observable<Member | string> {
+		return this.http.put(`${environment.baseUrl()}/members/measurements`, {
 			measurements: measurements
 		}).map(response => {
 			const data: any = this.extractDataOf(response);

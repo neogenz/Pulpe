@@ -8,11 +8,12 @@ import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import * as moment from "moment/moment";
 import {environment} from "../../../environments/environment";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class ProfileService extends ObservableHelper {
 
-	constructor(private authService: AuthenticationService, private measurementEnumService: MeasurementEnumService, private http: Http) {
+	constructor(private authService: AuthenticationService, private measurementEnumService: MeasurementEnumService, private http: AuthHttp) {
 		super();
 	}
 
@@ -34,8 +35,7 @@ export class ProfileService extends ObservableHelper {
 	}
 
 	public completeMemberProfile(gymId: string, size: Measurement, weight: Measurement, frequency: number, birthdate: Date, objective: string, gender: string): Observable<AuthenticationProfile|string> {
-		const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-		const url = `${environment.baseUrl()}/members/${profile.id}/profile/completed`;
+		const url = `${environment.baseUrl()}/members/profile/complete`;
 		const body = {
 			measurements: [
 				{
@@ -66,8 +66,7 @@ export class ProfileService extends ObservableHelper {
 	}
 
 	public completeCoachProfile(gymId: string, nameGym: string, addressGym: string, cityGym: string, birthdate: Date, gender: string): Observable<AuthenticationProfile|string> {
-		const profile: AuthenticationProfile = this.authService.getAuthenticationProfileInLocalStorage();
-		const url = `${environment.baseUrl()}/coachs/${profile.id}/profile/completed`;
+		const url = `${environment.baseUrl()}/coachs/profile/complete`;
 		const body = {
 			birthDate: moment(birthdate).format('YYYY-MM-DD'),
 			gender: gender,

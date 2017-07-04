@@ -208,7 +208,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
         break;
       case ExerciseGroupTypeEnum.OrganizedExercise:
         (exercise as OrganizedExercise).difficulty =
-          this.difficultyConverter.getEnumFromName(this.exerciseForm.get('specifics').get('difficulty').value);
+          this.difficultyConverter.getEnumFromLabel(this.exerciseForm.get('specifics').get('difficulty').value);
         break;
     }
   }

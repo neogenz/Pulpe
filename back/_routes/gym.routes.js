@@ -5,8 +5,8 @@ const GymController = require('../_controllers/gym.controller');
 
 class GymRouter {
 	constructor(provider) {
-		provider.get('/gyms', GymController.findAll);
-		provider.get('/gyms/stats', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, GymController.findStatistiques);
+		provider.get('/gyms', AuthenticationController.ensureAuthorized, GymController.findAll);
+		provider.get('/gyms/stats', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, GymController.findStatistics);
 	}
 }
 

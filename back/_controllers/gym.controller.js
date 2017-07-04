@@ -29,7 +29,7 @@ class GymController {
 			});
 	}
 
-	static findStatistiques(req, res) {
+	static findStatistics(req, res) {
 		const coachId = req.user._id;
 		let gym;
 		let nbMembers;

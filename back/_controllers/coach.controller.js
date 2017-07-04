@@ -1,6 +1,7 @@
 const CoachService = require('../_services/coach.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const GenderEnum = require('../_enums/GenderEnum');
+const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 
 class CoachController {
 	constructor() {
@@ -11,8 +12,8 @@ class CoachController {
 	 * @param req
 	 * @param res
 	 */
-	static findById(req, res) {
-		const id = req.params.id;
+	static findByAuthenticatedId(req, res) {
+		const id = req.user._id;
 
 		CoachService.findById(id)
 			.then(coach => {
@@ -31,7 +32,7 @@ class CoachController {
 	 * @param res
 	 */
 	static completeProfile(req, res) {
-		const coachId = req.params.id,
+		const coachId = req.user._id,
 			birthDate = new Date(req.body.birthDate),
 			gym = req.body.gym;
 
@@ -54,6 +55,10 @@ class CoachController {
 	 * @param res
 	 */
 	static update(req, res) {
+		if(req.body.coach._id.toString() !== req.user._id.toString()){
+			const httpError = HttpErrorHelper.buildHttpErrorBy(HTTP_CODE.FORBIDDEN, null, 'L\'ahdérent à modifier doit être celui connecté.');
+			return res.status(httpError.code).send(httpError);
+		}
 		const coach = req.body.coach;
 
 		CoachService.update(coach)

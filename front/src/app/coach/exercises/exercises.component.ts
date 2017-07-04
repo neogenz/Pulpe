@@ -122,7 +122,7 @@ export class ExercisesComponent implements OnInit {
 
 	doFilterExercises(filtersArgs: string) {
 		this.filterArgs = null;
-		if (filtersArgs.length > 0) {
+		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
 			this.filteredExercises= this.filterExercises.transform(this.exercises, filtersArgs);
 		}else{

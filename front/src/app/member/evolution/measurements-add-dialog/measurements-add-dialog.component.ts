@@ -245,7 +245,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
       let profileInLocalStorage: string = this.localStorage.get<string>('profile');
       if (profileInLocalStorage) {
         this.authenticationProfile = JSON.parse(profileInLocalStorage);
-        this.memberRequest = this.memberService.addMeasurements(this.authenticationProfile.id, measurements);
+        this.memberRequest = this.memberService.addMeasurementsOnAuthenticatedMember(measurements);
         this.slimLoadingBarService.start();
         this.memberRequest
           .finally(() => {
