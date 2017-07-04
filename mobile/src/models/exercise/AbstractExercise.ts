@@ -1,8 +1,8 @@
-import { ServerWorkedMuscle, WorkedMuscle } from "../WorkedMuscle";
-import { ExerciseGroupTypeEnum } from "../../enums/ExerciseGroupTypeEnum";
-import { Machine, ServerMachine } from "../Machine";
-import { MuscleConverter } from "../../shared/converters/MuscleConverter";
-import { MuscleEnum } from "../../enums/MuscleEnum";
+import {ServerWorkedMuscle, WorkedMuscle} from "../WorkedMuscle";
+import {ExerciseGroupTypeEnum} from "../../enums/ExerciseGroupTypeEnum";
+import {Machine, ServerMachine} from "../Machine";
+import {MuscleConverter} from "../../shared/converters/MuscleConverter";
+import {MuscleEnum} from "../../enums/MuscleEnum";
 export abstract class AbstractExercise {
 
   id: number;
@@ -11,14 +11,16 @@ export abstract class AbstractExercise {
   workedMuscles: WorkedMuscle[];
   approximateTime: number;
   type: ExerciseGroupTypeEnum;
+  order: number;
 
-  constructor(id: number, name: string, machines: Machine[], type: ExerciseGroupTypeEnum) {
+  constructor(id: number, name: string, machines: Machine[] = [], type: ExerciseGroupTypeEnum, order: number = 0) {
     this.id = id;
     this.name = name;
-    this.machines = machines ? machines : [];
+    this.machines = machines;
     this.type = type;
     this.workedMuscles = [];
     this.approximateTime = 0;
+    this.order = order;
   }
 
   initFromRawObject(rawObject: any): AbstractExercise {

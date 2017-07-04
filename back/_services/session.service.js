@@ -34,13 +34,29 @@ class SessionService {
   }
 
 
-  static async doneThisSessionBy(session, program) {
+  /**
+   * Save new session executed and pass session to do to next.
+   * @param session
+   * @param program
+   * @returns {Promise.<void>}
+   */
+  static async doneThisSessionBy(sessionDone, program) {
     try {
       const sessionExecuted = new SessionExecuted({
-        _session: session,
-        _program:program,
-        dayOfExecution:moment().date.format('dddd')
-      })
+        _session: sessionDone,
+        _program: program,
+        dayOfExecution: moment().format('dddd')
+      });
+      await sessionExecuted.save();
+      const sessionToUpdate = program.sessions.find(s => s._id.equals(sessionDone._id));
+      sessionToUpdate.doneCounter++;
+      const indexOfSessionDone = program.sessions.findIndex(s => s._id.equals(sessionDone._id));
+      let indexOfNextSession = 0;
+      if ((program.sessions.length - 1) !== indexOfSessionDone) {
+        indexOfNextSession = indexOfSessionDone + 1;
+      }
+      program._sessionTodo = program.sessions[indexOfNextSession]._id;
+      await program.save();
     } catch (error) {
       throw error;
     }
@@ -634,7 +650,7 @@ class SessionService {
       case 6:
         daysSessionRepartition = ['Lundi', 'Mardi', 'Mercredi', 'Vendredi', 'Samedi', 'Dimanche'];
         break;
-      case 6:
+      case 7:
         daysSessionRepartition = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
         break;
     }
@@ -702,9 +718,7 @@ function merge(first, second, mergingCallback) {
   let i = 0;
   let size = first.length;
   second.forEach(n => {
-    var obj = {};
-    obj[first[i]] = n;
-    mergingCallback(second[i], first[i]);
+    mergingCallback(n, first[i]);
     i = (++i >= size) ? 0 : i;
   });
 }

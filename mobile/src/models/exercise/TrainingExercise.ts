@@ -12,8 +12,8 @@ export class TrainingExercise extends AbstractExercise {
   recovery: number;
   difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.TrainingExercise);
+  constructor(id: number, name: string, machines: Machine[], order:number = 0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.TrainingExercise, order);
     this.times = 0;
     this.km = 0;
     this.calories = 0;

@@ -10,12 +10,15 @@
 <ion-content>
     <ion-row *ngIf="session">
         <ion-col text-center>
-            <h3><span class="w-300">Ma prochaine séance est ce</span> <span class="primary">{{session.dayInWeek}}</span></h3>
+            <h3><span class="w-300">Ma prochaine séance est ce</span> <span class="primary">{{session.dayInWeek}}</span>
+            </h3>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col text-center>
-            <button ion-button round (click)="startSession()" color="secondary">Démarrer ma séance</button>
+            <button ion-button round (click)="startSession()" [disabled]="exercises.length<=0" color="secondary">
+                Démarrer ma séance
+            </button>
         </ion-col>
     </ion-row>
     <div *ngIf="exercises.length>0;else empty">

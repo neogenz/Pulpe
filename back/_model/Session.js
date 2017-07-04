@@ -22,7 +22,7 @@ const SessionSchema = new Schema({
   mainMusclesGroup: {
     type: [String]
   },
-  doneCounter: Number,
+  doneCounter: {type: Number, default: 0},
   training: Boolean,
   updatedAt: Date,
   createdAt: Date

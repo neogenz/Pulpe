@@ -44,7 +44,8 @@ export class Session {
     this.exercisesGroups.forEach(eg => {
       exercises = eg.exercises.concat(exercises);
     });
-    return exercises;
+    const exercisesOrdered = exercises.sort((a, b) => a.order - b.order);
+    return exercisesOrdered;
   }
 }
 

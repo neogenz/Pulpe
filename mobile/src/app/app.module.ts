@@ -6,22 +6,11 @@ import {Storage, IonicStorageModule} from '@ionic/storage';
 
 import {MyApp} from './app.component';
 
-import {CardsPage} from '../pages/cards/cards';
-import {ContentPage} from '../pages/content/content';
-import {ItemCreatePage} from '../pages/item-create/item-create';
-import {ItemDetailPage} from '../pages/item-detail/item-detail';
-import {ListMasterPage} from '../pages/list-master/list-master';
 import {LoginPage} from '../pages/login/login';
-import {MapPage} from '../pages/map/map';
-import {SearchPage} from '../pages/search/search';
-import {SettingsPage} from '../pages/settings/settings';
-import {TabsPage} from '../pages/tabs/tabs';
 import {TutorialPage} from '../pages/tutorial/tutorial';
 import {WelcomePage} from '../pages/welcome/welcome';
 
 import {Api} from '../providers/api';
-import {Items} from '../mocks/providers/items';
-import {Settings} from '../providers/settings';
 import {User} from '../providers/user';
 
 import {Camera} from '@ionic-native/camera';
@@ -44,9 +33,8 @@ import {ExercisePreviewComponent} from '../components/exercise-preview/exercise-
 import {SessionExecutionPage} from "../pages/session-execution/session-execution";
 import {ExerciseTrainingExecutionComponent} from '../components/exercise-training-execution/exercise-training-execution';
 import {ExerciseExecutionComponent} from '../components/exercise-execution/exercise-execution';
-import {ExerciseTrainingExecutionComponentModule} from "../components/exercise-training-execution/exercise-training-execution.module";
-import { ExerciseBodybuildingExecutionComponent } from '../components/exercise-bodybuilding-execution/exercise-bodybuilding-execution';
-import { ExerciseOrganizedExecutionComponent } from '../components/exercise-organized-execution/exercise-organized-execution';
+import {ExerciseBodybuildingExecutionComponent} from '../components/exercise-bodybuilding-execution/exercise-bodybuilding-execution';
+import {ExerciseOrganizedExecutionComponent} from '../components/exercise-organized-execution/exercise-organized-execution';
 import {TranslateObjectiveNamePipe} from "../shared/pipes/translateObjectiveName.filter.pipe";
 import {TranslateWorkedMuscleName} from "../shared/pipes/workedMuscle.trad.filter.pipe";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -57,34 +45,10 @@ export function HttpLoaderFactory(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-export function provideSettings(storage: Storage) {
-  /**
-   * The Settings provider takes a set of default settings for your app.
-   *
-   * You can add new settings options at any time. Once the settings are saved,
-   * these values will not overwrite the saved values (this can be done manually if desired).
-   */
-  return new Settings(storage, {
-    option1: true,
-    option2: 'Ionitron J. Framework',
-    option3: '3',
-    option4: 'Hello'
-  });
-}
-
 @NgModule({
   declarations: [
     MyApp,
-    CardsPage,
-    ContentPage,
-    ItemCreatePage,
-    ItemDetailPage,
-    ListMasterPage,
     LoginPage,
-    MapPage,
-    SearchPage,
-    SettingsPage,
-    TabsPage,
     TutorialPage,
     WelcomePage,
     SessionPage,
@@ -116,16 +80,7 @@ export function provideSettings(storage: Storage) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    CardsPage,
-    ContentPage,
-    ItemCreatePage,
-    ItemDetailPage,
-    ListMasterPage,
     LoginPage,
-    MapPage,
-    SearchPage,
-    SettingsPage,
-    TabsPage,
     TutorialPage,
     WelcomePage,
     SessionPage,
@@ -133,7 +88,6 @@ export function provideSettings(storage: Storage) {
   ],
   providers: [
     Api,
-    Items,
     User,
     Camera,
     GoogleMaps,
@@ -144,7 +98,6 @@ export function provideSettings(storage: Storage) {
     MuscleConverter,
     ObjectiveConveter,
     StatusBar,
-    {provide: Settings, useFactory: provideSettings, deps: [Storage]},
     // Keep this to enable Ionic's runtime error handling during development
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {

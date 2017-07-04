@@ -1,8 +1,8 @@
-import { AbstractExercise, ServerAbstractExercise } from "./AbstractExercise";
-import { ExerciseGroupTypeEnum } from "../../enums/ExerciseGroupTypeEnum";
-import { DifficultyEnum } from "../../enums/DifficultyEnum";
-import { DifficultyConverter } from "../../shared/converters/DifficultyConverter";
-import { Machine } from "../Machine";
+import {AbstractExercise, ServerAbstractExercise} from "./AbstractExercise";
+import {ExerciseGroupTypeEnum} from "../../enums/ExerciseGroupTypeEnum";
+import {DifficultyEnum} from "../../enums/DifficultyEnum";
+import {DifficultyConverter} from "../../shared/converters/DifficultyConverter";
+import {Machine} from "../Machine";
 
 export class CardioExercise extends AbstractExercise {
   times: number[];
@@ -12,8 +12,8 @@ export class CardioExercise extends AbstractExercise {
   recovery: number;
   difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.CardioExercise);
+  constructor(id: number, name: string, machines: Machine[], order: number = 0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.CardioExercise, order);
     this.times = [];
     this.km = 0;
     this.calories = 0;

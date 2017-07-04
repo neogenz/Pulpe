@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, LoadingController, Loading, ViewController} from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams, LoadingController, Loading, ViewController,
+  AlertController
+} from 'ionic-angular';
 import {SessionService} from "../../providers/providers";
 import {Session} from "../../models/Session";
 import {AbstractExercise} from "../../models/exercise/AbstractExercise";
 import {TranslateService} from "@ngx-translate/core";
-import {SessionExecutionContext} from "../../models/SessionExecutionContext";
 import {SessionExecutionPage} from "../session-execution/session-execution";
-import {Observable} from "rxjs/Observable";
 
 /**
  * Generated class for the SessionPage page.
@@ -24,13 +25,15 @@ export class SessionPage {
   public session: Session = null;
   public exercises: AbstractExercise[] = [];
   private loader: Loading;
+  private newSessionTodo: Session = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private sessionService: SessionService,
               private loadingCtrl: LoadingController,
               public translateService: TranslateService,
-              private viewCtrl: ViewController) {
+              private viewCtrl: ViewController,
+              private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
@@ -40,6 +43,10 @@ export class SessionPage {
 
   ionViewWillEnter() {
     console.debug('session.ts => ionViewWillEnter');
+    if (this.newSessionTodo) {
+      this.session = this.newSessionTodo;
+      this.newSessionTodo = null;
+    }
     if (!this.session) {
       this.presentLoading(this.translateService.instant('LOADING_ACTIVE_SESSION'));
       this.loadExercisesOfActiveSession();
@@ -57,13 +64,28 @@ export class SessionPage {
         this.session = session;
         this.exercises = session.getExercises();
         this.loader.dismiss();
+      }, errorMsg => {
+        let alert = this.alertCtrl.create({
+          title: 'Erreur',
+          subTitle: errorMsg,
+          buttons: ['OK']
+        });
+        alert.present();
       });
   }
 
   startSession() {
     this.navCtrl.push(SessionExecutionPage, {
-      session: this.session
+      session: this.session,
+      callbackToSetNewSessionTodo: this.popCallbackInvokedFromSessionExecutionPage
     });
   }
+
+  popCallbackInvokedFromSessionExecutionPage = (_params) => {
+    return new Promise((resolve, reject) => {
+      this.newSessionTodo = _params;
+      resolve();
+    });
+  };
 
 }

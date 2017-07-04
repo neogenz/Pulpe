@@ -20,7 +20,8 @@ const ExerciseSchema = new Schema({
   _gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date,
-  priorityInProgramAutoGeneration: {type: Boolean, default: false}
+  priorityInProgramAutoGeneration: {type: Boolean, default: false},
+  order: Number
 });
 
 ExerciseSchema.pre('save', function (next) {

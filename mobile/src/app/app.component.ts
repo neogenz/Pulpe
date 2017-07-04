@@ -4,11 +4,8 @@ import {Platform, Nav, Config, Loading, LoadingController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
-import {LoginPage} from '../pages/login/login';
 import {TutorialPage} from '../pages/tutorial/tutorial';
 import {WelcomePage} from '../pages/welcome/welcome';
-
-import {Settings} from '../providers/providers';
 
 import {TranslateService} from '@ngx-translate/core'
 import {Storage} from "@ionic/storage";
@@ -48,7 +45,6 @@ export class MyApp {
   constructor(private loadingCtrl: LoadingController,
               private translate: TranslateService,
               private platform: Platform,
-              settings: Settings,
               private config: Config,
               private statusBar: StatusBar,
               private splashScreen: SplashScreen,
