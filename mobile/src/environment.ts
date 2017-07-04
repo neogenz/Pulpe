@@ -9,7 +9,7 @@ export const environment = {
   domain: '172.20.10.2',//'172.20.10.2',
   port: '5000',
   protocol: 'http',
-  baseUrl(){
+  baseUrl() {
     return `${this.protocol}://${(this.subdomain ? (this.subdomain + '.') : '')}${this.domain}:${this.port}`
   }
 };

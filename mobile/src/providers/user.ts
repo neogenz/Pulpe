@@ -6,62 +6,42 @@ import {JwtHelper} from "angular2-jwt/angular2-jwt";
 import 'rxjs/add/operator/toPromise';
 import {Storage} from '@ionic/storage';
 import {AuthenticationProfile} from "../models/AuthenticationProfile";
+import {ObservableHelper} from "../helpers/ObserverHelper";
+import {Observable} from 'rxjs/Rx';
 
-/**
- * Most apps have the concept of a User. This is a simple provider
- * with stubs for login/signup/etc.
- *
- * This User provider makes calls to our API at the `login` and `signup` endpoints.
- *
- * By default, it expects `login` and `signup` to return a JSON object of the shape:
- *
- * ```json
- * {
- *   status: 'success',
- *   user: {
- *     // User fields your app needs, like "id", "name", "email", etc.
- *   }
- * }
- * ```
- *
- * If the `status` field is not `success`, then an error is detected and returned.
- */
 @Injectable()
-export class User {
+export class User extends ObservableHelper {
   _user: any;
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(public http: Http, public api: Api, private storage: Storage) {
+    super();
   }
 
   /**
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
    */
-  signin(accountInfo: any) {
-    let seq = this.api.post('signin', accountInfo).share();
-    seq
-      .map(res => res.json())
-      .subscribe(res => {
-        // If the API returned a successful response, mark the user as logged in
-        this.storage.set('token', res.token);
-        const rawProfile = this.jwtHelper.decodeToken(res.token);
-        let authProfile = AuthenticationProfile.of().token(res.token)
+  signin(accountInfo: any): Observable<AuthenticationProfile> {
+    return this.api.post('signin', accountInfo)
+      .map(res => {
+        const data: any = this.extractDataOf(res);
+        const token: string = data.token;
+        const rawProfile = this.jwtHelper.decodeToken(token);
+        this.storage.set('token', token);
+        let authProfile = AuthenticationProfile.of().token(token)
           .login(rawProfile.email)
           .id(rawProfile._id)
           .profileCompleted(rawProfile.profileCompleted)
           .firstName(rawProfile.firstName)
-          .isCoach(res.isCoach)
+          .isCoach(data.isCoach)
           .gym(rawProfile.gym)
           .lastName(rawProfile.lastName)
           .password(accountInfo.password).build();
         this._loggedIn(authProfile);
         this.storage.set('profile', authProfile);
-      }, err => {
-        console.error('ERROR', err);
-      });
-
-    return seq;
+        return authProfile;
+      }).catch(this.handleError);
   }
 
   /**

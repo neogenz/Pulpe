@@ -62,7 +62,8 @@ export class ExerciseGroupCodeConverter {
     let groupTypeEnumValue = '';
     let groupTypeLabel = '';
     let exercisesGroupAlreadyPresent: ExercisesGroup = null;
-    rawExecises.forEach(rawExercise => {
+    const rawExercisesOrdered = rawExecises.sort((a, b) => a.order - b.order);
+    rawExercisesOrdered.forEach(rawExercise => {
       groupTypeEnumValue = ExerciseGroupTypeEnum[rawExercise.__t];
       groupTypeLabel = ExerciseGroupTypeEnum[groupTypeEnumValue];
       exercisesGroupAlreadyPresent = exercisesGroups.find(exercisesGroup => exercisesGroup.isGroupOf(groupTypeLabel));

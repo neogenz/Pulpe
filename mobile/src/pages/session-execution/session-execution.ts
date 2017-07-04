@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {Session} from "../../models/Session";
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {SessionExecutionContext} from "../../models/SessionExecutionContext";
-import {AbstractExercise} from "../../models/exercise/AbstractExercise";
 import {ExerciseExecutionContext} from "../../models/ExerciceExecutionContext";
-import {ExerciseExecutionComponent} from "../../components/exercise-execution/exercise-execution";
-import {SessionPage} from "../session/session";
+import {SessionService} from "../../providers/sessions";
+import {TranslateService} from "@ngx-translate/core";
 
 /**
  * Generated class for the SessionExecutionPage page.
@@ -21,8 +19,15 @@ import {SessionPage} from "../session/session";
 export class SessionExecutionPage {
   private sessionExecutionContext: SessionExecutionContext;
   public currentExerciseExecutionContext: ExerciseExecutionContext;
+  private _callbackToSetNewSessionTodo: any;
+  private _loader: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private alertCtrl: AlertController,
+              private sessionService: SessionService,
+              private loadingCtrl: LoadingController,
+              private translateService: TranslateService) {
     this.sessionExecutionContext = new SessionExecutionContext(navParams.get('session'));
     this.currentExerciseExecutionContext = this.sessionExecutionContext.getExerciseExecutionContext();
     this.sessionExecutionContext.start();
@@ -33,6 +38,7 @@ export class SessionExecutionPage {
   }
 
   ionViewWillEnter() {
+    this._callbackToSetNewSessionTodo = this.navParams.get("callbackToSetNewSessionTodo");
   }
 
   nextExercise() {
@@ -48,13 +54,18 @@ export class SessionExecutionPage {
   private _presentDoneSessionAlert() {
     let alert = this.alertCtrl.create({
       title: 'Bravo !',
-      subTitle: 'Yes ! Un pas de plus vers ton objectif !',
-
+      subTitle: 'Un pas de plus vers ton objectif !',
       buttons: [
         {
-          text: 'Ma séance',
+          text: 'Ma prochaine séance',
           handler: () => {
-            this.navCtrl.pop()
+            this.presentLoading(this.translateService.instant('LOADING_ACTIVE_SESSION'));
+            this.sessionService.doneCurrentSession().subscribe(newSessionTodo => {
+              this._callbackToSetNewSessionTodo(newSessionTodo).then(() => {
+                this._loader.dismiss();
+                this.navCtrl.pop();
+              });
+            });
           }
         }
       ]
@@ -83,5 +94,10 @@ export class SessionExecutionPage {
       ]
     });
     alert.present();
+  }
+
+  presentLoading(text: string): void {
+    this._loader = this.loadingCtrl.create({content: text});
+    this._loader.present();
   }
 }

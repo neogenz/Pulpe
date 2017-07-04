@@ -17,6 +17,11 @@ class ProgramService {
   }
 
 
+  /**
+   *
+   * @param {Member|number} memberId Member or memberId
+   * @returns {Promise.<Session>}
+   */
   static async findSessionTodoBy(memberId) {
     try {
       const populationGraph = {
@@ -27,14 +32,26 @@ class ProgramService {
           model: 'Machine'
         }
       };
+      let saveProgram = false;
       let programs = await Program.find().ofThisMember(memberId).isActive().populate(populationGraph);
       const programActive = programs[0];
+      const dayOfWeekOnToday = moment().day(moment().day()).isoWeekday();
       for (let i = 0; i < programActive.sessions.length; i++) {
         if (programActive.sessions[i]._id.equals(programActive._sessionTodo)) {
-          return programActive.sessions[i];
+          if (moment().day(programActive.sessions[i].dayInWeek).isoWeekday() >= dayOfWeekOnToday) {
+            return programActive.sessions[i];
+          }
+          else {
+            if (_haveNextSession(programActive.sessions, i)) {
+              programActive._sessionTodo = programActive.sessions[i+1]._id;
+              saveProgram = true;
+            }
+          }
         }
       }
-      throw new NotFoundError('This user don\'t have current session.');
+      programActive._sessionTodo = programActive.sessions[0];
+      await programActive.save();
+      return programActive.session[0];
     }
     catch (error) {
       if (!(error instanceof NotFoundError)) {
@@ -136,6 +153,10 @@ class ProgramService {
         throw error;
       });
   }
+}
+
+function _haveNextSession(sessions, currentIndex) {
+  return (sessions.length - 1) >= (currentIndex + 1);
 }
 
 module.exports = ProgramService;

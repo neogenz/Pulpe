@@ -74,7 +74,9 @@ class ProgramController {
       const memberId = req.user._id;
       const program = await ProgramService.findByMemberId(memberId);
       const sessionToMarkDone = await ProgramService.findSessionTodoBy(memberId);
-      SessionService.doneThisSessionBy(sessionToMarkDone, program);
+      await SessionService.doneThisSessionBy(sessionToMarkDone, program);
+      const newSessionTodo = await ProgramService.findSessionTodoBy(memberId);
+      return res.send({newSessionTodo: newSessionTodo});
     } catch (error) {
       console.error(error.stack);
       const httpError = HttpErrorHelper.buildHttpErrorByError(error);
