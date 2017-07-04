@@ -93,7 +93,7 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 	buildForm() {
 		this.frequencyRange = {
 			min: 1,
-			max: 25
+			max: 7
 		};
 		this.emailCtrl = this.fb.control(this.member.email, Validators.required);
 		this.firstNameCtrl = this.fb.control(this.member.firstName, Validators.required);
@@ -169,7 +169,8 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 			.subscribe((member) => {
 					this.result = member;
 					this.close();
-					this.toastrService.success('Votre profil a bien été mis à jour.', 'Succès');
+					this.toastrService.success((this.authenticationProfile.isCoach ?
+						'Ce profil a bien été mis à jour.' : 'Votre profil a bien été mis à jour.'), 'Succès');
 				},
 				(errorMsg) => {
 					console.error(errorMsg);

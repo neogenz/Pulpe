@@ -191,32 +191,32 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
       CustomValidators.minValue(this.chestRange.min),
       CustomValidators.maxValue(this.chestRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightArm));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Arm));
     this.rightArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightArmRange.min),
       CustomValidators.maxValue(this.rightArmRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftArm));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Arm));
     this.leftArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.leftArmRange.min),
       CustomValidators.maxValue(this.leftArmRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightCalf));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Calf));
     this.rightCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightCalfRange.min),
       CustomValidators.maxValue(this.rightCalfRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftCalf));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Calf));
     this.leftCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.leftCalfRange.min),
       CustomValidators.maxValue(this.leftCalfRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightThigh));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Thigh));
     this.rightThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.rightThighRange.min),
       CustomValidators.maxValue(this.rightThighRange.max)
     ]);
-    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftThigh));
+    elem = measurements.filter(m => m.name === this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Thigh));
     this.leftThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
       CustomValidators.minValue(this.leftThighRange.min),
       CustomValidators.maxValue(this.leftThighRange.max)
@@ -306,7 +306,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.leftArmCtrl.value) {
       const leftArm = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftArm),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Arm),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.leftArmCtrl.value
       };
@@ -314,7 +314,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.rightArmCtrl.value) {
       const rightArm = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightArm),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Arm),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.rightArmCtrl.value
       };
@@ -322,7 +322,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.leftCalfCtrl.value) {
       const leftCalf = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftCalf),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Calf),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.leftCalfCtrl.value
       };
@@ -330,7 +330,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.rightCalfCtrl.value) {
       const rightCalf = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightCalf),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Calf),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.rightCalfCtrl.value
       };
@@ -338,7 +338,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.leftThighCtrl.value) {
       const leftThigh = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.LeftThigh),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Left_Thigh),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.leftThighCtrl.value
       };
@@ -346,7 +346,7 @@ export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementA
     }
     if (this.rightThighCtrl.value) {
       const rightThigh = {
-        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.RightThigh),
+        name: this.measurementEnumService.getCodeFromName(MeasurementEnum.Name.Right_Thigh),
         unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
         value: this.rightThighCtrl.value
       };

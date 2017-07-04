@@ -17,17 +17,17 @@ export class MeasurementEnumService {
         return 'CHEST';
       case MeasurementEnum.Name.Shoulders:
         return 'SHOULDERS';
-      case MeasurementEnum.Name.RightArm:
+      case MeasurementEnum.Name.Right_Arm:
         return 'RIGHT_ARM';
-      case MeasurementEnum.Name.LeftArm:
+      case MeasurementEnum.Name.Left_Arm:
         return 'LEFT_ARM';
-      case MeasurementEnum.Name.RightCalf:
+      case MeasurementEnum.Name.Right_Calf:
         return 'RIGHT_CALF';
-      case MeasurementEnum.Name.LeftCalf:
+      case MeasurementEnum.Name.Left_Calf:
         return 'LEFT_CALF';
-      case MeasurementEnum.Name.RightThigh:
+      case MeasurementEnum.Name.Right_Thigh:
         return 'RIGHT_THIGH';
-      case MeasurementEnum.Name.LeftThigh:
+      case MeasurementEnum.Name.Left_Thigh:
         return 'LEFT_THIGH';
       case MeasurementEnum.Name.Size:
         return 'SIZE';

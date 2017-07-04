@@ -14,12 +14,12 @@ export class MeasurementConverter {
 		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Hip], 'Tour de hanche');
 		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Shoulders], 'Epaules');
 		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Chest], 'Tour de poitrine');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.LeftArm], 'Bras gauche');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.RightArm], 'Bras droit');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.LeftCalf], 'Mollet gauche');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.RightCalf], 'Mollet droite');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.RightThigh], 'Cuisse droite');
-		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.LeftThigh], 'Cuisse gauche');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Left_Arm], 'Bras gauche');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Right_Arm], 'Bras droit');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Left_Calf], 'Mollet gauche');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Right_Calf], 'Mollet droit');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Right_Thigh], 'Cuisse droite');
+		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Left_Thigh], 'Cuisse gauche');
 		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Waist], 'Tour de taille');
 		this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Weight], 'Poids');
 	}

@@ -13,11 +13,11 @@ export namespace MeasurementEnum {
     Waist,
     Chest,
     Shoulders,
-    RightArm,
-    LeftArm,
-    RightCalf,
-    LeftCalf,
-    RightThigh,
-    LeftThigh
+    Right_Arm,
+    Left_Arm,
+    Right_Calf,
+    Left_Calf,
+    Right_Thigh,
+    Left_Thigh
   }
 }
