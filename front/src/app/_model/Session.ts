@@ -1,7 +1,7 @@
-import {AbstractExercise} from "./exercise/AbstractExercise";
-import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
-import {ExercisesGroup} from "./exercise/ExercisesGroup";
-import {ExerciseFactory} from "./exercise/ExerciseFactory";
+import { AbstractExercise } from "./exercise/AbstractExercise";
+import { ExerciseGroupCodeConverter } from "../shared/ExerciseGroupCodeConverter";
+import { ExercisesGroup } from "./exercise/ExercisesGroup";
+import { ExerciseFactory } from "./exercise/ExerciseFactory";
 
 //todo refacto to enum for objective and musclegroup ?
 export class Session {
@@ -11,6 +11,7 @@ export class Session {
   mainMusclesGroup: string[];
   doneCounter: number;
   needTraining: boolean;
+  dayInWeek: string;
 
 
   constructor() {
@@ -94,6 +95,11 @@ class SessionBuilder {
 
   needTraining(needTraining: boolean): SessionBuilder {
     this.me.needTraining = needTraining;
+    return this;
+  }
+
+  dayInWeek(day: string): SessionBuilder {
+    this.me.dayInWeek = day;
     return this;
   }
 

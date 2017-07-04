@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
 import {FormBuilder, FormGroup, FormControl, Validators, FormArray} from "@angular/forms";
 import {Machine} from "../../../_model/Machine";

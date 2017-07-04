@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChildren, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import {Machine} from "../../_model/Machine";
 import {DialogService} from "ng2-bootstrap-modal";
 import {ActivatedRoute} from "@angular/router";
@@ -12,16 +12,19 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
 import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
 import {MachineDetailsDialogComponent} from "./machine-details-dialog/machine-details-dialog.component";
+import { FilterMachines } from "./machines.filter.pipe";
 
 @Component({
 	selector: 'pulpe-machines',
 	templateUrl: 'machines.component.html',
 	styleUrls: ['machines.component.scss'],
-	animations: [Animations.fadeIn()]
+	animations: [Animations.fadeIn()],
+	providers:[FilterMachines]
 })
 export class MachinesComponent implements OnInit {
 	machineRequest: Observable<Machine> = new Observable();
 	machines: Machine[];
+	filteredMachines: Machine[];
 	filterArgs: string;
 
 	constructor(private route: ActivatedRoute,
@@ -29,18 +32,25 @@ export class MachinesComponent implements OnInit {
 							private slimLoadingBarService: SlimLoadingBarService,
 							private muscleConverter: MuscleConverter,
 							private toastrService: ToastrService,
-							private machineService: MachineService) {
+							private machineService: MachineService,
+							private cdRef:ChangeDetectorRef,
+							private filterMachines:FilterMachines
+							) {
 	}
 
 	ngOnInit() {
 		this.machines = this.route.snapshot.data['machines'];
 		this.filterArgs = '';
+		this.filteredMachines = this.machines;
 	}
 
-	filterArgsChanged(filtersArgs: string) {
+	doFilterMachines(filtersArgs: string) {
 		this.filterArgs = null;
 		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
+			this.filteredMachines = this.filterMachines.transform(this.machines, filtersArgs);
+		}else{
+			this.filteredMachines = this.machines;
 		}
 	}
 

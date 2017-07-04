@@ -5,17 +5,16 @@
 
     <pulpe-header-list [title]="'Machines'"
                        [icon]="'ion ion-podium'"
-                       [nbElements]="machines.length"
+                       [nbElements]="filteredMachines.length"
                        [placeHolderTitle]="'Par nom'"
-                       (filterArgs)="filterArgsChanged($event)">
+                       (filterArgs)="doFilterMachines($event)">
     </pulpe-header-list>
-
     <div class="row pt-3">
-        <md-card class="col-md-12 my-auto text-center" *ngIf="machines.length === 0">
+        <md-card class="col-md-12 my-auto text-center" *ngIf="filteredMachines.length === 0">
             <div>Aucune machine</div>
         </md-card>
 
-        <table class="col-md-12 table table-striped bg-secondary" *ngIf="machines.length > 0">
+        <table class="col-md-12 table table-striped bg-secondary" *ngIf="filteredMachines.length > 0">
             <thead>
             <tr>
                 <th class="text-white text-center text-light-weight text-uppercase">Nom</th>
@@ -24,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let machine of machines | filterMachines: filterArgs" class="my-auto text-center">
+            <tr *ngFor="let machine of filteredMachines" class="my-auto text-center">
                 <td>{{machine.name}}</td>
                 <td><i *ngIf="machine.comment && machine.comment !== '' " class="ion ion-eye text-accent pointer"
                        [mdTooltipPosition]="'right'"
