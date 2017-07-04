@@ -154,13 +154,13 @@
                 <td>
                     <div class="row iconsList pull-right">
                         <div class="col-md-6">
+                            <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'exercice"
+                                    [mdTooltipPosition]="'right'" (click)="openExerciseFormDialogToEdit(exercise)"></button>
+                        </div>
+                        <div class="col-md-6">
                             <button class="ion ion-trash-b pointer bg-danger" md-mini-fab
                                     mdTooltip="Supprimer l'exercice" (click)="deleteThis(exercise)"
                                     [mdTooltipPosition]="'left'"></button>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'exercice"
-                                    [mdTooltipPosition]="'right'" (click)="openExerciseFormDialogToEdit(exercise)"></button>
                         </div>
                     </div>
                 </td>
