@@ -12,21 +12,24 @@ import {DeleteDialogComponent} from "../../shared/dialogs/delete-dialog/delete-d
 import {ExerciseService} from "./exercise.service";
 import {ToastrService} from "ngx-toastr";
 import {Observable} from "rxjs/Observable";
+import { FilterExercisesPipe } from "./filter-exercises.pipe";
 
 @Component({
 	selector: 'pulpe-exercises',
 	templateUrl: './exercises.component.html',
 	styleUrls: ['./exercises.component.scss'],
-	animations: [Animations.fadeIn()]
+	animations: [Animations.fadeIn()],
+	providers:[FilterExercisesPipe]
 })
 export class ExercisesComponent implements OnInit {
 
 	exercises: AbstractExercise[];
+	filteredExercises:AbstractExercise[];
 	exerciseFormConfiguration: ExerciseFormConfigurable;
 	openableMode: any = ExerciseOpenMode;
 	filterArgs: string;
 
-		constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService) {
+		constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService, private filterExercises:FilterExercisesPipe) {
 		this.exercises = [];
 	}
 
@@ -35,6 +38,7 @@ export class ExercisesComponent implements OnInit {
 		exercisesGroups.forEach(exercisesGroup => {
 			this.exercises = this.exercises.concat(exercisesGroup.exercises);
 		});
+		this.filteredExercises = this.exercises;
 	}
 
 
@@ -54,6 +58,7 @@ export class ExercisesComponent implements OnInit {
 			if (deleted) {
 				this.toastrService.success('Suppression effectuée.', 'Succès!');
 				this.exercises = this.exercises.filter(exercise => exercise.id !== deleted.id);
+				this.doFilterExercises(this.filterArgs);
 			}
 		}, (errorMsg) => {
 			console.error(errorMsg);
@@ -102,20 +107,26 @@ export class ExercisesComponent implements OnInit {
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray.push(exerciseAdded);
 					this.exercises = newExercisesArray;
+					
 				} else {
 					const indexFinded = this.exercises.findIndex(e => e.id == exerciseAdded.id);
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray[indexFinded] = exerciseAdded;
 					this.exercises = newExercisesArray;
+					
 				}
+				this.doFilterExercises(this.filterArgs);
 			}
 		});
 	}
 
-	filterArgsChanged(filtersArgs: string) {
+	doFilterExercises(filtersArgs: string) {
 		this.filterArgs = null;
 		if (filtersArgs.length > 0) {
 			this.filterArgs = filtersArgs;
+			this.filteredExercises= this.filterExercises.transform(this.exercises, filtersArgs);
+		}else{
+			this.filteredExercises = this.exercises;
 		}
 	}
 }

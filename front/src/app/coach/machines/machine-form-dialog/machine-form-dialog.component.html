@@ -1,20 +1,16 @@
 <div class="modal-dialog">
     <div class="modal-content">
 
-        <div class="modal-header">
+        <div class="modal-header" #modalHeader>
             <div class="text-center">
                 <h4 class="text-light-weight">{{title}}</h4>
             </div>
         </div>
         <form (ngSubmit)="confirm()" [formGroup]="machineForm">
-            <div class="modal-body">
+            <div class="modal-body pt-0">
+                <md-tab-group>
+                    <md-tab label="Informations générales" class="row">
                 <div class="row pt-2 form-group">
-                    <div class="col-md-12">
-                        <span class="text-w-300 titleWorkedMuscles">
-                            Information de la machine
-                        </span>
-                        <hr>
-                    </div>
                     <md-input-container class="col-md-10 offset-md-1" color="primary">
                         <input id="inputName" mdInput type="text" minlength="5" maxlength="30"
                                placeholder="Nom de la machine"
@@ -27,6 +23,8 @@
                         </textarea>
                     </md-input-container>
                 </div>
+                    </md-tab>
+                    <md-tab label="Muscles travaillés" class="row">
                 <div class="col-md-12 pt-2">
                         <span class="text-w-300 titleWorkedMuscles">
                             Ajout d'un nouveau muscle travaillé
@@ -48,9 +46,11 @@
                 <pulpe-chips-removable-worked-muscle (workedMuscleDeletedAtThisIndex)="deleteWorkedMuscleAtThis($event)"
                                                      [workedMuscles]="workedMusclesCtrl.value">
                 </pulpe-chips-removable-worked-muscle>
+                    </md-tab>
+                </md-tab-group>
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" #modalFooter>
                 <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
                 <button class="btn btn-primary" type="submit" [disabled]="machineForm.invalid">
                     <span>{{titleConfirm}}</span>

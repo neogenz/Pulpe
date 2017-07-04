@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {Member} from "../../_model/Member";
-import {Animations} from "../../shared/Animations";
-import {DialogService} from "ng2-bootstrap-modal";
-import {ProfileMemberFormDialogComponent} from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
-import {ModeDialogEnum} from "../../_enums/ModeDialogEnum";
-import {ToastrService} from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Member } from "../../_model/Member";
+import { Animations } from "../../shared/Animations";
+import { DialogService } from "ng2-bootstrap-modal";
+import { ProfileMemberFormDialogComponent } from "../../shared/profile/profile-member-form-dialog/profile-member-form-dialog.component";
+import { ModeDialogEnum } from "../../_enums/ModeDialogEnum";
+import { ToastrService } from "ngx-toastr";
+import { LocalStorageService } from "angular-2-local-storage/dist";
 
 @Component({
   selector: 'pulpe-profile',
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
   private member: Member;
   objective: string;
 
-  constructor(private route: ActivatedRoute, private dialogService: DialogService, private toastrService: ToastrService) {
+  constructor(private route: ActivatedRoute, private dialogService: DialogService, private toastrService: ToastrService, private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
@@ -27,13 +28,13 @@ export class ProfileComponent implements OnInit {
 
   setObjective() {
     switch (this.member.objective) {
-      case  'MassGainer':
+      case 'MassGainer':
         this.objective = 'Prise de masse';
         break;
-      case  'WeightLoss':
+      case 'WeightLoss':
         this.objective = 'Perte de poids';
         break;
-      case  'GeneralForm':
+      case 'GeneralForm':
         this.objective = 'Forme générale';
         break;
     }
@@ -48,10 +49,11 @@ export class ProfileComponent implements OnInit {
       mode: mode,
       title: title,
       titleAction: titleAction
-    }, {backdropColor: 'rgba(0,0,0,0.5)'})
+    }, { backdropColor: 'rgba(0,0,0,0.5)' })
       .subscribe((updated) => {
         if (updated) {
           if (this.member.objective !== updated.objective) {
+            this.localStorageService.remove('program');
             this.toastrService.success('Votre programme a été re-calculé.', 'Succès');
           }
           this.member = updated;
