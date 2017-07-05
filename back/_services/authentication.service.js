@@ -23,7 +23,7 @@ class AuthenticationService {
             }, (error) => {
                 if (error instanceof NotFoundError) {
                     return MemberService.findBy(email, password);
-                }
+                } 
                 console.error(error.stack);
                 throw error;
             })

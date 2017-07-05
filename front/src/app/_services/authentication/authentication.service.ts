@@ -62,11 +62,10 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
 				.id(rawProfile._id)
 				.profileCompleted(rawProfile.profileCompleted)
 				.firstName(rawProfile.firstName)
-				.isCoach(data.isCoach)
+				.isCoach(isCoach)
 				.lastName(rawProfile.lastName)
 				.password(password)
-				.gender(rawProfile.gender)
-				.password(password).build();
+				.build();
 		})
 			.catch(this.handleError);
 	}
