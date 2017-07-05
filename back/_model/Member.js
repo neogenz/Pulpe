@@ -32,7 +32,7 @@ const MemberSchema = new Schema({
   gym: {type: mongoose.Schema.Types.ObjectId, ref: 'Gym'},
   updatedAt: Date,
   createdAt: Date,
-  password: String,
+  password: {type: String, required:true},
   profileCompleted: {type: Boolean, default: false},
   email: {
     type: String,

@@ -6,7 +6,7 @@ const CoachController = require('../_controllers/coach.controller');
 class CoachRouter {
 	constructor(provider) {
 		provider.get('/coachs', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, CoachController.findByAuthenticatedId);
-		provider.post('/coachs/profile/completed', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, CoachController.completeProfile);
+		provider.post('/coachs/profile/complete', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, CoachController.completeProfile);
 		provider.put('/coachs', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, CoachController.update);
 	}
 }

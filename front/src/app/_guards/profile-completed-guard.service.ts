@@ -18,7 +18,7 @@ export class ProfileCompletedGuardService implements CanActivate {
       if(profileIsCoach) {
         this.router.navigate(['/profil/coach/complete']);
       } else {
-        this.router.navigate(['/profil/member/complete']);
+        this.router.navigate(['/profil/adherent/complete']);
       }
       return false;
     }

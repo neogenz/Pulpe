@@ -92,7 +92,7 @@ export class SignupComponent implements OnInit, OnError, OnDestroy {
           if (authProfile.isCoach) {
             this.router.navigateByUrl('/profil/coach/complete');
           } else {
-            this.router.navigateByUrl('/profil/member/complete');
+            this.router.navigateByUrl('/profil/adherent/complete');
           }
         },
         (errorMsg) => {

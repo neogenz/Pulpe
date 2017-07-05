@@ -85,7 +85,10 @@ export class ExerciseSpecificPropertiesFormDialogComponent extends DialogCompone
         exerciseUpdated.speed = this.exerciseForm.get('specifics').get('speed').value;
         exerciseUpdated.times = []
         let nbOfTimes = this.exerciseForm.get('specifics').get('numberOfTimes').value;
-        const time = this.exerciseForm.get('specifics').get('times').value;
+        let time = this.exerciseForm.get('specifics').get('times').value;
+        if(Array.isArray(time)){
+          time = time[0];
+        }
         for(let i = 0; i < nbOfTimes; i++){
           exerciseUpdated.times.push(time);
         }

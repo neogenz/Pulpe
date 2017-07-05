@@ -99,7 +99,7 @@ export const ROUTES: Routes = [
 		}
 	},
 	{
-		path: 'profil/member/complete',
+		path: 'profil/adherent/complete',
 		component: ProfileCompletationComponent,
 		canActivate: [AuthenticationGuard]
 	},
@@ -109,7 +109,7 @@ export const ROUTES: Routes = [
 		canActivate: [AuthenticationGuard]
 	},
 	{
-		path: 'adherents/:idCoach',
+		path: 'adherents',
 		component: MembersComponent,
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService],
 		resolve: {

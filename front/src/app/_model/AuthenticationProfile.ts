@@ -1,7 +1,10 @@
 import {Gym} from "./Gym";
+import { ObjectiveEnum } from "../_enums/ObjectiveEnum";
 export class AuthenticationProfile {
   constructor() {
-
+    this.objective = null;
+    this.gender = null;
+    this.frequency = null;
   }
 
   public id:string;
@@ -13,7 +16,11 @@ export class AuthenticationProfile {
   public firstName:string;
   public profileCompleted:boolean;
   public isCoach:boolean;
+  public birhtdate: Date;
   public gym:Gym;
+  public frequency:number;
+  public gender:string;
+  public objective:ObjectiveEnum|null;
 
   public static of():AuthenticationProfileBuilder {
     return new AuthenticationProfileBuilder();
@@ -73,6 +80,31 @@ class AuthenticationProfileBuilder {
 
   public gym(gym:Gym):AuthenticationProfileBuilder {
     this.me.gym = gym;
+    return this;
+  }
+
+  public objective(objective:ObjectiveEnum):AuthenticationProfileBuilder{
+    this.me.objective = objective;
+    return this;
+  }
+
+  public birhtdate(birhtdate:Date):AuthenticationProfileBuilder{
+    this.me.birhtdate = birhtdate;
+    return this;
+  }
+
+  public frequency(freq:number):AuthenticationProfileBuilder{
+    this.me.frequency = freq;
+    return this;
+  }
+
+  public gender(gender:string):AuthenticationProfileBuilder{
+    if(gender){
+      if(gender !== 'Male' && gender !== 'Female'){
+        throw new Error('Gender unknown.');
+      }
+      this.me.gender = gender;
+    }
     return this;
   }
 

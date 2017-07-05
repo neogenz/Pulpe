@@ -24,7 +24,11 @@ export class ObjectiveConveter {
   }
 
   public getEnumFromName(name: string): ObjectiveEnum {
-    return ObjectiveEnum[name];
+    if(name){
+      return ObjectiveEnum[name];      
+    }else{
+      return null;
+    }
   }
 
   public getEnumFromLabel(labelToFind: string): ObjectiveEnum {

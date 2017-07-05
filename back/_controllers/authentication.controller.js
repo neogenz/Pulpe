@@ -16,7 +16,7 @@ class AuthenticationController {
    * @param res
    */
   static signin(req, res) {
-    const email = req.body.email,
+    const email = req.body.email.toLowerCase(),
       password = req.body.password;
 
     AuthenticationService.signinBy(email, password)
@@ -37,7 +37,7 @@ class AuthenticationController {
    * @param res
    */
   static signup(req, res) {
-    const email = req.body.email,
+    const email = req.body.email.toLowerCase(),
       password = req.body.password,
       firstname = req.body.firstname,
       lastname = req.body.lastname,

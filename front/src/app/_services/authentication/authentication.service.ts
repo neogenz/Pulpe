@@ -9,11 +9,13 @@ import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {environment} from "../../../environments/environment";
+import { ObjectiveConveter } from "../../shared/ObjectiveConverter";
+import { ObjectiveEnum } from "../../_enums/ObjectiveEnum";
 
 @Injectable()
 export class AuthenticationService extends ObservableHelper implements IAuthenticationService {
 
-	constructor(private http: Http, private localStorageService: LocalStorageService) {
+	constructor(private http: Http, private localStorageService: LocalStorageService, private objectiveConveter:ObjectiveConveter) {
 		super();
 	}
 
@@ -26,6 +28,7 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
 			const rawProfile = this.jwtHelper.decodeToken(data.token);
 			const token: string = data.token;
 			this.localStorageService.set('token', token);
+			debugger;
 			return AuthenticationProfile.of().token(data.token)
 				.login(rawProfile.email)
 				.id(rawProfile._id)
@@ -34,7 +37,12 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
 				.isCoach(data.isCoach)
 				.gym(rawProfile.gym)
 				.lastName(rawProfile.lastName)
-				.password(password).build();
+				.password(password)
+				.birhtdate(new Date(rawProfile.birthDate))
+				.gender(rawProfile.gender)
+				.frequency(rawProfile.sessionFrequency)
+				.objective(this.objectiveConveter.getEnumFromName(rawProfile.objective))
+				.build();
 		}).catch(this.handleError);
 	}
 
@@ -50,13 +58,14 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
 			const rawProfile = this.jwtHelper.decodeToken(data.token);
 			this.localStorageService.set('token', data.token);
 			return AuthenticationProfile.of().token(data.token)
-				.id(rawProfile._id)
 				.login(rawProfile.email)
-				.firstName(rawProfile.firstName)
+				.id(rawProfile._id)
 				.profileCompleted(rawProfile.profileCompleted)
-				.isCoach(isCoach)
-				.gym(rawProfile.gym)
+				.firstName(rawProfile.firstName)
+				.isCoach(data.isCoach)
 				.lastName(rawProfile.lastName)
+				.password(password)
+				.gender(rawProfile.gender)
 				.password(password).build();
 		})
 			.catch(this.handleError);
@@ -75,7 +84,20 @@ export class AuthenticationService extends ObservableHelper implements IAuthenti
 		let profileInLocalStorage: string = this.localStorageService.get<string>('profile');
 		if (profileInLocalStorage) {
 			let profile: AuthenticationProfile = JSON.parse(profileInLocalStorage);
-			return profile;
+			return AuthenticationProfile.of().token(profile.token)
+				.login(profile.login)
+				.id(profile.id)
+				.profileCompleted(profile.profileCompleted)
+				.firstName(profile.firstName)
+				.isCoach(profile.isCoach)
+				.gym(profile.gym)
+				.lastName(profile.lastName)
+				.password(profile.password)
+				.birhtdate(new Date(profile.birhtdate))
+				.gender(profile.gender)
+				.frequency(profile.frequency)
+				.objective(profile.objective as ObjectiveEnum)
+				.build();
 		}
 		return null;
 	}

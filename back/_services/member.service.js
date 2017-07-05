@@ -210,7 +210,7 @@ class MemberService {
 				member.profileCompleted = true;
 				member.sessionFrequency = sessionFrequency;
 				member.birthDate = new Date(birthDate);
-				member.objective = ObjectiveEnum.MassGainer;
+				member.objective = objectiveEnum;
 				member.gym = gymId;
 				member.gender = gender;
 

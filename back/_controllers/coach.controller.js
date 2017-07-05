@@ -2,6 +2,7 @@ const CoachService = require('../_services/coach.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const GenderEnum = require('../_enums/GenderEnum');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
+const winston = require('winston');
 
 class CoachController {
 	constructor() {
@@ -35,15 +36,15 @@ class CoachController {
 		const coachId = req.user._id,
 			birthDate = new Date(req.body.birthDate),
 			gym = req.body.gym;
-
-		let gender = req.body.gender;
-		gender = GenderEnum.fromName(gender);
+		let rawGender = req.body.gender;
+		const gender = GenderEnum.fromName(rawGender);
 
 		CoachService.completeProfile(coachId, gym, birthDate, gender)
 			.then(coach => {
 				res.send({coach: coach});
 			})
 			.catch((error) => {
+				winston.log('error', error.stack);
 				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
 				return res.status(httpError.code).send(httpError);
 			});

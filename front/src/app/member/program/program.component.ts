@@ -91,6 +91,7 @@ export class ProgramComponent implements OnInit {
     let indexFinded;
     indexFinded = this.focusedExercisesGroup.exercises.findIndex(e => e.id == exercise.id);
     this.focusedExercisesGroup.exercises[indexFinded] = exercise;
+    this.totalTimeOfFocusedSession = this.convertNumberToStrHour(this.sessionService.getTotalTimeOf(this.focusedSession));
     this.localStorageService.set('program', JSON.stringify(this.program));
   }
 }

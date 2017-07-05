@@ -63,13 +63,13 @@ export class SigninComponent implements OnInit, OnError, OnDestroy {
 				this.slimLoadingBarService.complete();
 			})
 			.subscribe((authProfile) => {
+					authProfile.rememberMe = this.signinForm.get('rememberMe').value;
+					this.localStorage.set('profile', JSON.stringify(authProfile));
 					if (authProfile.isCoach) {
 						this.router.navigateByUrl('/accueil/coach');
 					} else {
 						this.router.navigateByUrl('/programme');
 					}
-					authProfile.rememberMe = this.signinForm.get('rememberMe').value;
-					this.localStorage.set('profile', JSON.stringify(authProfile));
 				},
 				(errorMsg) => {
 					this.displayErrorMsg(errorMsg);

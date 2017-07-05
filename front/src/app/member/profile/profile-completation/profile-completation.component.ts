@@ -12,6 +12,8 @@ import {Router} from '@angular/router';
 import {OnError} from "../../../_helpers/IUIErrorHandlerHelper";
 import {Gym} from "../../../_model/Gym";
 import {GymService} from "../../../_services/gym/gym.service";
+import { AuthenticationService } from "../../../_services/authentication/authentication.service";
+import { ObjectiveEnum } from "../../../_enums/ObjectiveEnum";
 
 @Component({
   selector: 'pulpe-profile-completation',
@@ -34,30 +36,39 @@ export class ProfileCompletationComponent implements OnInit, OnError {
   private frequencyRange: any;
   private maximumBirthdate: Date;
   private weightRange: any;
+  private objectiveAlreadySelected:boolean = false;
+  selectedObjective:{checked:boolean, value:string,picture:string,display:string} = null;
+  private authProfile:AuthenticationProfile;
   debug: boolean;
   gyms: any;
   objectiveChoices = [
     {
       checked: false,
-      value: 'GF',
+      value: 'GeneralForm',
       picture: '../../assets/img/exercise-types/stationary-bike-64.png',
       display: 'Forme générale'
     },
     {
       checked: false,
-      value: 'MG',
+      value: 'MassGainer',
       picture: '../../assets/img/exercise-types/strength-64.png',
       display: 'Prise de masse'
     },
     {
       checked: false,
-      value: 'WL',
+      value: 'WeightLoss',
       picture: '../../assets/img/exercise-types/weight-64.png',
       display: 'Perte de poids'
     }
   ];
 
-  constructor(fb: FormBuilder, private profileService: ProfileService, private gymService: GymService, private localStorageService: LocalStorageService, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private profileService: ProfileService, 
+    private authService:AuthenticationService, 
+    private gymService: GymService, 
+    private localStorageService: LocalStorageService, 
+    private router: Router) {
     this.sizesRange = {
       min: 50,
       max: 250
@@ -89,28 +100,64 @@ export class ProfileCompletationComponent implements OnInit, OnError {
       }
     };
     this.debug = false;
-    this.buildForm(fb);
+  }
+
+  ngOnInit() {
+     this.authProfile = this.authService.getAuthenticationProfileInLocalStorage();
+    this.buildForm(this.fb);
+    const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
+    httpRequest.subscribe(gyms => {
+        this.gyms = gyms;
+      },
+      errorMsg => {
+        this.displayErrorMsg(errorMsg);
+      });
   }
 
   private buildForm(fb: FormBuilder) {
+    debugger;
     this.sizeCtrl = fb.control('', [
       Validators.required,
       CustomValidators.minValue(this.sizesRange.min),
       CustomValidators.maxValue(this.sizesRange.max)
     ]);
-    this.objectiveCtrl = fb.control('', Validators.required);
+    //It's builded before assign default value, because method 'this.check' work on instance of this.objectiveCtrl
+    this.objectiveCtrl = fb.control(null, Validators.required);
+    let preSelectedObjective = null;
+    if(this.authProfile.objective){
+      this.objectiveAlreadySelected = true;
+      preSelectedObjective = ObjectiveEnum[this.authProfile.objective];
+      this.check(this.objectiveChoices.find(o=>o.value===preSelectedObjective));
+      this.objectiveCtrl.disable();
+    }
     this.weightCtrl = fb.control('', [
       Validators.required,
       CustomValidators.minValue(this.weightRange.min),
       CustomValidators.maxValue(this.weightRange.max)
     ]);
-    this.birthdateCtrl = fb.control('', Validators.required);
-    this.genderCtrl = fb.control('Male');
-    this.frequencyCtrl = fb.control('', [Validators.required,
+    this.birthdateCtrl = fb.control(null, Validators.required);
+    if( moment(this.authProfile.birhtdate).isValid()){
+      this.birthdateCtrl.disable();
+      this.birthdateCtrl.setValue(this.authProfile.birhtdate);
+    }
+    this.genderCtrl = fb.control(this.authProfile.gender ?this.authProfile.gender:'Male' , Validators.required);
+    if(this.authProfile.gender){
+      this.genderCtrl.disable();
+    }
+    this.frequencyCtrl = fb.control(this.authProfile.frequency, [Validators.required,
       CustomValidators.minValue(this.frequencyRange.min),
       CustomValidators.maxValue(this.frequencyRange.max)
     ]);
-    this.gymCtrl = fb.control('');
+    if(this.authProfile.frequency){
+      this.frequencyCtrl.disable();
+    }
+    this.gymCtrl = fb.control(null, Validators.required);
+    if(this.authProfile.gym){
+      let preSelectedGymId = null;
+      preSelectedGymId = this.authProfile.gym._id;
+      this.gymCtrl.setValue(preSelectedGymId);
+      this.gymCtrl.disable();
+    }
     this.profileCompleteForm = fb.group({
       size: this.sizeCtrl,
       objective: this.objectiveCtrl,
@@ -122,21 +169,11 @@ export class ProfileCompletationComponent implements OnInit, OnError {
     });
   }
 
-  ngOnInit() {
-    const httpRequest: Observable<Gym[] | string> = this.gymService.findAll();
-    httpRequest.subscribe(gyms => {
-        console.dir(gyms);
-        this.gyms = gyms;
-      },
-      errorMsg => {
-        this.displayErrorMsg(errorMsg);
-      });
-  }
-
   check(choice) {
     this.resetChoices();
     this.objectiveCtrl.setValue(choice.value);
     choice.checked = true;
+    this.selectedObjective = choice;
   }
 
   private resetChoices(): void {

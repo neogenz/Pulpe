@@ -120,10 +120,10 @@ class CoachService {
 
 	/**
 	 * Add measurements for a Coach and complete his profile.
-	 * @param coachId
-	 * @param gym
-	 * @param birthDate
-	 * @param gender
+	 * @param {number} coachId
+	 * @param {object} gym
+	 * @param {Date} birthDate
+	 * @param {GenderEnum} gender
 	 * @returns {Promise.<Coach>|Promise}
 	 */
 	static completeProfile(coachId, gym, birthDate, gender) {

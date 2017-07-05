@@ -82,7 +82,8 @@ class MemberController {
 			birthDate = new Date(req.body.birthDate);
 		let objective = req.body.objective;
 		let gender = req.body.gender;
-		objective = ObjectiveEnum.fromCode(objective);
+		console.log(objective);
+		objective = ObjectiveEnum.fromName(objective);
 		gender = GenderEnum.fromName(gender);
 
 		let memberCompleted;
@@ -101,6 +102,7 @@ class MemberController {
 				throw error;
 			})
 			.catch((error) => {
+				winston.log('error', error.stack);
 				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
 				return res.status(httpError.code).send(httpError);
 			});

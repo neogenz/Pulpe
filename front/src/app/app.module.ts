@@ -227,7 +227,7 @@ import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 		{
 			provide: AuthenticationService,
 			useFactory: authenticationServiceFactory,
-			deps: ['IS_PROD', LocalStorageService, Http]
+			deps: ['IS_PROD', LocalStorageService, Http, ObjectiveConveter]
 		},
 		SessionsService,
 		ExerciseGroupCodeConverter,
@@ -292,9 +292,9 @@ export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorag
 	//return new MemberMockService(localStorage);
 }
 
-export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http) {
+export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http, objectiveConveter:ObjectiveConveter) {
 	//if (IS_PROD) {
-	return new AuthenticationService(http, localStorage);
+	return new AuthenticationService(http, localStorage, objectiveConveter);
 	//}
 	//return new AuthenticationMockService(localStorage);
 }

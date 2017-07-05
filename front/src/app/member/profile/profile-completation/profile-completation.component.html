@@ -123,7 +123,7 @@
                         </md-card>
                     </div>
                 </div>
-                <div class="row pt-4">
+                <div class="row pt-4" [hidden]="objectiveAlreadySelected">
                     <div class="col-md-4" *ngFor="let objective of objectiveChoices">
                         <div class="choice" data-toggle="wizard-radio" rel="tooltip"
                              [class.active]="objective.checked"
@@ -134,6 +134,18 @@
                                 <img [src]="objective.picture">
                             </div>
                             <h6 class="text-uppercase formule-type-title">{{objective.display}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-4" *ngIf="objectiveAlreadySelected">
+                    <div class="col-md-12 text-center">
+                        <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                             [class.active]="selectedObjective.checked">
+                            <input type="radio" name="objective" [checked]="selectedObjective.checked">
+                            <div class="icon center-icon">
+                                <img [src]="selectedObjective.picture">
+                            </div>
+                            <h6 class="text-uppercase formule-type-title">{{selectedObjective.display}}</h6>
                         </div>
                     </div>
                 </div>
