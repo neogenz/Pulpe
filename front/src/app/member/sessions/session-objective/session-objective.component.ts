@@ -6,13 +6,13 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['session-objective.component.scss']
 })
 export class SessionObjectiveComponent implements OnInit {
+  @Input() musclesMostWorked:string[];
 
   constructor() {
   }
 
   ngOnInit() {
+    debugger;
   }
-
-  @Input() musclesMostWorked:string[];
 
 }

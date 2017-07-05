@@ -11,6 +11,8 @@ import {GymService} from "../../../_services/gym/gym.service";
 import {Gym} from "../../../_model/Gym";
 import {ProfileService} from "../../../member/profile/profile.service";
 
+const TAB_CREATE_GYM = 0;
+
 @Component({
 	selector: 'pulpe-profile-completation-coach',
 	templateUrl: 'profile-completation-coach.component.html',
@@ -29,7 +31,6 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
 	isInError: boolean;
 	errorMsg: string;
 	errorTranslations: any;
-	TAB_CREATE_GYM = 0;
 	gyms: any;
 	private cityRange: any;
 	private addressRange: any;
@@ -141,7 +142,7 @@ export class ProfileCompletationCoachComponent implements OnInit, OnError {
 	onSelectChange = ($event: any): void => {
 		this.birthdateCtrl = this.fb.control(this.birthdateCtrl.value, Validators.required);
 		this.genderCtrl = this.fb.control(this.genderCtrl.value, Validators.required);
-		if ($event.index === this.TAB_CREATE_GYM) {
+		if ($event.index === TAB_CREATE_GYM) {
 			this.nameGymCtrl = this.fb.control('', Validators.required);
 			this.addressGymCtrl = this.fb.control('', Validators.required);
 			this.cityGymCtrl = this.fb.control('', Validators.required);

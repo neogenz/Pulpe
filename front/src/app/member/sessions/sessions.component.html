@@ -1,34 +1,51 @@
-<pulpe-page-title [title]="'Vos séances'"></pulpe-page-title>
-<div class="row mb-4">
-    <div class="offset-md-4 col-md-4">
-        <button class="btn btn-lg btn-primary w-100" (click)="startSession()" *ngIf="!sessionStarted">Démarrer ma
-            séance
-        </button>
-        <button class="btn btn-lg btn-primary w-100" (click)="stopSession()" *ngIf="sessionStarted">Arrêter ma séance
-        </button>
-    </div>
-</div>
+<div [@fadeIn]>
+    <pulpe-page-title [title]="'Ma prochaine séance'"></pulpe-page-title>
 
-
-<div class="row card-cascade-parent" [@isVisibleChanged]="!sessionStarted">
-    <div class="col-md-12">
-        <md-card class="pt-0 pb-0 white">
-            <div class="row">
-                <div class="col-md-8">
-                    <pulpe-session-objective [musclesMostWorked]="['Biceps', 'Pectoraux', 'Triceps']"></pulpe-session-objective>
+    <div class="row card-cascade-parent">
+        <div class="col-md-12">
+            <md-card class="pt-0 white">
+                <div class="row">
+                    <div class="col-md-4">
+                        <md-card class="bg-secondary card-cascade">
+                            <h4 class="text-light-weight text-white">Prochaine séance</h4>
+                        </md-card>
+                        <div class="row mt-5">
+                            <div class="col-md-12 text-center">
+                                <h1 class="p-0"><i class="ion-ios-calendar-outline"></i></h1>
+                                <p class="lead text-center mb-0 text-light-weight">Ce {{session.dayInWeek}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <pulpe-session-objective
+                                [musclesMostWorked]="musclesMostWorked">
+                        </pulpe-session-objective>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <md-card class="bg-primary card-cascade">
-                        <h4 class="text-light-weight text-white">Prochaine séance</h4>
-                    </md-card>
+            </md-card>
+        </div>
+    </div>
+
+    <div class="row pt-10">
+        <div class="col-md-6 offset-md-3">
+            <div class="bg-primary card-cascade text-white block-height-infos">
+                <h4 class="text-center text-light-weight">Télécharger l'application Pulpe</h4>
+                <hr class="w-100">
+                <div class="text-center text-light-weight">
                     <div class="row mt-5">
-                        <div class="col-md-12 text-center text-primary">
-                            <h1 class="p-0"><i class="ion-ios-calendar-outline"></i></h1>
-                            <p class="lead text-center mb-0 text-w-400">Ce jeudi</p>
+                        <div class="col-md-4 text-center">
+                            <h1><i class="ion-social-apple-outline"></i></h1>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h1><i class="ion-social-android-outline"></i></h1>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h1><i class="ion-social-windows-outline"></i></h1>
                         </div>
                     </div>
                 </div>
             </div>
-        </md-card>
+        </div>
+
     </div>
 </div>

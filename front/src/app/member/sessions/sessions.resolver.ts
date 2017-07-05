@@ -10,6 +10,6 @@ export class SessionsResolver implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Session> | Promise<Session> | Session {
-    return this.sessionsService.findActiveProgramByAuthenticatedUser();
+    return this.sessionsService.findSessionTodo();
   }
 }
