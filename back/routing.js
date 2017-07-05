@@ -13,4 +13,5 @@ module.exports = (provider) => {
 	require('./_routes/gym.routes')(provider);
 	require('./_routes/exercise.routes')(provider);
 	require('./_routes/document.routes')(provider);
+	require('./_routes/demo.routes')(provider);
 };

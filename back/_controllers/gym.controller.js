@@ -41,22 +41,19 @@ class GymController {
 				gym = coachFinded.gym;
 				return MemberService.countBy(gym);
 			}, (error) => {
-				winston.log('error', error.stack);
-				throw new error;
+				throw error;
 			})
 			.then((mbMembersCounted) => {
 				nbMembers = mbMembersCounted;
 				return MachineService.countBy(gym);
 			}, (error) => {
-				winston.log('error', error.stack);
-				throw new error;
+				throw error;
 			})
 			.then((mbMachinesCounted) => {
 				nbMachines = mbMachinesCounted;
 				return ExerciceService.countBy(gym);
 			}, (error) => {
-				winston.log('error', error.stack);
-				throw new error;
+				throw error;
 			})
 			.then((nbExercisesCounted) => {
 				nbExercises = nbExercisesCounted;
@@ -67,7 +64,7 @@ class GymController {
 				});
 			})
 			.catch((error) => {
-				console.log(error);
+				winston.log('error', error.stack);
 				const httpError = HttpErrorHelper.buildHttpErrorByError(error);
 				return res.status(httpError.code).send(httpError);
 			});
