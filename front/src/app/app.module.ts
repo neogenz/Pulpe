@@ -118,7 +118,9 @@ import {PhotoFormDialogComponent} from './shared/profile/profile-photo/photo-for
 import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 import {ProgramMemberComponent} from './coach/members/program-member/program-member.component';
 import {ProgramMemberResolver} from "./coach/members/program-member/program-member.resolver";
-import { HeaderListSessionsComponent } from './coach/members/program-member/header-list-sessions/header-list-sessions.component';
+import {HeaderListSessionsComponent} from './coach/members/program-member/header-list-sessions/header-list-sessions.component';
+import {MemberResolver} from "./coach/members/program-member/member.resolver";
+import {ExerciseProgramFormDialogComponent} from './coach/members/program-member/exercise-program-form-dialog/exercise-program-form-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -173,7 +175,8 @@ import { HeaderListSessionsComponent } from './coach/members/program-member/head
 		HomeCoachComponent,
 		PhotoFormDialogComponent,
 		ProgramMemberComponent,
-		HeaderListSessionsComponent
+		HeaderListSessionsComponent,
+		ExerciseProgramFormDialogComponent
 	],
 	imports: [
 		MdButtonModule,
@@ -251,6 +254,7 @@ import { HeaderListSessionsComponent } from './coach/members/program-member/head
 		HomeCoachService,
 		ProgramMemberResolver,
 		ProfileService,
+		MemberResolver,
 		EvolutionService,
 		MembersResolver,
 		ExerciseResolver,
@@ -276,7 +280,8 @@ import { HeaderListSessionsComponent } from './coach/members/program-member/head
 		ProfileCoachEditDialogComponent,
 		MachineDetailsDialogComponent,
 		ExerciseSpecificPropertiesFormDialogComponent,
-		PhotoFormDialogComponent
+		PhotoFormDialogComponent,
+		ExerciseProgramFormDialogComponent
 	],
 	bootstrap: [AppComponent]
 })

@@ -10,7 +10,8 @@ class ExerciseRouter {
   constructor(provider) {
     provider.get('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.findAllByGymOfAuthenticatedCoach);
     provider.post('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.createExercise);
-    provider.put('/exercises', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.update);
+		provider.put('/exercises/:id', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.update);
+    provider.put('/exercises/reference', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.updateReference);
     provider.put('/members/programs/exercises', AuthenticationController.ensureAuthorized, ExerciseController.updateExerciseOfMember);
     provider.delete('/exercises/:id', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ExerciseController.delete);
   }

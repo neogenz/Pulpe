@@ -7,7 +7,7 @@ import {LocalStorageService} from "angular-2-local-storage";
 import {environment} from '../../environments/environment'
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {Point} from "../_model/Point";
-import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import {AuthHttp} from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class MemberService extends ObservableHelper {
@@ -17,7 +17,7 @@ export class MemberService extends ObservableHelper {
 	}
 
 	public findAllByAuthenticatedCoach(): Observable<Member[]> {
-		return this.http.get(`${environment.baseUrl()}/members/coachs`)
+		return this.http.get(`${environment.baseUrl()}/coachs/members`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				const members = [];
@@ -43,7 +43,7 @@ export class MemberService extends ObservableHelper {
 	}
 
 	public findById(id: string): Observable<Member | string> {
-		return this.http.get(`${environment.baseUrl()}/members`)
+		return this.http.get(`${environment.baseUrl()}/members/${id}`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);
 				return Member.of()

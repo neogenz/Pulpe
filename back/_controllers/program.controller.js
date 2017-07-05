@@ -112,6 +112,19 @@ class ProgramController {
 			return res.status(httpError.code).send(httpError);
 		}
 	}
+
+	static async addExercise(req, res) {
+		try {
+			const exercise = req.body.exercise;
+			const sessionId = req.params.sessionId;
+			const exerciseAdded = await ProgramService.addExercise(sessionId, exercise);
+			return res.send(exerciseAdded);
+		} catch (error) {
+			console.error(error.stack);
+			const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+			return res.status(httpError.code).send(httpError);
+		}
+	}
 }
 
 module.exports = ProgramController;

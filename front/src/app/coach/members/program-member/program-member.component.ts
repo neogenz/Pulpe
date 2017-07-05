@@ -8,13 +8,13 @@ import {DialogService} from "ng2-bootstrap-modal";
 import {ExerciseService} from "../../exercises/exercise.service";
 import {ToastrService} from "ngx-toastr";
 import {ExerciseOpenMode} from "../../exercises/exercises.component";
-import {
-	ExerciseFormConfigurable,
-	ExerciseFormDialogComponent
-} from "../../exercises/exercise-form-dialog/exercise-form-dialog.component";
 import {DeleteDialogComponent} from "../../../shared/dialogs/delete-dialog/delete-dialog.component";
 import {Observable} from "rxjs/Observable";
-import {Session} from "../../../_model/Session";
+import {Member} from "../../../_model/Member";
+import {
+	ExerciseFormConfigurable,
+	ExerciseProgramFormDialogComponent
+} from "./exercise-program-form-dialog/exercise-program-form-dialog.component";
 
 @Component({
 	selector: 'pulpe-program-member',
@@ -25,11 +25,13 @@ import {Session} from "../../../_model/Session";
 })
 export class ProgramMemberComponent implements OnInit {
 	public program: Program;
+	public member: Member;
 	public exercises: AbstractExercise[];
 	public filteredExercises: AbstractExercise[];
 	public filterArgs: string;
 	public openableMode: any = ExerciseOpenMode;
 	public exerciseFormConfiguration: ExerciseFormConfigurable;
+	public pageTitle: string;
 
 	constructor(public route: ActivatedRoute,
 							private dialogService: DialogService,
@@ -41,6 +43,9 @@ export class ProgramMemberComponent implements OnInit {
 
 	ngOnInit() {
 		this.program = this.route.snapshot.data['program'];
+		this.member = this.route.snapshot.data['member'];
+
+		this.pageTitle = `Programme de l\'adhérent : ${this.member.lastName} ${this.member.firstName}`;
 		this.program.sessions.forEach((session) => {
 			session.exercisesGroups.forEach((exerciseGroup) => {
 				exerciseGroup.exercises.forEach((exercise) => {
@@ -49,7 +54,6 @@ export class ProgramMemberComponent implements OnInit {
 			});
 		});
 		this.filteredExercises = this.exercises;
-		//this.focusedSession = this.program.sessions[0];
 	}
 
 	public openExerciseFormDialogOnMode(mode: ExerciseOpenMode, exercise?: AbstractExercise) {
@@ -67,7 +71,7 @@ export class ProgramMemberComponent implements OnInit {
 	}
 
 	private _openExerciseFormDialog() {
-		this.dialogService.addDialog(ExerciseFormDialogComponent, this.exerciseFormConfiguration, {
+		this.dialogService.addDialog(ExerciseProgramFormDialogComponent, this.exerciseFormConfiguration, {
 			backdropColor: 'rgba(0,0,0,0.5)'
 		}).subscribe((exerciseAdded) => {
 			if (exerciseAdded) {
@@ -81,7 +85,6 @@ export class ProgramMemberComponent implements OnInit {
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray[indexFinded] = exerciseAdded;
 					this.exercises = newExercisesArray;
-
 				}
 				this.doFilterExercises(this.filterArgs);
 			}
@@ -116,7 +119,8 @@ export class ProgramMemberComponent implements OnInit {
 		this.exerciseFormConfiguration = {
 			title: 'Ajouter un exercice',
 			exercise: null,
-			mode: ExerciseOpenMode.Add
+			mode: ExerciseOpenMode.Add,
+			sessions: this.program.sessions
 		};
 	}
 
@@ -124,7 +128,8 @@ export class ProgramMemberComponent implements OnInit {
 		this.exerciseFormConfiguration = {
 			title: 'Modifier un exercice',
 			exercise: exercise,
-			mode: ExerciseOpenMode.Edit
+			mode: ExerciseOpenMode.Edit,
+			sessions: this.program.sessions
 		};
 	}
 

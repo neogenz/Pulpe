@@ -8,6 +8,7 @@ import {AuthHttp} from "angular2-jwt/angular2-jwt";
 import {ObservableHelper} from "../../_helpers/ObservableHelper";
 import {AbstractExercise} from "../../_model/exercise/AbstractExercise";
 import {Member} from "../../_model/Member";
+import {ExerciseFactory} from "../../_model/exercise/ExerciseFactory";
 
 //Merry, look 'Become ninja Angular 2' to understand this code :p
 @Injectable()
@@ -61,4 +62,13 @@ export class ProgramService extends ObservableHelper {
 			.catch(this.handleError);
 	}
 
+	addExercise(exercise: AbstractExercise, sessionId: string): Observable<AbstractExercise> {
+		return this._http.put(`${environment.baseUrl()}/programs/session/${sessionId}/exercise`, {
+			exercise: exercise.serialize()
+		}).map(res => {
+			let data: any = this.extractDataOf(res);
+			return ExerciseFactory.create(data.__t, data);
+		})
+			.catch(this.handleError);
+	}
 }

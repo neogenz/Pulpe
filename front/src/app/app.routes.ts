@@ -29,6 +29,7 @@ import {HomeCoachComponent} from "./coach/home-coach/home-coach.component";
 import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
 import {ProgramMemberComponent} from "./coach/members/program-member/program-member.component";
 import {ProgramMemberResolver} from "./coach/members/program-member/program-member.resolver";
+import {MemberResolver} from "./coach/members/program-member/member.resolver";
 
 
 // Route Configuration
@@ -72,6 +73,7 @@ export const ROUTES: Routes = [
 		component: ProgramMemberComponent,
 		resolve: {
 			program: ProgramMemberResolver,
+			member: MemberResolver
 		},
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService]
 	},
