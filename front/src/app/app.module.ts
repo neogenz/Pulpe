@@ -116,6 +116,9 @@ import {HomeCoachService} from "./coach/home-coach/home-coach.service";
 import {DocumentService} from "./_services/document.service";
 import {PhotoFormDialogComponent} from './shared/profile/profile-photo/photo-form-dialog/photo-form-dialog.component';
 import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
+import {ProgramMemberComponent} from './coach/members/program-member/program-member.component';
+import {ProgramMemberResolver} from "./coach/members/program-member/program-member.resolver";
+import { HeaderListSessionsComponent } from './coach/members/program-member/header-list-sessions/header-list-sessions.component';
 
 @NgModule({
 	declarations: [
@@ -168,7 +171,9 @@ import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 		ExerciseSpecificPropertiesFormDialogComponent,
 		MeasurementGraphComponent,
 		HomeCoachComponent,
-		PhotoFormDialogComponent
+		PhotoFormDialogComponent,
+		ProgramMemberComponent,
+		HeaderListSessionsComponent
 	],
 	imports: [
 		MdButtonModule,
@@ -244,6 +249,7 @@ import {CategoryDocumentConverter} from "./shared/CategoryDocumentConverter";
 		ProfileResolver,
 		DocumentService,
 		HomeCoachService,
+		ProgramMemberResolver,
 		ProfileService,
 		EvolutionService,
 		MembersResolver,
@@ -292,7 +298,7 @@ export function memberServiceFactory(IS_PROD: boolean, localStorage: LocalStorag
 	//return new MemberMockService(localStorage);
 }
 
-export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http, objectiveConveter:ObjectiveConveter) {
+export function authenticationServiceFactory(IS_PROD: boolean, localStorage: LocalStorageService, http: Http, objectiveConveter: ObjectiveConveter) {
 	//if (IS_PROD) {
 	return new AuthenticationService(http, localStorage, objectiveConveter);
 	//}

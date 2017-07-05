@@ -27,6 +27,8 @@ import {ProfileCoachComponent} from "./coach/profile/profile-coach.component";
 import {ProfileCoachResolver} from "./coach/profile/profile-coach.resolver";
 import {HomeCoachComponent} from "./coach/home-coach/home-coach.component";
 import {HomeCoachResolver} from "./coach/home-coach/home-coach.resolver";
+import {ProgramMemberComponent} from "./coach/members/program-member/program-member.component";
+import {ProgramMemberResolver} from "./coach/members/program-member/program-member.resolver";
 
 
 // Route Configuration
@@ -64,6 +66,14 @@ export const ROUTES: Routes = [
 			program: ProgramResolver,
 		},
 		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsMemberGuardService]
+	},
+	{
+		path: 'adherents/programme/:id',
+		component: ProgramMemberComponent,
+		resolve: {
+			program: ProgramMemberResolver,
+		},
+		canActivate: [AuthenticationGuard, ProfileCompletedGuardService, ProfileIsCoachGuardService]
 	},
 	{
 		path: 'evolution/:id',

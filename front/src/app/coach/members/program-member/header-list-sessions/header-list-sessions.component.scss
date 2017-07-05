@@ -1,4 +1,4 @@
-@import "../../../../assets/style/colors";
+@import "../../../../../assets/style/colors";
 
 .separatorVertical {
   border-right: 1px solid $primary-color;
@@ -12,6 +12,6 @@ md-card {
   font-size: 1.7rem;
 }
 
-.searchPlaceHolder {
+.place-holder-font {
   font-size: 0.8rem;
 }

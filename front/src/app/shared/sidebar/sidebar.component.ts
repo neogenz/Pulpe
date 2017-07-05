@@ -8,7 +8,7 @@ import {AuthenticationProfile} from "../../_model/AuthenticationProfile";
 @Component({
   selector: 'pulpe-sidebar',
   templateUrl: 'sidebar.component.html',
-  styleUrls: ['sidebar.component.css']
+  styleUrls: ['sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
 

@@ -1,0 +1,33 @@
+<div class="row">
+    <md-card class="col-md-12">
+        <div class="row">
+            <div class="col-md-2 text-center my-auto separatorVertical">
+                <i class="icon {{icon}}"></i>
+                <div class="text-light-weight">
+                    <strong class="text-primary">{{nbElements}}</strong> {{title}}
+                </div>
+            </div>
+            <div class="col-md-7 my-auto">
+                <div class="float-md-right text-center">
+                    <span class="fa fa-filter text-secondary pr-2 pt-2"></span>
+                    <md-select placeholder="Séance" class="pull-right place-holder-font font-weight-light"
+                               [(ngModel)]="focusedSession"
+                               (change)="focusedSessionChanged($event)">
+                        <md-option *ngFor="let session of sessions;" [value]="session">
+                            {{session.dayInWeek}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="float-md-right text-center">
+                    <span class="ion ion-ios-search"></span>
+                    <md-input-container class="place-holder-font font-weight-light">
+                        <input mdInput placeholder="{{placeHolderTitle}}"
+                               (input)="change()" [(ngModel)]="searchInput">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </md-card>
+</div>

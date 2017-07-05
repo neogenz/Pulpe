@@ -1,6 +1,6 @@
 <div class="row">
     <md-card class="col-md-12 my-auto text-center" *ngIf="exercises.length === 0; else display;">
-        <div>Aucun exercices</div>
+        <div>Aucun exercice</div>
     </md-card>
     <ng-template #display>
         <table class="col-md-12 table table-striped bg-secondary" *ngIf="exercises.length > 0">
@@ -155,27 +155,18 @@
                     <div class="row iconsList pull-right">
                         <div class="col-md-6">
                             <button class="ion ion-edit pointer" md-mini-fab mdTooltip="Editer l'exercice"
-                                    [mdTooltipPosition]="'right'" (click)="openExerciseFormDialogToEdit(exercise)"></button>
+                                    [mdTooltipPosition]="'left'"
+                                    (click)="openExerciseFormDialogToEdit(exercise)"></button>
                         </div>
                         <div class="col-md-6">
                             <button class="ion ion-trash-b pointer bg-danger" md-mini-fab
                                     mdTooltip="Supprimer l'exercice" (click)="deleteThis(exercise)"
-                                    [mdTooltipPosition]="'left'"></button>
+                                    [mdTooltipPosition]="'right'"></button>
                         </div>
                     </div>
                 </td>
             </tr>
-
             </tbody>
         </table>
     </ng-template>
-
-    <div class="row">
-        <div class="col-md-12 pt-2 pb-2 btnBottomRight">
-            <button md-fab class="pull-right bg-secondary" mdTooltip="Ajouter un adhérent"
-                    [mdTooltipPosition]="'right'">
-                <i class="ion-person-add addIcon"></i>
-            </button>
-        </div>
-    </div>
 </div>

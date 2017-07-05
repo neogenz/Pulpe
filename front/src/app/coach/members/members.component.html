@@ -56,6 +56,8 @@
                     <div class="row pull-right">
                         <div class="col-md-6">
                             <button class="ion ion-clipboard pointer bg-primary" md-mini-fab
+                                    [routerLinkActive]="['active']"
+                                    [routerLink]="['programme', member._id]"
                                     mdTooltip="Consulter le programme de l'adhérent"
                                     [mdTooltipPosition]="'left'"></button>
                         </div>

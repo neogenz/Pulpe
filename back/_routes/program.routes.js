@@ -6,6 +6,7 @@ const AuthenticationController = require('../_controllers/authentication.control
 class ProgramRouter {
   constructor(provider) {
     provider.get('/programs/active', AuthenticationController.ensureAuthorized, ProgramController.findActiveByAuthenticatedMember);
+		provider.get('/programs/active/members/:id', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ProgramController.findActiveByMemberId);
     provider.get('/programs/active/sessions/todo', AuthenticationController.ensureAuthorized, ProgramController.findSessionTodo);
     provider.put('/programs/active/sessions/todo', AuthenticationController.ensureAuthorized, ProgramController.doneCurrentSession);
     provider.get('/programs/active/sessions', AuthenticationController.ensureAuthorized, ProgramController.findAllSessionsOfActiveProgramIdByAuthenticatedMember);

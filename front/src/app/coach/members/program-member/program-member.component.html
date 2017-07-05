@@ -1,0 +1,30 @@
+<div [@fadeIn]>
+    <pulpe-page-title
+            [title]="'Programme de l\'adhérent :'">
+    </pulpe-page-title>
+
+    <pulpe-header-list-sessions [title]="'Exercices'"
+                                [icon]="'icon-althere'"
+                                [nbElements]="filteredExercises.length"
+                                [sessions]="program.sessions"
+                                [placeHolderTitle]="'Par nom'"
+                                (filterArgs)="doFilterExercises($event)"
+                                (filteredExercises)="doFilterSession($event)">
+    </pulpe-header-list-sessions>
+
+    <div class="mt-3">
+        <pulpe-exercises-list [exercises]="filteredExercises"
+                              (editClick)="openExerciseFormDialogOnMode(openableMode.Edit, $event)"
+                              (removeClick)="deleteExercise($event)">
+        </pulpe-exercises-list>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 pt-2 pb-2 btnBottomRight">
+            <button md-fab class="pull-right bg-secondary" (click)="openExerciseFormDialogOnMode(openableMode.Add)"
+                    mdTooltip="Ajouter un exercice" [mdTooltipPosition]="'left'">
+                <i class="ion-plus addIcon"></i>
+            </button>
+        </div>
+    </div>
+</div>

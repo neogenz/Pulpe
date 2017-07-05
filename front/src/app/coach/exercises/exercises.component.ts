@@ -12,24 +12,28 @@ import {DeleteDialogComponent} from "../../shared/dialogs/delete-dialog/delete-d
 import {ExerciseService} from "./exercise.service";
 import {ToastrService} from "ngx-toastr";
 import {Observable} from "rxjs/Observable";
-import { FilterExercisesPipe } from "./filter-exercises.pipe";
+import {FilterExercisesPipe} from "./filter-exercises.pipe";
 
 @Component({
 	selector: 'pulpe-exercises',
 	templateUrl: './exercises.component.html',
 	styleUrls: ['./exercises.component.scss'],
 	animations: [Animations.fadeIn()],
-	providers:[FilterExercisesPipe]
+	providers: [FilterExercisesPipe]
 })
 export class ExercisesComponent implements OnInit {
 
 	exercises: AbstractExercise[];
-	filteredExercises:AbstractExercise[];
+	filteredExercises: AbstractExercise[];
 	exerciseFormConfiguration: ExerciseFormConfigurable;
 	openableMode: any = ExerciseOpenMode;
 	filterArgs: string;
 
-		constructor(public route: ActivatedRoute, private dialogService: DialogService, private exerciseService: ExerciseService, private toastrService: ToastrService, private filterExercises:FilterExercisesPipe) {
+	constructor(public route: ActivatedRoute,
+							private dialogService: DialogService,
+							private exerciseService: ExerciseService,
+							private toastrService: ToastrService,
+							private filterExercises: FilterExercisesPipe) {
 		this.exercises = [];
 	}
 
@@ -40,7 +44,6 @@ export class ExercisesComponent implements OnInit {
 		});
 		this.filteredExercises = this.exercises;
 	}
-
 
 	public deleteExercise(exercise: AbstractExercise) {
 		this.dialogService.addDialog(DeleteDialogComponent, {
@@ -107,13 +110,13 @@ export class ExercisesComponent implements OnInit {
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray.push(exerciseAdded);
 					this.exercises = newExercisesArray;
-					
+
 				} else {
 					const indexFinded = this.exercises.findIndex(e => e.id == exerciseAdded.id);
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray[indexFinded] = exerciseAdded;
 					this.exercises = newExercisesArray;
-					
+
 				}
 				this.doFilterExercises(this.filterArgs);
 			}
@@ -124,14 +127,14 @@ export class ExercisesComponent implements OnInit {
 		this.filterArgs = null;
 		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
-			this.filteredExercises= this.filterExercises.transform(this.exercises, filtersArgs);
-		}else{
+			this.filteredExercises = this.filterExercises.transform(this.exercises, filtersArgs);
+		} else {
 			this.filteredExercises = this.exercises;
 		}
 	}
 }
 
-export enum ExerciseOpenMode{
+export enum ExerciseOpenMode {
 	Add,
 	Edit
 }
