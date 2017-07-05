@@ -15,6 +15,7 @@ export class TimerComponent {
   @Input() autoStart: boolean = false;
   @Input() canReset: boolean = false;
   @Input() timeInSeconds: number;
+  @Input() canStart: boolean = false;
   @Output() finished: EventEmitter<null> = new EventEmitter();
   public timer: ITimer;
 
@@ -22,6 +23,7 @@ export class TimerComponent {
   }
 
   ngOnInit() {
+    debugger;
     this.initTimer();
     if (this.autoStart) {
       this.startTimer();

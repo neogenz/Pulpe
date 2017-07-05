@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher (ionRefresh)="refreshSessionTodo($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Tirer pour rafraichir" refreshingText="Chargement...">
+        </ion-refresher-content>
+    </ion-refresher>
+
     <ion-row *ngIf="session">
         <ion-col text-center>
             <h3><span class="w-300">Ma prochaine séance est ce</span> <span class="primary">{{session.dayInWeek}}</span>

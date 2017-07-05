@@ -42,6 +42,7 @@ export class SessionExecutionPage {
   }
 
   nextExercise() {
+    debugger;
     this.sessionExecutionContext.refreshState();
     if (this.sessionExecutionContext.isDone()) {
       this._presentDoneSessionAlert();

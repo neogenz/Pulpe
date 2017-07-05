@@ -74,6 +74,23 @@ export class SessionPage {
       });
   }
 
+  refreshSessionTodo(refresher){
+    this.sessionService.findSessionTodo()
+      .subscribe(session => {
+        this.session = session;
+        this.exercises = session.getExercises();
+        refresher.complete();
+        //this.loader.dismiss();
+      }, errorMsg => {
+        let alert = this.alertCtrl.create({
+          title: 'Erreur',
+          subTitle: errorMsg,
+          buttons: ['OK']
+        });
+        alert.present();
+      });
+  }
+
   startSession() {
     this.navCtrl.push(SessionExecutionPage, {
       session: this.session,

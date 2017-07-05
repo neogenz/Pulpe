@@ -38,6 +38,7 @@ import {ExerciseOrganizedExecutionComponent} from '../components/exercise-organi
 import {TranslateObjectiveNamePipe} from "../shared/pipes/translateObjectiveName.filter.pipe";
 import {TranslateWorkedMuscleName} from "../shared/pipes/workedMuscle.trad.filter.pipe";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ExerciseCardioExecutionComponent } from '../components/exercise-cardio-execution/exercise-cardio-execution';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -60,7 +61,8 @@ export function HttpLoaderFactory(http: Http) {
     ExerciseBodybuildingExecutionComponent,
     ExerciseOrganizedExecutionComponent,
     TranslateObjectiveNamePipe,
-    TranslateWorkedMuscleName
+    TranslateWorkedMuscleName,
+    ExerciseCardioExecutionComponent
   ],
   imports: [
     BrowserModule,

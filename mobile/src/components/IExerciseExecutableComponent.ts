@@ -7,6 +7,11 @@ export interface IBodybuildingExerciseExecutableComponent extends IExerciseExecu
   terminateCurrentSerie(): void;
 }
 
+export interface ICardioExerciseExecutableComponent extends IExerciseExecutableComponent {
+  startNextTime(): void;
+  terminateCurrentTime(): void;
+}
+
 export interface IOrganizedExerciseExecutableComponent extends IExerciseExecutableComponent {
 
 }
