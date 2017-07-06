@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Program} from "../../_model/Program";
 import {Member} from "../../_model/Member";
 import {ActivatedRoute} from "@angular/router";
 import {Animations} from "../../shared/Animations";
@@ -10,15 +9,18 @@ import {ToastrService} from "ngx-toastr";
 import {MemberService} from "../../_services/member.service";
 import {MeasurementConverter} from "../../shared/MeasurementConverter";
 import {EvolutionService} from "./evolution.service";
+import {environment} from "../../../environments/environment";
+import {DemoService} from "../../_services/demo.service";
+import {HomeCoachService} from "../../coach/home-coach/home-coach.service";
 
 @Component({
 	selector: 'pulpe-evolution',
 	templateUrl: 'evolution.component.html',
 	styleUrls: ['evolution.component.scss'],
-	animations: [Animations.fadeIn()]
+	animations: [Animations.fadeIn()],
+	providers: [DemoService]
 })
 export class EvolutionComponent implements OnInit {
-
 	memberRequest: Observable<Point[]> = new Observable();
 	measurementRequest: Observable<Point[]> = new Observable();
 	member: Member;
@@ -26,13 +28,15 @@ export class EvolutionComponent implements OnInit {
 	evolutionMeasurementPoints: Point[];
 	measurementsLabel: string[];
 	focusedMeasurement: string;
+	demo: boolean = environment.demo;
 
 	constructor(private route: ActivatedRoute,
 							private slimLoadingBarService: SlimLoadingBarService,
 							private toastrService: ToastrService,
 							private memberService: MemberService,
 							private evolutionService: EvolutionService,
-							private measurementConverter: MeasurementConverter) {
+							private measurementConverter: MeasurementConverter,
+							private demoService: DemoService) {
 	}
 
 	ngOnInit() {
@@ -83,5 +87,18 @@ export class EvolutionComponent implements OnInit {
 			);
 		// In order to destroy measurementGraphComponent
 		this.evolutionMeasurementPoints = null;
+	}
+
+	populateDemoData(): void {
+		this.slimLoadingBarService.start();
+		this.demoService.generateDemoDataOnAuthenticatedMember()
+			.flatMap(() => {
+				return this.memberService.findById(this.member._id);
+			}).finally(() => {
+		}).subscribe(member => {
+			this.member = member;
+			this.findPrevisionsPoints();
+		}, error => {
+		});
 	}
 }

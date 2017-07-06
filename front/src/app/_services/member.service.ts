@@ -42,7 +42,7 @@ export class MemberService extends ObservableHelper {
 			}).catch(this.handleError);
 	}
 
-	public findById(id: string): Observable<Member | string> {
+	public findById(id: string): Observable<Member> {
 		return this.http.get(`${environment.baseUrl()}/members/${id}`)
 			.map(response => {
 				const data: any = this.extractDataOf(response);

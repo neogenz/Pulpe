@@ -14,8 +14,8 @@ class MemberController {
 
 	/**
 	 * Find authenticated member
-	 * @param {*} req 
-	 * @param {*} res 
+	 * @param {*} req
+	 * @param {*} res
 	 */
 	static findAuthenticated(req, res){
 		const id = req.user._id;

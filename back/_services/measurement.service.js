@@ -25,6 +25,9 @@ class MeasurementService {
 				archivedMeasurement.name = mes.name;
 				archivedMeasurement.unit = mes.unit;
 				archivedMeasurement.value = mes.value;
+				if(mes.createdAt) {
+					archivedMeasurement.createdAt = mes.createdAt;
+				}
 			}
 			measurementsPromises.push(archivedMeasurement.save());
 		});
@@ -35,6 +38,18 @@ class MeasurementService {
 			.catch(error => {
 				throw error;
 			});
+	}
+
+	/**
+	 *
+	 * @param memberId
+	 */
+	static async deleteArchivedMeasurements(memberId) {
+		try {
+			await ArchivedMeasurement.remove({member_id: memberId});
+		} catch (error) {
+			throw new TechnicalError(error.message);
+		}
 	}
 
 	/**
@@ -79,7 +94,7 @@ class MeasurementService {
 	 * @returns {Promise.<ArchivedMeasurement>|Promise}
 	 */
 	static findAllArchivedMeasurementsBy(member) {
-		return ArchivedMeasurement.find({'member_id': member._id}).sort({createdAt:1})
+		return ArchivedMeasurement.find({'member_id': member._id}).sort({createdAt: 1})
 			.then(
 				archivedMeasurements => {
 					return archivedMeasurements;

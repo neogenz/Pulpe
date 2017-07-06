@@ -49,4 +49,10 @@
             <p>Aucune donnée</p>
         </div>
     </ng-template>
+
+    <div class="row pt-3" *ngIf="demo">
+        <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-warning text-white" (click)="populateDemoData()">DÉMO</button>
+        </div>
+    </div>
 </div>

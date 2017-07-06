@@ -374,7 +374,7 @@ class MemberService {
 					});
 					const firstMeasurement = imcMeasurement;
 					const currentMeasurement = weightMeasurements[weightMeasurements.length - 1];
-					const currentPercentageAchieved = previsions[previsions.length - 1].percentage;
+					const currentPercentageAchieved = previsions[previsions.length - 1].value;
 					const ms = moment(currentMeasurement.createdAt).diff(moment(firstMeasurement.createdAt));
 					const daysToAchieveTheCurrentImc = moment.duration(ms).asDays();
 					const daysToAchieveIdealImc = (100 * daysToAchieveTheCurrentImc) / currentPercentageAchieved;
@@ -382,7 +382,7 @@ class MemberService {
 					if (previsions.length > 1) {
 						previsions[0].date = moment(imcMeasurement.createdAt).format('DD/MM/YYYY');
 					}
-					if (!memberHaveArchivedMeasurements || moment(firstMeasurement.createdAt).date() == moment(currentMeasurement.createdAt).date()) {
+					if (!memberHaveArchivedMeasurements || moment(firstMeasurement.createdAt).toDate() == moment(currentMeasurement.createdAt).toDate()) {
 						achievedObjective.date = moment(imcMeasurement.createdAt).add(1, 'Y').format('DD/MM/YYYY');
 					} else {
 						achievedObjective.date = dateToAchieveIdealImc;
@@ -392,6 +392,31 @@ class MemberService {
 					return previsions;
 				}
 			);
+	}
+
+	/**
+	 * Add measurements for a member.
+	 * @param memberId
+	 * @param measurements
+	 * @returns {Promise.<Member>|Promise}
+	 */
+	static addMeasurementsWithIMC(memberId, measurements) {
+		return this.findById(memberId)
+			.then(memberFinded => {
+				memberFinded.measurements = [];
+				measurements.forEach(mes => {
+					memberFinded.measurements.push(mes);
+				});
+				return memberFinded.save();
+			})
+			.then(member => {
+					return member;
+				}, (error) => {
+					throw new TechnicalError(error.message);
+				}
+			).catch((error) => {
+				throw error;
+			});
 	}
 
 }

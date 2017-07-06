@@ -110,7 +110,6 @@ export class MeasurementGraphComponent implements OnInit, OnChanges, AfterViewIn
 		const minTickY = Math.min.apply(null, pointValues);
 		const maxTickY = Math.max.apply(null, pointValues);
 
-		
 		return {
 			responsive: true,
 			//maintainAspectRatio: true,
