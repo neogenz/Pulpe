@@ -31,7 +31,7 @@ import {Session} from "../../../../_model/Session";
 	styleUrls: ['./exercise-program-form-dialog.component.scss'],
 	animations: [Animations.fadeIn()]
 })
-export class ExerciseProgramFormDialogComponent extends DialogComponent<ExerciseFormConfigurable, AbstractExercise> implements ExerciseFormConfigurable, OnInit, WorkedMuscleSelectable, UsedMachineSelectable {
+export class ExerciseProgramFormDialogComponent extends DialogComponent<ExerciseFormConfigurable, any> implements ExerciseFormConfigurable, OnInit, WorkedMuscleSelectable, UsedMachineSelectable {
 	ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 	title: string;
 	sessions: Session[];
@@ -183,7 +183,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 				this.slimLoadingBarService.complete();
 			})
 			.subscribe((exercise) => {
-					this.result = exercise;
+					this.result = {exercise:exercise, session:session};
 					this.toastrService.success('Un nouvel exercice a été ajouté', 'Succès!');
 					this.close();
 				},

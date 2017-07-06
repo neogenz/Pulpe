@@ -17,6 +17,9 @@ import {
 } from "./exercise-program-form-dialog/exercise-program-form-dialog.component";
 import {HeaderListSessionsComponent} from "./header-list-sessions/header-list-sessions.component";
 import {Session} from "../../../_model/Session";
+import {ExerciseGroupCode} from "../../../shared/ExerciseGroupCodeConverter";
+import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
+import {ExercisesGroup} from "../../../_model/exercise/ExercisesGroup";
 
 @Component({
 	selector: 'pulpe-program-member',
@@ -59,6 +62,7 @@ export class ProgramMemberComponent implements OnInit {
 				});
 			});
 		});
+		this.focusedSession = null;
 		this.filteredExercises = this.exercises;
 	}
 
@@ -79,16 +83,34 @@ export class ProgramMemberComponent implements OnInit {
 	private _openExerciseFormDialog() {
 		this.dialogService.addDialog(ExerciseProgramFormDialogComponent, this.exerciseFormConfiguration, {
 			backdropColor: 'rgba(0,0,0,0.5)'
-		}).subscribe((exercise) => {
-			if (exercise) {
+		}).subscribe((result) => {
+			if (result.exercise) {
 				if (this.exerciseFormConfiguration.mode == ExerciseOpenMode.Add) {
-					const newExercisesArray = this.exercises.slice(0);
-					newExercisesArray.push(exercise);
-					this.exercises = newExercisesArray;
+
+					if(this.focusedSession && this.focusedSession.id === result.session.id){
+						let eg = this.focusedSession.exercisesGroups.find(eg=>eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
+						if(!eg){
+							this.focusedSession.exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
+						}
+						eg.addOne(result.exercise);
+						this.filteredExercises.push(result.exercise);
+						this.doFilterSession({exercises:this.filteredExercises, session:this.focusedSession});
+					}else{
+						for(let i =0; i<this.program.sessions.length; i++){
+							if(this.program.sessions[i].id === result.session.id){
+								let eg = this.program.sessions[i].exercisesGroups.find(eg=>eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
+								if(!eg){
+									this.program.sessions[i].exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
+								}
+								eg.addOne(result.exercise);
+							}
+						}
+					}
+
 				} else {
-					const indexFinded = this.exercises.findIndex(e => e.id == exercise.id);
+					const indexFinded = this.exercises.findIndex(e => e.id == result.exercise.id);
 					const newExercisesArray = this.exercises.slice(0);
-					newExercisesArray[indexFinded] = exercise;
+					newExercisesArray[indexFinded] = result.exercise;
 					this.exercises = newExercisesArray;
 				}
 				this.doFilterExercises(this.filterArgs);
@@ -148,9 +170,10 @@ export class ProgramMemberComponent implements OnInit {
 		}
 	}
 
-	doFilterSession(filteredExercices: AbstractExercise[]) {
+	doFilterSession(sessionAndExercises: any) {
 		this.exercises = [];
-		filteredExercices.forEach((exercise) => {
+		this.focusedSession = sessionAndExercises.session;
+		sessionAndExercises.exercises.forEach((exercise) => {
 			this.exercises.push(exercise);
 		});
 		this.filteredExercises = this.exercises;
