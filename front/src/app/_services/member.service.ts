@@ -32,6 +32,7 @@ export class MemberService extends ObservableHelper {
 							.gender(member.gender)
 							.sessionFrequency(member.sessionFrequency)
 							.gym(member.gym)
+							.profileCompleted(member.profileCompleted)
 							.email(member.email)
 							.createdAt(member.createdAt.toLocaleString())
 							.birthDate(member.birthDate.toLocaleString())

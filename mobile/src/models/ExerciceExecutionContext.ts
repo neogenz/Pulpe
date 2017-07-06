@@ -10,8 +10,7 @@ export class ExerciseExecutionContext {
   private _timesTodo: number;
 
   constructor(exercise: AbstractExercise) {
-    this._exercise = exercise;
-    this._state = ExerciseExecutionStateEnum.WillStart;
+    this.setExercise(exercise);
   }
 
   public getExercise(): AbstractExercise {
@@ -35,6 +34,7 @@ export class ExerciseExecutionContext {
     if (this._exercise instanceof CardioExercise) {
       this._timesTodo = this._exercise.times.length;
     }
+    this._state = ExerciseExecutionStateEnum.WillStart;
   }
 
   isDone() {
@@ -47,6 +47,10 @@ export class ExerciseExecutionContext {
 
   isInProgress(){
     return this._state === ExerciseExecutionStateEnum.InProgress;
+  }
+
+  willStart(){
+    return this._state===ExerciseExecutionStateEnum.WillStart;
   }
 
   isInPause(){

@@ -125,7 +125,7 @@ export class ProfileCompletationComponent implements OnInit, OnError {
     //It's builded before assign default value, because method 'this.check' work on instance of this.objectiveCtrl
     this.objectiveCtrl = fb.control(null, Validators.required);
     let preSelectedObjective = null;
-    if(this.authProfile.objective){
+    if(this.authProfile.objective !== null && this.authProfile.objective !== undefined){
       this.objectiveAlreadySelected = true;
       preSelectedObjective = ObjectiveEnum[this.authProfile.objective];
       this.check(this.objectiveChoices.find(o=>o.value===preSelectedObjective));

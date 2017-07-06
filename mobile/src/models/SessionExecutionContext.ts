@@ -25,7 +25,7 @@ export class SessionExecutionContext {
 
   public start() {
     this._state = SessionExecutionStateEnum.Started;
-    this.startExercise();
+   // this.startExercise();
   }
 
   public stop() {

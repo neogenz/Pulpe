@@ -28,6 +28,16 @@ export class ExerciseTrainingExecutionComponent implements OnInit {
 
   terminateDelay() {
     this.delayIsFinished = true;
+    this.exerciseExecutionContext.terminate();
+  }
+
+  startExercise(){
+    if(!this.delayIsFinished){
+      this.exerciseExecutionContext.start();
+      this.exerciseExecutionContext.passInProgress();
+    }else{
+      this.terminate();
+    }
   }
 
   terminate() {

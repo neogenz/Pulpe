@@ -44,9 +44,11 @@ export class SessionPage {
   }
 
   ionViewWillEnter() {
+    debugger;
     console.debug('session.ts => ionViewWillEnter');
     if (this.newSessionTodo) {
       this.session = this.newSessionTodo;
+      this.exercises = this.session.getExercises();
       this.newSessionTodo = null;
     }
     if (!this.session) {
@@ -107,6 +109,7 @@ export class SessionPage {
 
   popCallbackInvokedFromSessionExecutionPage = (_params) => {
     return new Promise((resolve, reject) => {
+      debugger;
       this.newSessionTodo = _params;
       resolve();
     });

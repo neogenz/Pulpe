@@ -10,7 +10,7 @@ export class MuscleConverter {
   private muscleLabelConverter = new Map<string, string>();
 
   constructor() {
-    this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Biceps], 'Bicepts');
+    this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Biceps], 'Biceps');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Cardiovascular], 'Cardio');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Lumbar], 'Lombaire');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Deltoid], 'Deltoide');
@@ -25,7 +25,7 @@ export class MuscleConverter {
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.RectusAbdominus], 'Abdos');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.ThighBiceps], 'Arrière de la cuisse');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.ThighQuadriceps], 'Avant de la cuisse');
-    this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Triceps], 'Tricepts');
+    this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Triceps], 'Triceps');
     this.muscleLabelConverter.set(MuscleEnum.Name[MuscleEnum.Name.Traps], 'Trapèze');
   }
 

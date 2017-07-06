@@ -146,7 +146,7 @@ export class ExercisesRepartitionGraphComponent implements OnInit, AfterViewInit
     let newData: number[] = [];
 
     session.exercisesGroups.forEach(exercisesGroup => {
-      newData.push(exercisesGroup.exercises.length * 100 / nbExercises);
+      newData.push(Math.floor(exercisesGroup.exercises.length * 100 / nbExercises));
     });
 
     return newData;

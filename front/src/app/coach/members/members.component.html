@@ -54,7 +54,7 @@
                 </td>
                 <td>
                     <div class="row pull-right">
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="member.profileCompleted">
                             <button class="ion ion-clipboard pointer bg-primary" md-mini-fab
                                     [routerLinkActive]="['active']"
                                     [routerLink]="['programme', member._id]"

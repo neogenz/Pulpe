@@ -677,44 +677,12 @@ module.exports = SessionService;
  * @param {function(currentFirst:L, currentSecond:M)} mergingCallback
  */
 function merge(first, second, mergingCallback) {
-  // let firstAndSecondAreInversed = false;
-  // let smaller = [];
-  // let bigger = [];
-  // if (first.length < second.length) {
-  //   smaller = first;
-  //   bigger = second;
-  // } else if (first.length > second.length) {
-  //   firstAndSecondAreInversed = true;
-  //   smaller = second;
-  //   bigger = first;
-  // } else if (first.length === second.length) {
-  //   smaller = first;
-  //   bigger = second;
-  // }
-  // _merge(smaller, bigger, 0, 0, mergingCallback, firstAndSecondAreInversed);
-  //
-  // function _merge(smaller, bigger, smallerIndex, biggerIndex, mergingCallback, firstAndSecondAreInversed) {
-  //   while (smallerIndex < smaller.length && biggerIndex < bigger.length) {
-  //     if (firstAndSecondAreInversed) {
-  //       mergingCallback(bigger[biggerIndex], smaller[smallerIndex]);
-  //     } else {
-  //       mergingCallback(smaller[smallerIndex], bigger[biggerIndex]);
-  //     }
-  //     smallerIndex++;
-  //     biggerIndex++;
-  //   }
-  //
-  //   if (smallerIndex < bigger.length && biggerIndex < bigger.length) {
-  //     _merge(smaller, bigger, 0, biggerIndex, mergingCallback, firstAndSecondAreInversed);
-  //   }
-  // }
 
   if (first.length >= second.length) {
     let tmp = first;
     first = second;
     second = tmp;
   }
-  let res = [];
   let i = 0;
   let size = first.length;
   second.forEach(n => {
