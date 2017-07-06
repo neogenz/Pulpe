@@ -1,28 +1,28 @@
-import {Component, OnInit} from '@angular/core';
-import {Animations} from "../../../../shared/Animations";
-import {DialogComponent, DialogService} from "ng2-bootstrap-modal";
-import {AbstractExercise} from "../../../../_model/exercise/AbstractExercise";
-import {FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {BodybuildingExercise} from "../../../../_model/exercise/BodybuildingExercise";
-import {ExerciseGroupTypeEnum} from "../../../../_enums/ExerciseGroupTypeEnum";
-import {WorkedMuscle} from "../../../../_model/WorkedMuscle";
-import {ToastrService} from "ngx-toastr";
-import {Machine} from "../../../../_model/Machine";
-import {WorkedMuscleSelectable} from "../../../../shared/form/select-worked-muscle/select-worked-muscle.component";
-import {UsedMachineSelectable} from "../../../../shared/form/select-machines/select-machines.component";
-import {ExerciseGroupCode, ExerciseGroupCodeConverter} from "../../../../shared/ExerciseGroupCodeConverter";
-import {ExerciseFactory} from "../../../../_model/exercise/ExerciseFactory";
-import {Observable} from "rxjs/Observable";
-import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {CardioExercise} from "../../../../_model/exercise/CardioExercise";
-import {DifficultyConverter} from "../../../../shared/DifficultyConverter";
-import {OrganizedExercise} from "../../../../_model/exercise/OrganizedExercise";
-import {TrainingExercise} from "../../../../_model/exercise/TrainingExercise";
-import {ProgramService} from "../../../../member/program/program.service";
-import {ExerciseOpenMode} from "../../../exercises/exercises.component";
-import {ExerciseService} from "../../../exercises/exercise.service";
-import {SpecificExerciseFormBuilderService} from "../../../exercises/exercise-form-dialog/specific-exercise-form-builder.service";
-import {Session} from "../../../../_model/Session";
+import { Component, OnInit } from '@angular/core';
+import { Animations } from "../../../../shared/Animations";
+import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
+import { AbstractExercise } from "../../../../_model/exercise/AbstractExercise";
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { BodybuildingExercise } from "../../../../_model/exercise/BodybuildingExercise";
+import { ExerciseGroupTypeEnum } from "../../../../_enums/ExerciseGroupTypeEnum";
+import { WorkedMuscle } from "../../../../_model/WorkedMuscle";
+import { ToastrService } from "ngx-toastr";
+import { Machine } from "../../../../_model/Machine";
+import { WorkedMuscleSelectable } from "../../../../shared/form/select-worked-muscle/select-worked-muscle.component";
+import { UsedMachineSelectable } from "../../../../shared/form/select-machines/select-machines.component";
+import { ExerciseGroupCode, ExerciseGroupCodeConverter } from "../../../../shared/ExerciseGroupCodeConverter";
+import { ExerciseFactory } from "../../../../_model/exercise/ExerciseFactory";
+import { Observable } from "rxjs/Observable";
+import { SlimLoadingBarService } from "ng2-slim-loading-bar";
+import { CardioExercise } from "../../../../_model/exercise/CardioExercise";
+import { DifficultyConverter } from "../../../../shared/DifficultyConverter";
+import { OrganizedExercise } from "../../../../_model/exercise/OrganizedExercise";
+import { TrainingExercise } from "../../../../_model/exercise/TrainingExercise";
+import { ProgramService } from "../../../../member/program/program.service";
+import { ExerciseOpenMode } from "../../../exercises/exercises.component";
+import { ExerciseService } from "../../../exercises/exercise.service";
+import { SpecificExerciseFormBuilderService } from "../../../exercises/exercise-form-dialog/specific-exercise-form-builder.service";
+import { Session } from "../../../../_model/Session";
 
 
 @Component({
@@ -31,7 +31,7 @@ import {Session} from "../../../../_model/Session";
 	styleUrls: ['./exercise-program-form-dialog.component.scss'],
 	animations: [Animations.fadeIn()]
 })
-export class ExerciseProgramFormDialogComponent extends DialogComponent<ExerciseFormConfigurable, any> implements ExerciseFormConfigurable, OnInit, WorkedMuscleSelectable, UsedMachineSelectable {
+export class ExerciseProgramFormDialogComponent extends DialogComponent<ExerciseFormConfigurable, ExerciseAndThisSession> implements ExerciseFormConfigurable, OnInit, WorkedMuscleSelectable, UsedMachineSelectable {
 	ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 	title: string;
 	sessions: Session[];
@@ -48,16 +48,17 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 	exercisesGroupCodes: ExerciseGroupCode[];
 	exerciseSaveRequest: Observable<AbstractExercise>;
 	difficultyLabels: string[];
+	sessionOfExercise:Session;
 
 	constructor(dialogService: DialogService,
-							private fb: FormBuilder,
-							private toastrService: ToastrService,
-							public exerciseGroupCodeConverter: ExerciseGroupCodeConverter,
-							private exerciseService: ExerciseService,
-							public slimLoadingBarService: SlimLoadingBarService,
-							private difficultyConverter: DifficultyConverter,
-							private specificExerciseFormBuilderService: SpecificExerciseFormBuilderService,
-							private programService: ProgramService) {
+		private fb: FormBuilder,
+		private toastrService: ToastrService,
+		public exerciseGroupCodeConverter: ExerciseGroupCodeConverter,
+		private exerciseService: ExerciseService,
+		public slimLoadingBarService: SlimLoadingBarService,
+		private difficultyConverter: DifficultyConverter,
+		private specificExerciseFormBuilderService: SpecificExerciseFormBuilderService,
+		private programService: ProgramService) {
 		super(dialogService);
 		this.exercisesGroupCodes = exerciseGroupCodeConverter.toExerciseGroupCodeArray();
 		this.errorTranslations = {
@@ -183,14 +184,14 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 				this.slimLoadingBarService.complete();
 			})
 			.subscribe((exercise) => {
-					this.result = {exercise:exercise, session:session};
-					this.toastrService.success('Un nouvel exercice a été ajouté', 'Succès!');
-					this.close();
-				},
-				(errorMsg) => {
-					console.error(errorMsg);
-					this.toastrService.error(errorMsg, 'Erreur');
-				}
+				this.result = { exercise: exercise, session: session };
+				this.toastrService.success('Un nouvel exercice a été ajouté', 'Succès!');
+				this.close();
+			},
+			(errorMsg) => {
+				console.error(errorMsg);
+				this.toastrService.error(errorMsg, 'Erreur');
+			}
 			);
 	}
 
@@ -202,21 +203,21 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		exercise.type = this.typeCtrl.value;
 		this._setSpecificFieldsOn(exercise);
 		this.exerciseSaveRequest = this.exerciseService.update(exercise);
-
+		const session = this.sessionOfExercise;
 		this.slimLoadingBarService.start();
 		this.exerciseSaveRequest
 			.finally(() => {
 				this.slimLoadingBarService.complete();
 			})
 			.subscribe((exercise) => {
-					this.result = exercise;
-					this.toastrService.success('Modification effectuée.', 'Succès!');
-					this.close();
-				},
-				(errorMsg) => {
-					console.error(errorMsg);
-					this.toastrService.error(errorMsg, 'Erreur');
-				}
+				this.result = { exercise: exercise, session: session };
+				this.toastrService.success('Modification effectuée.', 'Succès!');
+				this.close();
+			},
+			(errorMsg) => {
+				console.error(errorMsg);
+				this.toastrService.error(errorMsg, 'Erreur');
+			}
 			);
 	}
 
@@ -242,6 +243,12 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 export interface ExerciseFormConfigurable {
 	title: string;
 	exercise: AbstractExercise;
+	sessionOfExercise:Session;
 	mode: ExerciseOpenMode;
 	sessions: Session[];
+}
+
+export interface ExerciseAndThisSession {
+	exercise: AbstractExercise;
+	session: Session;
 }

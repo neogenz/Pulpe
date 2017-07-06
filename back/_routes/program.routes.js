@@ -10,7 +10,8 @@ class ProgramRouter {
 		provider.get('/programs/active/sessions/todo', AuthenticationController.ensureAuthorized, ProgramController.findSessionTodo);
 		provider.get('/programs/active/sessions', AuthenticationController.ensureAuthorized, ProgramController.findAllSessionsOfActiveProgramIdByAuthenticatedMember);
 		provider.post('/programs', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ProgramController.createProgram);
-		provider.put('/programs/active/sessions/todo', AuthenticationController.ensureAuthorized, ProgramController.doneCurrentSession);
+		provider.put('/programs/active/sessions/todo/done', AuthenticationController.ensureAuthorized, ProgramController.doneCurrentSession);
+		provider.put('/programs/active/sessions/todo', AuthenticationController.ensureAuthorized, ProgramController.changeSessionTodo);
 		provider.put('/programs/sessions/:id/exercise', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, ProgramController.addExercise);
 	}
 }

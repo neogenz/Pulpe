@@ -1,7 +1,8 @@
-import {AbstractExercise} from "./exercise/AbstractExercise";
-import {ExerciseGroupCodeConverter} from "../shared/ExerciseGroupCodeConverter";
-import {ExercisesGroup} from "./exercise/ExercisesGroup";
-import {ExerciseFactory} from "./exercise/ExerciseFactory";
+import { AbstractExercise } from "./exercise/AbstractExercise";
+import { ExerciseGroupCodeConverter } from "../shared/ExerciseGroupCodeConverter";
+import { ExercisesGroup } from "./exercise/ExercisesGroup";
+import { ExerciseFactory } from "./exercise/ExerciseFactory";
+import { ExerciseGroupTypeEnum } from "../_enums/ExerciseGroupTypeEnum";
 
 //todo refacto to enum for objective and musclegroup ?
 export class Session {
@@ -38,6 +39,34 @@ export class Session {
 				return this.exercisesGroups[i].exercises;
 			}
 		}
+	}
+
+	public addOrReplaceOne(exercise: AbstractExercise): ExercisesGroup {
+		for (let i = 0; i < this.exercisesGroups.length; i++) {
+			if (this.exercisesGroups[i].groupType === ExerciseGroupTypeEnum[exercise.type]) {
+				this.exercisesGroups[i].addOrReplaceOne(exercise);
+				return this.exercisesGroups[i];
+			}
+		}
+		this.exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[exercise.type], [exercise]));
+	}
+
+	public getAllExercises(): AbstractExercise[] {
+		let exercises = [];
+		this.exercisesGroups.forEach(eg => {
+			exercises = exercises.concat(eg.exercises);
+		});
+		return exercises;
+	}
+
+	public removeOne(exercise: AbstractExercise): ExercisesGroup {
+		for (let i = 0; i < this.exercisesGroups.length; i++) {
+			if (this.exercisesGroups[i].groupType === ExerciseGroupTypeEnum[exercise.type]) {
+				this.exercisesGroups[i].removeOne(exercise);
+				return this.exercisesGroups[i];
+			}
+		}
+		return null;
 	}
 }
 

@@ -22,7 +22,7 @@ class ProgramController {
 
 		ProgramService.findByMemberId(memberId)
 			.then((program) => {
-				res.send({program: program});
+				res.send({ program: program });
 			})
 			.catch((error) => {
 				console.error(error.stack);
@@ -35,7 +35,7 @@ class ProgramController {
 		const memberId = req.params.id;
 		ProgramService.findByMemberId(memberId)
 			.then((program) => {
-				res.send({program: program});
+				res.send({ program: program });
 			})
 			.catch((error) => {
 				console.error(error.stack);
@@ -52,7 +52,7 @@ class ProgramController {
 			if (mustBeActive) {
 				await ProgramService.disableAllBy(member);
 			}
-			const programGenerationContext = new ProgramGenerationContext({member: member, isActive: mustBeActive});
+			const programGenerationContext = new ProgramGenerationContext({ member: member, isActive: mustBeActive });
 			const program = await ProgramService.generateProgramBy(programGenerationContext);
 			const programSaved = await ProgramService.saveProgram(program);
 			return res.send(programSaved);
@@ -91,7 +91,29 @@ class ProgramController {
 			const sessionToMarkDone = await ProgramService.findSessionTodoBy(memberId);
 			await SessionService.doneThisSessionBy(sessionToMarkDone, program);
 			const newSessionTodo = await ProgramService.findSessionTodoBy(memberId);
-			return res.send({newSessionTodo: newSessionTodo});
+			return res.send({ newSessionTodo: newSessionTodo });
+		} catch (error) {
+			console.error(error.stack);
+			const httpError = HttpErrorHelper.buildHttpErrorByError(error);
+			return res.status(httpError.code).send(httpError);
+		}
+	}
+
+	static async changeSessionTodo(req, res) {
+		try {
+			if (!req.body.id)
+				throw new Error('Id of session to pass in todo is mandatory.');
+			const memberId = req.user._id;
+			const newSessionIdTodo = req.body.id;
+			const program = await ProgramService.findByMemberId(memberId);
+			const newSessionTodo = program.sessions.find(session => {
+				return session._id.equals(newSessionIdTodo);
+			});
+			if (!newSessionTodo)
+				throw new Error('Session to pass todo is not finded on program.');
+			program._sessionTodo = newSessionIdTodo;
+			await program.save();
+			return res.send({ newSessionTodo: newSessionTodo });
 		} catch (error) {
 			console.error(error.stack);
 			const httpError = HttpErrorHelper.buildHttpErrorByError(error);

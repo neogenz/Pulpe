@@ -46,13 +46,13 @@ mongoose.connection.on('connected', function () {
 	let ExerciseService = require('./_services/exercise.service');
 	let ExerciseReferenceInformationService = require('./_services/exerciseReferenceInformation.service');
 
-	mongoose.connection.collections['Machines'].drop()
-		.then(() => {
+	//mongoose.connection.collections['Machines'].drop()
+	/*	.then(() => {
 			return mongoose.connection.collections['Gyms'].drop();
 		}, error => {
 			return mongoose.connection.collections['Gyms'].drop();
-		})
-		.then(() => {
+		})*/
+	/*	.then(() => {
 			return mongoose.connection.collections['Exercises'].drop();
 		}, error => {
 			return mongoose.connection.collections['Exercises'].drop();
@@ -61,17 +61,12 @@ mongoose.connection.on('connected', function () {
 			return mongoose.connection.collections['Programs'].drop();
 		}, error => {
 			return mongoose.connection.collections['Programs'].drop();
-		})
-		.then(() => {
-			return mongoose.connection.collections['Sessions'].drop();
-		}, error => {
-			return mongoose.connection.collections['Sessions'].drop();
-		})
-		.then(() => {
-			return mongoose.connection.collections['ExercisesReferencesInformations'].drop();
-		}, error => {
-			return mongoose.connection.collections['ExercisesReferencesInformations'].drop();
-		})
+		})*/
+	//.then(() => {
+	mongoose.connection.collections['ExercisesReferencesInformations'].drop()
+		//}, error => {
+		//	return mongoose.connection.collections['ExercisesReferencesInformations'].drop();
+		//	})
 		.then(() => {
 			return ExerciseReferenceInformationService.initExercisesReferencesInformations();
 		}, error => {

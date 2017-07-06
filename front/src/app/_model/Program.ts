@@ -4,6 +4,7 @@ import { ExerciseGroupTypeEnum } from "../_enums/ExerciseGroupTypeEnum";
 import { Session } from "./Session";
 import { SessionsService } from "../member/sessions/sessions.service";
 import { Injectable } from "@angular/core";
+import { ExercisesGroup } from "./exercise/ExercisesGroup";
 
 export class Program {
   level: number = null;
@@ -61,6 +62,40 @@ export class Program {
   //   return this;
   // }
 
+  public findSessionOfThisExercise(exercise: AbstractExercise): Session {
+    debugger;
+    let matchExerciseSession: any = (session: Session) => {
+      for (let i = 0; i < session.exercisesGroups.length; i++) {
+        if (session.exercisesGroups[i].haveThis(exercise)) {
+          return session;
+        }
+      }
+      return null;
+    };
+
+    let session = this.sessions.find(matchExerciseSession);
+
+    return session;
+  }
+
+  public addOrReplaceExerciseInThis(session: Session, exercise: AbstractExercise): Session {
+    for (let i = 0; i < this.sessions.length; i++) {
+      if (this.sessions[i].id === session.id) {
+        this.sessions[i].addOrReplaceOne(exercise);
+        return this.sessions[i];
+      }
+    }
+    throw new Error(`The session focused (${session.id}) isn\'t present in the program`);
+  }
+
+  public removeExerciseInThis(session: Session, exercise: AbstractExercise) {
+    for (let i = 0; i < this.sessions.length; i++) {
+      if (this.sessions[i].id === session.id) {
+        return this.sessions[i].removeOne(exercise);
+      }
+    }
+    throw new Error(`The session focused (${session.id}) isn\'t present in the program`);
+  }
 
   public static of(): ProgramBuilder {
     return new ProgramBuilder()
@@ -111,7 +146,7 @@ class ProgramBuilder {
     let session = null;
     rawSessions.forEach(rawSession => {
       session = Session.of()
-				.id(rawSession._id)
+        .id(rawSession._id)
         .objective(rawSession.objective)
         .exercisesGroupsFromServer(rawSession.exercises)
         .needTraining(rawSession.training)

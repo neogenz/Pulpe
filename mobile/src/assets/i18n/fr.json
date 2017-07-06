@@ -45,5 +45,9 @@
   "START_EXERCISE": "Démarrer l'exercise",
   "SESSION_TITLE": "Ma séance",
   "CLOSE_BUTTON": "Fermer",
-  "CURRENT_SESSION": "Séance en cours"
+  "CURRENT_SESSION": "Séance en cours",
+  "LOADING_APP":"Initialisation ...",
+  "LOADING_SESSIONS":"Chargement des séances ...",
+   "CANCEL":"Annuler",
+   "OK":"Ok"
 }

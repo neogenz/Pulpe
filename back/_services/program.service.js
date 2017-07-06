@@ -36,20 +36,21 @@ class ProgramService {
 			const dayOfWeekOnToday = moment().day(moment().day()).isoWeekday();
 			for (let i = 0; i < programActive.sessions.length; i++) {
 				if (programActive.sessions[i]._id.equals(programActive._sessionTodo)) {
-					if (moment().day(programActive.sessions[i].dayInWeek).isoWeekday() >= dayOfWeekOnToday) {
-						return programActive.sessions[i];
-					}
-					else {
-						if (_haveNextSession(programActive.sessions, i)) {
-							programActive._sessionTodo = programActive.sessions[i + 1]._id;
-							saveProgram = true;
+					return programActive.sessions[i];
+					/*	if (moment().day(programActive.sessions[i].dayInWeek).isoWeekday() >= dayOfWeekOnToday) {
+							return programActive.sessions[i];
 						}
-					}
+						else {
+							if (_haveNextSession(programActive.sessions, i)) {
+								programActive._sessionTodo = programActive.sessions[i + 1]._id;
+								saveProgram = true;
+							}
+						}*/
 				}
 			}
-			programActive._sessionTodo = programActive.sessions[0];
-			await programActive.save();
-			return programActive.session[0];
+			throw new NotFoundError('Aucun exercice à venir sur cette séance.');
+			/*await programActive.save();
+			return programActive.session[0];*/
 		}
 		catch (error) {
 			if (!(error instanceof NotFoundError)) {
@@ -155,7 +156,7 @@ class ProgramService {
 
 
 	static async disableAllBy(member) {
-		await Program.update({member: member}, {isActive: false}, {multi: true});
+		await Program.update({ member: member }, { isActive: false }, { multi: true });
 	}
 
 	/**

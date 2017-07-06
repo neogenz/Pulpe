@@ -1,10 +1,11 @@
-import {AbstractExercise} from "./exercise/AbstractExercise";
-import {ExerciseGroupCodeConverter} from "../shared/converters/ExerciseGroupCodeConverter";
-import {ExercisesGroup} from "./exercise/ExercisesGroup";
-import {ExerciseFactory} from "./exercise/ExerciseFactory";
+import { AbstractExercise } from "./exercise/AbstractExercise";
+import { ExerciseGroupCodeConverter } from "../shared/converters/ExerciseGroupCodeConverter";
+import { ExercisesGroup } from "./exercise/ExercisesGroup";
+import { ExerciseFactory } from "./exercise/ExerciseFactory";
 
 //todo refacto to enum for objective and musclegroup ?
 export class Session {
+  id: string;
   objective: string;
   exercisesGroups: ExercisesGroup[];
   createdAt: Date;
@@ -109,6 +110,11 @@ class SessionBuilder {
 
   dayInWeek(day: string): SessionBuilder {
     this.me.dayInWeek = day;
+    return this;
+  }
+
+  id(id: string): SessionBuilder {
+    this.me.id = id;
     return this;
   }
 

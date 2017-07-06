@@ -10,7 +10,7 @@ import {AbstractExercise} from "../../../../_model/exercise/AbstractExercise";
 })
 export class HeaderListSessionsComponent implements OnInit {
 	@Output() filterArgs = new EventEmitter<string>();
-	@Output() filteredExercises = new EventEmitter<any>();
+	@Output() filteredBySession = new EventEmitter<Session>();
 	@Input() nbElements: number;
 	@Input() title: string;
 	@Input() sessions: Session[];
@@ -32,16 +32,23 @@ export class HeaderListSessionsComponent implements OnInit {
 
 	private refreshConfigBy(session: Session) {
 		this.exercises = [];
-		session.exercisesGroups.forEach((exerciseGroup) => {
-			exerciseGroup.exercises.forEach((exercise) => {
+		session.getAllExercises().forEach((exercise) => {
 				this.exercises.push(exercise);
-			});
 		});
 	}
 
 	public focusedSessionChanged(newValue: MdSelectChange): void {
-		this.refreshConfigBy(newValue.value);
-		this.filteredExercises.emit({exercises:this.exercises,session:this.focusedSession});
+		//this.refreshConfigBy(newValue.value);
+		this.filteredBySession.emit(newValue.value);
 	}
 
+	public resetSessionFilter(){
+		this.focusedSession = null;
+		this.filteredBySession.emit(null);
+	}
+}
+
+export interface SessionAndTheirExercises{
+	exercises:AbstractExercise[];
+	session:Session;
 }

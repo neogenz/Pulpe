@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {NavController, ToastController} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
+import { Component, OnInit } from '@angular/core';
+import { NavController, ToastController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-import {MainPage} from '../../pages/pages';
+import { MainPage } from '../../pages/pages';
 
-import {User} from '../../providers/user';
+import { User } from '../../providers/user';
 
-import {TranslateService} from '@ngx-translate/core';
-import {SessionPage} from "../session/session";
+import { TranslateService } from '@ngx-translate/core';
+import { SessionPage } from "../session/session";
 
 
 @Component({
@@ -28,10 +28,11 @@ export class LoginPage implements OnInit {
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
-              public user: User,
-              public toastCtrl: ToastController,
-              public translateService: TranslateService,
-              private storage: Storage) {
+    public user: User,
+    public toastCtrl: ToastController,
+    public translateService: TranslateService,
+    private alertCtrl: AlertController,
+    private storage: Storage) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
@@ -53,11 +54,24 @@ export class LoginPage implements OnInit {
       this.storage.set('rememberedLoginForm', this.account);
     }
     this.user.signin(this.account)
-      .subscribe(() => {
-        this.navCtrl.setRoot(SessionPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
+      .subscribe((authProfile) => {
+        if (!authProfile.profileCompleted) {
+          let alert = this.alertCtrl.create({
+            title: 'Oups',
+            message: 'Veuillez d\'abord compléter votre profile depuis le site web.',
+            buttons: [
+              {
+                text: 'Ok'
+              }
+            ]
+          });
+          alert.present();
+        } else {
+          this.navCtrl.setRoot(SessionPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
       }, () => {
         let toast = this.toastCtrl.create({
           message: this.loginErrorString,

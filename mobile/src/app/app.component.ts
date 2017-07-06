@@ -1,15 +1,17 @@
-import {Component, ViewChild} from '@angular/core';
-import {Platform, Nav, Config, Loading, LoadingController} from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Nav, Config, Loading, LoadingController, AlertController, NavController } from 'ionic-angular';
 
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
-import {TutorialPage} from '../pages/tutorial/tutorial';
-import {WelcomePage} from '../pages/welcome/welcome';
+import { TutorialPage } from '../pages/tutorial/tutorial';
+import { WelcomePage } from '../pages/welcome/welcome';
 
-import {TranslateService} from '@ngx-translate/core'
-import {Storage} from "@ionic/storage";
-import {User} from "../providers/user";
+import { TranslateService } from '@ngx-translate/core'
+import { Storage } from "@ionic/storage";
+import { User } from "../providers/user";
+import { Session } from "../models/Session";
+import { SessionService } from "../providers/sessions";
 
 @Component({
   template: `
@@ -28,7 +30,6 @@ import {User} from "../providers/user";
                   </button>
               </ion-list>
           </ion-content>
-
       </ion-menu>
 
       <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
@@ -43,28 +44,32 @@ export class MyApp {
   pages: any[] = [];
 
   constructor(private loadingCtrl: LoadingController,
-              private translate: TranslateService,
-              private platform: Platform,
-              private config: Config,
-              private statusBar: StatusBar,
-              private splashScreen: SplashScreen,
-              private storage: Storage,
-              private user: User) {
-    this._presentLoading();
+    private translate: TranslateService,
+    private platform: Platform,
+    private sessionService: SessionService,
+    private config: Config,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private storage: Storage,
+    private user: User,
+    private alertCtrl: AlertController) {
     this.initTranslate();
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-      return this.storage.get('tutorialShown');
-    }).then(tutorialShown => {
-      this.loader.dismiss();
-      if (tutorialShown) {
-        this.rootPage = WelcomePage;
-      } else {
-        this.rootPage = TutorialPage;
-      }
+    this.translate.get('LOADING_APP').subscribe(loadingMsg => {
+      this._presentLoading(loadingMsg);
+      return this.platform.ready().then(() => {
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+        return this.storage.get('tutorialShown');
+      }).then(tutorialShown => {
+        this.loader.dismiss();
+        if (tutorialShown) {
+          this.rootPage = WelcomePage;
+        } else {
+          this.rootPage = TutorialPage;
+        }
+      });
     });
   }
 
@@ -87,10 +92,9 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  private _presentLoading() {
-    this.loader = this.loadingCtrl.create({
-      content: 'Chargement ...'
-    })
+  private _presentLoading(text: string): void {
+    this.loader = this.loadingCtrl.create({ content: text });
+    this.loader.present();
   }
 
   signout() {

@@ -1,25 +1,25 @@
-import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {Animations} from "../../../shared/Animations";
-import {ActivatedRoute} from "@angular/router";
-import {Program} from "../../../_model/Program";
-import {AbstractExercise} from "../../../_model/exercise/AbstractExercise";
-import {FilterExercisesPipe} from "../../exercises/filter-exercises.pipe";
-import {DialogService} from "ng2-bootstrap-modal";
-import {ExerciseService} from "../../exercises/exercise.service";
-import {ToastrService} from "ngx-toastr";
-import {ExerciseOpenMode} from "../../exercises/exercises.component";
-import {DeleteDialogComponent} from "../../../shared/dialogs/delete-dialog/delete-dialog.component";
-import {Observable} from "rxjs/Observable";
-import {Member} from "../../../_model/Member";
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Animations } from "../../../shared/Animations";
+import { ActivatedRoute } from "@angular/router";
+import { Program } from "../../../_model/Program";
+import { AbstractExercise } from "../../../_model/exercise/AbstractExercise";
+import { FilterExercisesPipe } from "../../exercises/filter-exercises.pipe";
+import { DialogService } from "ng2-bootstrap-modal";
+import { ExerciseService } from "../../exercises/exercise.service";
+import { ToastrService } from "ngx-toastr";
+import { ExerciseOpenMode } from "../../exercises/exercises.component";
+import { DeleteDialogComponent } from "../../../shared/dialogs/delete-dialog/delete-dialog.component";
+import { Observable } from "rxjs/Observable";
+import { Member } from "../../../_model/Member";
 import {
 	ExerciseFormConfigurable,
 	ExerciseProgramFormDialogComponent
 } from "./exercise-program-form-dialog/exercise-program-form-dialog.component";
-import {HeaderListSessionsComponent} from "./header-list-sessions/header-list-sessions.component";
-import {Session} from "../../../_model/Session";
-import {ExerciseGroupCode} from "../../../shared/ExerciseGroupCodeConverter";
-import {ExerciseGroupTypeEnum} from "../../../_enums/ExerciseGroupTypeEnum";
-import {ExercisesGroup} from "../../../_model/exercise/ExercisesGroup";
+import { HeaderListSessionsComponent } from "./header-list-sessions/header-list-sessions.component";
+import { Session } from "../../../_model/Session";
+import { ExerciseGroupCode } from "../../../shared/ExerciseGroupCodeConverter";
+import { ExerciseGroupTypeEnum } from "../../../_enums/ExerciseGroupTypeEnum";
+import { ExercisesGroup } from "../../../_model/exercise/ExercisesGroup";
 
 @Component({
 	selector: 'pulpe-program-member',
@@ -41,12 +41,13 @@ export class ProgramMemberComponent implements OnInit {
 	public exerciseFormConfiguration: ExerciseFormConfigurable;
 	public pageTitle: string;
 	public focusedSession: Session;
+	public filteredBySession: boolean = false;
 
 	constructor(public route: ActivatedRoute,
-							private dialogService: DialogService,
-							private exerciseService: ExerciseService,
-							private toastrService: ToastrService,
-							private filterExercises: FilterExercisesPipe) {
+		private dialogService: DialogService,
+		private exerciseService: ExerciseService,
+		private toastrService: ToastrService,
+		private filterExercises: FilterExercisesPipe) {
 		this.exercises = [];
 	}
 
@@ -86,34 +87,18 @@ export class ProgramMemberComponent implements OnInit {
 		}).subscribe((result) => {
 			if (result.exercise) {
 				if (this.exerciseFormConfiguration.mode == ExerciseOpenMode.Add) {
-
-					if (this.focusedSession && this.focusedSession.id === result.session.id) {
-						let eg = this.focusedSession.exercisesGroups.find(eg => eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
-						if (!eg) {
-							this.focusedSession.exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
-						}
-						eg.addOne(result.exercise);
-						this.filteredExercises.push(result.exercise);
-						this.doFilterSession({exercises: this.filteredExercises, session: this.focusedSession});
-					} else {
-						for (let i = 0; i < this.program.sessions.length; i++) {
-							if (this.program.sessions[i].id === result.session.id) {
-								let eg = this.program.sessions[i].exercisesGroups.find(eg => eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
-								if (!eg) {
-									this.program.sessions[i].exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
-								}
-								eg.addOne(result.exercise);
-							}
-						}
-					}
-
+					const newExercisesArray = this.exercises.slice(0);
+					newExercisesArray.push(result.exercise);
+					this.exercises = newExercisesArray;
 				} else {
 					const indexFinded = this.exercises.findIndex(e => e.id == result.exercise.id);
 					const newExercisesArray = this.exercises.slice(0);
 					newExercisesArray[indexFinded] = result.exercise;
 					this.exercises = newExercisesArray;
 				}
+				this.program.addOrReplaceExerciseInThis(result.session, result.exercise);
 				this.doFilterExercises(this.filterArgs);
+				this.doFilterBySession(this.focusedSession);
 			}
 		});
 	}
@@ -124,28 +109,31 @@ export class ProgramMemberComponent implements OnInit {
 			title: 'Confirmation',
 			description: `Êtes vous sur de vouloir supprimer l'exercice ${exercise.name} ?`
 		}, {
-			backdropColor: 'rgba(0,0,0,0.5)'
-		}).flatMap((confirmed) => {
-			if (confirmed) {
-				return this.exerciseService.deleteThis(exercise);
-			}
-			return Observable.of(null);
-		}).subscribe(deleted => {
-			if (deleted) {
-				this.toastrService.success('Suppression effectuée.', 'Succès!');
-				this.exercises = this.exercises.filter(exercise => exercise.id !== deleted.id);
-				this.doFilterExercises(this.filterArgs);
-			}
-		}, (errorMsg) => {
-			console.error(errorMsg);
-			this.toastrService.error(errorMsg, 'Erreur');
-		})
+				backdropColor: 'rgba(0,0,0,0.5)'
+			}).flatMap((confirmed) => {
+				if (confirmed) {
+					return this.exerciseService.deleteThis(exercise);
+				}
+				return Observable.of(null);
+			}).subscribe(deleted => {
+				if (deleted) {
+					this.program.removeExerciseInThis(this.program.findSessionOfThisExercise(exercise), exercise);
+					this.toastrService.success('Suppression effectuée.', 'Succès!');
+					this.exercises = this.exercises.filter(exercise => exercise.id !== deleted.id);
+					this.doFilterBySession(this.focusedSession);
+					this.doFilterExercises(this.filterArgs);
+				}
+			}, (errorMsg) => {
+				console.error(errorMsg);
+				this.toastrService.error(errorMsg, 'Erreur');
+			})
 	}
 
 	private _setExerciseFormConfigurationToAdd(): void {
 		this.exerciseFormConfiguration = {
 			title: 'Ajouter un exercice',
 			exercise: null,
+			sessionOfExercise: null,
 			mode: ExerciseOpenMode.Add,
 			sessions: this.program.sessions
 		};
@@ -155,12 +143,14 @@ export class ProgramMemberComponent implements OnInit {
 		this.exerciseFormConfiguration = {
 			title: 'Modifier un exercice',
 			exercise: exercise,
+			sessionOfExercise: this.program.findSessionOfThisExercise(exercise),
 			mode: ExerciseOpenMode.Edit,
 			sessions: this.program.sessions
 		};
 	}
 
 	doFilterExercises(filtersArgs: string) {
+		debugger;
 		this.filterArgs = null;
 		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
@@ -170,12 +160,15 @@ export class ProgramMemberComponent implements OnInit {
 		}
 	}
 
-	doFilterSession(sessionAndExercises: any) {
-		this.exercises = [];
-		this.focusedSession = sessionAndExercises.session;
-		sessionAndExercises.exercises.forEach((exercise) => {
-			this.exercises.push(exercise);
-		});
-		this.filteredExercises = this.exercises;
+	doFilterBySession(session: Session) {
+		this.focusedSession = null;
+		this.filteredBySession = false;
+		if (session) {
+			this.filteredBySession = true;
+			this.focusedSession = session;
+			this.filteredExercises = session.getAllExercises();
+		} else {
+			this.filteredExercises = this.exercises;
+		}
 	}
 }

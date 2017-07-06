@@ -70,7 +70,7 @@ export class ExerciseGroupCodeConverter {
         exercisesGroupAlreadyPresent = new ExercisesGroup(groupTypeLabel, []);
         exercisesGroups.push(exercisesGroupAlreadyPresent);
       }
-      exercisesGroupAlreadyPresent.addOne(ExerciseFactory.create(groupTypeLabel, rawExercise));
+      exercisesGroupAlreadyPresent.addOrReplaceOne(ExerciseFactory.create(groupTypeLabel, rawExercise));
     });
     return exercisesGroups;
   }
