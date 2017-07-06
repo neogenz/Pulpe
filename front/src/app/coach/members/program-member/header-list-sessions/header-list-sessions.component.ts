@@ -43,4 +43,5 @@ export class HeaderListSessionsComponent implements OnInit {
 		this.refreshConfigBy(newValue.value);
 		this.filteredExercises.emit(this.exercises);
 	}
+
 }

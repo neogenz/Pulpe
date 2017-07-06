@@ -32,10 +32,11 @@ import {Session} from "../../../../_model/Session";
 	animations: [Animations.fadeIn()]
 })
 export class ExerciseProgramFormDialogComponent extends DialogComponent<ExerciseFormConfigurable, AbstractExercise> implements ExerciseFormConfigurable, OnInit, WorkedMuscleSelectable, UsedMachineSelectable {
-	public ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
+	ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 	title: string;
 	sessions: Session[];
 	mode: ExerciseOpenMode;
+	isDialogModeAdd: boolean;
 	exerciseForm: FormGroup;
 	nameCtrl: FormControl;
 	typeCtrl: FormControl;
@@ -78,23 +79,37 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		this.buildForm();
 		this.exercise.workedMuscles.forEach(workedMuscle => this.addWorkedMuscle(workedMuscle));
 		this.exercise.machines.forEach(machine => this.addUsedMachine(machine));
-		debugger;
+		this.isDialogModeAdd = this.mode === ExerciseOpenMode.Add ? true : false;
 	}
 
 	buildForm() {
 		this.nameCtrl = this.fb.control(this.exercise.name, Validators.required);
 		this.typeCtrl = this.fb.control(this.exercise.type, Validators.required);
-		this.sessionCtrl = this.fb.control('', Validators.required);
 		this.workedMusclesCtrl = this.fb.array([], Validators.compose([Validators.required]));
 		this.usedMachinesCtrl = this.fb.array([], Validators.compose([Validators.required]));
-		this.exerciseForm = this.fb.group({
-			name: this.nameCtrl,
-			workedMuscles: this.workedMusclesCtrl,
-			machines: this.usedMachinesCtrl,
-			type: this.typeCtrl,
-			specifics: this.specificExerciseFormBuilderService.getFormGroupByExercise(this.exercise),
-			sessions: this.sessionCtrl
-		});
+		switch (this.mode) {
+			case ExerciseOpenMode.Add:
+				this.sessionCtrl = this.fb.control('', Validators.required);
+				this.exerciseForm = this.fb.group({
+					name: this.nameCtrl,
+					workedMuscles: this.workedMusclesCtrl,
+					machines: this.usedMachinesCtrl,
+					type: this.typeCtrl,
+					specifics: this.specificExerciseFormBuilderService.getFormGroupByExercise(this.exercise),
+					sessions: this.sessionCtrl
+				});
+				break;
+			case ExerciseOpenMode.Edit:
+				this.exerciseForm = this.fb.group({
+					name: this.nameCtrl,
+					workedMuscles: this.workedMusclesCtrl,
+					machines: this.usedMachinesCtrl,
+					type: this.typeCtrl,
+					specifics: this.specificExerciseFormBuilderService.getFormGroupByExercise(this.exercise)
+				});
+				break;
+		}
+
 	}
 
 	public refreshSpecificPropertiesOnChangeExerciseType(): void {
@@ -160,11 +175,8 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		exercise.name = this.nameCtrl.value;
 		exercise.type = this.typeCtrl.value;
 		this._setSpecificFieldsOn(exercise);
-
-		// TODO : add to program
-		//const sessionId;
-		//this.exerciseSaveRequest = this.programService.addExercise(exercise, sessionId);
-
+		const session = this.sessionCtrl.value;
+		this.exerciseSaveRequest = this.programService.addExercise(exercise, session.id);
 		this.slimLoadingBarService.start();
 		this.exerciseSaveRequest
 			.finally(() => {

@@ -50,6 +50,7 @@ export class SessionsService {
 				let rawSessions: any[] = this.extractData(res);
 				rawSessions.forEach(rawSession => {
 					session = Session.of()
+						.id(rawSession._id)
 						.objective(rawSession.objective)
 						.exercisesGroupsFromServer(rawSession.exercises)
 						.needTraining(rawSession.training)
@@ -89,6 +90,7 @@ export class SessionsService {
 			.map(res => {
 				let rawSession: any = this.extractData(res);
 				session = Session.of()
+					.id(rawSession._id)
 					.objective(rawSession.objective)
 					.exercisesGroupsFromServer(rawSession.exercises)
 					.needTraining(rawSession.training)

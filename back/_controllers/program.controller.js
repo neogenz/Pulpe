@@ -3,9 +3,11 @@ const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const MemberService = require('../_services/member.service');
 const winston = require('winston');
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
 const ProgramGenerationContext = require('../_contextExecutionClass/ProgramGenerationContext');
 const HTTP_CODE = require('../_helpers/HTTP_CODE.json');
 const SessionService = require('../_services/session.service');
+const ExerciseService = require('../_services/exercise.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const SessionError = require('../_model/Errors').SessionError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
@@ -115,9 +117,16 @@ class ProgramController {
 
 	static async addExercise(req, res) {
 		try {
-			const exercise = req.body.exercise;
-			const sessionId = req.params.sessionId;
-			const exerciseAdded = await ProgramService.addExercise(sessionId, exercise);
+			const sessionId = req.params.id;
+			const exerciseCreated = await ExerciseService.createExerciseBy(req.body.exercise.name, req.body.exercise.machines, {
+				type: ExerciseGroupTypeEnum.fromName(req.body.exercise.type),
+				workedMuscles: req.body.exercise.workedMuscles,
+				weight: req.body.exercise.weight,
+				km: req.body.exercise.km,
+				gym: req.user.gym,
+				reference: true
+			});
+			const exerciseAdded = await ProgramService.addExercise(sessionId, exerciseCreated);
 			return res.send(exerciseAdded);
 		} catch (error) {
 			console.error(error.stack);

@@ -71,9 +71,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div *ngIf="isDialogModeAdd" class="form-group">
                             <md-select placeholder="Choisissez la séance" class="col-md-12"
-                                       formControlName="sessions" required>
+                                       formControlName="sessions">
                                 <md-option *ngFor="let session of sessions"
                                            [value]="session">
                                     {{session.dayInWeek}}

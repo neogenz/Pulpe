@@ -34,8 +34,8 @@ ProgramSchema.query.ofThisMember = function (member) {
 	return this.find({member: member});
 };
 
-ProgramSchema.query.ofThisSession = function (session) {
-	return this.find({'sessions._id': session._id});
+ProgramSchema.query.ofThisSession = function (sessionId) {
+	return this.find({'sessions._id': sessionId});
 };
 
 ProgramSchema.query.isActive = function () {

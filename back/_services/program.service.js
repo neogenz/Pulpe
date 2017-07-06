@@ -1,16 +1,14 @@
 const Program = require('../_model/Program');
 const NotFoundError = require('../_model/Errors').NotFoundError;
 const ObjectiveEnum = require('../_enums/ObjectiveEnum');
+const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
 const MuscleEnum = require('../_enums/MuscleEnum');
 const ExerciseService = require('./exercise.service');
 //todo Create exercise service to find by some criterias
 const Exercise = require('../_model/Exercise');
-const DifficultyEnum = require('../_enums/DifficultyEnum');
-const Session = require('../_model/Session');
 const moment = require('moment');
 const SessionService = require('../_services/session.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
-const SessionError = require('../_model/Errors').SessionError;
 
 class ProgramService {
 	constructor() {
@@ -185,21 +183,27 @@ class ProgramService {
 	 * Add a new exercise on program's member.
 	 * @param sessionId
 	 * @param exercise
-	 * @returns {Promise|Promise.<Program>}
+	 * @returns {Promise|Promise.<Exercise>}
 	 */
-	static addExercise(sessionId, exercise) {
+	static async addExercise(sessionId, exercise) {
+		let programFinded = null;
 		return this.findBySessionId(sessionId)
 			.then((program) => {
-				program.sessions.forEach((session) => {
-					if (session._id === sessionId) {
-						session.exercises.push(exercise);
-					}
-				});
+				programFinded = program;
+				const sessionToUpdate = programFinded.sessions.find(s => s._id.equals(sessionId));
+				sessionToUpdate.exercises.push(exercise);
+				return programFinded.save();
+			}, error => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.then((programSaved) => {
 				return exercise;
 			}, error => {
 				console.error(error.stack);
 				throw new TechnicalError(error.message);
-			}).catch(error => {
+			})
+			.catch(error => {
 				throw error;
 			});
 	}

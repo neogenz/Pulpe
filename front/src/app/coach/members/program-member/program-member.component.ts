@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Animations} from "../../../shared/Animations";
 import {ActivatedRoute} from "@angular/router";
 import {Program} from "../../../_model/Program";
@@ -15,6 +15,8 @@ import {
 	ExerciseFormConfigurable,
 	ExerciseProgramFormDialogComponent
 } from "./exercise-program-form-dialog/exercise-program-form-dialog.component";
+import {HeaderListSessionsComponent} from "./header-list-sessions/header-list-sessions.component";
+import {Session} from "../../../_model/Session";
 
 @Component({
 	selector: 'pulpe-program-member',
@@ -24,6 +26,9 @@ import {
 	providers: [FilterExercisesPipe]
 })
 export class ProgramMemberComponent implements OnInit {
+	@ViewChild(HeaderListSessionsComponent)
+	private headerlistComponent: HeaderListSessionsComponent;
+
 	public program: Program;
 	public member: Member;
 	public exercises: AbstractExercise[];
@@ -32,6 +37,7 @@ export class ProgramMemberComponent implements OnInit {
 	public openableMode: any = ExerciseOpenMode;
 	public exerciseFormConfiguration: ExerciseFormConfigurable;
 	public pageTitle: string;
+	public focusedSession: Session;
 
 	constructor(public route: ActivatedRoute,
 							private dialogService: DialogService,
@@ -73,17 +79,16 @@ export class ProgramMemberComponent implements OnInit {
 	private _openExerciseFormDialog() {
 		this.dialogService.addDialog(ExerciseProgramFormDialogComponent, this.exerciseFormConfiguration, {
 			backdropColor: 'rgba(0,0,0,0.5)'
-		}).subscribe((exerciseAdded) => {
-			if (exerciseAdded) {
+		}).subscribe((exercise) => {
+			if (exercise) {
 				if (this.exerciseFormConfiguration.mode == ExerciseOpenMode.Add) {
 					const newExercisesArray = this.exercises.slice(0);
-					newExercisesArray.push(exerciseAdded);
+					newExercisesArray.push(exercise);
 					this.exercises = newExercisesArray;
-
 				} else {
-					const indexFinded = this.exercises.findIndex(e => e.id == exerciseAdded.id);
+					const indexFinded = this.exercises.findIndex(e => e.id == exercise.id);
 					const newExercisesArray = this.exercises.slice(0);
-					newExercisesArray[indexFinded] = exerciseAdded;
+					newExercisesArray[indexFinded] = exercise;
 					this.exercises = newExercisesArray;
 				}
 				this.doFilterExercises(this.filterArgs);
@@ -143,9 +148,9 @@ export class ProgramMemberComponent implements OnInit {
 		}
 	}
 
-	doFilterSession(filteredExercises: AbstractExercise[]) {
+	doFilterSession(filteredExercices: AbstractExercise[]) {
 		this.exercises = [];
-		filteredExercises.forEach((exercise) => {
+		filteredExercices.forEach((exercise) => {
 			this.exercises.push(exercise);
 		});
 		this.filteredExercises = this.exercises;

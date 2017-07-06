@@ -93,6 +93,7 @@ class ProgramBuilder {
     let session = null;
     objects.forEach(rawSession => {
       session = Session.of()
+        .id(rawSession._id)
         .objective(rawSession.objective)
         .exercisesGroupsFromRaw(rawSession.exercisesGroups)
         .needTraining(rawSession.training)
@@ -110,6 +111,7 @@ class ProgramBuilder {
     let session = null;
     rawSessions.forEach(rawSession => {
       session = Session.of()
+				.id(rawSession._id)
         .objective(rawSession.objective)
         .exercisesGroupsFromServer(rawSession.exercises)
         .needTraining(rawSession.training)
