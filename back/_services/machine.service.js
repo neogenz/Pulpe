@@ -97,7 +97,7 @@ class MachineService {
 			})
 			.then((exercises) => {
 				if (!_.isEmpty(exercises)) {
-					throw new Error('Cette machine est reliée à des exercises.')
+					throw new Error('Cette machine est reliée à un ou plusieurs exercises.')
 				}
 				return machineToDelete.remove();
 			}, (error) => {
