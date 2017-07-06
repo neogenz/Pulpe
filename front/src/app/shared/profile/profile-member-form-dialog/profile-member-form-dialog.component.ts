@@ -105,9 +105,14 @@ export class ProfileMemberFormDialogComponent extends DialogComponent<IForm, Mem
 			CustomValidators.minValue(this.frequencyRange.min),
 			CustomValidators.maxValue(this.frequencyRange.max)
 		]);
-		this.birthdateCtrl = this.fb.control(
-			moment(this.member.birthDate).toDate(), Validators.required
-		);
+		if (this.mode === ModeDialogEnum.Add) {
+			this.birthdateCtrl = this.fb.control('', Validators.required
+			);
+		} else {
+			this.birthdateCtrl = this.fb.control(
+				moment(this.member.birthDate).toDate(), Validators.required
+			);
+		}
 		switch (this.member.objective) {
 			case 'GeneralForm':
 				this.objectiveChoices[0].checked = true;
