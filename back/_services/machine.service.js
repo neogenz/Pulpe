@@ -5,8 +5,10 @@ const MuscleEnum = require('../_enums/MuscleEnum');
 const Gym = require('../_model/Gym');
 const InstanceError = require('../_model/Errors').InstanceError;
 const CoachService = require('../_services/coach.service');
+const ExerciseService = require('../_services/exercise.service');
 const TechnicalError = require('../_model/Errors').TechnicalError;
 const NotFoundError = require('../_model/Errors').NotFoundError;
+const _ = require('underscore');
 
 class MachineService {
 	constructor() {
@@ -84,9 +86,20 @@ class MachineService {
 	 * @returns {Promise.<Machine>|Promise}
 	 */
 	static delete(id) {
-		return Machine.findByIdAndRemove(id)
-			.then((machineDeleted) => {
-				return machineDeleted;
+		let machineToDelete = null;
+		return Machine.findById(id)
+			.then((machineFinded) => {
+				machineToDelete = machineFinded;
+				return ExerciseService.findExercisesBy(machineFinded);
+			}, (error) => {
+				console.error(error.stack);
+				throw new TechnicalError(error.message);
+			})
+			.then((exercises) => {
+				if (!_.isEmpty(exercises)) {
+					throw new Error('Cette machine est reliée à des exercises.')
+				}
+				return machineToDelete.remove();
 			}, (error) => {
 				console.error(error.stack);
 				throw new TechnicalError(error.message);

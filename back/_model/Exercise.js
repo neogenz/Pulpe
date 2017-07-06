@@ -49,6 +49,14 @@ ExerciseSchema.query.inThisGymId = function (gymId) {
   });
 };
 
+
+ExerciseSchema.query.hasThisMachineId = function (machineId) {
+	return this.find({
+		'machines': machineId
+	});
+};
+
+
 ExerciseSchema.query.isReference = function () {
   return this.find({
     'reference': true
