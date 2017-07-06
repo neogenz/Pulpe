@@ -12,7 +12,7 @@ export class SessionObjectiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    
   }
 
 }

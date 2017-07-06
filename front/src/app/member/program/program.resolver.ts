@@ -11,7 +11,7 @@ export class ProgramResolver implements Resolve<any> {
 	}
 
 	resolve(route: ActivatedRouteSnapshot): Observable<Program> | Promise<Program> | Program {
-		debugger;
+		
 		this.slimLoadingBarService.start();
 		return this.programService.findActiveByAuthenticatedMemberId().flatMap((program) => {
 			this.slimLoadingBarService.complete();

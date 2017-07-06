@@ -13,8 +13,8 @@ export class CardioExercise extends AbstractExercise {
   recovery: number;
   difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.CardioExercise);
+  constructor(id: number, name: string, machines: Machine[],order:number=0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.CardioExercise,order);
     this.times = [];
     this.km = 0;
     this.calories = 0;
@@ -57,6 +57,7 @@ export class CardioExercise extends AbstractExercise {
     serverExercise.recovery = this.recovery;
     serverExercise.difficulty = this.difficulty;
     serverExercise._id = this.id;
+    serverExercise.order = this.order;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

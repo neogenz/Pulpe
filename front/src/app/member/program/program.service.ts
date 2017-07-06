@@ -63,7 +63,7 @@ export class ProgramService extends ObservableHelper {
 	}
 
 	addExercise(exercise: AbstractExercise, sessionId: string): Observable<AbstractExercise> {
-		return this._http.put(`${environment.baseUrl()}/programs/sessions/${sessionId}/exercise`, {
+		return this._http.post(`${environment.baseUrl()}/programs/sessions/${sessionId}/exercise`, {
 			exercise: exercise.serialize()
 		}).map(res => {
 			let data: any = this.extractDataOf(res);

@@ -34,6 +34,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
 	public ExerciseGroupTypeEnum: any = ExerciseGroupTypeEnum;
 	title: string;
 	mode: ExerciseOpenMode;
+	isAddMode: boolean = false;
 	exerciseForm: FormGroup;
 	nameCtrl: FormControl;
 	typeCtrl: FormControl;
@@ -73,6 +74,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
 			this.exercise.workedMuscles = [];
 		}
 		this.buildForm();
+		this.isAddMode = (this.mode === ExerciseOpenMode.Add);
 		this.exercise.workedMuscles.forEach(workedMuscle => this.addWorkedMuscle(workedMuscle));
 		this.exercise.machines.forEach(machine => this.addUsedMachine(machine));
 	}
@@ -178,7 +180,7 @@ export class ExerciseFormDialogComponent extends DialogComponent<ExerciseFormCon
 		exercise.workedMuscles = this.workedMusclesCtrl.value;
 		exercise.machines = this.usedMachinesCtrl.value;
 		exercise.name = this.nameCtrl.value;
-		exercise.type = this.typeCtrl.value;
+		exercise.type = this.exercise.type;
 		this._setSpecificFieldsOn(exercise);
 		this.exerciseSaveRequest = this.exerciseService.updateReference(exercise);
 		this.slimLoadingBarService.start();

@@ -7,6 +7,8 @@ const ExerciseService = require('../_services/exercise.service');
 const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const winston = require('winston');
 const ExerciseGroupTypeEnum = require('../_enums/ExerciseGroupTypeEnum');
+const ProgramService = require('../_services/program.service');
+const SessionService = require('../_services/session.service');
 
 class ExerciseController {
 	constructor() {
@@ -68,20 +70,6 @@ class ExerciseController {
 			});
 	}
 
-	static update(req, res) {
-		return ExerciseService.findAndUpdateThis(req.body.exercise)
-			.then(exercise => {
-				return res.send(exercise);
-			}, error => {
-				throw error;
-			})
-			.catch(error => {
-				winston.log('error', error.stack);
-				let httpError = HttpErrorHelper.buildHttpErrorByError(error);
-				return res.status(httpError.code).send(httpError);
-			});
-	}
-
 	static async updateExerciseOfMember(req, res) {
 		try {
 			const exercisePropertiesToUpdate = ExerciseService.getPropertiesUpdatableByMemberOn(req.body.exercise);
@@ -98,6 +86,10 @@ class ExerciseController {
 	static async delete(req, res) {
 		try {
 			const deleted = await ExerciseService.deleteBy(req.params.id);
+			if(!deleted.reference){
+				const program = await ProgramService.findBySessionId(deleted.session);
+				await ProgramService.deleteThisExerciseInThis(program, deleted);
+			}
 			return res.send(deleted);
 		} catch (error) {
 			winston.log('error', error.stack);

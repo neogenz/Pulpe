@@ -115,7 +115,8 @@ export class ProfileCompletationComponent implements OnInit, OnError {
   }
 
   private buildForm(fb: FormBuilder) {
-    debugger;
+    
+    
     this.sizeCtrl = fb.control('', [
       Validators.required,
       CustomValidators.minValue(this.sizesRange.min),

@@ -12,14 +12,16 @@ export abstract class AbstractExercise implements Serializable<ServerAbstractExe
   workedMuscles: WorkedMuscle[];
   approximateTime: number;
   type: ExerciseGroupTypeEnum;
+  order:number;
 
-  constructor(id: number, name: string, machines: Machine[], type: ExerciseGroupTypeEnum) {
+  constructor(id: number, name: string, machines: Machine[], type: ExerciseGroupTypeEnum, order:number=0) {
     this.id = id;
     this.name = name;
     this.machines = machines ? machines : [];
     this.type = type;
     this.workedMuscles = [];
     this.approximateTime = 0;
+    this.order = order;
   }
 
   initFromRawObject(rawObject: any): AbstractExercise {
@@ -56,6 +58,7 @@ export abstract class AbstractExercise implements Serializable<ServerAbstractExe
 export abstract class ServerAbstractExercise {
   _id: number;
   name: string;
+  order:number;
   machines: ServerMachine[];
   workedMuscles: ServerWorkedMuscle[];
   approximateTime: number;

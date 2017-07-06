@@ -19,7 +19,7 @@
                                               [exerciseTypeEnum]="exercise.type"></pulpe-exercises-type-img>
                 </td>
                 <td>
-                    <p>{{exercise.name}}</p>
+                    <p>{{exercise.name}} <span *ngIf="displayOrder">(n°: {{exercise.order}})</span></p>
                 </td>
                 <td>
                     <div [ngSwitch]="exercise.type">

@@ -9,8 +9,8 @@ import {Machine} from "../Machine";
 export class OrganizedExercise extends AbstractExercise {
   difficulty: DifficultyEnum;
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.OrganizedExercise);
+  constructor(id: number, name: string, machines: Machine[],order:number=0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.OrganizedExercise,order);
     this.difficulty = DifficultyEnum.easy;
   }
 
@@ -31,6 +31,7 @@ export class OrganizedExercise extends AbstractExercise {
     let serverExercise: ServerOrganizedExercise = new ServerOrganizedExercise();
     serverExercise.difficulty = DifficultyEnum[this.difficulty];
     serverExercise._id = this.id;
+    serverExercise.order = this.order;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

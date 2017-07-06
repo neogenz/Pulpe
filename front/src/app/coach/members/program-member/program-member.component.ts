@@ -117,11 +117,34 @@ export class ProgramMemberComponent implements OnInit {
 				return Observable.of(null);
 			}).subscribe(deleted => {
 				if (deleted) {
-					this.program.removeExerciseInThis(this.program.findSessionOfThisExercise(exercise), exercise);
-					this.toastrService.success('Suppression effectuée.', 'Succès!');
-					this.exercises = this.exercises.filter(exercise => exercise.id !== deleted.id);
-					this.doFilterBySession(this.focusedSession);
+					const sessionOfDeletedExercise = this.program.findSessionOfThisExercise(exercise);
+					this.program.removeExerciseInThis(sessionOfDeletedExercise, exercise);
+					let newExercisesArray = this.filteredExercises.filter(exercise => exercise.id !== deleted.id);
+					if (this.filteredBySession) {
+						const exercisesAboveDeleted = newExercisesArray.filter(e => e.order > deleted.order);
+						exercisesAboveDeleted.forEach(exercise => {
+							exercise.order--;
+						});
+					} else {
+						let exercisesWithOrderUpdated = sessionOfDeletedExercise.getAllExercises();
+						const exercisesAboveDeleted = exercisesWithOrderUpdated.filter(e => e.order > deleted.order);
+						exercisesAboveDeleted.forEach(exercise => {
+							exercise.order--;
+						});
+						for (let i = 0; i < exercisesWithOrderUpdated.length; i++) {
+							for (let j = 0; j < newExercisesArray.length; j++) {
+								if (newExercisesArray[j].id === exercisesWithOrderUpdated[i].id) {
+									newExercisesArray[j] = exercisesWithOrderUpdated[i];
+									break;
+								}
+							}
+						}
+					}
+					this.exercises = newExercisesArray;
+
 					this.doFilterExercises(this.filterArgs);
+					this.doFilterBySession(this.focusedSession);
+					this.toastrService.success('Suppression effectuée.', 'Succès!');
 				}
 			}, (errorMsg) => {
 				console.error(errorMsg);
@@ -149,14 +172,22 @@ export class ProgramMemberComponent implements OnInit {
 		};
 	}
 
-	doFilterExercises(filtersArgs: string) {
-		debugger;
+	doFilterExercises(filtersArgs: string = '') {
+		
+	
 		this.filterArgs = null;
 		if (filtersArgs !== '') {
 			this.filterArgs = filtersArgs;
-			this.filteredExercises = this.filterExercises.transform(this.exercises, filtersArgs);
+			if (this.filteredBySession) {
+				this.filteredExercises = this.filterExercises.transform(this.filteredExercises, filtersArgs);
+			} else {
+				this.filteredExercises = this.filterExercises.transform(this.exercises, filtersArgs);
+			}
 		} else {
 			this.filteredExercises = this.exercises;
+			if(this.filteredBySession){
+				this.doFilterBySession(this.focusedSession);
+			}
 		}
 	}
 
@@ -166,9 +197,12 @@ export class ProgramMemberComponent implements OnInit {
 		if (session) {
 			this.filteredBySession = true;
 			this.focusedSession = session;
-			this.filteredExercises = session.getAllExercises();
+			this.filteredExercises = session.getAllExercises().sort((a, b) => a.order - b.order);
 		} else {
 			this.filteredExercises = this.exercises;
+		}
+		if (this.filterArgs) {
+			this.doFilterExercises(this.filterArgs);
 		}
 	}
 }

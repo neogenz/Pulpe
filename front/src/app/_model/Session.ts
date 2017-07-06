@@ -51,6 +51,19 @@ export class Session {
 		this.exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[exercise.type], [exercise]));
 	}
 
+	public refreshOrderOfExercisesToAddOne(exerciseWillBeAdded: AbstractExercise) {
+		let exercises = this.getAllExercises().filter(e => e.order >= exerciseWillBeAdded.order);
+		exercises.forEach(e => e.order++);
+	}
+
+	public refreshOrderOfExercisesToUpdateOne(exerciseWillBeUpdated: AbstractExercise) {
+		const allExercises = this.getAllExercises();
+		let holdExercise = allExercises.find(e => e.id === exerciseWillBeUpdated.id);
+		let exerciseToReplace = allExercises.find(e=>e.order === exerciseWillBeUpdated.order);
+		exerciseToReplace.order = holdExercise.order;
+		holdExercise.order = exerciseWillBeUpdated.order;
+	}
+
 	public getAllExercises(): AbstractExercise[] {
 		let exercises = [];
 		this.exercisesGroups.forEach(eg => {
@@ -67,6 +80,20 @@ export class Session {
 			}
 		}
 		return null;
+	}
+
+	public getOrderOfLastExercise(): number {
+		let orderdedExercises = this.getAllExercises().sort((a, b) => a.order - b.order);
+		return orderdedExercises[orderdedExercises.length - 1].order;
+	}
+
+	public haveThis(exercise:AbstractExercise):boolean{
+		for(let i = 0; i<this.exercisesGroups.length;i++){
+			if(this.exercisesGroups[i].haveThis(exercise)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

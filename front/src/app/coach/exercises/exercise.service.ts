@@ -46,8 +46,8 @@ export class ExerciseService extends ObservableHelper {
 			.catch(this.handleError);
 	}
 
-	public update(exercise: AbstractExercise): Observable<AbstractExercise> {
-		return this._http.put(`${environment.baseUrl()}/exercises/${exercise.id}`, {
+	public updateInSession(exercise: AbstractExercise, sessionId:string): Observable<AbstractExercise> {
+		return this._http.put(`${environment.baseUrl()}/programs/sessions/${sessionId}/exercises`, {
 			exercise: exercise.serialize()
 		})
 			.map(res => {

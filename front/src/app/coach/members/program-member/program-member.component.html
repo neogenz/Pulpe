@@ -15,7 +15,8 @@
     <div class="mt-3">
         <pulpe-exercises-list [exercises]="filteredExercises"
                               (editClick)="openExerciseFormDialogOnMode(openableMode.Edit, $event)"
-                              (removeClick)="deleteExercise($event)">
+                              (removeClick)="deleteExercise($event)"
+                              [displayOrder]="filteredBySession">
         </pulpe-exercises-list>
     </div>
 

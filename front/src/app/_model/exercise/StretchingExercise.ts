@@ -7,8 +7,8 @@ import {Machine} from "../Machine";
 export class StretchingExercise extends AbstractExercise {
   time: number;
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.StretchingExercise);
+  constructor(id: number, name: string, machines: Machine[],order:number=0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.StretchingExercise,order);
     this.time = 0;
   }
 
@@ -27,6 +27,7 @@ export class StretchingExercise extends AbstractExercise {
     let serverExercise: ServerStretchingExercise = new ServerStretchingExercise();
     serverExercise.time = this.time;
     serverExercise._id = this.id;
+    serverExercise.order = this.order;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

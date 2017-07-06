@@ -40,6 +40,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 	exerciseForm: FormGroup;
 	nameCtrl: FormControl;
 	typeCtrl: FormControl;
+	orderCtrl: FormControl;
 	sessionCtrl: FormControl;
 	workedMusclesCtrl: FormArray;
 	usedMachinesCtrl: FormArray;
@@ -48,7 +49,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 	exercisesGroupCodes: ExerciseGroupCode[];
 	exerciseSaveRequest: Observable<AbstractExercise>;
 	difficultyLabels: string[];
-	sessionOfExercise:Session;
+	sessionOfExercise: Session;
 
 	constructor(dialogService: DialogService,
 		private fb: FormBuilder,
@@ -88,10 +89,12 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		this.typeCtrl = this.fb.control(this.exercise.type, Validators.required);
 		this.workedMusclesCtrl = this.fb.array([], Validators.compose([Validators.required]));
 		this.usedMachinesCtrl = this.fb.array([], Validators.compose([Validators.required]));
+		this.orderCtrl = this.fb.control(this.exercise.order, [Validators.required, Validators.max(this.sessionOfExercise ? this.sessionOfExercise.getOrderOfLastExercise() + 1 : null), Validators.min(0)]);
 		switch (this.mode) {
 			case ExerciseOpenMode.Add:
 				this.sessionCtrl = this.fb.control('', Validators.required);
 				this.exerciseForm = this.fb.group({
+					order: this.orderCtrl,
 					name: this.nameCtrl,
 					workedMuscles: this.workedMusclesCtrl,
 					machines: this.usedMachinesCtrl,
@@ -102,6 +105,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 				break;
 			case ExerciseOpenMode.Edit:
 				this.exerciseForm = this.fb.group({
+					order: this.orderCtrl,
 					name: this.nameCtrl,
 					workedMuscles: this.workedMusclesCtrl,
 					machines: this.usedMachinesCtrl,
@@ -175,6 +179,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		exercise.machines = this.usedMachinesCtrl.value;
 		exercise.name = this.nameCtrl.value;
 		exercise.type = this.typeCtrl.value;
+		exercise.order = this.orderCtrl.value;
 		this._setSpecificFieldsOn(exercise);
 		const session = this.sessionCtrl.value;
 		this.exerciseSaveRequest = this.programService.addExercise(exercise, session.id);
@@ -200,10 +205,11 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 		exercise.workedMuscles = this.workedMusclesCtrl.value;
 		exercise.machines = this.usedMachinesCtrl.value;
 		exercise.name = this.nameCtrl.value;
-		exercise.type = this.typeCtrl.value;
+		exercise.order = this.orderCtrl.value;
+		exercise.type = this.exercise.type;
 		this._setSpecificFieldsOn(exercise);
-		this.exerciseSaveRequest = this.exerciseService.update(exercise);
 		const session = this.sessionOfExercise;
+		this.exerciseSaveRequest = this.exerciseService.updateInSession(exercise, session.id);
 		this.slimLoadingBarService.start();
 		this.exerciseSaveRequest
 			.finally(() => {
@@ -219,6 +225,15 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 				this.toastrService.error(errorMsg, 'Erreur');
 			}
 			);
+	}
+
+	public refreshMaxValueOfOrder() {
+		this.exerciseForm.get('order').setValidators([
+			Validators.max((this.sessionCtrl.value as Session).getOrderOfLastExercise() + 1),
+			Validators.min(0),
+			Validators.required
+		]);
+		this.exerciseForm.get('order').updateValueAndValidity();
 	}
 
 	private _setSpecificFieldsOn(exercise: AbstractExercise) {
@@ -243,7 +258,7 @@ export class ExerciseProgramFormDialogComponent extends DialogComponent<Exercise
 export interface ExerciseFormConfigurable {
 	title: string;
 	exercise: AbstractExercise;
-	sessionOfExercise:Session;
+	sessionOfExercise: Session;
 	mode: ExerciseOpenMode;
 	sessions: Session[];
 }

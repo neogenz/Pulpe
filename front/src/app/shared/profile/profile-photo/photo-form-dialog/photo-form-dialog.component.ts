@@ -63,7 +63,7 @@ export class PhotoFormDialogComponent extends DialogComponent<IForm, Document> i
 			.data(this.dataPicture)
 			.category(this.categoryDocumentConverter.convertThis(CategoryDocument.Profile))
 			.build();
-		debugger;
+		
 		if (this.authenticationProfile.isCoach) {
 			document.coachId = this.authenticationProfile.id;
 		} else {

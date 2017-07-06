@@ -63,7 +63,7 @@ export class Program {
   // }
 
   public findSessionOfThisExercise(exercise: AbstractExercise): Session {
-    debugger;
+    
     let matchExerciseSession: any = (session: Session) => {
       for (let i = 0; i < session.exercisesGroups.length; i++) {
         if (session.exercisesGroups[i].haveThis(exercise)) {
@@ -79,6 +79,11 @@ export class Program {
   }
 
   public addOrReplaceExerciseInThis(session: Session, exercise: AbstractExercise): Session {
+    if(this.haveThis(exercise)){
+      this.refreshOrderOfExercisesToUpdateInSession(session, exercise);
+    }else{
+      this.refreshOrderOfExercisesToAddInSession(session, exercise);
+    }
     for (let i = 0; i < this.sessions.length; i++) {
       if (this.sessions[i].id === session.id) {
         this.sessions[i].addOrReplaceOne(exercise);
@@ -88,6 +93,14 @@ export class Program {
     throw new Error(`The session focused (${session.id}) isn\'t present in the program`);
   }
 
+  private refreshOrderOfExercisesToAddInSession(session:Session, exercise:AbstractExercise){
+    session.refreshOrderOfExercisesToAddOne(exercise);
+	}
+
+  private refreshOrderOfExercisesToUpdateInSession(session:Session, exercise:AbstractExercise){
+    session.refreshOrderOfExercisesToUpdateOne(exercise);
+  }
+
   public removeExerciseInThis(session: Session, exercise: AbstractExercise) {
     for (let i = 0; i < this.sessions.length; i++) {
       if (this.sessions[i].id === session.id) {
@@ -95,6 +108,15 @@ export class Program {
       }
     }
     throw new Error(`The session focused (${session.id}) isn\'t present in the program`);
+  }
+
+  public haveThis(exercise:AbstractExercise):boolean{
+    for(let i =0;i<this.sessions.length;i++){
+      if(this.sessions[i].haveThis(exercise)){
+        return true;
+      }
+    }
+    return false;
   }
 
   public static of(): ProgramBuilder {

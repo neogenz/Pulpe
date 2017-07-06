@@ -18,19 +18,30 @@
                                 </span>
                                 <hr>
                             </div>
+
                             <md-input-container class="col-md-10 offset-md-1" color="primary">
-                                <input id="inputName" mdInput type="text" minlength="5" maxlength="50"
-                                       placeholder="Nom de l'exercice"
-                                       formControlName="name"
-                                       required>
+                                <input id="inputName" mdInput type="text" minlength="5" maxlength="50" placeholder="Nom de l'exercice" formControlName="name"
+                                    required>
+                            </md-input-container>
+                            <md-input-container class="col-md-10 offset-md-1" color="primary">
+                                <input id="inputOrder" mdInput type="number" placeholder="Position de l'exercice dans la séance" formControlName="order"
+                                    required>
+                                <md-hint *ngIf="exerciseForm.get('order').dirty && exerciseForm.get('order').hasError('required')"
+                                    class="form-control-feedback">Ordre obligatoire.
+                                </md-hint>
+                                <md-hint *ngIf="exerciseForm.get('order').dirty && exerciseForm.get('order').hasError('min')"
+                                    class="form-control-feedback">
+                                    Mininum {{exerciseForm.get('order').getError('min')['min']}}.
+                                </md-hint>
+                                <md-hint *ngIf="exerciseForm.get('order').dirty && exerciseForm.get('order').hasError('max')"
+                                    class="form-control-feedback">
+                                    Maximum {{exerciseForm.get('order').getError('max')['max']}}.
+                                </md-hint>
                             </md-input-container>
                         </div>
-                        <div class="form-group">
-                            <md-select placeholder="Choisissez un type d'exercice" class="col-md-12"
-                                       formControlName="type" required
-                                       (change)="refreshSpecificPropertiesOnChangeExerciseType()">
-                                <md-option *ngFor="let exerciseGroupCode of exercisesGroupCodes"
-                                           [value]="exerciseGroupCode.enumValue">
+                        <div class="form-group" *ngIf="isDialogModeAdd">
+                            <md-select placeholder="Choisissez un type d'exercice" class="col-md-12" formControlName="type" required (change)="refreshSpecificPropertiesOnChangeExerciseType()">
+                                <md-option *ngFor="let exerciseGroupCode of exercisesGroupCodes" [value]="exerciseGroupCode.enumValue">
                                     {{exerciseGroupCode.label}}
                                 </md-option>
                             </md-select>
@@ -38,33 +49,22 @@
                         <div [ngSwitch]="exercise.type" formGroupName="specifics" class="form-group">
                             <div *ngSwitchCase="ExerciseGroupTypeEnum.BodybuildingExercise">
                                 <md-input-container class="col-md-10 offset-md-1" color="primary">
-                                    <input id="inputWeight" mdInput type="number"
-                                           placeholder="Poids"
-                                           formControlName="weight"
-                                           required>
+                                    <input id="inputWeight" mdInput type="number" placeholder="Poids" formControlName="weight" required>
                                 </md-input-container>
                             </div>
                             <div *ngSwitchCase="ExerciseGroupTypeEnum.CardioExercise">
                                 <md-input-container class="col-md-10 offset-md-1" color="primary">
-                                    <input id="inputCardioKm" mdInput type="number"
-                                           placeholder="Km"
-                                           formControlName="km"
-                                           required>
+                                    <input id="inputCardioKm" mdInput type="number" placeholder="Km" formControlName="km" required>
                                 </md-input-container>
                             </div>
                             <div *ngSwitchCase="ExerciseGroupTypeEnum.TrainingExercise">
                                 <md-input-container class="col-md-10 offset-md-1" color="primary">
-                                    <input id="inputTrainingKm" mdInput type="number"
-                                           placeholder="Km"
-                                           formControlName="km"
-                                           required>
+                                    <input id="inputTrainingKm" mdInput type="number" placeholder="Km" formControlName="km" required>
                                 </md-input-container>
                             </div>
                             <div *ngSwitchCase="ExerciseGroupTypeEnum.OrganizedExercise">
-                                <md-select placeholder="Choisissez la difficulté du cours" class="col-md-10 offset-md-1"
-                                           formControlName="difficulty" required>
-                                    <md-option *ngFor="let difficultyLabel of difficultyLabels"
-                                               [value]="difficultyLabel">
+                                <md-select placeholder="Choisissez la difficulté du cours" class="col-md-10 offset-md-1" formControlName="difficulty" required>
+                                    <md-option *ngFor="let difficultyLabel of difficultyLabels" [value]="difficultyLabel">
                                         {{difficultyLabel}}
                                     </md-option>
                                 </md-select>
@@ -72,10 +72,8 @@
                         </div>
 
                         <div *ngIf="isDialogModeAdd" class="form-group">
-                            <md-select placeholder="Choisissez la séance" class="col-md-12"
-                                       formControlName="sessions">
-                                <md-option *ngFor="let session of sessions"
-                                           [value]="session">
+                            <md-select placeholder="Choisissez la séance" class="col-md-12" formControlName="sessions" (change)="refreshMaxValueOfOrder()" required>
+                                <md-option *ngFor="let session of sessions" [value]="session">
                                     {{session.dayInWeek}}
                                 </md-option>
                             </md-select>
@@ -89,8 +87,7 @@
                             </span>
                             <hr>
                         </div>
-                        <pulpe-select-worked-muscle
-                                (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
+                        <pulpe-select-worked-muscle (muscleAdded)="addWorkedMuscle($event)"></pulpe-select-worked-muscle>
                         <div class="col-md-12 pt-4">
                             <div class="row">
                                 <div class="col-md-6 text-w-300 titleWorkedMuscles">
@@ -99,20 +96,16 @@
                             </div>
                             <hr>
                         </div>
-                        <pulpe-chips-removable-worked-muscle
-                                [workedMuscles]="workedMusclesCtrl.value"
-                                (workedMuscleDeletedAtThisIndex)="deleteWorkedMuscleAtThis($event)"></pulpe-chips-removable-worked-muscle>
+                        <pulpe-chips-removable-worked-muscle [workedMuscles]="workedMusclesCtrl.value" (workedMuscleDeletedAtThisIndex)="deleteWorkedMuscleAtThis($event)"></pulpe-chips-removable-worked-muscle>
                     </md-tab>
                     <md-tab class="row" label="Machines">
                         <div class="col-md-12 pt-2">
-                        <span class="text-w-300 titleWorkedMuscles">
+                            <span class="text-w-300 titleWorkedMuscles">
                             Ajout d'une machine
                         </span>
                             <hr>
                         </div>
-                        <pulpe-select-machines [selectedMachines]="usedMachinesCtrl.value"
-                                               (machineAdded)="addUsedMachine($event)"
-                                               (machineDeletedAtThisIndex)="deleteUsedMachineAtThis($event)"></pulpe-select-machines>
+                        <pulpe-select-machines [selectedMachines]="usedMachinesCtrl.value" (machineAdded)="addUsedMachine($event)" (machineDeletedAtThisIndex)="deleteUsedMachineAtThis($event)"></pulpe-select-machines>
                     </md-tab>
                 </md-tab-group>
             </div>

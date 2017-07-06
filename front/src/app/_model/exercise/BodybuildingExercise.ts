@@ -12,8 +12,8 @@ export class BodybuildingExercise extends AbstractExercise {
   approximateTimeBySeries: number;
 
 
-  constructor(id: number, name: string, machines: Machine[]) {
-    super(id, name, machines, ExerciseGroupTypeEnum.BodybuildingExercise);
+  constructor(id: number, name: string, machines: Machine[],order:number=0) {
+    super(id, name, machines, ExerciseGroupTypeEnum.BodybuildingExercise, order);
     this.repetitions = 0;
     this.series = 0;
     this.weight = 0;
@@ -54,6 +54,7 @@ export class BodybuildingExercise extends AbstractExercise {
     serverExercise.recoveryTimesBetweenEachSeries = this.recoveryTimesBetweenEachSeries;
     serverExercise.series = this.series;
     serverExercise._id = this.id;
+    serverExercise.order = this.order;
     serverExercise.name = this.name;
     serverExercise.machines = this.machines.map(m => m.serialize());
     serverExercise.approximateTime = this.approximateTime;

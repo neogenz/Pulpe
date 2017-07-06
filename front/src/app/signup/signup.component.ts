@@ -88,7 +88,8 @@ export class SignupComponent implements OnInit, OnError, OnDestroy {
         this.slimLoadingBarService.complete();
       })
       .subscribe((authProfile) => {
-          debugger;
+          
+        
           this.localStorage.set('profile', JSON.stringify(authProfile));
           if (authProfile.isCoach) {
             this.router.navigateByUrl('/profil/coach/complete');
