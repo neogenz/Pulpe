@@ -87,19 +87,19 @@ export class ProgramMemberComponent implements OnInit {
 			if (result.exercise) {
 				if (this.exerciseFormConfiguration.mode == ExerciseOpenMode.Add) {
 
-					if(this.focusedSession && this.focusedSession.id === result.session.id){
-						let eg = this.focusedSession.exercisesGroups.find(eg=>eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
-						if(!eg){
+					if (this.focusedSession && this.focusedSession.id === result.session.id) {
+						let eg = this.focusedSession.exercisesGroups.find(eg => eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
+						if (!eg) {
 							this.focusedSession.exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
 						}
 						eg.addOne(result.exercise);
 						this.filteredExercises.push(result.exercise);
-						this.doFilterSession({exercises:this.filteredExercises, session:this.focusedSession});
-					}else{
-						for(let i =0; i<this.program.sessions.length; i++){
-							if(this.program.sessions[i].id === result.session.id){
-								let eg = this.program.sessions[i].exercisesGroups.find(eg=>eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
-								if(!eg){
+						this.doFilterSession({exercises: this.filteredExercises, session: this.focusedSession});
+					} else {
+						for (let i = 0; i < this.program.sessions.length; i++) {
+							if (this.program.sessions[i].id === result.session.id) {
+								let eg = this.program.sessions[i].exercisesGroups.find(eg => eg.groupType === ExerciseGroupTypeEnum[result.exercise.type]);
+								if (!eg) {
 									this.program.sessions[i].exercisesGroups.push(new ExercisesGroup(ExerciseGroupTypeEnum[result.exercise.type], [result.exercise]))
 								}
 								eg.addOne(result.exercise);
