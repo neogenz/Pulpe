@@ -8,7 +8,7 @@ class MemberRouter {
 		provider.get('/members', AuthenticationController.ensureAuthorized, MemberController.findAuthenticated);
 		provider.get('/coachs/members', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, MemberController.findAllByAuthenticatedCoach);
 		provider.get('/efficientPrevisions/members', AuthenticationController.ensureAuthorized, MemberController.findEfficientPrevisions);
-		provider.put('/members/measurements', AuthenticationController.ensureAuthorized, MemberController.addMeasurements);
+		provider.put('/members/measurements', AuthenticationController.ensureAuthorized, MemberController.addMeasurement);
 		provider.post('/members/profile/complete', AuthenticationController.ensureAuthorized, MemberController.completeProfile);
 		provider.put('/members', AuthenticationController.ensureAuthorized, MemberController.update);
 		provider.post('/members', AuthenticationController.ensureAuthorized, AuthenticationController.mustBeCoach, MemberController.create);

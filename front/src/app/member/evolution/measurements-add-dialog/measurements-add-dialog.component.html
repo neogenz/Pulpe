@@ -6,186 +6,215 @@
                 <h4 class="text-light-weight">Editer mes mensurations</h4>
             </div>
         </div>
-        <form (ngSubmit)="confirm()" [formGroup]="measurementsForm">
-            <div class="modal-body">
-                <md-tab-group>
-                    <md-tab label="Général">
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="size">
-                                <input id="inputSize" mdInput type="number"
-                                       placeholder="Taille (cm)"
-                                       formControlName="size"
-                                       required>
-                                <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('')"
-                                         class="form-control-feedback">{{errorTranslations.size.required}}
-                                </md-hint>
-                                <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.size.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.size.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="weight">
-                                <input id="inputWeight" mdInput type="number"
-                                       placeholder="Poids (kg)"
-                                       formControlName="weight"
-                                       required>
-                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('')"
-                                         class="form-control-feedback">{{errorTranslations.weight.required}}
-                                </md-hint>
-                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.weight.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.weight.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                    </md-tab>
-                    <md-tab label="Haut du corps">
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="chest">
-                                <input id="inputChest" mdInput type="number"
-                                       placeholder="Tour de poitrine (cm)"
-                                       formControlName="chest">
-                                <md-hint *ngIf="chestCtrl.dirty && chestCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.chest.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="chestCtrl.dirty && chestCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.chest.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="waist">
-                                <input id="inputWaist" mdInput type="number"
-                                       placeholder="Tour de taille (cm)"
-                                       formControlName="waist">
-                                <md-hint *ngIf="waistCtrl.dirty && waistCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.waist.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="waistCtrl.dirty && waistCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.waist.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="hip">
-                                <input id="inputHip" mdInput type="number"
-                                       placeholder="Tour de hanche (cm)"
-                                       formControlName="hip">
-                                <md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.hip.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.hip.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="shoulders">
-                                <input id="inputShoulders" mdInput type="number"
-                                       placeholder="Epaules (cm)"
-                                       formControlName="shoulders">
-                                <md-hint *ngIf="shouldersCtrl.dirty && shouldersCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.shoulders.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="shouldersCtrl.dirty && shouldersCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.shoulders.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="rightArm">
-                                <input id="inputRightArm" mdInput type="number"
-                                       placeholder="Bras droit (cm)"
-                                       formControlName="rightArm">
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightArm.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightArm.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="leftArm">
-                                <input id="inputLeftArm" mdInput type="number"
-                                       placeholder="Bras gauche (cm)"
-                                       formControlName="leftArm">
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftArm.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftArm.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                    </md-tab>
+        <form (ngSubmit)="confirm()" [formGroup]="measurementForm">
+            <div class="modal-body pt-5">
 
-                    <md-tab label="Bas du corps">
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="rightCalf">
-                                <input id="inputRightCalf" mdInput type="number"
-                                       placeholder="Mollet droit (cm)"
-                                       formControlName="rightCalf">
-                                <md-hint *ngIf="rightCalfCtrl.dirty && rightCalfCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightCalf.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="rightCalfCtrl.dirty && rightCalfCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightCalf.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="leftCalf">
-                                <input id="inputLeftCalf" mdInput type="number"
-                                       placeholder="Mollet gauche (cm)"
-                                       formControlName="leftCalf">
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftCalf.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftCalf.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">
-                                <input id="inputRightThigh" mdInput type="number"
-                                       placeholder="Cuisse droite (cm)"
-                                       formControlName="rightThigh">
-                                <md-hint *ngIf="rightThighCtrl.dirty && rightThighCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightThigh.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="rightThighCtrl.dirty && rightThighCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.rightThigh.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                        <div class="row pt-2">
-                            <md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">
-                                <input id="inputCuisseGauche" mdInput type="number"
-                                       placeholder="Cuisse gauche (cm)"
-                                       formControlName="leftThigh">
-                                <md-hint *ngIf="leftThighCtrl.dirty && leftThighCtrl.hasError('maxValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftThigh.maxValue}}
-                                </md-hint>
-                                <md-hint *ngIf="leftThighCtrl.dirty && leftThighCtrl.hasError('minValue')"
-                                         class="form-control-feedback">{{errorTranslations.leftThigh.minValue}}
-                                </md-hint>
-                            </md-input-container>
-                        </div>
-                    </md-tab>
-                </md-tab-group>
+                <div class="form-group">
+                    <md-select placeholder="Mensuration" class="col-12" formControlName="type" required
+                               (change)="refreshSpecificPropertiesOnChangeMeasurement()">
+                        <md-option
+                                [value]="label"
+                                *ngFor="let label of measurementsLabels">{{ label }}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div class="form-group" *ngIf="measurementTypeCtrl.value">
+                    <md-input-container class="col-12" color="primary">
+                        <input id="inputMeasurementValue" mdInput type="number"
+                               placeholder="Valeur"
+                               formControlName="value"
+                               required>
+                        <md-hint *ngIf="valueCtrl.dirty && valueCtrl.hasError('required')"
+                                 class="form-control-feedback">Valeur obligatoire.
+                        </md-hint>
+                        <md-hint *ngIf="valueCtrl.dirty && valueCtrl.hasError('max')"
+                                 class="form-control-feedback">Maximum
+                            {{measurementForm.get('value').getError('max')['max']}} {{rangeValidations.unit.toLowerCase()}}
+                        </md-hint>
+                        <md-hint *ngIf="valueCtrl.dirty && valueCtrl.hasError('min')"
+                                 class="form-control-feedback">Minimum
+                            {{measurementForm.get('value').getError('min')['min']}} {{rangeValidations.unit.toLowerCase()}}
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <!--<md-tab-group>-->
+                <!--<md-tab label="Général">-->
+                <!--<div class="row pt-2">-->
+                <!-- <md-input-container class="col-md-12" color="primary" ngxErrors="size">
+                     <input id="inputSize" mdInput type="number"
+                            placeholder="Taille (cm)"
+                            formControlName="size"
+                            required>
+                     <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('')"
+                              class="form-control-feedback">{{errorTranslations.size.required}}
+                     </md-hint>
+                     <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('maxValue')"
+                              class="form-control-feedback">{{errorTranslations.size.maxValue}}
+                     </md-hint>
+                     <md-hint *ngIf="sizeCtrl.dirty && sizeCtrl.hasError('minValue')"
+                              class="form-control-feedback">{{errorTranslations.size.minValue}}
+                     </md-hint>
+                 </md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="weight">-->
+                <!--<input id="inputWeight" mdInput type="number"-->
+                <!--placeholder="Poids (kg)"-->
+                <!--formControlName="weight"-->
+                <!--required>-->
+                <!--<md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('')"-->
+                <!--class="form-control-feedback">{{errorTranslations.weight.required}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.weight.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="weightCtrl.dirty && weightCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.weight.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--</md-tab>-->
+                <!--<md-tab label="Haut du corps">-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="chest">-->
+                <!--<input id="inputChest" mdInput type="number"-->
+                <!--placeholder="Tour de poitrine (cm)"-->
+                <!--formControlName="chest">-->
+                <!--<md-hint *ngIf="chestCtrl.dirty && chestCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.chest.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="chestCtrl.dirty && chestCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.chest.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="waist">-->
+                <!--<input id="inputWaist" mdInput type="number"-->
+                <!--placeholder="Tour de taille (cm)"-->
+                <!--formControlName="waist">-->
+                <!--<md-hint *ngIf="waistCtrl.dirty && waistCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.waist.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="waistCtrl.dirty && waistCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.waist.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="hip">-->
+                <!--<input id="inputHip" mdInput type="number"-->
+                <!--placeholder="Tour de hanche (cm)"-->
+                <!--formControlName="hip">-->
+                <!--<md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.hip.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="hipCtrl.dirty && hipCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.hip.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="shoulders">-->
+                <!--<input id="inputShoulders" mdInput type="number"-->
+                <!--placeholder="Epaules (cm)"-->
+                <!--formControlName="shoulders">-->
+                <!--<md-hint *ngIf="shouldersCtrl.dirty && shouldersCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.shoulders.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="shouldersCtrl.dirty && shouldersCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.shoulders.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="rightArm">-->
+                <!--<input id="inputRightArm" mdInput type="number"-->
+                <!--placeholder="Bras droit (cm)"-->
+                <!--formControlName="rightArm">-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightArm.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightArm.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="leftArm">-->
+                <!--<input id="inputLeftArm" mdInput type="number"-->
+                <!--placeholder="Bras gauche (cm)"-->
+                <!--formControlName="leftArm">-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftArm.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftArm.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--</md-tab>-->
+
+                <!--<md-tab label="Bas du corps">-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="rightCalf">-->
+                <!--<input id="inputRightCalf" mdInput type="number"-->
+                <!--placeholder="Mollet droit (cm)"-->
+                <!--formControlName="rightCalf">-->
+                <!--<md-hint *ngIf="rightCalfCtrl.dirty && rightCalfCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightCalf.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="rightCalfCtrl.dirty && rightCalfCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightCalf.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="leftCalf">-->
+                <!--<input id="inputLeftCalf" mdInput type="number"-->
+                <!--placeholder="Mollet gauche (cm)"-->
+                <!--formControlName="leftCalf">-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftCalf.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="rightArmCtrl.dirty && rightArmCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftCalf.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">-->
+                <!--<input id="inputRightThigh" mdInput type="number"-->
+                <!--placeholder="Cuisse droite (cm)"-->
+                <!--formControlName="rightThigh">-->
+                <!--<md-hint *ngIf="rightThighCtrl.dirty && rightThighCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightThigh.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="rightThighCtrl.dirty && rightThighCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.rightThigh.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div class="row pt-2">-->
+                <!--<md-input-container class="col-md-12" color="primary" ngxErrors="rightThigh">-->
+                <!--<input id="inputCuisseGauche" mdInput type="number"-->
+                <!--placeholder="Cuisse gauche (cm)"-->
+                <!--formControlName="leftThigh">-->
+                <!--<md-hint *ngIf="leftThighCtrl.dirty && leftThighCtrl.hasError('maxValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftThigh.maxValue}}-->
+                <!--</md-hint>-->
+                <!--<md-hint *ngIf="leftThighCtrl.dirty && leftThighCtrl.hasError('minValue')"-->
+                <!--class="form-control-feedback">{{errorTranslations.leftThigh.minValue}}-->
+                <!--</md-hint>-->
+                <!--</md-input-container>-->
+                <!--</div>-->
+                <!--</md-tab>-->
+                <!--</md-tab-group>-->
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-flat-danger" (click)="close()">Annuler</button>
-                <button class="btn btn-primary" type="submit" [disabled]="measurementsForm.invalid">
+                <button class="btn btn-primary" type="submit" [disabled]="measurementForm.invalid">
                     Enregistrer
                 </button>
             </div>

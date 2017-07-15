@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment'
 import {AuthenticationProfile} from "../_model/AuthenticationProfile";
 import {Point} from "../_model/Point";
 import {AuthHttp} from "angular2-jwt/angular2-jwt";
+import {Measurement} from "../_model/Measurement";
 
 @Injectable()
 export class MemberService extends ObservableHelper {
@@ -63,9 +64,9 @@ export class MemberService extends ObservableHelper {
 			}).catch(this.handleError);
 	}
 
-	public addMeasurementsOnAuthenticatedMember(measurements: any): Observable<Member | string> {
+	public addMeasurementOnAuthenticatedMember(measurement: Measurement): Observable<Member | string> {
 		return this.http.put(`${environment.baseUrl()}/members/measurements`, {
-			measurements: measurements
+			measurement: measurement.serialize()
 		}).map(response => {
 			const data: any = this.extractDataOf(response);
 			return Member.of()

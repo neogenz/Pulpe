@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <hr *ngIf="!last">
+                <hr *ngIf="!last && measurement.name !== MeasurementEnum.Name[MeasurementEnum.Name.Imc]">
             </md-list-item>
         </div>
         <div>

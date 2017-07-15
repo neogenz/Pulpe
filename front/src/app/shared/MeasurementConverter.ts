@@ -25,7 +25,7 @@ export class MeasurementConverter {
     this.measurementLabelConverter.set(MeasurementEnum.Name[MeasurementEnum.Name.Imc], 'IMC');
   }
 
-  public toLabelArray(): string[] {
+  public toLabelsArray(): string[] {
     return Array.from(this.measurementLabelConverter.values());
   }
 
@@ -50,5 +50,18 @@ export class MeasurementConverter {
 
   public getLabelFrom(name: string): string {
     return this.measurementLabelConverter.get(name);
+  }
+
+  public toKeyValueObjectArray(): Array<{enumName:string, label:string}>{
+    let keyValues : Array<{enumName:string, label:string}> = [];
+    let nameLabelArray: Array<Array<string>> = Array.from(this.measurementLabelConverter.entries());
+    let name: string;
+    let label: string;
+    for (let i = 0; i < nameLabelArray.length; i++) {
+      name = nameLabelArray[i][0];
+      label = nameLabelArray[i][1];
+      keyValues.push({enumName: name, label:label});
+    }
+    return keyValues;
   }
 }

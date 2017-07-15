@@ -42,7 +42,7 @@ export class EvolutionComponent implements OnInit {
 	ngOnInit() {
 		this.member = this.route.snapshot.data['member'];
 		this.previsionsPoints = this.route.snapshot.data['efficientPrevisions'];
-		this.measurementsLabel = this.measurementConverter.toLabelArray();
+		this.measurementsLabel = this.measurementConverter.toLabelsArray();
 	}
 
 	findPrevisionsPoints() {

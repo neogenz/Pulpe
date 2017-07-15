@@ -12,6 +12,7 @@ import {LocalStorageService} from "angular-2-local-storage";
 import {AuthenticationProfile} from "../../../_model/AuthenticationProfile";
 import {CustomValidators} from "../../../_formValidators/CustomValidators";
 import {MeasurementEnumService} from "../../../_services/measurement-enum.service";
+import {MeasurementConverter} from "../../../shared/MeasurementConverter";
 
 @Component({
   selector: 'pulpe-measurements-add-dialog',
@@ -21,354 +22,139 @@ import {MeasurementEnumService} from "../../../_services/measurement-enum.servic
 export class MeasurementsAddDialogComponent extends DialogComponent<MeasurementAdd, Measurement[]> implements MeasurementAdd, OnInit {
   memberRequest: Observable<Member> = new Observable();
   authenticationProfile: AuthenticationProfile;
-  measurements: any;
-  sizesRange: any;
-  weightRange: any;
-  chestRange: any;
-  hipRange: any;
-  waistRange: any;
-  shouldersRange: any;
-  rightArmRange: any;
-  leftArmRange: any;
-  rightCalfRange: any;
-  leftCalfRange: any;
-  rightThighRange: any;
-  leftThighRange: any;
-  errorTranslations: any;
-  measurementsForm: FormGroup;
-  hipCtrl: FormControl;
-  waistCtrl: FormControl;
-  chestCtrl: FormControl;
-  shouldersCtrl: FormControl;
-  rightArmCtrl: FormControl;
-  leftArmCtrl: FormControl;
-  rightCalfCtrl: FormControl;
-  leftCalfCtrl: FormControl;
-  leftThighCtrl: FormControl;
-  rightThighCtrl: FormControl;
-  weightCtrl: FormControl;
-  sizeCtrl: FormControl;
+  measurements: Measurement[];
+  rangesValidations: any;
+  measurementForm: FormGroup;
+  valueCtrl: FormControl;
+  rangeValidations: any;
+
+  measurementsLabels: string[] = [];
+  measurementTypeCtrl: FormControl;
 
   constructor(dialogService: DialogService, private fb: FormBuilder, private route: ActivatedRoute, private localStorage: LocalStorageService,
               private memberService: MemberService, private slimLoadingBarService: SlimLoadingBarService, private router: Router,
-              private measurementEnumService: MeasurementEnumService) {
+              private measurementEnumService: MeasurementEnumService, private measurementConverter: MeasurementConverter) {
     super(dialogService);
   }
 
-  initValidators() {
-    this.sizesRange = {
-      min: 50,
-      max: 250
-    };
-    this.weightRange = {
-      min: 25,
-      max: 250
-    };
-    this.hipRange = {
-      min: 50,
-      max: 250
-    };
-    this.chestRange = {
-      min: 50,
-      max: 250
-    };
-    this.waistRange = {
-      min: 50,
-      max: 250
-    };
-    this.shouldersRange = {
-      min: 50,
-      max: 250
-    };
-    this.rightArmRange = {
-      min: 50,
-      max: 250
-    };
-    this.leftArmRange = {
-      min: 50,
-      max: 250
-    };
-    this.rightCalfRange = {
-      min: 50,
-      max: 250
-    };
-    this.leftCalfRange = {
-      min: 50,
-      max: 250
-    };
-    this.rightThighRange = {
-      min: 50,
-      max: 250
-    };
-    this.leftThighRange = {
-      min: 50,
-      max: 250
-    };
-    this.errorTranslations = {
-      size: {
-        required: 'Votre taille doit être renseignée.',
-        minValue: `Votre taille doit être supérieur à ${this.sizesRange.min} cm.`,
-        maxValue: `Votre taille doit être inférieur à ${this.sizesRange.max} cm.`,
-      },
-      weight: {
-        required: 'Votre poids doit être renseigné.',
-        minValue: `Votre poids doit être supérieur à ${this.weightRange.min} kg.`,
-        maxValue: `Votre poids doit être inférieur à ${this.weightRange.max} kg.`,
-      },
-      chest: {
-        minValue: `Votre tour de poitrine doit être supérieur à ${this.chestRange.min} cm.`,
-        maxValue: `Votre tour de poitrine doit être inférieur à ${this.chestRange.max} cm.`,
-      },
-      hip: {
-        minValue: `Votre tour de hanche doit être supérieur à ${this.hipRange.min} cm.`,
-        maxValue: `Votre tour de hanche doit être inférieur à ${this.hipRange.max} cm.`,
-      },
-      waist: {
-        minValue: `Votre tour de taille doit être supérieur à ${this.waistRange.min} cm.`,
-        maxValue: `Votre tour de taille doit être inférieur à ${this.waistRange.max} cm.`,
-      },
-      shoulders: {
-        minValue: `Votre tour d'épaule doit être supérieur à ${this.shouldersRange.min} cm.`,
-        maxValue: `Votre tour d'épaule doit être inférieur à ${this.shouldersRange.max} cm.`,
-      },
-      rightArm: {
-        minValue: `Votre tour de bras droit doit être supérieur à ${this.rightArmRange.min} cm.`,
-        maxValue: `Votre tour de bras droit doit être inférieur à ${this.rightArmRange.max} cm.`,
-      },
-      leftArm: {
-        minValue: `Votre tour de bras gauche doit être supérieur à ${this.leftArmRange.min} cm.`,
-        maxValue: `Votre tour de bras gauche doit être inférieur à ${this.leftArmRange.max} cm.`,
-      },
-      rightCalf: {
-        minValue: `Votre tour de mollet droit doit être supérieur à ${this.rightCalfRange.min} cm.`,
-        maxValue: `Votre tour de mollet droit doit être inférieur à ${this.rightCalfRange.max} cm.`,
-      },
-      leftCalf: {
-        minValue: `Votre tour de mollet gauche doit être supérieur à ${this.leftCalfRange.min} cm.`,
-        maxValue: `Votre tour de mollet gauche doit être inférieur à ${this.leftCalfRange.max} cm.`,
-      },
-      rightThigh: {
-        minValue: `Votre tour de cuisse droite doit être supérieur à ${this.rightThighRange.min} cm.`,
-        maxValue: `Votre tour de cuisse droite doit être inférieur à ${this.rightThighRange.max} cm.`,
-      },
-      leftThigh: {
-        minValue: `Votre tour de cuisse gauche doit être supérieur à ${this.leftThighRange.min} cm.`,
-        maxValue: `Votre tour de cuisse gauche doit être inférieur à ${this.leftThighRange.max} cm.`,
-      }
-    };
+  ngOnInit(): void {
+    this.measurementsLabels = this.measurementConverter.toLabelsArray();
+    this.initValidators();
+    this.buildForm(this.fb);
   }
 
-  buildForm(fb: FormBuilder, measurements) {
-    let elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Size]);
-    this.sizeCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      Validators.required,
-      CustomValidators.minValue(this.sizesRange.min),
-      CustomValidators.maxValue(this.sizesRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Weight]);
-    this.weightCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      Validators.required,
-      CustomValidators.minValue(this.weightRange.min),
-      CustomValidators.maxValue(this.weightRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Hip]);
-    this.hipCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.hipRange.min),
-      CustomValidators.maxValue(this.hipRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Waist]);
-    this.waistCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.waistRange.min),
-      CustomValidators.maxValue(this.waistRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Shoulders]);
-    this.shouldersCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.shouldersRange.min),
-      CustomValidators.maxValue(this.shouldersRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.Chest]);
-    this.chestCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.chestRange.min),
-      CustomValidators.maxValue(this.chestRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.RightArm]);
-    this.rightArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.rightArmRange.min),
-      CustomValidators.maxValue(this.rightArmRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.LeftArm]);
-    this.leftArmCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.leftArmRange.min),
-      CustomValidators.maxValue(this.leftArmRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.RightCalf]);
-    this.rightCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.rightCalfRange.min),
-      CustomValidators.maxValue(this.rightCalfRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.LeftCalf]);
-    this.leftCalfCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.leftCalfRange.min),
-      CustomValidators.maxValue(this.leftCalfRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.RightThigh]);
-    this.rightThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.rightThighRange.min),
-      CustomValidators.maxValue(this.rightThighRange.max)
-    ]);
-    elem = measurements.filter(m => m.name === MeasurementEnum.Name[MeasurementEnum.Name.LeftThigh]);
-    this.leftThighCtrl = fb.control(elem.length > 0  ? elem[0].value : '', [
-      CustomValidators.minValue(this.leftThighRange.min),
-      CustomValidators.maxValue(this.leftThighRange.max)
-    ]);
+  initValidators() {
+    this.rangesValidations = {};
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Size]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Weight]] = {
+      min: 25,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Hip]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Chest]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Waist]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.Shoulders]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.RightArm]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.LeftArm]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.RightCalf]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.LeftCalf]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.RightThigh]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
+    this.rangesValidations[MeasurementEnum.Name[MeasurementEnum.Name.LeftThigh]] = {
+      min: 50,
+      max: 250,
+      unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter)
+    };
 
-    this.measurementsForm = fb.group({
-      hip: this.hipCtrl,
-      waist: this.waistCtrl,
-      chest: this.chestCtrl,
-      shoulders: this.shouldersCtrl,
-      rightArm: this.rightArmCtrl,
-      leftArm: this.leftArmCtrl,
-      rightCalf: this.rightCalfCtrl,
-      leftCalf: this.leftCalfCtrl,
-      rightThigh: this.rightThighCtrl,
-      leftThigh: this.leftThighCtrl,
-      weight: this.weightCtrl,
-      size: this.sizeCtrl
+  }
+
+  buildForm(fb: FormBuilder) {
+    this.measurementTypeCtrl = this.fb.control('', Validators.required);
+    this.valueCtrl = this.fb.control({});
+    this.measurementForm = fb.group({
+      type: this.measurementTypeCtrl,
+      value: this.valueCtrl
     });
+
   }
 
   confirm() {
     this.close();
-    const measurements = this.getMeasurements();
-    if (measurements.length > 0) {
-      let profileInLocalStorage: string = this.localStorage.get<string>('profile');
-      if (profileInLocalStorage) {
-        this.authenticationProfile = JSON.parse(profileInLocalStorage);
-        this.memberRequest = this.memberService.addMeasurementsOnAuthenticatedMember(measurements);
-        this.slimLoadingBarService.start();
-        this.memberRequest
-          .finally(() => {
-            this.slimLoadingBarService.complete();
-          })
-          .subscribe((member) => {
-              this.result = member.measurements;
-            },
-            (errorMsg) => {
-              console.error(errorMsg);
-            }
-          );
-      }
+    let profileInLocalStorage: string = this.localStorage.get<string>('profile');
+    if (profileInLocalStorage) {
+      const measurementToAdd: Measurement = Measurement.of()
+        .name(this.measurementConverter.getEnumFrom(this.measurementTypeCtrl.value))
+        .value(this.valueCtrl.value)
+        .unit(this.measurementEnumService.getUnitEnumFrom(this.rangeValidations.unit))
+        .build();
+      this.authenticationProfile = JSON.parse(profileInLocalStorage);
+      this.memberRequest = this.memberService.addMeasurementOnAuthenticatedMember(measurementToAdd);
+      this.slimLoadingBarService.start();
+      this.memberRequest
+        .finally(() => {
+          this.slimLoadingBarService.complete();
+        })
+        .subscribe((member) => {
+            this.result = member.measurements;
+          },
+          (errorMsg) => {
+            console.error(errorMsg);
+          }
+        );
     }
   }
 
-  getMeasurements() {
-    let measurements = [];
-    if (this.weightCtrl.value) {
-      const weight = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Weight],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Kilogram),
-        value: this.weightCtrl.value
-      };
-      measurements.push(weight);
+  refreshSpecificPropertiesOnChangeMeasurement(): void {
+    let measurementNameSelected: string = this.measurementConverter.getNameFrom(this.measurementTypeCtrl.value);
+    let measurement = this.measurements.filter(m => m.name.toString() === measurementNameSelected)[0];
+    this.rangeValidations = this.rangesValidations[measurementNameSelected];
+    if (measurement) {
+      this.valueCtrl.setValidators([Validators.required, Validators.max(this.rangeValidations.max), Validators.min(this.rangeValidations.min)]);
+      this.valueCtrl.setValue(measurement.value);
     }
-    if (this.sizeCtrl.value) {
-      const size = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Size],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.sizeCtrl.value
-      };
-      measurements.push(size);
-    }
-    if (this.chestCtrl.value) {
-      const chest = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Chest],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.chestCtrl.value
-      };
-      measurements.push(chest);
-    }
-    if (this.hipCtrl.value) {
-      const hip = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Hip],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.hipCtrl.value
-      };
-      measurements.push(hip);
-    }
-    if (this.waistCtrl.value) {
-      const waist = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Waist],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.waistCtrl.value
-      };
-      measurements.push(waist);
-    }
-    if (this.leftArmCtrl.value) {
-      const leftArm = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.LeftArm],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.leftArmCtrl.value
-      };
-      measurements.push(leftArm);
-    }
-    if (this.rightArmCtrl.value) {
-      const rightArm = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.RightArm],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.rightArmCtrl.value
-      };
-      measurements.push(rightArm);
-    }
-    if (this.leftCalfCtrl.value) {
-      const leftCalf = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.LeftCalf],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.leftCalfCtrl.value
-      };
-      measurements.push(leftCalf);
-    }
-    if (this.rightCalfCtrl.value) {
-      const rightCalf = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.RightCalf],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.rightCalfCtrl.value
-      };
-      measurements.push(rightCalf);
-    }
-    if (this.leftThighCtrl.value) {
-      const leftThigh = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.LeftThigh],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.leftThighCtrl.value
-      };
-      measurements.push(leftThigh);
-    }
-    if (this.rightThighCtrl.value) {
-      const rightThigh = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.RightThigh],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.rightThighCtrl.value
-      };
-      measurements.push(rightThigh);
-    }
-    if (this.shouldersCtrl.value) {
-      const shoulders = {
-        name: MeasurementEnum.Name[MeasurementEnum.Name.Shoulders],
-        unit: this.measurementEnumService.getCodeFromUnit(MeasurementEnum.Unit.Centimeter),
-        value: this.shouldersCtrl.value
-      };
-      measurements.push(shoulders);
-    }
-    return measurements;
-  }
-
-  ngOnInit(): void {
-    this.initValidators();
-    this.buildForm(this.fb, this.measurements === undefined || this.measurements === null ? [] : this.measurements);
   }
 }
 
 export interface MeasurementAdd {
-  measurements: any;
+  measurements: Measurement[];
 }

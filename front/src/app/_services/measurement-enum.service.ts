@@ -17,4 +17,15 @@ export class MeasurementEnumService {
         return 'KG';
     }
   }
+
+  public getUnitEnumFrom(code:String):MeasurementEnum.Unit{
+    switch(code){
+      case 'CM':
+        return MeasurementEnum.Unit.Centimeter;
+      case 'M':
+        return MeasurementEnum.Unit.Meter;
+      case 'KG':
+        return MeasurementEnum.Unit.Kilogram;
+    }
+  }
 }
