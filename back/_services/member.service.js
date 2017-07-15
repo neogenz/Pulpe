@@ -172,7 +172,7 @@ class MemberService {
 			.then(memberFinded => {
 				member = memberFinded;
 				const measurementsToArchive = member.measurements;
-				imcMeasurement = MeasurementService.findMeasurementIn(measurementsToArchive, MeasurementEnum.IMC);
+				imcMeasurement = MeasurementService.findMeasurementIn(measurementsToArchive, MeasurementEnum.Imc);
 				return MeasurementService.createArchivedMeasurements(memberId, measurementsToArchive);
 			})
 			.then(() => {
@@ -218,17 +218,17 @@ class MemberService {
 				let sizeMeasurement;
 				measurements.forEach(mes => {
 					member.measurements.push(mes);
-					if (MeasurementEnum[mes.name] === MeasurementEnum.WEIGHT) {
+					if (MeasurementEnum[mes.name] === MeasurementEnum.Weight) {
 						weightMeasurement = mes;
 					}
-					if (MeasurementEnum[mes.name] === MeasurementEnum.SIZE) {
+					if (MeasurementEnum[mes.name] === MeasurementEnum.Size) {
 						sizeMeasurement = mes;
 					}
 				});
 
 				const imcMeasurement = new Measurement();
 				imcMeasurement.value = MeasurementService.getIMCBy(weightMeasurement, sizeMeasurement);
-				imcMeasurement.name = MeasurementEnum.IMC.toString();
+				imcMeasurement.name = MeasurementEnum.Imc.toString();
 				member.measurements.push(imcMeasurement);
 				return member.save();
 			})
@@ -336,7 +336,7 @@ class MemberService {
 	 */
 	//todo refactor
 	static findEfficientPrevisions(member) {
-		const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.IMC);
+		const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.Imc);
 		if (!imcMeasurement) {
 			throw new Error('No IMC measurement found');
 		}
@@ -357,12 +357,12 @@ class MemberService {
 					memberHaveArchivedMeasurements = archivedMeasurements.length > 0;
 					const archivedAndActualMeasurements = archivedMeasurements.concat(member.measurements);
 					const measurementsUsedToPrevisions = archivedAndActualMeasurements.filter(archivedMeasurement => {
-						return archivedMeasurement.name === MeasurementEnum.WEIGHT.name;
+						return archivedMeasurement.name === MeasurementEnum.Weight.name;
 					});
 					let weightMeasurement;
-					let sizeMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.SIZE);
+					let sizeMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.Size);
 					measurementsUsedToPrevisions.forEach((measurement) => {
-						if (measurement.name === MeasurementEnum.WEIGHT.name) {
+						if (measurement.name === MeasurementEnum.Weight.name) {
 							weightMeasurement = measurement;
 							weightMeasurements.push(measurement);
 						}

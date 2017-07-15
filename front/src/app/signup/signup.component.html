@@ -86,9 +86,9 @@
                                                     obligatoire.
                                                 </md-hint>
                                                 <md-hint
-                                                        *ngIf="passwordCtrl.dirty && passwordCtrl.hasError('min')"
+                                                        *ngIf="passwordCtrl.dirty && passwordCtrl.hasError('minlength')"
                                                         class="form-control-feedback">Le mot de passe doit faire au
-                                                    minimum {{passwordCtrl.getError('min')['requiredLength']}}
+                                                    minimum {{passwordCtrl.getError('minlength')['requiredLength']}}
                                                     caractères.
                                                 </md-hint>
                                             </md-input-container>

@@ -2,24 +2,25 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const MeasurementEnum = require('../_enums/MeasurementEnum');
 const MeasurementSchema = new Schema({
   name: {
     type: String,
     enum: [
-      'HIP',
-      'WAIST',
-      'CHEST',
-      'SHOULDERS',
-      'BASIN',
-      'RIGHT_ARM',
-      'LEFT_ARM',
-      'RIGHT_CALF',
-      'LEFT_CALF',
-      'LEFT_THIGH',
-      'RIGHT_THIGH',
-      'WEIGHT',
-      'SIZE',
-			'IMC'
+      MeasurementEnum.Hip.name,
+      MeasurementEnum.Waist.name,
+      MeasurementEnum.Chest.name,
+      MeasurementEnum.Shoulders.name,
+      MeasurementEnum.Basin.name,
+      MeasurementEnum.RightArm.name,
+      MeasurementEnum.LeftArm.name,
+      MeasurementEnum.RightCalf.name,
+      MeasurementEnum.LeftCalf.name,
+      MeasurementEnum.LeftThigh.name,
+      MeasurementEnum.RightThigh.name,
+      MeasurementEnum.Weight.name,
+      MeasurementEnum.Size.name,
+			MeasurementEnum.Imc.name
     ]
   },
   unit: {

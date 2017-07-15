@@ -19,7 +19,7 @@ class MeasurementService {
 		let measurementsPromises = [];
 		let archivedMeasurement;
 		measurements.forEach(mes => {
-			if (MeasurementEnum[mes.name] !== MeasurementEnum.IMC) {
+			if (MeasurementEnum[mes.name] !== MeasurementEnum.Imc) {
 				archivedMeasurement = new ArchivedMeasurement();
 				archivedMeasurement.member_id = memberId;
 				archivedMeasurement.name = mes.name;

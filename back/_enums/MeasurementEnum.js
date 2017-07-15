@@ -13,19 +13,19 @@ class MeasurementEnum {
 	}
 }
 
-MeasurementEnum.HIP = new MeasurementEnum('HIP');
-MeasurementEnum.WAIST = new MeasurementEnum('WAIST');
-MeasurementEnum.CHEST = new MeasurementEnum('CHEST');
-MeasurementEnum.SHOULDERS = new MeasurementEnum('SHOULDERS');
-MeasurementEnum.BASIN = new MeasurementEnum('BASIN');
-MeasurementEnum.RIGHT_ARM = new MeasurementEnum('RIGHT_ARM');
-MeasurementEnum.LEFT_ARM = new MeasurementEnum('LEFT_ARM');
-MeasurementEnum.RIGHT_CALF = new MeasurementEnum('RIGHT_CALF');
-MeasurementEnum.LEFT_CALF = new MeasurementEnum('LEFT_CALF');
-MeasurementEnum.LEFT_THIGH = new MeasurementEnum('LEFT_THIGH');
-MeasurementEnum.RIGHT_THIGH = new MeasurementEnum('RIGHT_THIGH');
-MeasurementEnum.WEIGHT = new MeasurementEnum('WEIGHT');
-MeasurementEnum.SIZE = new MeasurementEnum('SIZE');
-MeasurementEnum.IMC = new MeasurementEnum('IMC');
+MeasurementEnum.Hip = new MeasurementEnum('Hip');
+MeasurementEnum.Waist = new MeasurementEnum('Waist');
+MeasurementEnum.Chest = new MeasurementEnum('Chest');
+MeasurementEnum.Shoulders = new MeasurementEnum('Shoulders');
+MeasurementEnum.Basin = new MeasurementEnum('Basin');
+MeasurementEnum.RightArm = new MeasurementEnum('RightArm');
+MeasurementEnum.LeftArm = new MeasurementEnum('LeftArm');
+MeasurementEnum.RightCalf = new MeasurementEnum('RightCalf');
+MeasurementEnum.LeftCalf = new MeasurementEnum('LeftCalf');
+MeasurementEnum.LeftThigh = new MeasurementEnum('LeftThigh');
+MeasurementEnum.RightThigh = new MeasurementEnum('RightThigh');
+MeasurementEnum.Weight = new MeasurementEnum('Weight');
+MeasurementEnum.Size = new MeasurementEnum('Size');
+MeasurementEnum.Imc = new MeasurementEnum('Imc');
 
 module.exports = MeasurementEnum;

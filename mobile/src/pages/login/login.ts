@@ -61,7 +61,13 @@ export class LoginPage implements OnInit {
             message: 'Veuillez d\'abord compléter votre profile depuis le site web.',
             buttons: [
               {
-                text: 'Ok'
+                text: 'Ok',
+                handler:()=>{
+                  this.navCtrl.setRoot(LoginPage, {}, {
+                    animate: true,
+                    direction: 'forward'
+                  });
+                }
               }
             ]
           });

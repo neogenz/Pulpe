@@ -12,6 +12,7 @@ const ArchivedMeasurement = require('../_model/ArchivedMeasurement');
 const ExerciseService = require('../_services/exercise.service');
 const MeasurementService = require('../_services/measurement.service');
 const MemberService = require('../_services/member.service');
+const HttpErrorHelper = require('../_helpers/HttpErrorHelper');
 const MeasurementEnum = require('../_enums/MeasurementEnum');
 const moment = require('moment');
 
@@ -435,7 +436,7 @@ function getMeasurements(member) {
 		member._id,
 		'KG',
 		76,
-		MeasurementEnum.getName(MeasurementEnum.WEIGHT),
+		MeasurementEnum.getName(MeasurementEnum.Weight),
 		date
 	));
 
@@ -443,7 +444,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.WAIST),
+		MeasurementEnum.getName(MeasurementEnum.Waist),
 		date
 	));
 
@@ -451,7 +452,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.HIP),
+		MeasurementEnum.getName(MeasurementEnum.Hip),
 		date
 	));
 
@@ -459,7 +460,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.SHOULDERS),
+		MeasurementEnum.getName(MeasurementEnum.Shoulders),
 		date
 	));
 
@@ -467,7 +468,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.RIGHT_THIGH),
+		MeasurementEnum.getName(MeasurementEnum.RightThigh),
 		date
 	));
 
@@ -475,7 +476,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.LEFT_THIGH),
+		MeasurementEnum.getName(MeasurementEnum.LeftThigh),
 		date
 	));
 
@@ -483,7 +484,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.RIGHT_CALF),
+		MeasurementEnum.getName(MeasurementEnum.RightCalf),
 		date
 	));
 
@@ -491,7 +492,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.LEFT_CALF),
+		MeasurementEnum.getName(MeasurementEnum.LeftCalf),
 		date
 	));
 
@@ -499,7 +500,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.LEFT_ARM),
+		MeasurementEnum.getName(MeasurementEnum.LeftArm),
 		date
 	));
 
@@ -507,7 +508,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.RIGHT_ARM),
+		MeasurementEnum.getName(MeasurementEnum.RightArm),
 		date
 	));
 
@@ -515,7 +516,7 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		58,
-		MeasurementEnum.getName(MeasurementEnum.CHEST),
+		MeasurementEnum.getName(MeasurementEnum.Chest),
 		date
 	));
 
@@ -523,16 +524,16 @@ function getMeasurements(member) {
 		member._id,
 		'CM',
 		180,
-		MeasurementEnum.getName(MeasurementEnum.SIZE),
+		MeasurementEnum.getName(MeasurementEnum.Size),
 		date
 	));
 
-	const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.IMC);
+	const imcMeasurement = MeasurementService.findMeasurementIn(member.measurements, MeasurementEnum.Imc);
 	measurements.push(createMeasurement(
 		member._id,
 		'M',
 		imcMeasurement.value,
-		MeasurementEnum.getName(MeasurementEnum.IMC),
+		MeasurementEnum.getName(MeasurementEnum.Imc),
 		moment(imcMeasurement.createdAt).subtract(1, 'years')
 	));
 
@@ -549,7 +550,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'KG',
 			weight,
-			MeasurementEnum.getName(MeasurementEnum.WEIGHT),
+			MeasurementEnum.getName(MeasurementEnum.Weight),
 			date
 		));
 		weight += 1;
@@ -564,7 +565,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.CHEST),
+			MeasurementEnum.getName(MeasurementEnum.Chest),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -577,7 +578,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.HIP),
+			MeasurementEnum.getName(MeasurementEnum.Hip),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -590,7 +591,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.LEFT_ARM),
+			MeasurementEnum.getName(MeasurementEnum.LeftArm),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -603,7 +604,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.RIGHT_ARM),
+			MeasurementEnum.getName(MeasurementEnum.RightArm),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -616,7 +617,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.LEFT_CALF),
+			MeasurementEnum.getName(MeasurementEnum.LeftCalf),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -629,7 +630,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.RIGHT_CALF),
+			MeasurementEnum.getName(MeasurementEnum.RightCalf),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -642,7 +643,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.LEFT_THIGH),
+			MeasurementEnum.getName(MeasurementEnum.LeftThigh),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -655,7 +656,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.RIGHT_THIGH),
+			MeasurementEnum.getName(MeasurementEnum.RightThigh),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -668,7 +669,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.SHOULDERS),
+			MeasurementEnum.getName(MeasurementEnum.Shoulders),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -681,7 +682,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			rand,
-			MeasurementEnum.getName(MeasurementEnum.WAIST),
+			MeasurementEnum.getName(MeasurementEnum.Waist),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
@@ -693,7 +694,7 @@ function getArchivedMeasurements(memberId) {
 			memberId,
 			'CM',
 			180,
-			MeasurementEnum.getName(MeasurementEnum.SIZE),
+			MeasurementEnum.getName(MeasurementEnum.Size),
 			date
 		));
 		date = moment(date).add(1, 'M').toDate();
